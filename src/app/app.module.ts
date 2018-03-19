@@ -8,6 +8,7 @@ import {PublicModule} from './public/public.module';
 import {FormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
 import {RouterModule} from '@angular/router';
+import {AppRoutingModule} from './app.routing';
 
 
 @NgModule({
@@ -20,6 +21,7 @@ import {RouterModule} from '@angular/router';
     HttpClientModule,
     RouterModule,
 
+    AppRoutingModule,
     CoreModule,
     SharedModule,
     PublicModule
