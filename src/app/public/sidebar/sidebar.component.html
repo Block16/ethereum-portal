@@ -1,3 +1,5 @@
-<p>
-  sidebar works!
-</p>
+<button class="menu-button"
+				(click)="showMenu = !showMenu">🍔</button>
+
+<div class="sidebar"
+		 [ngClass]="{ 'open': showMenu }"></div>

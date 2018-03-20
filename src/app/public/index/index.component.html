@@ -1,3 +1,22 @@
-<p>
-  index works!
-</p>
+<h1>Ethereum Portal</h1>
+<p>variable currentAuth can be set to a string. icon will become dark black if currentAuth is set to 'trezor', 'bitbox', 'ledger', or 'metamask'</p>
+<button class="auth-button"
+				ngClass="{ 'active': currentAuth == 'trezor' }">
+	<img src="assets/img/icons/trezor icon.svg"
+			 class="icon">
+</button>
+<button class="auth-button"
+				ngClass="{ 'active': currentAuth == 'bitbox' }">
+	<img src="assets/img/icons/digital bitbox icon.svg"
+			 class="icon">
+</button>
+<button class="auth-button"
+				ngClass="{ 'active': currentAuth == 'ledger' }">
+	<img src="assets/img/icons/ledger icon.svg"
+			 class="icon">
+</button>
+<button class="auth-button"
+				ngClass="{ 'active': currentAuth == 'metamask' }">
+	<img src="assets/img/icons/metamask icon.svg"
+			 class="icon">
+</button>

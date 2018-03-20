@@ -1,0 +1,28 @@
+@import '../../../assets/sass-imports/_variables.scss';
+@import '../../../assets/sass-imports/_mixins.scss';
+
+:host {
+	
+}
+
+.menu-button {
+	position: absolute;
+	z-index: $menuButtonZ;
+	top: 0;
+	font-size: 2em;
+}
+
+.sidebar {
+	position: fixed;
+	z-index: $sidebarZ;
+	display: block;
+	top: 0;
+	left: -$sidebarWidth;
+	background: yellow;
+	height: 100vh;
+	width: $sidebarWidth;
+	transition: left .25s;
+	&.open {
+		left: 0;
+	}
+}

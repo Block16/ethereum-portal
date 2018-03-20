@@ -1,1 +1,19 @@
 /* You can add global styles to this file, and also import other style files */
+@import 'assets/sass-imports/_normalize.scss';
+@import 'assets/sass-imports/_fonts.scss';
+@import 'assets/sass-imports/_variables.scss';
+@import 'assets/sass-imports/_mixins.scss';
+@import 'assets/sass-imports/_typography.scss';
+
+html {
+	background: $backgroundColor;
+}
+
+::selection {
+	background: $yellow;
+	color: black;
+}
+
+a {
+	text-decoration: none;
+}

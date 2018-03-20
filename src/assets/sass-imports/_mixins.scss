@@ -1,0 +1,216 @@
+@import '_variables.scss';
+
+@mixin child-successive-delay ($count: 10, $delay: .1s) {
+	$count: 0;
+	@while ($count <= 10) {
+		&:nth-child(#{$count + 1}) {
+			animation-delay: $delay * $count;
+		}
+		$count: $count + 1;
+	}
+}
+
+@function em2px($target, $context: $base-font-size-em) {
+   @if $target == 0 { @return 0 }
+   @return ($target / 1em) * ($context / 1em) * 16 + 0px;
+}
+
+@mixin uk-page-host-background {
+	display: block;
+	min-height: 100vh;
+	background: $UKBackgroundColor;
+	padding: 2em;
+}
+
+@mixin padding-escape {
+	margin-left: -$contentPadding;
+	margin-right: -$contentPadding;
+	padding-left: $contentPadding;
+	padding-right: $contentPadding;
+}
+
+@mixin margin-escape($margin) {
+	margin-left: -$margin;
+	margin-right: -$margin;
+}
+
+@mixin button-active {
+	cursor: pointer;
+	transition: transform $transitionTime;
+	&:active {
+		transform: scale(0.95);
+	}
+}
+
+@mixin button-unstyle {
+	border: none;
+	outline: none;
+}
+
+@mixin button-reset {
+	appearance: none;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	outline: none;
+	border: none;
+}
+
+@mixin input-reset {
+	background: none;
+	border: none;
+	outline: none;
+}
+
+@mixin button($color: null) {
+	$hoverTransform: scale(1.025);
+	$activeTransform: scale(0.975);
+	cursor: pointer;
+	user-select: none;
+	transition: .1s all;
+	text-align: center;
+	padding: .75em;
+	background: $color;
+	color: white;
+	@if ($color) {
+		&:hover {
+			transform: $hoverTransform;
+			background: adjust-color($color, $lightness: 15);
+		}
+		&:active {
+			transform: $activeTransform;
+			background: adjust-color($color, $lightness: -10);
+		}
+	} @else {
+		background: black;
+		&:hover {
+			transform: $hoverTransform;
+			background: adjust-color(black, $lightness: 15);
+		}
+		&:active {
+			transform: $activeTransform;
+			background: adjust-color(black, $lightness: -10);
+		}
+	}
+	
+	@if ($color == white) {
+		color: black;
+	}
+}
+
+@mixin no-select {
+	-webkit-user-select: none;
+	user-select: none;
+}
+
+@mixin yes-select {
+	-webkit-user-select: auto;
+	user-select: auto;
+}
+
+@mixin no-select-pointer {
+	-webkit-user-select: none;
+	user-select: none;
+	cursor: pointer;
+}
+
+@mixin pass-through {
+	user-select: none;
+	-webkit-user-select: none;
+	pointer-events: none;
+}
+
+@mixin no-pass-through {
+	user-select: auto;
+	-webkit-user-select: auto;
+	pointer-events: auto;
+}
+
+@mixin expanded-max-width($w: null) {
+	width: 100%;
+	@if ($w) {
+		max-width: $w;
+	} @else {
+		max-width: 14em;
+	}
+}
+
+@mixin page-content {
+	width: 100%;
+	max-width: $mainContentWidth;
+	margin: 0 auto;
+}
+
+@mixin flex-list-dummy($sideMargin: 0) {
+	height: 0;
+	// padding: 0;
+	margin: 0 $sideMargin;
+	border: none;
+	box-shadow: none;
+	background: none;
+	border-radius: 0;
+}
+
+@mixin overflow-text-fade ($fadeColor:white) {
+	overflow: hidden;
+	white-space: nowrap;
+	&::after {
+		position: absolute;
+		right:0;top:0;bottom:0;left: 0;
+		z-index: 2;
+		background: linear-gradient(to right, transparent 0%, transparent 80%, $fadeColor 100%);
+		content:'';
+	}
+}
+
+@mixin posa-tblr {
+	position: absolute;
+	top:0;bottom:0;left:0;right:0;
+}
+
+@mixin tblr($amount: 0em) {
+	top: $amount;
+	bottom: $amount;
+	left: $amount;
+	right: $amount;
+}
+
+@mixin inline-flex-center {
+	display: inline-flex;
+	justify-content: center;
+	align-items: center;
+}
+
+
+@mixin flex-center {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+@mixin placeholder {
+  &::-webkit-input-placeholder {
+    @content;
+  }
+
+  &:-moz-placeholder {
+    @content;
+  }
+
+  &::-moz-placeholder {
+    @content;
+  }
+
+  &:-ms-input-placeholder {
+    @content;
+  }
+}
+
+@function hsb($h-hsb, $s-hsb, $b-hsb, $a: 1) {
+  @if $b-hsb == 0 {
+    @return hsla(0, 0, 0, $a)
+  } @else {
+    $l-hsl: ($b-hsb/2) * (2 - ($s-hsb/100));
+    $s-hsl: ($b-hsb * $s-hsb) / if($l-hsl < 50, $l-hsl * 2, 200 - $l-hsl * 2);
+    @return hsla($h-hsb, $s-hsl, $l-hsl, $a);
+  }
+}
