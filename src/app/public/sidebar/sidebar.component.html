@@ -1,5 +1,13 @@
-<button class="menu-button"
-				(click)="showMenu = !showMenu">🍔</button>
+<div class="side-dock"
+		 (click)="showMenu = !showMenu">
+	<button class="menu-button x"
+				  [ngClass]="{ 'x': showMenu }">
+		<div class="symbol"></div>
+	</button>
+</div>
 
+<div class="overlay"
+		 *ngIf="showMenu"
+		 (click)="showMenu = !showMenu"></div>
 <div class="sidebar"
 		 [ngClass]="{ 'open': showMenu }"></div>

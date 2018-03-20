@@ -5,11 +5,78 @@
 	
 }
 
-.menu-button {
+.side-dock {
 	position: absolute;
-	z-index: $menuButtonZ;
+	z-index: $sideDockZ;
 	top: 0;
-	font-size: 2em;
+	left: 0;
+	width: $sideDockWidth;
+	@include no-select-pointer;
+}
+
+.menu-button {
+	$lineThickness: 4px;
+	$transitionTime: .15s;
+	@include button-unstyle;
+	@include pass-through;
+	position: relative;
+	height: $menuButtonHeight;
+	width: $menuButtonWidth;
+	margin: $defaultMargin;
+	padding: 0;
+	box-sizing: content-box;
+	background: transparent;
+	// border: 1px solid blue;
+	overflow: hidden;
+	.symbol {
+		position: absolute;
+		background: black;
+		width: $menuButtonWidth * 2;
+		height: $lineThickness;
+		top: $menuButtonHeight / 2 - $lineThickness / 2;
+		left: -$menuButtonWidth / 2;
+		// opacity: .5;
+		transform: rotate(0deg);
+		transition: transform $transitionTime,
+								top $transitionTime;
+		&:before {
+			// background: green;
+			background: black;
+			top: -$menuButtonHeight / 2 + $lineThickness / 2;
+		}
+		&:after {
+			// background: red;
+			background: black;
+			bottom: -$menuButtonHeight / 2 + $lineThickness / 2;
+		}
+		&:before, &:after {
+			content: '';
+			position: absolute;
+			left: 0;
+			width: $menuButtonWidth * 2;
+			height: $lineThickness;
+			transform: rotate(0deg);
+			transition: transform $transitionTime,
+									top $transitionTime,
+									bottom $transitionTime,
+									opacity $transitionTime / 2;
+		}
+	}
+	&.x {
+		.symbol {
+			transform: rotate(57deg);
+			&:before { // green
+				top: 0;
+				transform: rotate(0deg);
+				opacity: 0;
+			}
+			&:after { // red
+				
+				bottom: 0;
+				transform: rotate(66deg);
+			}
+		}
+	}
 }
 
 .sidebar {
@@ -18,11 +85,25 @@
 	display: block;
 	top: 0;
 	left: -$sidebarWidth;
-	background: yellow;
+	background: white;
 	height: 100vh;
 	width: $sidebarWidth;
-	transition: left .25s;
+	transition: left .075s;
 	&.open {
 		left: 0;
+	}
+}
+
+.overlay {
+	position: fixed;
+	z-index: $sidebarOverlayZ;
+	background:hsla(0,0,0,.4);
+	@include no-select-pointer;
+	@include tblr;
+	animation: overlay-in .25s;
+	@keyframes overlay-in {
+		from {
+			background: transparent;
+		}
 	}
 }

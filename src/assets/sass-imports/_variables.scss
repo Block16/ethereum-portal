@@ -14,13 +14,21 @@ $SB: 'ScalaBold';
 // spacing
 $defaultMargin: 20px;
 
+// type
+$h1BarThickness: 6px;
+$h2BarThickness: 4px;
+$h3BarThickness: 2px;
+$h4BarThickness: 1px;
 
 // UI
 $sidebarWidth: 24em;
-
+$menuButtonWidth: $defaultMargin;
+$menuButtonHeight: 24px;
+$sideDockWidth: $defaultMargin * 2 + $menuButtonWidth;
 
 
 //// Z-indexes
 // Index page
-$menuButtonZ: 4;
+$sideDockZ: 4;
 $sidebarZ: 3;
+$sidebarOverlayZ: 3;

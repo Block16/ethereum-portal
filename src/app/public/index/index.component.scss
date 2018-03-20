@@ -3,15 +3,14 @@
 
 :host {
 	display: block;
-	border-top: 6px solid black;
-	box-sizing: border-box;
-	padding: 0 0 0 4em;
+	padding: 0 0 0 $sideDockWidth;
 }
 main {
 	margin: 0 auto;
 }
 
 h1 {
+	border-top: $h1BarThickness solid black;
 	margin-top: 0;
 	&.type1 {
 		font-family: $FEB;
@@ -22,7 +21,7 @@ h1 {
 	}
 }
 h2 {
-	border-top: 4px solid black;
+	border-top: $h2BarThickness solid black;
 	&.type1 {
 		font-family: $FEB;
 	}
@@ -51,7 +50,7 @@ h3 {
 	flex-flow: row wrap;
 	.column {
 		max-width: $columnMinWidth;
-		flex: 25em;
+		flex: 0 1 25em;
 		margin-right: $columnSideMargin;
 		&:last-child {
 			margin-right: 0;
