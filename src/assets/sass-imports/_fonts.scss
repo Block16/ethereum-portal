@@ -14,6 +14,18 @@
 }
 
 @font-face {
+	font-family: 'FuturaBold2';
+	src: url('assets/fonts/futurabold2.woff2') format('woff2'),
+	url('assets/fonts/futurabold2.woff') format('woff');
+}
+
+@font-face {
+	font-family: 'FuturaExtraBold2';
+	src: url('assets/fonts/futuraextrabold2.woff2') format('woff2'),
+	url('assets/fonts/futuraextrabold2.woff') format('woff');
+}
+
+@font-face {
 	font-family: 'Scala';
 	src: url('assets/fonts/scala.woff') format('woff');
 }

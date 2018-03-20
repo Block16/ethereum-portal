@@ -6,6 +6,27 @@
 	padding: 0 0 0 4em;
 }
 
+h1 {
+	font-weight: normal;
+	font-size: 48px;
+	&.type1 {
+		font-family: $FEB;
+	}
+	&.type2 {
+		font-family: $FEB2;
+	}
+}
+h2 {
+	border-top: 4px solid black;
+	font-weight: normal;
+	&.type1 {
+		font-family: $FB;
+	}
+	&.type2 {
+		font-family: $FB2;
+	}
+}
+
 .auth-button {
 	opacity: .35;
 	&.active {
