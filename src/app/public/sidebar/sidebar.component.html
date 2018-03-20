@@ -10,4 +10,17 @@
 		 *ngIf="showMenu"
 		 (click)="showMenu = !showMenu"></div>
 <div class="sidebar"
-		 [ngClass]="{ 'open': showMenu }"></div>
+		 [ngClass]="{ 'open': showMenu }">
+	<div class="sidebar-top"></div>
+	<div class="h3Border captioned-title">
+		<h3>Recent</h3>
+		<span class="caption section-caption all-small-caps">past hour</span>
+	</div>
+	<div class="h3Border captioned-title">
+		<h3>Auth</h3>
+		<span class="caption section-caption all-small-caps">Current auth</span>
+	</div>
+	<div class="h3Border">
+		<h3>Preferences</h3>
+	</div>
+</div>

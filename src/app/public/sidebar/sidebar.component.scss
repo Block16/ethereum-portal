@@ -16,7 +16,7 @@
 
 .menu-button {
 	$lineThickness: 4px;
-	$transitionTime: .15s;
+	$transitionTime: .1s;
 	@include button-unstyle;
 	@include pass-through;
 	position: relative;
@@ -43,11 +43,16 @@
 			// background: green;
 			background: black;
 			top: -$menuButtonHeight / 2 + $lineThickness / 2;
+			transition: transform $transitionTime,
+									top $transitionTime,
+									opacity $transitionTime / 2;
 		}
 		&:after {
 			// background: red;
 			background: black;
 			bottom: -$menuButtonHeight / 2 + $lineThickness / 2;
+			transition: transform $transitionTime,
+									bottom $transitionTime;
 		}
 		&:before, &:after {
 			content: '';
@@ -56,22 +61,17 @@
 			width: $menuButtonWidth * 2;
 			height: $lineThickness;
 			transform: rotate(0deg);
-			transition: transform $transitionTime,
-									top $transitionTime,
-									bottom $transitionTime,
-									opacity $transitionTime / 2;
 		}
 	}
 	&.x {
 		.symbol {
 			transform: rotate(57deg);
-			&:before { // green
+			&:before {
 				top: 0;
 				transform: rotate(0deg);
 				opacity: 0;
 			}
-			&:after { // red
-				
+			&:after {
 				bottom: 0;
 				transform: rotate(66deg);
 			}
@@ -88,7 +88,12 @@
 	background: white;
 	height: 100vh;
 	width: $sidebarWidth;
+	padding: $defaultMargin;
+	box-sizing: border-box;
 	transition: left .075s;
+	.sidebar-top {
+		height: $defaultMargin * 2 + $menuButtonHeight;
+	}
 	&.open {
 		left: 0;
 	}
