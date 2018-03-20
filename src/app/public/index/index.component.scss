@@ -8,6 +8,9 @@
 
 .auth-button {
 	opacity: .35;
+	&.active {
+		opacity: 1;
+	}
 }
 
 .icon {
