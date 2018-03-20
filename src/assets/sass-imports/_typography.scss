@@ -17,16 +17,16 @@ h3, .head3 {
 }
 
 h4, .head4 {
-	font: normal 16px $SB;
+	font: bold 16px $S;
 }
 
 p, .paragraph-text {
-	font: normal 16px $S;
+	font: normal $pFontSize $S;
 	line-height: 1.5em;
 }
 
 .caption {
-	font: normal 14px $SB;
+	font: bold $captionFontSize $S;
 }
 
 
@@ -54,10 +54,10 @@ p, .paragraph-text {
 .all-small-caps {
 	font-variant: all-small-caps;
 }
-.lnum-pnum { // "normal" proportionally-spaced numerals (not oldstyle)
+.lining-proportional { // "normal" proportionally-spaced numerals (not oldstyle)
   font-feature-settings: "lnum", "pnum";
 }
-.lnum-tnum { // monospaced numerals
+.lining-tabular { // monospaced numerals
   font-feature-settings: "lnum", "tnum";
 }
 
@@ -71,7 +71,11 @@ p, .paragraph-text {
 	display: flex;
 	justify-content: space-between;
 	padding-top: .15em;
-	font-family: $SB;
+	font-family: $S;
+	font-weight: bold;
+	h4 {
+		margin-bottom: 0;
+	}
 	.caption {
 		// margin-top: .2em;
 		opacity: .4;
@@ -79,7 +83,6 @@ p, .paragraph-text {
 		font-style: italic;
 	}
 }
-
 
 // spacing
 h1, h2, h3, h4, p {

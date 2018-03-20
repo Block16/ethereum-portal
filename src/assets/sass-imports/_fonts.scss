@@ -27,6 +27,8 @@
 
 @font-face {
 	font-family: 'Scala';
+	font-style: normal;
+	font-weight: normal;
 	src: url('assets/fonts/scala.woff2') format('woff2'),
 			 url('assets/fonts/scala.woff') format('woff');
 }
@@ -34,12 +36,15 @@
 @font-face {
 	font-family: 'Scala';
 	font-style: italic;
+	font-weight: normal;
 	src: url('assets/fonts/scalaitalic.woff2') format('woff2'),
 			 url('assets/fonts/scalaitalic.woff') format('woff');
 }
 
 @font-face {
-	font-family: 'ScalaBold';
+	font-family: 'Scala';
+	font-style: normal;
+	font-weight: bold;
 	src: url('assets/fonts/scalabold.woff2') format('woff2'),
 			 url('assets/fonts/scalabold.woff') format('woff');
 }
