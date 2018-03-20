@@ -1,5 +1,9 @@
 @import '_variables.scss';
 
+@mixin reset-font-size {
+	font-size: 16px;
+}
+
 @mixin child-successive-delay ($count: 10, $delay: .1s) {
 	$count: 0;
 	@while ($count <= 10) {

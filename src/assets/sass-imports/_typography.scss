@@ -1,0 +1,39 @@
+// basic styles
+
+.jumbo-head {
+	font: normal 68px $FEB;
+}
+
+h1, .head1 {
+	font: normal 48px $FEB;
+}
+
+h2, .head2 {
+	font: normal 26px $FEB;
+}
+
+h3, .head3 {
+	font: normal 17px $FB;
+}
+
+h4, .head4 {
+	font: normal 16px $SB;
+}
+
+p, .paragraph-text {
+	font: normal 16px $S;
+	line-height: 1.5em;
+}
+
+.caption {
+	font: normal 14px $SB;
+}
+
+
+// spacing
+h1, h2, h3, h4, p {
+	margin: 0 0 $defaultMargin 0;
+}
+.no-top-margin {
+	margin-top: 0;
+}
