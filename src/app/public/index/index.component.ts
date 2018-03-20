@@ -1,4 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import {LedgerService} from '../../core/ledger.service';
+import {TrezorConnectService} from '../../core/trezor-connect.service';
+
+enum AuthState {
+  trezor, bitbox, metamask, utcFile, privateKey, ledger
+}
 
 @Component({
   selector: 'app-index',
@@ -6,16 +12,24 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./index.component.scss']
 })
 export class IndexComponent implements OnInit {
-	
-	public currentAuth: string;
-	
-  constructor() { }
-  
+  public AuthState = AuthState;
+  public currentAuth: AuthState;
+
+  constructor(
+    private ledgerService: LedgerService,
+    private trezorService: TrezorConnectService
+  ) {
+
+  }
+
+  toggleAuthState(authState: AuthState) {
+    this.currentAuth = authState;
+  }
+
   toggleMenu() {
-  	
+
   }
 
   ngOnInit() {
   }
-
 }

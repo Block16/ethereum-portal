@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
-import {CoreModule} from '../core/core.module';
 import {SidebarComponent} from './sidebar/sidebar.component';
 import {LayoutComponent} from './layout/layout.component';
 import {IndexComponent} from './index/index.component';
@@ -16,8 +15,7 @@ import {SharedModule} from '../shared/shared.module';
     CommonModule,
     RouterModule,
 
-    CoreModule,
-    SharedModule,
+    SharedModule
   ],
   declarations: [
     LayoutComponent,

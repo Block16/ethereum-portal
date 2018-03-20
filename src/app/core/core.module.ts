@@ -1,12 +1,23 @@
-import { NgModule } from '@angular/core';
+import {NgModule, Optional, SkipSelf} from '@angular/core';
 import { CommonModule } from '@angular/common';
+import {TrezorConnectService} from './trezor-connect.service';
+import {LedgerService} from './ledger.service';
 
 @NgModule({
   imports: [
-    CommonModule
+    CommonModule,
   ],
   providers: [
+    TrezorConnectService,
+    LedgerService
   ],
-  declarations: []
+  declarations: [
+  ]
 })
-export class CoreModule { }
+export class CoreModule {
+  constructor (@Optional() @SkipSelf() parentModule: CoreModule) {
+    if (parentModule) {
+      throw new Error('CoreModule is already loaded.');
+    }
+  }
+}
