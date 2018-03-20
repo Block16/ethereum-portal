@@ -2,7 +2,6 @@ import {RouterModule, Routes} from '@angular/router';
 import {NgModule} from '@angular/core';
 import {LayoutComponent} from './layout/layout.component';
 import {IndexComponent} from './index/index.component';
-import {SidebarComponent} from './sidebar/sidebar.component';
 
 const routes: Routes = [
   {
