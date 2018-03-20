@@ -29,12 +29,7 @@ p, .paragraph-text {
 	font: normal 14px $SB;
 }
 
-.section-caption {
-	margin-top: .2em;
-	opacity: .5;
-	font-family: "Scala";
-	font-style: italic;
-}
+
 
 .h1Border {
 	border-top: $h1BarThickness solid black;
@@ -72,11 +67,17 @@ p, .paragraph-text {
 
 // constructs
 
-.captioned-title {
+.menu-title {
 	display: flex;
 	justify-content: space-between;
-	font-family: "Scala";
-	font-style: italic;
+	padding-top: .15em;
+	font-family: $SB;
+	.caption {
+		// margin-top: .2em;
+		opacity: .4;
+		font-family: "Scala";
+		font-style: italic;
+	}
 }
 
 

@@ -2,11 +2,14 @@
 @import '../../../assets/sass-imports/_mixins.scss';
 
 :host {
-	display: block;
 	padding: 0 0 0 $sideDockWidth;
+	display: grid;
+	grid-template: auto / 1fr auto 1fr;
 }
 main {
-	margin: 0 auto;
+	grid-area: auto / 2;
+	// display: flex;
+	// justify-content: center;
 }
 
 h1 {
@@ -43,18 +46,21 @@ h3 {
 	}
 }
 
-.columns {
+.grid {
 	$columnMinWidth: 30em;
 	$columnSideMargin: 1em;
-	display: flex;
-	flex-flow: row wrap;
-	.column {
-		max-width: $columnMinWidth;
-		flex: 0 1 25em;
-		margin-right: $columnSideMargin;
-		&:last-child {
-			margin-right: 0;
-		}
+	display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(20em, 1fr));
+  grid-gap: $defaultMargin * 2 $defaultMargin;
+	// display: flex;
+	// flex-flow: row wrap;
+	.grid-cell {
+		// max-width: $columnMinWidth;
+		// flex: 0 1 25em;
+		// margin-right: $columnSideMargin;
+		// &:last-child {
+		// 	margin-right: 0;
+		// }
 	}
 }
 
