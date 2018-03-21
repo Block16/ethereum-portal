@@ -7,9 +7,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LayoutComponent implements OnInit {
 
-  constructor() { }
+  public ethereumAddress: string;
 
-  ngOnInit() {
+  constructor() {
+    this.ethereumAddress = "";
   }
 
+  public ngOnInit(): void {
+
+  }
+
+  public onAddressChange(event) {
+    this.ethereumAddress = event;
+  }
 }

@@ -1,5 +1,6 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {Subscription} from "rxjs/Subscription";
+import {Web3Service} from "../../core/web3.service";
 
 @Component({
   selector: 'app-sidebar',
@@ -7,8 +8,23 @@ import {Subscription} from "rxjs/Subscription";
   styleUrls: ['./sidebar.component.scss']
 })
 export class SidebarComponent implements OnInit {
-  public showMenu: boolean = false;
+  public showMenu = false;
+  public address: string;
 
-  ngOnInit() {
+  @Input() set account(address: string) {
+    this.address = address;
+    console.log(this.address);
+    if (this.address !== "") {
+
+    }
+  }
+
+  constructor(
+    private web3Service: Web3Service
+  ) {
+    this.address = "";
+  }
+
+  public ngOnInit(): void {
   }
 }

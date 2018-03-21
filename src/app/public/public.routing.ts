@@ -7,9 +7,9 @@ const routes: Routes = [
   {
     path: '',
     component: LayoutComponent,
-    children: [
-      { path: '', component: IndexComponent, pathMatch: 'full'},
-    ]
+    // children: [
+    //   { path: '', component: IndexComponent, pathMatch: 'full'},
+    // ]
   }
 ];
 
