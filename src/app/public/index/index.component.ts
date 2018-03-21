@@ -14,12 +14,21 @@ enum AuthState {
 export class IndexComponent implements OnInit {
   public AuthState = AuthState;
   public currentAuth: AuthState;
+  public ethereumAddress: string;
 
   constructor(
     private ledgerService: LedgerService,
     private trezorService: TrezorConnectService
   ) {
+    // TODO: Update this off the bat if their MetaMask is unlocked
+    this.ethereumAddress = '';
+  }
 
+  trezorAuthState() {
+    this.currentAuth = AuthState.trezor;
+    this.trezorService.getEthereumAddress().subscribe((address: string) => {
+      this.ethereumAddress = address;
+    });
   }
 
   toggleAuthState(authState: AuthState) {

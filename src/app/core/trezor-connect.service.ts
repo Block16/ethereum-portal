@@ -141,6 +141,19 @@ export class TrezorConnectService {
     return subject.asObservable();
   }
 
+  public getEthereumAddress(): Observable<string> {
+    return Observable.create(observer => {
+      this._trezorConnect.ethereumGetAddress("m/44'/60'/0'/0", result => {
+        if (result.success) {
+          observer.next(result.address);
+        } else {
+          observer.error(new Error('Couldn\'t fetch the user\'s eth address from Trezor'));
+        }
+        observer.complete();
+      });
+    });
+  }
+
   /**
    * Asks device to sign Ethereum transaction.
    *
@@ -183,8 +196,7 @@ export class TrezorConnectService {
    * @param recipents
    * @returns {Observable<T>}
    */
-  public composeAndSignTx(
-    recipients: Recipient[]) {
+  public composeAndSignTx(recipients: Recipient[]) {
     const subject = new Subject();
 
     this._trezorConnect.composeAndSignTx(recipients,
@@ -207,9 +219,7 @@ export class TrezorConnectService {
    * @param message
    * @returns {Observable<T>}
    */
-  public signMessage(
-    path: string,
-    message: string) {
+  public signMessage(path: string, message: string) {
     const subject = new Subject();
 
     this._trezorConnect.signMessage(path, message,
@@ -269,8 +279,7 @@ export class TrezorConnectService {
    * @param description
    * @returns {Observable<T>}
    */
-  public getAccountInfo(
-    description: string) {
+  public getAccountInfo(description: string) {
     const subject = new Subject();
 
     this._trezorConnect.getAccountInfo(
