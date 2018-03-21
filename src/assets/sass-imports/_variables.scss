@@ -17,6 +17,12 @@ $SB: 'ScalaBold';
 // spacing
 $defaultMargin: 20px;
 
+// sizing
+$sidebarWidth: 24em;
+$menuButtonWidth: $defaultMargin;
+$menuButtonHeight: 24px;
+$sideDockWidth: $defaultMargin * 2 + $menuButtonWidth;
+
 // type
 $pFontSize: 16px;
 $captionFontSize: 14px;
@@ -26,15 +32,14 @@ $h2BarThickness: 4px;
 $h3BarThickness: 2px;
 $h4BarThickness: 1px;
 
-// UI
-$sidebarWidth: 24em;
-$menuButtonWidth: $defaultMargin;
-$menuButtonHeight: 24px;
-$sideDockWidth: $defaultMargin * 2 + $menuButtonWidth;
+// timing
+$defaultTransitionTime: .05s;
+
 
 
 //// Z-indexes
 // Index page
+$newTransactionZ: 5;
 $sideDockZ: 4;
 $sidebarZ: 3;
 $sidebarOverlayZ: 3;

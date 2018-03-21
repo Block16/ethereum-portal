@@ -14,6 +14,12 @@ enum AuthState {
 export class IndexComponent implements OnInit {
   public AuthState = AuthState;
   public currentAuth: AuthState;
+  
+  // UI states
+  public showNewTransaction: boolean = false;
+  
+  // Styles
+  public newTransactionStyle = {};
 
   constructor(
     private ledgerService: LedgerService,
@@ -21,7 +27,11 @@ export class IndexComponent implements OnInit {
   ) {
 
   }
-
+  
+  transactionSigned() {
+    this.showNewTransaction = false;
+  }
+  
   toggleAuthState(authState: AuthState) {
     this.currentAuth = authState;
   }

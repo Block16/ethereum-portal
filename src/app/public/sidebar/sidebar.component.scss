@@ -82,7 +82,7 @@
 .overlay {
 	position: fixed;
 	z-index: $sidebarOverlayZ;
-	background:hsla(0,0,0,.4);
+	background:hsla(0,0,0,.5);
 	@include no-select-pointer;
 	@include tblr;
 	animation: overlay-in .1s;
@@ -102,11 +102,24 @@
 	background: $backgroundColor;
 	height: 100vh;
 	width: $sidebarWidth;
-	padding: $defaultMargin;
+	padding: 0 $defaultMargin;
 	box-sizing: border-box;
 	transition: left .075s;
 	.sidebar-top {
+		display: flex;
+		align-items: center;
+		justify-content: flex-end;
 		height: $defaultMargin * 2 + $menuButtonHeight;
+		a {
+			opacity: .2;
+			transition: $defaultTransitionTime;
+			&:hover {
+				opacity: 1;
+			}
+		}
+		.logo {
+			height: $menuButtonHeight * 1.1;
+		}
 	}
 	&.open {
 		left: 0;
@@ -114,14 +127,14 @@
 }
 
 .recent-entries {
-	padding: 10px 0 20px;
+	padding: 0 0 20px;
 }
 .recent-entry {
 	$dotSize: 1em;
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	padding: 10px $defaultMargin;
+	padding: 10px $defaultMargin 10px $defaultMargin * 1.2;
 	margin: 0 $defaultMargin * -1;
 	@include no-select-pointer;
 	&:hover {

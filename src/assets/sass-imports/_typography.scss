@@ -1,23 +1,39 @@
 // basic styles
 
+
+h1, h2, h3, h4, h5 {
+}
+
 .jumbo-head {
 	font: normal 68px $FEB;
 }
 
 h1, .head1 {
 	font: normal 48px $FEB;
+	&.top-border {
+		border-top: $h1BarThickness solid black;
+	}
 }
 
 h2, .head2 {
 	font: normal 26px $FEB;
+	&.top-border {
+		border-top: $h2BarThickness solid black;
+	}
 }
 
 h3, .head3 {
 	font: normal 17px $FB;
+	&.top-border {
+		border-top: $h3BarThickness solid black;
+	}
 }
 
 h4, .head4 {
 	font: bold 16px $S;
+	&.top-border {
+		border-top: $h4BarThickness solid black;
+	}
 }
 
 p, .paragraph-text {
@@ -70,14 +86,14 @@ p, .paragraph-text {
 .menu-title {
 	display: flex;
 	justify-content: space-between;
-	padding-top: .15em;
+	// padding-top: .15em;
 	font-family: $S;
 	font-weight: bold;
-	h4 {
+	h2 {
 		margin-bottom: 0;
 	}
 	.caption {
-		// margin-top: .2em;
+		margin-top: .2em;
 		opacity: .4;
 		font-family: "Scala";
 		font-style: italic;
