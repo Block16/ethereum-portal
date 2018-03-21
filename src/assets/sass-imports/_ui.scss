@@ -1,0 +1,48 @@
+@import '_mixins.scss';
+@import '_variables.scss';
+
+.button {
+	@include button-unstyle;
+	@include no-select-pointer;
+	padding: .3em 2em;
+	background: black;
+	color: white;
+	font: 1em $FB2;
+}
+
+label[for*='text-'] {
+	display: inline-block;
+	padding-bottom: .2em;
+}
+input[type="text"] {
+	font: normal 1em $S;
+	outline: none;
+	border: none;
+	border-left: 4px solid black;
+	font-weight: bold;
+	background: hsla(0,0,0,.1);
+	padding: .3em 0 .3em .5em;
+	box-sizing: border-box;
+	font-feature-settings: "lnum", "pnum";
+	&.wide {
+		width: 100%;
+	}
+}
+
+.toggle-switch {
+	$switchHeight: 1em;
+	$switchWidth: 3em;
+	height: $switchHeight;
+	width: $switchWidth;
+	background: hsla(0,0,0,.1);
+	border-radius: 99em;
+	&:before {
+		content: '';
+		height: $switchHeight;
+		width: $switchHeight;
+		background: black;
+	}
+	&:checked {
+		
+	}
+}

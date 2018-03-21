@@ -17,6 +17,7 @@ export class IndexComponent implements OnInit {
   
   // UI states
   public showNewTransaction: boolean = false;
+  public showQR: boolean = false;
   
   // Styles
   public newTransactionStyle = {};

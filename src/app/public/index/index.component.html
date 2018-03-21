@@ -12,9 +12,9 @@
 		<h1 class="top-border">Approve transaction</h1>
 		<h3 class="type2">Transaction will send immediately after approval on your [auth method]</h3>
 		<span class="caption">To</span><br>
-		<p>0x343f2EdA84CEAf92ba0408eE6bE290a2d2d295E4</p>
+		<p class="lining-proportional">0x343f2EdA84CEAf92ba0408eE6bE290a2d2d295E4</p>
 		<span class="caption">From</span><br>
-		<p>0x343f2EdA84CEAf92ba0408eE6bE290a2d2d295E4</p>
+		<p class="lining-proportional">0x343f2EdA84CEAf92ba0408eE6bE290a2d2d295E4</p>
 		<span class="caption">Amount</span><br>
 		<p class="lining-proportional">.5 ETH</p>
 		<span class="caption">Transaction fees</span><br>
@@ -22,19 +22,57 @@
 	</div>
 </div>
 
+<div class="side-dock">
+	<!-- <div class="dock-transaction confirmed"></div>
+	<div class="dock-transaction failed"></div>
+	<div class="dock-transaction processing"></div> -->
+</div>
+
 <main>
 	<h1 class="top-border head1 type2">Ethereum Portal</h1>
 	<div class="grid">
 		<div class="grid-cell">
 			<h2 class="top-border head2 type2">View</h2>
-			<p>Lorem ipsum dolor sit
-				<br><span class="ss1">01234</span>
-				<br><span class="lnum-tnum">01234</span>
-				<br><span class="lnum-pnum">01234</span> <span class="small-caps">amet, consectetur</span> adipiscing elit. Mauris massa dui, aliquam sed libero et, suscipit aliquam magna. Vivamus aliquam pulvinar lorem, vitae varius neque rhoncus eget. Phasellus dignissim ipsum vel lacus fringilla, sed eleifend diam euismod. Praesent vulputate sed augue eget commodo. Integer pulvinar, diam id pulvinar rutrum, mauris purus lacinia diam, ac finibus mauris turpis ac dolor. Etiam vel purus pharetra, porttitor lacus sed, placerat nisi. Etiam tempus orci volutpat diam posuere tempor. Curabitur consectetur ac orci ac porta. Vestibulum fermentum, libero ut dapibus sagittis, urna libero consequat ligula, non aliquet velit tellus vel tortor. Mauris lobortis in ante sollicitudin tincidunt. Phasellus ut pellentesque nisl. Ut id aliquam augue. Etiam ac maximus libero, ac mollis elit. Ut a pulvinar turpis.
-			</p>
+			<div class="caption">Address</div>
+			<p>0x343f2EdA84CEAf92ba0408eE6bE290a2d2d295E4</p>
+			<div class="caption">ETH</div>
+			<p class="lining-proportional">7.2385</p>
+			<div class="tokens">
+				<div class="caption">UKG</div>
+				<p class="lining-proportional">5,123</p>
+				<div class="caption">UKG</div>
+				<p class="lining-proportional">5,123</p>
+				<div class="caption">UKG</div>
+				<p class="lining-proportional">5,123</p>
+				<div class="caption">UKG</div>
+				<p class="lining-proportional">5,123</p>
+				<div class="caption">UKG</div>
+				<p class="lining-proportional">5,123</p>
+				<div class="caption">UKG</div>
+				<p class="lining-proportional">5,123</p>
+				<div class="caption">UKG</div>
+				<p class="lining-proportional">5,123</p>
+				<div class="caption">UKG</div>
+				<p class="lining-proportional">5,123</p>
+			</div>
+			<h3 class="top-border section-toggle no-bottom-margin"
+					[ngClass]="{ 'open': showQR }"
+					(click)="showQR = !showQR">QR</h3>
+			<img src="assets/img/QR dummy.png"
+					 *ngIf="showQR"
+					 class="qr">
 		</div>
 		<div class="grid-cell">
 			<h2 class="top-border head2 type2">Send</h2>
+			<label for="text-to-address" class="caption">To <span class="fade">Ethereum address</span></label>
+			<input type="text"
+						 id="text-to-address"
+						 class="wide"><br><br>
+			<label for="text-amount" class="caption">Amount</label>
+			<input type="text"
+						 id="amount"
+						 class="wide"><br><br>
+			<button class="button">Generate transaction</button><br>
 			<button class="auth-button"
 							ngClass="{ 'active': currentAuth == AuthState.trezor }" (click)="trezorAuthState()">
 				<img src="/assets/img/icons/trezor icon.svg"

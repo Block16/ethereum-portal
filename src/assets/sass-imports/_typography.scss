@@ -45,8 +45,12 @@ p, .paragraph-text {
 	font: bold $captionFontSize $S;
 }
 
+// color
+.fade {
+	opacity: .3;
+}
 
-
+// borders
 .h1Border {
 	border-top: $h1BarThickness solid black;
 }
@@ -82,7 +86,6 @@ p, .paragraph-text {
 }
 
 // constructs
-
 .menu-title {
 	display: flex;
 	justify-content: space-between;
@@ -100,10 +103,24 @@ p, .paragraph-text {
 	}
 }
 
+.section-toggle {
+	opacity: .25;
+	@include no-select-pointer;
+	&:hover {
+		opacity: .6;
+	}
+	&.open {
+		opacity: 1;
+	}
+}
+
 // spacing
 h1, h2, h3, h4, p {
 	margin: 0 0 $defaultMargin 0;
 }
 .no-top-margin {
 	margin-top: 0;
+}
+.no-bottom-margin {
+	margin-bottom: 0;
 }

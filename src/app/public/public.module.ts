@@ -7,14 +7,15 @@ import {LayoutComponent} from './layout/layout.component';
 import {IndexComponent} from './index/index.component';
 import {PublicRoutingModule} from './public.routing';
 import {SharedModule} from '../shared/shared.module';
+import { FormsModule } from '@angular/forms';
 
 
 @NgModule({
   imports: [
     PublicRoutingModule,
     CommonModule,
+    FormsModule,
     RouterModule,
-
     SharedModule
   ],
   declarations: [

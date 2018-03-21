@@ -5,19 +5,19 @@
 	
 }
 
-.side-dock {
+.menu-button {
 	position: fixed;
 	z-index: $sideDockZ;
 	top: 0;
 	left: 0;
 	width: $sideDockWidth;
+	border-top: 1px solid gray;
 	@include no-select-pointer;
 }
 
-.menu-button {
+.symbol-box {
 	$lineThickness: 4px;
 	$transitionTime: .1s;
-	@include button-unstyle;
 	@include pass-through;
 	position: relative;
 	height: $menuButtonHeight;
@@ -130,7 +130,6 @@
 	padding: 0 0 20px;
 }
 .recent-entry {
-	$dotSize: 1em;
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
@@ -141,8 +140,8 @@
 		background: hsla(0,0,0,.05);
 	}
 	.dot {
-		height: $dotSize;
-		width: $dotSize;
+		height: $transactionDotSize;
+		width: $transactionDotSize;
 		background: $yellow;
 		border-radius: 99em;
 		&.pending {
@@ -167,6 +166,21 @@
 	.time {
 		font-size: 12px;
 		opacity: .5;
+	}
+}
+
+.preference {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: $defaultMargin / 2 0;
+	span {
+		opacity: .5;
+		font-size: $captionFontSize;
+	}
+	@include no-select-pointer;
+	input {
+		@include no-select-pointer;
 	}
 }
 
