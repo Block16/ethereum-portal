@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {LedgerService} from '../../core/ledger.service';
 import {TrezorConnectService} from '../../core/trezor-connect.service';
 
@@ -14,6 +14,13 @@ enum AuthState {
 export class IndexComponent implements OnInit {
   public AuthState = AuthState;
   public currentAuth: AuthState;
+  @Output() ethereumAddressChange: EventEmitter<string> = new EventEmitter<string>();
+  /*
+  @Output() mobileChange: EventEmitter<string> = new EventEmitter<string>();
+  @Input() set mobile(value) {
+    this.msisdn_confirm = this.msisdn = value;
+  }
+  */
   public ethereumAddress: string;
 
   constructor(
@@ -28,6 +35,7 @@ export class IndexComponent implements OnInit {
     this.currentAuth = AuthState.trezor;
     this.trezorService.getEthereumAddress().subscribe((address: string) => {
       this.ethereumAddress = address;
+      this.ethereumAddressChange.emit(address);
     });
   }
 
