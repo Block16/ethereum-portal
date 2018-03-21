@@ -36,7 +36,7 @@
 		<div class="grid-cell">
 			<h2 class="top-border head2 type2">Send</h2>
 			<button class="auth-button"
-							ngClass="{ 'active': currentAuth == AuthState.trezor }" (click)="toggleAuthState(AuthState.trezor)">
+							ngClass="{ 'active': currentAuth == AuthState.trezor }" (click)="trezorAuthState()">
 				<img src="/assets/img/icons/trezor icon.svg"
 						 class="icon">
 			</button>

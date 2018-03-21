@@ -141,6 +141,19 @@ export class TrezorConnectService {
     return subject.asObservable();
   }
 
+  public getEthereumAddress(): Observable<string> {
+    return Observable.create(observer => {
+      this._trezorConnect.ethereumGetAddress("m/44'/60'/0'/0", result => {
+        if (result.success) {
+          observer.next(result.address);
+        } else {
+          observer.error(new Error('Couldn\'t fetch the user\'s eth address from Trezor'));
+        }
+        observer.complete();
+      });
+    });
+  }
+
   /**
    * Asks device to sign Ethereum transaction.
    *
@@ -154,26 +167,24 @@ export class TrezorConnectService {
    * @param chain_id
    * @returns {Observable<T>}
    */
-  public signEthereumTx(
-    address_n: string,
-    nonce: string,
-    gas_price: string,
-    to: string,
-    value: string,
-    data: any,
-    chain_id: string) {
-    const subject = new Subject();
-
-    this._trezorConnect.signEthereumTx(address_n, nonce, gas_price, to, value, data, chain_id,
-      result => {
-        if (result.success) {
-          subject.next(result);
-        } else {
-          subject.error(result);
-        }
-      });
-
-    return subject.asObservable();
+  public signEthereumTx(address_n: string,
+                        nonce: string,
+                        gas_price: string,
+                        to: string,
+                        value: string,
+                        data: any,
+                        chain_id: string): Observable<any> {
+    return Observable.create(observer => {
+      this._trezorConnect.signEthereumTx(address_n, nonce, gas_price, to, value, data, chain_id,
+        result => {
+          if (result.success) {
+            observer.next(result);
+          } else {
+            observer.error(result);
+          }
+          observer.complete();
+        });
+    });
   }
 
   /**
@@ -183,8 +194,7 @@ export class TrezorConnectService {
    * @param recipents
    * @returns {Observable<T>}
    */
-  public composeAndSignTx(
-    recipients: Recipient[]) {
+  public composeAndSignTx(recipients: Recipient[]) {
     const subject = new Subject();
 
     this._trezorConnect.composeAndSignTx(recipients,
@@ -207,9 +217,7 @@ export class TrezorConnectService {
    * @param message
    * @returns {Observable<T>}
    */
-  public signMessage(
-    path: string,
-    message: string) {
+  public signMessage(path: string, message: string) {
     const subject = new Subject();
 
     this._trezorConnect.signMessage(path, message,
@@ -236,13 +244,12 @@ export class TrezorConnectService {
    * @param ask_on_decrypt
    * @returns {Observable<T>}
    */
-  public chpherKeyValue(
-    path: string,
-    key: string,
-    value: string,
-    encrypt: boolean,
-    ask_on_encrypt: boolean,
-    ask_on_decrypt: boolean) {
+  public chpherKeyValue(path: string,
+                        key: string,
+                        value: string,
+                        encrypt: boolean,
+                        ask_on_encrypt: boolean,
+                        ask_on_decrypt: boolean) {
     const subject = new Subject();
 
     this._trezorConnect.cipherKeyValue(
@@ -269,8 +276,7 @@ export class TrezorConnectService {
    * @param description
    * @returns {Observable<T>}
    */
-  public getAccountInfo(
-    description: string) {
+  public getAccountInfo(description: string) {
     const subject = new Subject();
 
     this._trezorConnect.getAccountInfo(
