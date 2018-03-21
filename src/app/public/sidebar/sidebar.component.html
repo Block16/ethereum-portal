@@ -1,9 +1,9 @@
-<div class="side-dock"
+<div class="menu-button"
 		 (click)="showMenu = !showMenu">
-	<button class="menu-button x"
+	<div class="symbol-box x"
 				  [ngClass]="{ 'x': showMenu }">
 		<div class="symbol"></div>
-	</button>
+	</div>
 </div>
 
 <div class="overlay"
@@ -11,9 +11,12 @@
 		 (click)="showMenu = !showMenu"></div>
 <div class="sidebar"
 		 [ngClass]="{ 'open': showMenu }">
-	<div class="sidebar-top"></div>
-	<div class="h4Border menu-title">
-		<h4>Recent</h4>
+	<div class="sidebar-top">
+		<a href="http://block16.io" target="_blank"><img src="assets/img/branding/logo.svg"
+					 class="logo"></a>
+	</div>
+	<div class="h2Border menu-title">
+		<h2>Recent</h2>
 		<span class="caption section-caption all-small-caps">past hour</span>
 	</div>
 	<div class="recent-entries">
@@ -42,11 +45,35 @@
 			<div class="time">7m ago</div>
 		</div>
 	</div>
-	<div class="h4Border menu-title">
-		<h4>Auth</h4>
+	<div class="h2Border menu-title">
+		<h2>Auth</h2>
 		<span class="caption all-small-caps">Current auth</span>
 	</div>
-	<div class="h4Border menu-title">
-		<h4>Preferences</h4>
+	<div class="h2Border menu-title">
+		<h2>Preferences</h2>
+	</div>
+	<div for="manual-gas"
+			 class="preference">
+		<span>Set gas price manually</span>
+		<input id="manual-gas"
+					 class="toggle-switch"
+					 [ngModel]="manualGas"
+					 type="checkbox">
+	</div>
+	<div for="view-generated"
+			 class="preference">
+		<span>View generated transaction</span>
+		<input id="view-generated"
+					 class="toggle-switch"
+					 [ngModel]="viewGenerated"
+					 type="checkbox">
+	</div>
+	<div for="dark-mode"
+			 class="preference">
+		<span>Dark mode</span>
+		<input id="dark-mode"
+					 class="toggle-switch"
+					 [ngModel]="darkMode"
+					 type="checkbox">
 	</div>
 </div>

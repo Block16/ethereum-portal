@@ -15,6 +15,14 @@ enum AuthState {
 export class IndexComponent implements OnInit {
   public AuthState = AuthState;
   public currentAuth: AuthState;
+  
+  // UI states
+  public showNewTransaction: boolean = false;
+  public showQR: boolean = false;
+  
+  // Styles
+  public newTransactionStyle = {};
+  
   @Output() ethereumAddressChange: EventEmitter<string> = new EventEmitter<string>();
   /*
   @Output() mobileChange: EventEmitter<string> = new EventEmitter<string>();
@@ -40,7 +48,11 @@ export class IndexComponent implements OnInit {
       this.updateAddress(address);
     });
   }
-
+  
+  transactionSigned() {
+    this.showNewTransaction = false;
+  }
+  
   toggleAuthState(authState: AuthState) {
     this.currentAuth = authState;
   }
