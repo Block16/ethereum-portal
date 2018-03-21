@@ -174,19 +174,19 @@ export class TrezorConnectService {
     to: string,
     value: string,
     data: any,
-    chain_id: string) {
-    const subject = new Subject();
-
-    this._trezorConnect.signEthereumTx(address_n, nonce, gas_price, to, value, data, chain_id,
-      result => {
-        if (result.success) {
-          subject.next(result);
-        } else {
-          subject.error(result);
-        }
+    chain_id: string): Observable<any> {
+    return Observable.create(observer => {
+      this._trezorConnect.signEthereumTx(address_n, nonce, gas_price, to, value, data, chain_id,
+        result => {
+          if (result.success) {
+            observer.next(result);
+          } else {
+            observer.error(result);
+          }
+          observer.complete();
+        });
       });
-
-    return subject.asObservable();
+    }
   }
 
   /**
