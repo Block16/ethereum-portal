@@ -52,28 +52,30 @@
 	<div class="h2Border menu-title">
 		<h2>Preferences</h2>
 	</div>
-	<div for="manual-gas"
-			 class="preference">
+	<div class="preference"
+			 (click)="manualGas = !manualGas">
 		<span>Set gas price manually</span>
-		<input id="manual-gas"
-					 class="toggle-switch"
-					 [ngModel]="manualGas"
-					 type="checkbox">
+		<div class="toggle-switch"
+				 [ngClass]="{'on': manualGas }">
+		</div>
 	</div>
-	<div for="view-generated"
-			 class="preference">
+	<div class="preference"
+			 (click)="viewGenerated = !viewGenerated">
 		<span>View generated transaction</span>
-		<input id="view-generated"
-					 class="toggle-switch"
-					 [ngModel]="viewGenerated"
-					 type="checkbox">
+		<div class="toggle-switch"
+				 [ngClass]="{'on': viewGenerated }">
+		</div>
 	</div>
-	<div for="dark-mode"
-			 class="preference">
+	<div class="preference"
+			 (click)="darkMode = !darkMode">
 		<span>Dark mode</span>
-		<input id="dark-mode"
+		<div class="toggle-switch"
+				 [ngClass]="{'on': darkMode }">
+		</div>
+		<!-- <input id="dark-mode"
 					 class="toggle-switch"
 					 [ngModel]="darkMode"
 					 type="checkbox">
+		<label for="dark-mode"></label> -->
 	</div>
 </div>

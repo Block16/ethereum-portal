@@ -11,7 +11,6 @@
 	top: 0;
 	left: 0;
 	width: $sideDockWidth;
-	border-top: 1px solid gray;
 	@include no-select-pointer;
 }
 
@@ -173,7 +172,11 @@
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	padding: $defaultMargin / 2 0;
+	padding: $defaultMargin / 2 $defaultMargin;
+	margin: 0 $defaultMargin * -1;
+	&:hover {
+		background: hsla(0,0,0,.05);
+	}
 	span {
 		opacity: .5;
 		font-size: $captionFontSize;

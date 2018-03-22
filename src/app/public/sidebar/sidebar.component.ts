@@ -13,7 +13,7 @@ export class SidebarComponent implements OnInit {
 	public viewGenerated: boolean = false;
 	public darkMode: boolean = false;
 	
-  public showMenu: boolean = false;
+  public showMenu: boolean = true;
 
   ngOnInit() {
   }
