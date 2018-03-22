@@ -1,6 +1,7 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {Subscription} from "rxjs/Subscription";
-import { FormsModule } from '@angular/forms';
+import {Web3Service} from "../../core/web3.service";
+import {FormsModule} from '@angular/forms';
 
 @Component({
   selector: 'app-sidebar',
@@ -8,13 +9,27 @@ import { FormsModule } from '@angular/forms';
   styleUrls: ['./sidebar.component.scss']
 })
 export class SidebarComponent implements OnInit {
-	// preferences
-	public manualGas: boolean = false;
-	public viewGenerated: boolean = false;
-	public darkMode: boolean = false;
-	
-  public showMenu: boolean = true;
+  public address: string;
+  // preferences
+  public manualGas: boolean = false;
+  public viewGenerated: boolean = false;
+  public darkMode: boolean = false;
 
-  ngOnInit() {
+  public showMenu: boolean = false;
+
+  @Input()
+  set account(address: string) {
+    this.address = address;
+    console.log(this.address);
+    if (this.address !== "") {
+
+    }
+  }
+
+  constructor(private web3Service: Web3Service) {
+    this.address = "";
+  }
+
+  public ngOnInit(): void {
   }
 }

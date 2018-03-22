@@ -1,6 +1,7 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {LedgerService} from '../../core/ledger.service';
 import {TrezorConnectService} from '../../core/trezor-connect.service';
+import {Web3Service} from "../../core/web3.service";
 
 enum AuthState {
   trezor, bitbox, metamask, utcFile, privateKey, ledger
@@ -32,6 +33,7 @@ export class IndexComponent implements OnInit {
   public ethereumAddress: string;
 
   constructor(
+    private web3Service: Web3Service,
     private ledgerService: LedgerService,
     private trezorService: TrezorConnectService
   ) {
@@ -43,7 +45,7 @@ export class IndexComponent implements OnInit {
     this.currentAuth = AuthState.trezor;
     this.trezorService.getEthereumAddress().subscribe((address: string) => {
       this.ethereumAddress = address;
-      this.ethereumAddressChange.emit(address);
+      this.updateAddress(address);
     });
   }
   
@@ -53,6 +55,10 @@ export class IndexComponent implements OnInit {
   
   toggleAuthState(authState: AuthState) {
     this.currentAuth = authState;
+  }
+
+  private updateAddress(address: string) {
+    this.ethereumAddressChange.emit(address);
   }
 
   toggleMenu() {

@@ -24,7 +24,9 @@
     "@angular/router": "^5.0.0",
     "@ledgerhq/hw-app-eth": "^4.6.0",
     "core-js": "^2.4.1",
+    "npm": "^5.7.1",
     "rxjs": "^5.5.2",
+    "web3": "^1.0.0-beta.33",
     "zone.js": "^0.8.14"
   },
   "devDependencies": {
