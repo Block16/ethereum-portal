@@ -20,29 +20,19 @@
 		<span class="caption section-caption all-small-caps">past hour</span>
 	</div>
 	<div class="recent-entries">
-		<div class="recent-entry">
-			<div class="dot confirmed"></div>
+		<div *ngFor="let tx of recentTransactions"
+				 class="recent-entry">
+			<div class="dot"
+					 [ngClass]="{ 'processing': tx.status == 'processing',
+					 							'confirmed': tx.status == 'confirmed',
+					 							'failed': tx.status == 'failed' }"></div>
 			<div class="main">
-				12 confirmations<br>
-				<span class="action lining-proportional">Sent .02 ETH</span>
+				<span *ngIf="tx.status == 'confirmed'">{{tx.confirmations}} confirmations</span>
+				<span *ngIf="tx.status == 'processing'">Processing</span>
+				<span *ngIf="tx.status == 'failed'">Failed</span><br>
+				<span class="action lining-proportional">Sent {{tx.amount}} {{tx.token}}</span>
 			</div>
-			<div class="time">7m ago</div>
-		</div>
-		<div class="recent-entry">
-			<div class="dot failed"></div>
-			<div class="main">
-				Failed<br>
-				<span class="action lining-proportional">Sent .02 ETH</span>
-			</div>
-			<div class="time">7m ago</div>
-		</div>
-		<div class="recent-entry">
-			<div class="dot pending"></div>
-			<div class="main">
-				Processing<br>
-				<span class="action lining-proportional">Sent 2,658 THETA</span>
-			</div>
-			<div class="time">7m ago</div>
+			<div class="time">ago</div>
 		</div>
 	</div>
 	<div class="h2Border menu-title">

@@ -1,6 +1,6 @@
 <div class="dev-buttons">
 	<div class="dev-button"
-			 (click)="showNewTransaction = true">Generate transaction</div>
+			 (click)="generateTransaction()">Generate transaction</div>
 	<div class="dev-button"
 			 (click)="transactionSigned()">Sign transaction</div>
 </div>
@@ -12,20 +12,22 @@
 		<h1 class="top-border">Approve transaction</h1>
 		<h3 class="type2">Transaction will send immediately after approval on your [auth method]</h3>
 		<span class="caption">To</span><br>
-		<p class="lining-proportional">0x343f2EdA84CEAf92ba0408eE6bE290a2d2d295E4</p>
+		<p class="lining-proportional">{{newTransaction.toAddress}}</p>
 		<span class="caption">From</span><br>
-		<p class="lining-proportional">0x343f2EdA84CEAf92ba0408eE6bE290a2d2d295E4</p>
+		<p class="lining-proportional">{{newTransaction.fromAddress}}</p>
 		<span class="caption">Amount</span><br>
-		<p class="lining-proportional">.5 ETH</p>
-		<span class="caption">Transaction fees</span><br>
+		<p class="lining-proportional">{{newTransaction.amount}} {{newTransaction.token}}</p>
+		<span class="caption">Estimated transaction fees</span><br>
 		<p class="lining-proportional">.0008 ETH</p>
 	</div>
 </div>
 
-<div class="side-dock">
-	<!-- <div class="dock-transaction confirmed"></div>
-	<div class="dock-transaction failed"></div>
-	<div class="dock-transaction processing"></div> -->
+<div class="recent-transactions">
+	<div *ngFor="let transaction of recentTransactions"
+				class="transaction"
+				[ngClass]="{'processing': transaction.status == 'processing',
+										'confirmed': transaction.status == 'confirmed',
+										'failed': transaction.status == 'failed'}"></div>
 </div>
 
 <main>
@@ -33,8 +35,8 @@
 	<div class="grid">
 		<div class="grid-cell">
 			<h2 class="top-border head2 type2">View</h2>
-			<div class="caption">Address</div>
-			<p>0x343f2EdA84CEAf92ba0408eE6bE290a2d2d295E4</p>
+			<div class="caption ">Address</div>
+			<p class="lining-proportional">0x343f2EdA84CEAf92ba0408eE6bE290a2d2d295E4</p>
 			<div class="caption">ETH</div>
 			<p class="lining-proportional">7.2385</p>
 			<div class="tokens">

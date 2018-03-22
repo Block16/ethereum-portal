@@ -7,21 +7,37 @@
 	grid-template: auto / 1fr auto 1fr;
 }
 
-.side-dock {
+.recent-transactions {
 	position: fixed;
-	top: $defaultMargin * 2 + $menuButtonHeight;
+	width: $defaultMargin * 2 + $menuButtonWidth;
 	left: 0;
-	width: $sideDockWidth;
-	@include no-select-pointer;
-	.dock-transaction {
-		background: black;
-		border-radius: 99em;
-		margin: 0 auto $defaultMargin / 1.75;
-		height: $transactionDotSize;
-		width: $transactionDotSize;
-		&.confirmed { background: $green; }
-		&.failed { background: $red; }
-		&.processing { background: $yellow; }
+	top: $defaultMargin * 2 + $menuButtonHeight;
+	.transaction {
+		padding: 0 0 $defaultMargin / 1.4;
+		&:before {
+			content: '';
+			display: block;
+			width: $transactionDotSize;
+			height: $transactionDotSize;
+			background: gray;
+			margin: 0 auto;
+			border-radius: 99em;
+		}
+		&.confirmed {
+			&:before {
+				background: $green;
+			}
+		}
+		&.failed {
+			&:before {
+				background: $red;
+			}
+		}
+		&.processing {
+			&:before {
+				background: $yellow;
+			}
+		}
 	}
 }
 

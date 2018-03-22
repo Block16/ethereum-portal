@@ -122,6 +122,9 @@
 	}
 	&.open {
 		left: 0;
+		@media (max-width: $desktopBreakPoint) {
+			width: 100%;
+		}
 	}
 }
 
@@ -182,8 +185,5 @@
 		font-size: $captionFontSize;
 	}
 	@include no-select-pointer;
-	input {
-		@include no-select-pointer;
-	}
 }
 

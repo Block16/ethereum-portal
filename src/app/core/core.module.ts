@@ -4,6 +4,7 @@ import {TrezorConnectService} from './trezor-connect.service';
 import {LedgerService} from './ledger.service';
 import {HttpClientModule} from "@angular/common/http";
 import {Web3Service} from "./web3.service";
+import {DataShareService} from "./data-share.service";
 
 @NgModule({
   imports: [
@@ -11,6 +12,7 @@ import {Web3Service} from "./web3.service";
     HttpClientModule
   ],
   providers: [
+    DataShareService,
     TrezorConnectService,
     LedgerService,
     Web3Service

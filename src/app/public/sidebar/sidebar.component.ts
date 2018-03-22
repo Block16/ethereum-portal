@@ -1,6 +1,7 @@
 import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {Subscription} from "rxjs/Subscription";
 import {Web3Service} from "../../core/web3.service";
+import {DataShareService} from "../../core/data-share.service";
 import {FormsModule} from '@angular/forms';
 
 @Component({
@@ -10,11 +11,14 @@ import {FormsModule} from '@angular/forms';
 })
 export class SidebarComponent implements OnInit {
   public address: string;
+  
   // preferences
   public manualGas: boolean = false;
   public viewGenerated: boolean = false;
   public darkMode: boolean = false;
-
+  
+  // ui
+  public recentTransactions = [];
   public showMenu: boolean = false;
 
   @Input()
@@ -26,7 +30,12 @@ export class SidebarComponent implements OnInit {
     }
   }
 
-  constructor(private web3Service: Web3Service) {
+  constructor(private web3Service: Web3Service,
+    private dataShareService: DataShareService) {
+    this.dataShareService.recentTransactions.subscribe((value: any) => {
+      this.recentTransactions = value;
+        console.log('recentTransactions: ', value); // => true/false
+    });
     this.address = "";
   }
 
