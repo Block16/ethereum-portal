@@ -1,10 +1,14 @@
 <div class="dev-buttons">
 	<div class="dev-button"
-			 (click)="generateTransaction()">Generate transaction</div>
+			 (click)="showApproveNewTransaction()">Generate transaction</div>
 	<div class="dev-button"
 			 (click)="transactionSigned()">Sign transaction</div>
 </div>
 
+<div class="new-transaction-circle"
+		 [ngClass]="{ 'small': newTransactionToDock }"
+		 [ngStyle]="newTransactionCircleStyle">
+</div>
 <div class="new-transaction"
 		 [ngClass]="{ 'open': showNewTransaction }"
 		 [ngStyle]="newTransactionStyle">
@@ -22,7 +26,7 @@
 	</div>
 </div>
 
-<div class="recent-transactions">
+<div #_recentTransactions class="recent-transactions">
 	<div *ngFor="let transaction of recentTransactions"
 				class="transaction"
 				[ngClass]="{'processing': transaction.status == 'processing',

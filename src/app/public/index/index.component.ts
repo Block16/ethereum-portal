@@ -1,4 +1,4 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, ElementRef, EventEmitter, HostListener, OnInit, Output, ViewChild} from '@angular/core';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {DataShareService} from "../../core/data-share.service";
 import {LedgerService} from '../../core/ledger.service';
@@ -15,18 +15,25 @@ enum AuthState {
   styleUrls: ['./index.component.scss']
 })
 export class IndexComponent implements OnInit {
+  @ViewChild('_recentTransactions') _recentTransactions: ElementRef;
   public AuthState = AuthState;
   public currentAuth: AuthState;
   
   public recentTransactions = [];
   public newTransaction = {};
   
+  // document states
+  private windowHeight: number;
+  private windowWidth: number;
+  private windowMin: number;
+  private windowMax: number;
+  
   // UI states
-  public showNewTransaction: boolean = false;
   public showQR: boolean = false;
   
   // Styles
   public newTransactionStyle = {};
+  public newTransactionCircleStyle = {};
   
   @Output() ethereumAddressChange: EventEmitter<string> = new EventEmitter<string>();
   /*
@@ -45,6 +52,9 @@ export class IndexComponent implements OnInit {
   ) {
     // TODO: Update this off the bat if their MetaMask is unlocked
     this.ethereumAddress = '';
+    this.dataShareService.recentTransactions.subscribe((value: any) => {
+      this.recentTransactions = value;
+    });
   }
 
   trezorAuthState() {
@@ -57,7 +67,6 @@ export class IndexComponent implements OnInit {
   
   generateTransaction() {
     this.newTransaction = this.randomTransaction();
-    this.showNewTransaction = true;
   }
   
   randomTransaction() {
@@ -65,7 +74,8 @@ export class IndexComponent implements OnInit {
     var toAddress = addresses[Math.floor(Math.random()*addresses.length)];
     var fromAddress = addresses[Math.floor(Math.random()*addresses.length)];
     var statuses = ['processing', 'confirmed', 'failed'];
-    var status = statuses[Math.floor(Math.random()*statuses.length)]
+    // var status = statuses[Math.floor(Math.random()*statuses.length)]
+    var status = 'processing';
     var confirmations = 0;
     if (status == 'confirmed') {
       confirmations = Math.floor(Math.random() * 20);
@@ -84,10 +94,24 @@ export class IndexComponent implements OnInit {
     }
   }
   
+  showApproveNewTransaction() {
+    this.newTransaction = this.randomTransaction();
+    // size and positionnew transaction element
+    this.setNewTransactionViewFullscreen();
+    // this.setNewTransactionStyle();
+  }
+  
   transactionSigned() {
-    this.showNewTransaction = false;
-    this.recentTransactions.push(this.newTransaction);
-    this.dataShareService.recentTransactions.next(this.recentTransactions);
+    
+    this.setNewTransactionViewToDock();
+        
+    // setTimeout(() => {
+    //   this.recentTransactions.push(this.newTransaction);
+    //   this.dataShareService.recentTransactions.next(this.recentTransactions);
+    //   this.resetNewTransaction = true;
+    //   this.showNewTransaction = false;
+    //   this.setNewTransactionStyle();
+    // }, 500)
   }
   
   toggleAuthState(authState: AuthState) {
@@ -105,5 +129,75 @@ export class IndexComponent implements OnInit {
   ngOnInit() {
     this.recentTransactions.push(this.randomTransaction())
     this.dataShareService.recentTransactions.next(this.recentTransactions);
+    this.callibratePage();
+    this.resetNewTransactionView();
+  }
+  
+  fullTransactionViewCircleRadius() {
+    return Math.sqrt(Math.pow(this.windowMax / 2, 2) + Math.pow(this.windowMin / 2, 2));
+  }
+  
+  resetNewTransactionView() {
+    var r = this.fullTransactionViewCircleRadius();
+    var leftOffset = (r - this.windowWidth / 2) * -1;
+    var topOffset = (r + this.windowHeight / 2 + this.windowHeight);
+    var transactionTransform = 'translate(0px,' + this.windowHeight + 'px) scale(.15)';
+    var circleTransform = 'translate(' + leftOffset + 'px,' + topOffset + 'px) scale(.15)';
+    
+    this.newTransactionCircleStyle['transition'] = '0s';
+    this.newTransactionCircleStyle['width'] = (r * 2) + 'px';
+    this.newTransactionCircleStyle['height'] = (r * 2) + 'px';
+    
+    this.newTransactionStyle['transform'] = transactionTransform;
+    this.newTransactionCircleStyle['transform'] = circleTransform;
+  }
+  
+  setNewTransactionViewFullscreen() {
+    var r = this.fullTransactionViewCircleRadius();
+    var leftOffset = (r - this.windowWidth / 2) * -1;
+    var topOffset = (r - this.windowHeight / 2) * -1;
+    var transactionTransform = 'translate(0,0)';
+    var circleTransform = 'translate(' + leftOffset + 'px,' + topOffset + 'px) scale(1)';
+    
+    this.newTransactionCircleStyle['width'] = (r * 2) + 'px';
+    this.newTransactionCircleStyle['height'] = (r * 2) + 'px';
+    this.newTransactionCircleStyle['transition'] = '.5s';
+    
+    this.newTransactionStyle['opacity'] = '1';
+    this.newTransactionStyle['transform'] = transactionTransform;
+    this.newTransactionCircleStyle['transform'] = circleTransform;
+  }
+  
+  setNewTransactionViewToDock() {
+    
+    var transactionDotSize = '12.8px';
+    var transactionDotXOffset = '24px';
+    var marketingHeight = this._recentTransactions.nativeElement.offsetHeight;
+    var transactionYOffset = this._recentTransactions.nativeElement.offsetHeight + this._recentTransactions.nativeElement.offsetTop;
+    var transactionTransform = 'translate(' +transactionDotXOffset + ',' + transactionYOffset + 'px)';
+    this.newTransactionCircleStyle['transform'] = transactionTransform;
+    this.newTransactionCircleStyle['height'] = transactionDotSize;
+    this.newTransactionCircleStyle['width'] = transactionDotSize;
+    
+    this.newTransactionStyle['opacity'] = '0';
+    setTimeout(() => {
+      this.recentTransactions.push(this.newTransaction);
+      this.dataShareService.recentTransactions.next(this.recentTransactions);
+      this.resetNewTransactionView();
+    }, 500)
+  }
+  
+  callibratePage() {
+    this.windowHeight = window.innerHeight;
+    this.windowWidth = window.innerWidth;
+    this.windowMin = Math.min(this.windowWidth, this.windowHeight);
+    this.windowMax = Math.max(this.windowWidth, this.windowHeight);
+  }
+  
+  @HostListener('window:resize', ['$event'])
+  onResize(event) {
+    this.windowHeight = event.target.innerHeight;
+    this.windowWidth = event.target.innerWidth;
+    this.callibratePage();
   }
 }

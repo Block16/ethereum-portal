@@ -2,19 +2,24 @@
 @import '../../../assets/sass-imports/_mixins.scss';
 
 :host {
-	
+	position: fixed;
+	z-index: $sidebarZ;
 }
+
+$menuButtonZ: 3;
+$menuZ: 2;
+$overlayZ: 1;
 
 .menu-button {
 	position: fixed;
-	z-index: $sideDockZ;
+	z-index: $menuButtonZ;
 	top: 0;
 	left: 0;
 	width: $sideDockWidth;
 	@include no-select-pointer;
 }
 
-.symbol-box {
+.symbol-box { 
 	$lineThickness: 4px;
 	$transitionTime: .1s;
 	@include pass-through;
@@ -80,7 +85,7 @@
 
 .overlay {
 	position: fixed;
-	z-index: $sidebarOverlayZ;
+	z-index: $overlayZ;
 	background:hsla(0,0,0,.5);
 	@include no-select-pointer;
 	@include tblr;
@@ -94,7 +99,7 @@
 
 .sidebar {
 	position: fixed;
-	z-index: $sidebarZ;
+	z-index: $menuZ;
 	display: block;
 	top: 0;
 	left: -$sidebarWidth;

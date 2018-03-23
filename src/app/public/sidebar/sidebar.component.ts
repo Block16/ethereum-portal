@@ -34,7 +34,6 @@ export class SidebarComponent implements OnInit {
     private dataShareService: DataShareService) {
     this.dataShareService.recentTransactions.subscribe((value: any) => {
       this.recentTransactions = value;
-        console.log('recentTransactions: ', value); // => true/false
     });
     this.address = "";
   }
