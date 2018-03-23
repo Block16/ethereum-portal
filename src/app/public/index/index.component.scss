@@ -7,28 +7,51 @@
 	grid-template: auto / 1fr auto 1fr;
 }
 
-.side-dock {
+.recent-transactions {
 	position: fixed;
-	top: $defaultMargin * 2 + $menuButtonHeight;
+	width: $defaultMargin * 2 + $menuButtonWidth;
 	left: 0;
-	width: $sideDockWidth;
-	@include no-select-pointer;
-	.dock-transaction {
-		background: black;
-		border-radius: 99em;
-		margin: 0 auto $defaultMargin / 1.75;
-		height: $transactionDotSize;
-		width: $transactionDotSize;
-		&.confirmed { background: $green; }
-		&.failed { background: $red; }
-		&.processing { background: $yellow; }
+	top: $defaultMargin * 2 + $menuButtonHeight;
+	.transaction {
+		padding: 0 0 $defaultMargin / 1.4;
+		&:before {
+			content: '';
+			display: block;
+			opacity: 1;
+			width: $transactionDotSize;
+			height: $transactionDotSize;
+			background: gray;
+			margin: 0 auto;
+			border-radius: 99em;
+		}
+		&.confirmed {
+			&:before {
+				background: $green;
+			}
+		}
+		&.failed {
+			&:before {
+				background: $red;
+			}
+		}
+		&.processing {
+			&:before {
+				background: $yellow;
+				animation: pulse 1s alternate infinite;
+				@keyframes pulse {
+					to {
+						opacity: 0;
+					}
+				}
+			}
+		}
 	}
 }
 
 .dev-buttons {
 	position: fixed;
 	z-index: 99;
-	left: 0;
+	right: 0;
 	bottom: 0;
 	width: $defaultMargin * 2 + $menuButtonWidth;
 	padding: 0 0 $defaultMargin / 2 0;
@@ -62,24 +85,39 @@
 	mix-blend-mode: multiply;
 }
 
+$newTransactionTransformTime: .25s;
+.new-transaction-circle {
+	z-index: $newTransactionCircleZ;
+	position: fixed;
+	z-index: 1;
+	border-radius: 99em;
+	background: $yellow;
+	transform: translate(0, 0);
+	transition: .5s;
+	&.small {
+		height: $transactionDotSize;
+		width: $transactionDotSize;
+	}
+}
 .new-transaction {
-	@include tblr;
-	@include pass-through;
-	opacity: 0;
+	// opacity: 0;
 	position: fixed;
 	z-index: $newTransactionZ;
 	display: flex;
 	justify-content: center;
 	overflow: auto;
-	background: $yellow;
-	transition: .25s;
+	transform: translate(0, 0);
+	transition: all .5s, opacity .1s;
+	box-sizing: border-box;
+	@include tblr;
 	&.open {
-		opacity: 1;
-		@include no-pass-through;
+		
 	}
 	.content {
+		position: relative;
+		z-index: 2;
 		max-width: 40em;
-		margin: auto $defaultMargin;
+		margin: auto $defaultMargin auto ($defaultMargin * 2 + $menuButtonWidth);
 	}
 }
 

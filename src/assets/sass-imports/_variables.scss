@@ -18,6 +18,7 @@ $SB: 'ScalaBold';
 $defaultMargin: 20px;
 
 // sizing
+$desktopBreakPoint: 800px;
 $sidebarWidth: 24em;
 $menuButtonWidth: $defaultMargin;
 $menuButtonHeight: 24px;
@@ -40,7 +41,8 @@ $defaultTransitionTime: .05s;
 
 //// Z-indexes
 // Index page
-$newTransactionZ: 5;
+$sidebarZ: 8;
+$sidebarOverlayZ: 7;
+$newTransactionZ: 6;
+$newTransactionCircleZ: 5;
 $sideDockZ: 4;
-$sidebarZ: 3;
-$sidebarOverlayZ: 3;

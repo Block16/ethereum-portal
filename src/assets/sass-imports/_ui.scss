@@ -29,20 +29,74 @@ input[type="text"] {
 	}
 }
 
-.toggle-switch {
-	$switchHeight: 1em;
+input[type=checkbox] {
+	$switchHeight: 1.5em;
 	$switchWidth: 3em;
+	$knobHeight: $switchHeight;
+	$knobWidth: $switchHeight;
+	visibility: hidden;
+	& + label {
+		position: relative;
+		height: $switchHeight;
+		width: $switchWidth;
+		background: hsla(0,0,0,.1);
+		border-radius: 99em;
+		@include no-select-pointer;
+		&:before {
+			content: '';
+			display: block;
+			position: absolute;
+			left: 0;
+			height: $switchHeight;
+			width: $switchHeight;
+			background: black;
+			border-radius: 99em;
+			transition: left $defaultTransitionTime * 2;
+		}
+		&:hover {
+			background: hsla(0,0,0,.2);
+		}
+	}
+	&:checked + label {
+		background: hsla(0,0,0,.4);
+		&:before {
+			left: $switchWidth - $knobWidth;
+		}
+	}
+}
+
+.toggle-switch {
+}
+
+.toggle-switch {
+	$switchHeight: 1.5em;
+	$switchWidth: 3em;
+	$knobHeight: $switchHeight;
+	$knobWidth: $switchHeight;
+	position: relative;
 	height: $switchHeight;
 	width: $switchWidth;
 	background: hsla(0,0,0,.1);
 	border-radius: 99em;
+	@include no-select-pointer;
 	&:before {
 		content: '';
+		display: block;
+		position: absolute;
+		left: 0;
 		height: $switchHeight;
 		width: $switchHeight;
 		background: black;
+		border-radius: 99em;
+		transition: left $defaultTransitionTime * 2;
 	}
-	&:checked {
-		
+	&:hover {
+		background: hsla(0,0,0,.2);
+	}
+	&.on {
+		background: hsla(0,0,0,.4);
+		&:before {
+			left: $switchWidth - $knobWidth;
+		}
 	}
 }

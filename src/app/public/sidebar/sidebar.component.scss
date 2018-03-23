@@ -2,20 +2,24 @@
 @import '../../../assets/sass-imports/_mixins.scss';
 
 :host {
-	
+	position: fixed;
+	z-index: $sidebarZ;
 }
+
+$menuButtonZ: 3;
+$menuZ: 2;
+$overlayZ: 1;
 
 .menu-button {
 	position: fixed;
-	z-index: $sideDockZ;
+	z-index: $menuButtonZ;
 	top: 0;
 	left: 0;
 	width: $sideDockWidth;
-	border-top: 1px solid gray;
 	@include no-select-pointer;
 }
 
-.symbol-box {
+.symbol-box { 
 	$lineThickness: 4px;
 	$transitionTime: .1s;
 	@include pass-through;
@@ -81,7 +85,7 @@
 
 .overlay {
 	position: fixed;
-	z-index: $sidebarOverlayZ;
+	z-index: $overlayZ;
 	background:hsla(0,0,0,.5);
 	@include no-select-pointer;
 	@include tblr;
@@ -95,7 +99,7 @@
 
 .sidebar {
 	position: fixed;
-	z-index: $sidebarZ;
+	z-index: $menuZ;
 	display: block;
 	top: 0;
 	left: -$sidebarWidth;
@@ -123,6 +127,9 @@
 	}
 	&.open {
 		left: 0;
+		@media (max-width: $desktopBreakPoint) {
+			width: 100%;
+		}
 	}
 }
 
@@ -173,14 +180,15 @@
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	padding: $defaultMargin / 2 0;
+	padding: $defaultMargin / 2 $defaultMargin;
+	margin: 0 $defaultMargin * -1;
+	&:hover {
+		background: hsla(0,0,0,.05);
+	}
 	span {
 		opacity: .5;
 		font-size: $captionFontSize;
 	}
 	@include no-select-pointer;
-	input {
-		@include no-select-pointer;
-	}
 }
 

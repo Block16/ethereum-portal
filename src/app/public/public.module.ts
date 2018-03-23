@@ -22,6 +22,9 @@ import { FormsModule } from '@angular/forms';
     LayoutComponent,
     SidebarComponent,
     IndexComponent
+  ],
+  providers: [
+    IndexComponent
   ]
 })
 export class PublicModule { }
