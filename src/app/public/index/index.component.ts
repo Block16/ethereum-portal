@@ -22,14 +22,16 @@ export class IndexComponent implements OnInit {
   public recentTransactions = [];
   public newTransaction = {};
   
-  // document states
+  // Document states
   private windowHeight: number;
   private windowWidth: number;
   private windowMin: number;
   private windowMax: number;
   
-  // UI states
+  //// UI states
   public showQR: boolean = false;
+  // Modal states
+  private showTestModal = false;
   
   // Styles
   public newTransactionStyle = {};

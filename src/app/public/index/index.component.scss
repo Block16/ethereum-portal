@@ -110,9 +110,6 @@ $newTransactionTransformTime: .25s;
 	transition: all .5s, opacity .1s;
 	box-sizing: border-box;
 	@include tblr;
-	&.open {
-		
-	}
 	.content {
 		position: relative;
 		z-index: 2;

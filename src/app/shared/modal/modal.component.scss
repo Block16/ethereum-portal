@@ -1,0 +1,62 @@
+@import '../../../assets/sass-imports/_variables.scss';
+@import '../../../assets/sass-imports/_mixins.scss';
+@import '../../public/sidebar/sidebar.component.scss';
+
+$modalOverlayZ: 1;
+$modalModalZ: 2;
+
+// :host {
+// 	position: fixed;
+// 	z-index: $modalZ;
+// 	display: flex;
+// 	justify-content: center;
+// 	align-items: center;
+// 	overflow: auto;
+// 	@include tblr;
+// }
+
+.overlay {
+	position: fixed;
+	z-index: $modalOverlayZ;
+	background: $overlayColor;
+	cursor: pointer;
+	@include tblr;
+}
+
+.modal-container {
+	position: fixed;
+	z-index: $modalModalZ;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	overflow: auto;
+	@include tblr;
+	@include pass-through;
+}
+
+.modal {
+	cursor: pointer;
+	position: relative;
+	background: $backgroundColor;
+	margin: auto 0;
+	max-width: $modalMaxWidth;
+	width: 100%;
+	@include no-pass-through;
+}
+
+.modal-top {
+	display: grid;
+	grid-template-rows: auto;
+	grid-template-columns: [x] $sideDockWidth [title] 1fr;
+	.x {
+		cursor: pointer;
+		@include flex-center;
+	}
+	.modal-title {
+		
+	}
+}
+
+.modal-content {
+	padding-left: $sideDockWidth;
+}

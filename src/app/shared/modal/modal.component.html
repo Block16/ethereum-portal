@@ -1,0 +1,25 @@
+<div class="overlay"
+		 *ngIf="visible"
+		 (click)="visible = close()">
+</div>
+<div class="modal-container">
+	<div class="modal"
+			 *ngIf="visible"
+			 [ngStyle]="{'max-width': maxWidth}">
+		<div class="modal-top">
+			<div class="model-close"
+					 (click)="close()">
+				<div class="symbol-box x"><div class="symbol"></div></div>
+			</div>
+			<div class="modal-title">
+				<h1 class="h1Border"
+						*ngIf="title">{{title}}</h1>
+			</div>
+		</div>
+		<div class="modal-content"
+			 [ngClass]="{'modal-padding': padding}"
+			 [ngStyle]="{'max-width': maxWidth}">
+			<ng-content></ng-content>
+		</div>
+	</div>
+</div>

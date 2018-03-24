@@ -19,7 +19,7 @@ $overlayZ: 1;
 	@include no-select-pointer;
 }
 
-.symbol-box { 
+.symbol-box {
 	$lineThickness: 4px;
 	$transitionTime: .1s;
 	@include pass-through;
@@ -27,10 +27,8 @@ $overlayZ: 1;
 	height: $menuButtonHeight;
 	width: $menuButtonWidth;
 	margin: $defaultMargin;
-	padding: 0;
 	box-sizing: content-box;
 	background: transparent;
-	// border: 1px solid blue;
 	overflow: hidden;
 	.symbol {
 		position: absolute;
@@ -39,12 +37,10 @@ $overlayZ: 1;
 		height: $lineThickness;
 		top: $menuButtonHeight / 2 - $lineThickness / 2;
 		left: -$menuButtonWidth / 2;
-		// opacity: .5;
 		transform: rotate(0deg);
 		transition: transform $transitionTime,
 								top $transitionTime;
 		&:before {
-			// background: green;
 			background: black;
 			top: -$menuButtonHeight / 2 + $lineThickness / 2;
 			transition: transform $transitionTime,
@@ -52,7 +48,6 @@ $overlayZ: 1;
 									opacity $transitionTime / 2;
 		}
 		&:after {
-			// background: red;
 			background: black;
 			bottom: -$menuButtonHeight / 2 + $lineThickness / 2;
 			transition: transform $transitionTime,
@@ -86,7 +81,7 @@ $overlayZ: 1;
 .overlay {
 	position: fixed;
 	z-index: $overlayZ;
-	background:hsla(0,0,0,.5);
+	background: $overlayColor;
 	@include no-select-pointer;
 	@include tblr;
 	animation: overlay-in .1s;
