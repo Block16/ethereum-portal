@@ -30,6 +30,7 @@ export class IndexComponent implements OnInit {
   
   //// UI states
   public showQR: boolean = false;
+  public showNonRecommended: boolean = false;
   // Modal states
   private showTestModal = false;
   
@@ -164,14 +165,13 @@ export class IndexComponent implements OnInit {
     this.newTransactionCircleStyle['width'] = (r * 2) + 'px';
     this.newTransactionCircleStyle['height'] = (r * 2) + 'px';
     this.newTransactionCircleStyle['transition'] = '.5s';
+    this.newTransactionCircleStyle['transform'] = circleTransform;
     
     this.newTransactionStyle['opacity'] = '1';
     this.newTransactionStyle['transform'] = transactionTransform;
-    this.newTransactionCircleStyle['transform'] = circleTransform;
   }
   
   setNewTransactionViewToDock() {
-    
     var transactionDotSize = '12.8px';
     var transactionDotXOffset = '24px';
     var marketingHeight = this._recentTransactions.nativeElement.offsetHeight;
@@ -182,6 +182,7 @@ export class IndexComponent implements OnInit {
     this.newTransactionCircleStyle['width'] = transactionDotSize;
     
     this.newTransactionStyle['opacity'] = '0';
+    
     setTimeout(() => {
       this.recentTransactions.push(this.newTransaction);
       this.dataShareService.recentTransactions.next(this.recentTransactions);

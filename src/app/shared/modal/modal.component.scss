@@ -35,7 +35,6 @@ $modalModalZ: 2;
 }
 
 .modal {
-	cursor: pointer;
 	position: relative;
 	background: $backgroundColor;
 	margin: auto 0;
@@ -48,9 +47,8 @@ $modalModalZ: 2;
 	display: grid;
 	grid-template-rows: auto;
 	grid-template-columns: [x] $sideDockWidth [title] 1fr;
-	.x {
+	.modal-close {
 		cursor: pointer;
-		@include flex-center;
 	}
 	.modal-title {
 		

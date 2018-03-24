@@ -2,9 +2,9 @@
 		 *ngIf="visible"
 		 (click)="visible = close()">
 </div>
-<div class="modal-container">
+<div class="modal-container"
+		 *ngIf="visible">
 	<div class="modal"
-			 *ngIf="visible"
 			 [ngStyle]="{'max-width': maxWidth}">
 		<div class="modal-top">
 			<div class="model-close"
