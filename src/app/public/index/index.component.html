@@ -36,8 +36,8 @@
 							 <span>{{ fileUploadText }}</span>
 			</button>
 		</section>
-		<h3 class="top-border section-toggle"
-				[ngClass]="{ 'open': showQR }"
+		<h3 class="section-toggle top-border"
+				[ngClass]="{ 'open': showNonRecommended }"
 				(click)="showNonRecommended = !showNonRecommended">Non-recommended methods</h3>
 		<section *ngIf="showNonRecommended"
 						 class="section-content">
@@ -77,7 +77,7 @@
 					<div class="caption">UKG</div>
 					<p class="lining-proportional">5,123</p>
 				</div>
-				<h3 class="top-border section-toggle no-bottom-margin"
+				<h3 class="section-toggle no-bottom-margin"
 						[ngClass]="{ 'open': showQR }"
 						(click)="showQR = !showQR">QR</h3>
 				<section class="section-content"
@@ -98,26 +98,6 @@
 								 id="text-amount"
 								 class="wide"><br><br>
 					<button class="button">Generate transaction</button><br>
-					<button class="button auth-button"
-									ngClass="{ 'active': currentAuth == AuthState.trezor }" (click)="trezorAuthState()">
-						<img src="/assets/img/icons/trezor icon.svg"
-								 class="icon">
-					</button>
-					<button class="button auth-button"
-									ngClass="{ 'active': currentAuth == AuthState.bitbox }" (click)="toggleAuthState(AuthState.bitbox)">
-						<img src="/assets/img/icons/digital bitbox icon.svg"
-								 class="icon">
-					</button>
-					<button class="button auth-button"
-									ngClass="{ 'active': currentAuth == AuthState.ledger }" (click)="toggleAuthState(AuthState.ledger)">
-						<img src="/assets/img/icons/ledger icon.svg"
-								 class="icon">
-					</button>
-					<button class="button auth-button"
-									ngClass="{ 'active': currentAuth == AuthState.metamask }" (click)="toggleAuthState(AuthState.metamask)">
-						<img src="/assets/img/icons/metamask icon.svg"
-								 class="icon">
-					</button>
 				</section>
 			</div>
 			<div class="grid-cell">
