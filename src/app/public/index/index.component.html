@@ -35,6 +35,9 @@
 							 (change)="utcInputChange($event)">
 							 <span>{{ fileUploadText }}</span>
 			</button>
+			<br><br>
+			<button class="button"
+							(click)="showTestModal = !showTestModal">show test modal</button>
 		</section>
 		<h3 class="section-toggle top-border"
 				[ngClass]="{ 'open': showNonRecommended }"
@@ -59,25 +62,13 @@
 				<p class="lining-proportional">0x343f2EdA84CEAf92ba0408eE6bE290a2d2d295E4</p>
 				<div class="caption">ETH</div>
 				<p class="lining-proportional">7.2385</p>
-				<div class="tokens">
-					<div class="caption">UKG</div>
-					<p class="lining-proportional">5,123</p>
-					<div class="caption">UKG</div>
-					<p class="lining-proportional">5,123</p>
-					<div class="caption">UKG</div>
-					<p class="lining-proportional">5,123</p>
-					<div class="caption">UKG</div>
-					<p class="lining-proportional">5,123</p>
-					<div class="caption">UKG</div>
-					<p class="lining-proportional">5,123</p>
-					<div class="caption">UKG</div>
-					<p class="lining-proportional">5,123</p>
-					<div class="caption">UKG</div>
-					<p class="lining-proportional">5,123</p>
-					<div class="caption">UKG</div>
-					<p class="lining-proportional">5,123</p>
+				<div class="tokens bottom-margin">
+					<div *ngFor="let token of assets['tokens']; let i = index">
+						<div class="caption">{{ assets['tokens'][i].name }}</div>
+						<p class="lining-proportional">{{ assets['tokens'][i].amount }}</p>
+					</div>
 				</div>
-				<h3 class="section-toggle no-bottom-margin"
+				<h3 class="section-toggle top-border no-bottom-margin"
 						[ngClass]="{ 'open': showQR }"
 						(click)="showQR = !showQR">QR</h3>
 				<section class="section-content"
@@ -92,11 +83,29 @@
 					<label for="text-to-address" class="caption form-label">To <span class="fade">Ethereum address</span></label>
 					<input type="text"
 								 id="text-to-address"
+							   [(ngModel)]="sendAddress"
 								 class="wide"><br><br>
 					<label for="text-amount" class="caption form-label">Amount</label>
-					<input type="text"
-								 id="text-amount"
-								 class="wide"><br><br>
+					<div class="text-input-plus">
+						<input type="text"
+									 id="text-amount"
+									 [(ngModel)]="sendAmount"
+									 class="wide">
+						<div class="max-button"
+								 [ngClass]="{ 'on': sendMax }"
+								 (click)="clickMaxButton()">Max</div>
+						<div class="custom-select">
+							<div class="select-overlay">
+								<span>{{ sendAssetName(sendAsset) }}</span>
+							</div>
+							<select name="" id=""
+										  [(ngModel)]="sendAsset"
+										  (change)="changeSendAsset()">
+								<option value="-1">ETH</option>
+								<option *ngFor="let token of assets['tokens']; let i = index" value="{{i}}">{{ assets['tokens'][i].name }}</option>
+							</select>
+						</div>
+					</div><br>
 					<button class="button">Generate transaction</button><br>
 				</section>
 			</div>

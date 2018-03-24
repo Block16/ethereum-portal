@@ -18,9 +18,7 @@ export class IndexComponent implements OnInit {
   @ViewChild('_recentTransactions') _recentTransactions: ElementRef;
   public AuthState = AuthState;
   public currentAuth: AuthState;
-  
-  public recentTransactions = [];
-  public newTransaction = {};
+  public authed = true;
   
   // Document states
   private windowHeight: number;
@@ -31,10 +29,33 @@ export class IndexComponent implements OnInit {
   //// UI states
   public showQR: boolean = false;
   public showNonRecommended: boolean = false;
+  // Form states
+  public sendAddress: string;
+  public sendAmount: number;
+  public sendAsset = -1;
+  public sendMax: boolean = false;
   // Modal states
   private fileUploadText: string = 'Upload UTC file';
   private showTestModal: boolean = false;
   private showUTCPasswordModal: boolean = false;
+  // User info
+  public recentTransactions = [];
+  public newTransaction = {};
+  public assets = {
+    'ETH': 7.52563325,
+    'tokens': [
+      { 'name': 'SPHTX',
+        'amount': 85671.342 },
+      { 'name': 'THETA',
+        'amount': 123124.52134 },
+      { 'name': 'CS',
+        'amount': 1231 },
+      { 'name': 'MAN',
+        'amount': 12453636456.44 },
+      { 'name': 'UKG',
+        'amount': .04 }
+    ]
+  }
   
   // Styles
   public newTransactionStyle = {};
@@ -129,6 +150,30 @@ export class IndexComponent implements OnInit {
 
   toggleMenu() {
 
+  }
+  
+  clickMaxButton() {
+    this.sendMax = !this.sendMax;
+    if (this.sendMax) {
+      this.sendAsset == -1 ?
+      this.sendAmount = this.assets['ETH']:
+      this.sendAmount = this.assets['tokens'][this.sendAsset]['amount'];
+    } else if (!this.sendMax) {
+      this.sendAmount = null;
+    }
+  }
+  
+  sendAssetName(assetIndex) {
+    let assetName = '';
+    assetIndex == -1 ?
+      assetName = 'ETH' :
+      assetName = this.assets['tokens'][assetIndex]['name'];
+    return assetName;
+  }
+  
+  changeSendAsset() {
+    this.sendMax = false;
+    this.sendAmount = null;
   }
 
   ngOnInit() {

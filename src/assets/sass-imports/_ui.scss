@@ -68,6 +68,7 @@ input[type="text"], input[type="password"] {
 }
 
 .text-input-plus {
+	position: relative;
 	display: flex;
 	justify-content: space-between;
 	input[type="text"] {
@@ -145,4 +146,71 @@ input[type=checkbox] {
 			left: $switchWidth - $knobWidth;
 		}
 	}
+}
+
+$selectWidth: 6em;
+$maxButtonHeight: $inputHeight * .7;
+$maxButtonMargin: ($inputHeight - $maxButtonHeight) / 2;
+.max-button {
+	$color: hsla(0,0,0,.3);
+	position: absolute;
+	opacity: .5;
+	height: $maxButtonHeight;
+	top: $maxButtonMargin;
+	right: $selectWidth + $maxButtonMargin;
+	border: 1px solid $color;
+	box-sizing: border-box;
+	font-family: $FB2;
+	text-transform: uppercase;
+	border-radius: 4px;
+	color: hsla(0,0,0,.4);
+	padding: 0 .5em;
+	@include flex-center;
+	@include no-select-pointer;
+	&:hover {
+		opacity: .8;
+	}
+	&.on {
+		opacity: 1;
+		border: none;
+		background: $color;
+		color: $backgroundColor;
+	}
+}
+.custom-select {
+	height: $inputHeight;
+	width: $selectWidth;
+	position: relative;
+	z-index: 1;
+	overflow: hidden;
+	cursor: pointer;
+	background: url('assets/img/icons/select arrow.svg') right .7em top .8em / .5em no-repeat,
+							hsla(0,0,0,.2);
+	.select-overlay {
+		display: grid;
+		grid-template-columns: 1fr 1em;
+		z-index: 2;
+		color: black;
+		@include posa-tblr;
+		@include pass-through;
+		span {
+			font: 1em $FB2;
+			@include flex-center;
+		}
+	}
+	select {
+		width: $selectWidth + 1em;
+		background: transparent;
+		border-radius: 0;
+		outline: none;
+		color: transparent;
+		border: none;
+		cursor: pointer;
+		height: $inputHeight;
+		font: 1em $FB2;
+	}
+}
+
+.bottom-margin {
+	margin-bottom: $defaultMargin;
 }
