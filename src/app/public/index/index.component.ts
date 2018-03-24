@@ -32,7 +32,9 @@ export class IndexComponent implements OnInit {
   public showQR: boolean = false;
   public showNonRecommended: boolean = false;
   // Modal states
-  private showTestModal = false;
+  private fileUploadText: string = 'Upload UTC file';
+  private showTestModal: boolean = false;
+  private showUTCPasswordModal: boolean = false;
   
   // Styles
   public newTransactionStyle = {};
@@ -188,6 +190,11 @@ export class IndexComponent implements OnInit {
       this.dataShareService.recentTransactions.next(this.recentTransactions);
       this.resetNewTransactionView();
     }, 500)
+  }
+  
+  utcInputChange(event: Event) {
+    this.fileUploadText = event.target.files[0].name;
+    this.showUTCPasswordModal = true;
   }
   
   callibratePage() {

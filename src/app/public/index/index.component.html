@@ -4,24 +4,49 @@
 		<h1 class="top-border head1 type2">Ethereum Portal</h1>
 		
 		<h2 class="top-border">Auth methods</h2>
-		<h3 class="fade">MetaMask and Ledger are recognized automatically.</h3>
-		<button class="button" (click)="authed = true">FAKE AUTH</button><br><br>
-		<button class="button"><img src="/assets/img/icons/metamask icon.svg" class="icon">MetaMask</button><br><br>
-		<button class="button"><img src="/assets/img/icons/trezor icon.svg" class="icon">Trezor</button><br><br>
-		<button class="button"><img src="/assets/img/icons/ledger icon.svg" class="icon">Ledger</button><br><br>
-		<button class="button"><img src="/assets/img/icons/digital bitbox icon.svg" class="icon">Digital Bitbox</button>
-		<br><br>
-		
-		<label for="#utc-upload" class="caption">UTC file</label>
-		<input type="file" id="utc-upload"><button class="button">Submit</button><br><br>
-		
-		<h3 class="top-border section-toggle no-bottom-margin"
+		<section class="section-content">
+			<h3 class="fade">MetaMask and Ledger are recognized automatically.</h3>
+			<button class="button" (click)="authed = true">FAKE AUTH</button><br><br>
+			<button class="button auth-button"
+							(click)="trezorAuthState()">
+				<img src="/assets/img/icons/trezor icon.svg"
+						 class="icon">
+			</button>
+			<button class="button auth-button"
+							(click)="toggleAuthState(AuthState.bitbox)">
+				<img src="/assets/img/icons/digital bitbox icon.svg"
+						 class="icon">
+			</button>
+			<button class="button auth-button"
+							(click)="toggleAuthState(AuthState.ledger)">
+				<img src="/assets/img/icons/ledger icon.svg"
+						 class="icon">
+			</button>
+			<button class="button auth-button"
+							(click)="toggleAuthState(AuthState.metamask)">
+				<img src="/assets/img/icons/metamask icon.svg"
+						 class="icon">
+			</button>
+			<br><br>
+			
+			<button class="button file-upload">
+				<input type="file"
+							 id="utc-upload"
+							 (change)="utcInputChange($event)">
+							 <span>{{ fileUploadText }}</span>
+			</button>
+		</section>
+		<h3 class="top-border section-toggle"
 				[ngClass]="{ 'open': showQR }"
 				(click)="showNonRecommended = !showNonRecommended">Non-recommended methods</h3>
-		<section *ngIf="showNonRecommended">
-			<label for="private-key" class="caption">Raw private key</label>
-			<input type="text"  id="private key">
-			<button class="button">Submit</button>
+		<section *ngIf="showNonRecommended"
+						 class="section-content">
+			<label for="private-key" class="caption form-label">Raw private key</label>
+			<div class="text-input-plus">
+				<input type="text"  id="private-key">
+				<button class="button"
+								[ngClass]="{ 'disabled': !privateKeyIsValid }">Submit</button>
+			</div>
 		</section>
 	</div>
 	
@@ -55,51 +80,59 @@
 				<h3 class="top-border section-toggle no-bottom-margin"
 						[ngClass]="{ 'open': showQR }"
 						(click)="showQR = !showQR">QR</h3>
-				<img src="assets/img/QR dummy.png"
-						 *ngIf="showQR"
-						 class="qr">
+				<section class="section-content"
+								 *ngIf="showQR">
+					<img src="assets/img/QR dummy.png"
+							 class="qr">
+				</section>
 			</div>
 			<div class="grid-cell">
 				<h2 class="top-border head2 type2">Send</h2>
-				<label for="text-to-address" class="caption">To <span class="fade">Ethereum address</span></label>
-				<input type="text"
-							 id="text-to-address"
-							 class="wide"><br><br>
-				<label for="text-amount" class="caption">Amount</label>
-				<input type="text"
-							 id="text-amount"
-							 class="wide"><br><br>
-				<button class="button">Generate transaction</button><br>
-				<button class="auth-button"
-								ngClass="{ 'active': currentAuth == AuthState.trezor }" (click)="trezorAuthState()">
-					<img src="/assets/img/icons/trezor icon.svg"
-							 class="icon">
-				</button>
-				<button class="auth-button"
-								ngClass="{ 'active': currentAuth == AuthState.bitbox }" (click)="toggleAuthState(AuthState.bitbox)">
-					<img src="/assets/img/icons/digital bitbox icon.svg"
-							 class="icon">
-				</button>
-				<button class="auth-button"
-								ngClass="{ 'active': currentAuth == AuthState.ledger }" (click)="toggleAuthState(AuthState.ledger)">
-					<img src="/assets/img/icons/ledger icon.svg"
-							 class="icon">
-				</button>
-				<button class="auth-button"
-								ngClass="{ 'active': currentAuth == AuthState.metamask }" (click)="toggleAuthState(AuthState.metamask)">
-					<img src="/assets/img/icons/metamask icon.svg"
-							 class="icon">
-				</button>
+				<section class="section-content">
+					<label for="text-to-address" class="caption form-label">To <span class="fade">Ethereum address</span></label>
+					<input type="text"
+								 id="text-to-address"
+								 class="wide"><br><br>
+					<label for="text-amount" class="caption form-label">Amount</label>
+					<input type="text"
+								 id="text-amount"
+								 class="wide"><br><br>
+					<button class="button">Generate transaction</button><br>
+					<button class="button auth-button"
+									ngClass="{ 'active': currentAuth == AuthState.trezor }" (click)="trezorAuthState()">
+						<img src="/assets/img/icons/trezor icon.svg"
+								 class="icon">
+					</button>
+					<button class="button auth-button"
+									ngClass="{ 'active': currentAuth == AuthState.bitbox }" (click)="toggleAuthState(AuthState.bitbox)">
+						<img src="/assets/img/icons/digital bitbox icon.svg"
+								 class="icon">
+					</button>
+					<button class="button auth-button"
+									ngClass="{ 'active': currentAuth == AuthState.ledger }" (click)="toggleAuthState(AuthState.ledger)">
+						<img src="/assets/img/icons/ledger icon.svg"
+								 class="icon">
+					</button>
+					<button class="button auth-button"
+									ngClass="{ 'active': currentAuth == AuthState.metamask }" (click)="toggleAuthState(AuthState.metamask)">
+						<img src="/assets/img/icons/metamask icon.svg"
+								 class="icon">
+					</button>
+				</section>
 			</div>
 			<div class="grid-cell">
 				<h2 class="top-border head2 type2">History</h2>
-				<p>Is a non-negative value relative to the inline size of the grid container. If the size of the grid container depends on the size of its tracks, then the percentage must be treated as auto. The intrinsic size contributions of the track may be adjusted to the size of the grid container and increase the final size of the track by the minimum amount that would result in honoring the percentage.</p>
+				<section class="section-content">
+					<p>Is a non-negative value relative to the inline size of the grid container. If the size of the grid container depends on the size of its tracks, then the percentage must be treated as auto. The intrinsic size contributions of the track may be adjusted to the size of the grid container and increase the final size of the track by the minimum amount that would result in honoring the percentage.</p>
+				</section>
 			</div>
 			<div class="grid-cell">
 				<h2 class="top-border head2 type2">Something else</h2>
-				<button class="button"
-								(click)="showTestModal = !showTestModal">show test modal</button>
-				<p>Donec dapibus lobortis hendrerit. Fusce consectetur gravida odio sed tincidunt. Integer pretium finibus nulla non tincidunt. Duis pretium libero eu lectus condimentum, at tincidunt ex aliquet. Cras pharetra libero ac est fringilla, nec feugiat felis malesuada. Nulla egestas fermentum purus. Sed quam nisl, malesuada a dui quis, dictum hendrerit erat. Quisque malesuada ac nunc in feugiat. Morbi velit dolor, viverra ac libero eget, tempus malesuada sapien. Curabitur volutpat, ex sit amet ornare varius, purus libero aliquet arcu, posuere porta quam libero eu ipsum. Vivamus ac tristique ex, ac viverra massa. In finibus arcu at erat sollicitudin, lobortis fringilla justo lacinia. Quisque pulvinar quam purus, vel porttitor diam tempor vitae. In aliquam ultrices augue, at vulputate lacus blandit interdum. Quisque ut mollis lorem. Maecenas pretium tempor sem quis consectetur. Aliquam dapibus, urna sed pellentesque posuere, ipsum lectus malesuada risus, ut hendrerit lorem lacus in ex. Fusce luctus hendrerit convallis. Praesent quis augue sit amet nulla ullamcorper finibus. Morbi quis magna tempus est pulvinar euismod at id risus. Nulla vehicula scelerisque dui ut ullamcorper. Integer faucibus ac nulla id sollicitudin. Nunc tristique, massa nec facilisis sollicitudin, ante metus ullamcorper eros, eget rutrum nunc elit sit amet sapien. Ut commodo congue turpis, id maximus eros. Ut pretium aliquet quam quis feugiat. Nam eget tincidunt mi. Donec bibendum, dui at mattis suscipit, libero ex cursus ipsum, sit amet cursus urna metus quis ligula. In ac facilisis libero. Quisque finibus eros eu risus fringilla rhoncus. Fusce id diam ultricies, consectetur dui a, feugiat metus. Praesent fringilla, dolor quis posuere porttitor, ante urna laoreet elit, in venenatis libero metus nec massa. Sed ut eleifend est, ut bibendum massa. Nam venenatis magna eget justo euismod venenatis.</p>
+				<section class="section-content">
+					<button class="button"
+									(click)="showTestModal = !showTestModal">show test modal</button>
+					<p>Donec dapibus lobortis hendrerit. Fusce consectetur gravida odio sed tincidunt. Integer pretium finibus nulla non tincidunt. Duis pretium libero eu lectus condimentum, at tincidunt ex aliquet. Cras pharetra libero ac est fringilla, nec feugiat felis malesuada. Nulla egestas fermentum purus. Sed quam nisl, malesuada a dui quis, dictum hendrerit erat. Quisque malesuada ac nunc in feugiat. Morbi velit dolor, viverra ac libero eget, tempus malesuada sapien. Curabitur volutpat, ex sit amet ornare varius, purus libero aliquet arcu, posuere porta quam libero eu ipsum. Vivamus ac tristique ex, ac viverra massa. In finibus arcu at erat sollicitudin, lobortis fringilla justo lacinia. Quisque pulvinar quam purus, vel porttitor diam tempor vitae. In aliquam ultrices augue, at vulputate lacus blandit interdum. Quisque ut mollis lorem. Maecenas pretium tempor sem quis consectetur. Aliquam dapibus, urna sed pellentesque posuere, ipsum lectus malesuada risus, ut hendrerit lorem lacus in ex. Fusce luctus hendrerit convallis. Praesent quis augue sit amet nulla ullamcorper finibus. Morbi quis magna tempus est pulvinar euismod at id risus. Nulla vehicula scelerisque dui ut ullamcorper. Integer faucibus ac nulla id sollicitudin. Nunc tristique, massa nec facilisis sollicitudin, ante metus ullamcorper eros, eget rutrum nunc elit sit amet sapien. Ut commodo congue turpis, id maximus eros. Ut pretium aliquet quam quis feugiat. Nam eget tincidunt mi. Donec bibendum, dui at mattis suscipit, libero ex cursus ipsum, sit amet cursus urna metus quis ligula. In ac facilisis libero. Quisque finibus eros eu risus fringilla rhoncus. Fusce id diam ultricies, consectetur dui a, feugiat metus. Praesent fringilla, dolor quis posuere porttitor, ante urna laoreet elit, in venenatis libero metus nec massa. Sed ut eleifend est, ut bibendum massa. Nam venenatis magna eget justo euismod venenatis.</p>
+				</section>
 			</div>
 		</div>
 	</div>
@@ -113,15 +146,17 @@
 		 [ngStyle]="newTransactionStyle">
 	<div class="content">
 		<h1 class="top-border">Approve transaction</h1>
-		<h3 class="type2">Transaction will send immediately after approval on your [auth method]</h3>
-		<span class="caption">To</span><br>
-		<p class="lining-proportional">{{newTransaction.toAddress}}</p>
-		<span class="caption">From</span><br>
-		<p class="lining-proportional">{{newTransaction.fromAddress}}</p>
-		<span class="caption">Amount</span><br>
-		<p class="lining-proportional">{{newTransaction.amount}} {{newTransaction.token}}</p>
-		<span class="caption">Estimated transaction fees</span><br>
-		<p class="lining-proportional">.0008 ETH</p>
+		<section class="section-content">
+			<h3 class="type2">Transaction will send immediately after approval on your [auth method]</h3>
+			<span class="caption">To</span><br>
+			<p class="lining-proportional">{{newTransaction.toAddress}}</p>
+			<span class="caption">From</span><br>
+			<p class="lining-proportional">{{newTransaction.fromAddress}}</p>
+			<span class="caption">Amount</span><br>
+			<p class="lining-proportional">{{newTransaction.amount}} {{newTransaction.token}}</p>
+			<span class="caption">Estimated transaction fees</span><br>
+			<p class="lining-proportional">.0008 ETH</p>
+		</section>
 	</div>
 </div>
 
@@ -135,6 +170,16 @@
 
 <modal [(visible)]="showTestModal"
 			 [title]="'Title'">hello</modal>
+			 
+
+<modal [(visible)]="showUTCPasswordModal"
+			 [title]="'UTC password'">
+	<section class="section-content pad-left">
+		<label for="utc-password" class="caption form-label">Password</label>
+		<input type="password" class="wide">
+	</section>
+	<button class="button wide">Submit</button>
+</modal>
 			 
 <div class="dev-buttons">
 	<div class="dev-button"

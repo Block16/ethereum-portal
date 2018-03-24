@@ -1,20 +1,58 @@
 @import '_mixins.scss';
 @import '_variables.scss';
 
+.section-content {
+	padding-right: $defaultMargin;
+	padding-bottom: $defaultMargin * 1.6;
+	&.pad-left {
+		padding-left: $defaultMargin * 2 + $menuButtonWidth;
+	}
+}
+
 .button {
+	$defaultButtonWidth: 20em;
 	@include button-unstyle;
 	@include no-select-pointer;
+	position: relative;
 	padding: .3em 2em;
+	height: $inputHeight;
 	background: black;
 	color: white;
 	font: 1em $FB2;
+	&.disabled {
+		cursor: default;
+		background: hsla(0,0,0,.2);
+		color: hsla(0,0,0,.4);
+	}
+	&.wide {
+		width: 100%;		
+	}
+	&.auth-button {
+		img {
+			filter: invert(100%);
+		}
+	}
+	&.file-upload {
+		// width: $defaultButtonWidth;
+		overflow: hidden;
+		@include flex-center;
+		display: inline-flex;
+		input[type="file"] {
+			@include posa-tblr;
+			opacity: 0;
+		}
+		span {
+			
+		}
+	}
 }
 
-label[for*='text-'] {
-	display: inline-block;
+label.form-label {
+	display: block;
 	padding-bottom: .2em;
 }
-input[type="text"] {
+input[type="text"], input[type="password"] {
+	height: $inputHeight;
 	font: normal 1em $S;
 	outline: none;
 	border: none;
@@ -26,6 +64,14 @@ input[type="text"] {
 	font-feature-settings: "lnum", "pnum";
 	&.wide {
 		width: 100%;
+	}
+}
+
+.text-input-plus {
+	display: flex;
+	justify-content: space-between;
+	input[type="text"] {
+		flex: 1;
 	}
 }
 
