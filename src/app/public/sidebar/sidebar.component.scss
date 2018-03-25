@@ -146,14 +146,20 @@ $overlayZ: 1;
 		width: $transactionDotSize;
 		background: $yellow;
 		border-radius: 99em;
-		&.pending {
+		&.processing {
 			background: $yellow;
+			animation: pulse 1s alternate infinite;
 		}
 		&.confirmed {
 			background: $green;
 		}
 		&.failed {
 			background: $red;
+		}
+		@keyframes pulse {
+			to {
+				opacity: .15;
+			}
 		}
 	}
 	.main {
@@ -168,6 +174,11 @@ $overlayZ: 1;
 	.time {
 		font-size: 12px;
 		opacity: .5;
+	}
+	.chevron {
+		height: 1.5em;
+		opacity: .075;
+		margin: 0 .2em 0 1em;
 	}
 }
 

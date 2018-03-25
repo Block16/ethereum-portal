@@ -46,7 +46,7 @@ main {
 				animation: pulse 1s alternate infinite;
 				@keyframes pulse {
 					to {
-						opacity: 0;
+						opacity: .15;
 					}
 				}
 			}

@@ -100,8 +100,8 @@ export class IndexComponent implements OnInit {
     var toAddress = addresses[Math.floor(Math.random()*addresses.length)];
     var fromAddress = addresses[Math.floor(Math.random()*addresses.length)];
     var statuses = ['processing', 'confirmed', 'failed'];
-    // var status = statuses[Math.floor(Math.random()*statuses.length)]
     var status = 'processing';
+    var status = statuses[Math.floor(Math.random()*statuses.length)]
     var confirmations = 0;
     if (status == 'confirmed') {
       confirmations = Math.floor(Math.random() * 20);
@@ -171,13 +171,33 @@ export class IndexComponent implements OnInit {
     return assetName;
   }
   
+  getAssetAmount(assetIndex) {
+    let assetAmount;
+    assetIndex == -1 ?
+      assetAmount = this.assets['ETH'] :
+      assetAmount = this.assets['tokens'][assetIndex]['amount'];
+    return assetAmount;
+  }
+  
+  changeSendAmount(event) {
+    if (this.sendAmount < this.getAssetAmount(this.sendAsset)) {
+      this.sendMax = false;
+    } else if (this.sendAmount >= this.getAssetAmount(this.sendAsset)) {
+      this.sendAmount = this.getAssetAmount(this.sendAsset);
+      this.sendMax = true;
+    }
+  }
+  
   changeSendAsset() {
     this.sendMax = false;
     this.sendAmount = null;
   }
 
   ngOnInit() {
-    this.recentTransactions.push(this.randomTransaction())
+    this.recentTransactions.push(this.randomTransaction());
+    this.recentTransactions.push(this.randomTransaction());
+    this.recentTransactions.push(this.randomTransaction());
+
     this.dataShareService.recentTransactions.next(this.recentTransactions);
     this.callibratePage();
     this.resetNewTransactionView();

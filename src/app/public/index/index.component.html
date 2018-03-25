@@ -63,7 +63,8 @@
 				<div class="caption">ETH</div>
 				<p class="lining-proportional">7.2385</p>
 				<div class="tokens bottom-margin">
-					<div *ngFor="let token of assets['tokens']; let i = index">
+					<div class="token"
+							 *ngFor="let token of assets['tokens']; let i = index">
 						<div class="caption">{{ assets['tokens'][i].name }}</div>
 						<p class="lining-proportional">{{ assets['tokens'][i].amount }}</p>
 					</div>
@@ -90,6 +91,7 @@
 						<input type="text"
 									 id="text-amount"
 									 [(ngModel)]="sendAmount"
+									 (ngModelChange)="changeSendAmount($event)"
 									 class="wide">
 						<div class="max-button"
 								 [ngClass]="{ 'on': sendMax }"
