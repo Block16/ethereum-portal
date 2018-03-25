@@ -44,24 +44,24 @@
 		<h2>Preferences</h2>
 	</div>
 	<div class="preference"
-			 (click)="manualGas = !manualGas">
+			 (click)="setUserPreference('manualGas', !userPreferences['manualGas'])">
 		<span>Set gas price manually</span>
 		<div class="toggle-switch"
-				 [ngClass]="{'on': manualGas }">
+				 [ngClass]="{'on': userPreferences['manualGas'] }">
 		</div>
 	</div>
 	<div class="preference"
-			 (click)="viewGenerated = !viewGenerated">
+			 (click)="setUserPreference('viewGenerated', !userPreferences['viewGenerated'])">
 		<span>View generated transaction</span>
 		<div class="toggle-switch"
-				 [ngClass]="{'on': viewGenerated }">
+				 [ngClass]="{'on': userPreferences['viewGenerated'] }">
 		</div>
 	</div>
 	<div class="preference"
-			 (click)="darkMode = !darkMode">
+			 (click)="setUserPreference('viewGenerated', !userPreferences['darkMode'])">
 		<span>Dark mode</span>
 		<div class="toggle-switch"
-				 [ngClass]="{'on': darkMode }">
+				 [ngClass]="{'on': userPreferences['darkMode'] }">
 		</div>
 		<!-- <input id="dark-mode"
 					 class="toggle-switch"

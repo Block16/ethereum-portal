@@ -78,6 +78,7 @@ input[type="text"], input[type="number"], input[type="password"] {
 	position: relative;
 	display: flex;
 	justify-content: space-between;
+	margin-bottom: $defaultMargin;
 	input[type="text"], input[type="number"], input[type="password"] {
 		flex: 1;
 	}

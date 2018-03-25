@@ -29,6 +29,9 @@ export class IndexComponent implements OnInit {
   //// UI states
   public showQR: boolean = false;
   public showNonRecommended: boolean = false;
+  // User preferences
+  public userPreferences = {};
+  
   // Form states
   public sendAddress: string;
   public sendAmount: number;
@@ -78,8 +81,12 @@ export class IndexComponent implements OnInit {
   ) {
     // TODO: Update this off the bat if their MetaMask is unlocked
     this.ethereumAddress = '';
+    
     this.dataShareService.recentTransactions.subscribe((value: any) => {
       this.recentTransactions = value;
+    });
+    this.dataShareService.userPreferences.subscribe((value: any) => {
+      this.userPreferences = value;
     });
   }
 

@@ -18,6 +18,7 @@ export class SidebarComponent implements OnInit {
   public darkMode: boolean = false;
   
   // ui
+  public userPreferences = {};
   public recentTransactions = [];
   public showMenu: boolean = false;
 
@@ -29,11 +30,19 @@ export class SidebarComponent implements OnInit {
 
     }
   }
+  
+  setUserPreference(preference, setting) {
+    this.userPreferences[preference] = setting;
+    this.dataShareService.userPreferences.next(this.userPreferences);
+  }
 
   constructor(private web3Service: Web3Service,
     private dataShareService: DataShareService) {
     this.dataShareService.recentTransactions.subscribe((value: any) => {
       this.recentTransactions = value;
+    });
+    this.dataShareService.userPreferences.subscribe((value: any) => {
+      this.userPreferences = value;
     });
     this.address = "";
   }

@@ -107,7 +107,18 @@
 								<option *ngFor="let token of assets['tokens']; let i = index" value="{{i}}">{{ assets['tokens'][i].name }}</option>
 							</select>
 						</div>
-					</div><br>
+					</div>
+					<div *ngIf="!userPreferences['manualGas']">
+						<div class="caption">Estimated transaction fee</div>
+						<p class="lining-proportional">.0003 ETH</p>
+					</div>
+					<div *ngIf="userPreferences['manualGas']">
+						<div class="caption">Gas price</div>
+						<input type="range">
+						
+						<div class="caption">Gas limit</div>
+						<input type="number" class="no-arrow-buttons">
+					</div>
 					<button class="button">Generate transaction</button><br>
 				</section>
 			</div>
