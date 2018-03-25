@@ -88,11 +88,11 @@
 								 class="wide"><br><br>
 					<label for="text-amount" class="caption form-label">Amount</label>
 					<div class="text-input-plus">
-						<input type="text"
+						<input type="number"
 									 id="text-amount"
 									 [(ngModel)]="sendAmount"
-									 (ngModelChange)="changeSendAmount($event)"
-									 class="wide">
+									 (ngModelChange)="changeSendAmount()"
+									 class="wide no-arrow-buttons">
 						<div class="max-button"
 								 [ngClass]="{ 'on': sendMax }"
 								 (click)="clickMaxButton()">Max</div>
