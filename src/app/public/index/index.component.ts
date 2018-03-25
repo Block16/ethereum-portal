@@ -179,11 +179,16 @@ export class IndexComponent implements OnInit {
     return assetAmount;
   }
   
-  changeSendAmount(event) {
+  changeSendAmount() {
+    console.log(this.sendAmount);
     if (this.sendAmount < this.getAssetAmount(this.sendAsset)) {
+      console.log(1);
       this.sendMax = false;
     } else if (this.sendAmount >= this.getAssetAmount(this.sendAsset)) {
-      this.sendAmount = this.getAssetAmount(this.sendAsset);
+      console.log(2);
+      setTimeout(() => {
+        this.sendAmount = this.getAssetAmount(this.sendAsset);
+      }, 0)
       this.sendMax = true;
     }
   }
