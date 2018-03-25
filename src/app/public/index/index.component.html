@@ -162,7 +162,9 @@
 	</div>
 </div>
 
-<div #_recentTransactions class="recent-transactions">
+<div #_recentTransactions
+		 class="recent-transactions"
+		 (click)="setShowSidebar(true)">
 	<div *ngFor="let transaction of recentTransactions"
 				class="transaction"
 				[ngClass]="{'processing': transaction.status == 'processing',

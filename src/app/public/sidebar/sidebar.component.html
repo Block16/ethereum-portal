@@ -1,16 +1,16 @@
 <div class="menu-button"
-		 (click)="showMenu = !showMenu">
+		 (click)="showSidebar = !showSidebar">
 	<div class="symbol-box x"
-				  [ngClass]="{ 'x': showMenu }">
+				  [ngClass]="{ 'x': showSidebar }">
 		<div class="symbol"></div>
 	</div>
 </div>
 
 <div class="overlay"
-		 *ngIf="showMenu"
-		 (click)="showMenu = !showMenu"></div>
+		 *ngIf="showSidebar"
+		 (click)="showSidebar = !showSidebar"></div>
 <div class="sidebar"
-		 [ngClass]="{ 'open': showMenu }">
+		 [ngClass]="{ 'open': showSidebar }">
 	<div class="sidebar-top">
 		<a href="http://block16.io" target="_blank"><img src="assets/img/branding/logo.svg"
 					 class="logo"></a>
@@ -58,7 +58,7 @@
 		</div>
 	</div>
 	<div class="preference"
-			 (click)="setUserPreference('viewGenerated', !userPreferences['darkMode'])">
+			 (click)="setUserPreference('darkMode', !userPreferences['darkMode'])">
 		<span>Dark mode</span>
 		<div class="toggle-switch"
 				 [ngClass]="{'on': userPreferences['darkMode'] }">

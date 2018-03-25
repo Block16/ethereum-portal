@@ -20,7 +20,7 @@ export class SidebarComponent implements OnInit {
   // ui
   public userPreferences = {};
   public recentTransactions = [];
-  public showMenu: boolean = false;
+  public showSidebar: boolean = false;
 
   @Input()
   set account(address: string) {
@@ -43,6 +43,9 @@ export class SidebarComponent implements OnInit {
     });
     this.dataShareService.userPreferences.subscribe((value: any) => {
       this.userPreferences = value;
+    });
+    this.dataShareService.showSidebar.subscribe((value: any) => {
+      this.showSidebar = value;
     });
     this.address = "";
   }

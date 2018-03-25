@@ -29,6 +29,7 @@ export class IndexComponent implements OnInit {
   //// UI states
   public showQR: boolean = false;
   public showNonRecommended: boolean = false;
+  public showSidebar: boolean;
   // User preferences
   public userPreferences = {};
   
@@ -73,7 +74,7 @@ export class IndexComponent implements OnInit {
   */
   public ethereumAddress: string;
 
-  constructor(
+  constructor (
     private dataShareService: DataShareService,
     private web3Service: Web3Service,
     private ledgerService: LedgerService,
@@ -88,6 +89,13 @@ export class IndexComponent implements OnInit {
     this.dataShareService.userPreferences.subscribe((value: any) => {
       this.userPreferences = value;
     });
+    this.dataShareService.showSidebar.subscribe((value: any) => {
+      this.showSidebar = value;
+    });
+  }
+  
+  setShowSidebar(bool) {
+    this.dataShareService.showSidebar.next(bool);
   }
 
   trezorAuthState() {

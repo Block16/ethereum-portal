@@ -18,6 +18,7 @@ main {
 	width: $defaultMargin * 2 + $menuButtonWidth;
 	left: 0;
 	top: $defaultMargin * 2 + $menuButtonHeight;
+	@include no-select-pointer;
 	.transaction {
 		padding: 0 0 $defaultMargin / 1.4;
 		&:before {
