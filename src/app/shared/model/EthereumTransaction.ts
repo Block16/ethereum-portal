@@ -1,6 +1,5 @@
-import Web3 from "web3";
-import * as EthTx from 'ethereumjs-tx';
 import {isNullOrUndefined} from 'util';
+import * as EthTx from 'ethereumjs-tx';
 
 export class EthereumTransaction {
 
@@ -8,8 +7,8 @@ export class EthereumTransaction {
   public nonce: number;
 
   constructor(
-    readonly gasLimit: Web3.utils.BN,
-    readonly gasPrice: Web3.utils.BN,
+    readonly gasLimit: string,
+    readonly gasPrice: string,
     readonly toAddress: string,
     readonly value: string,
     readonly data?: string
@@ -26,20 +25,13 @@ export class EthereumTransaction {
     if (isNullOrUndefined(this.nonce)) {
       throw new Error("Nonce is not set");
     }
-    return {
+    return new EthTx({
       nonce: this.nonce,
       gasPrice: this.gasPrice,
       gasLimit: this.gasLimit,
       to: this.toAddress,
       value: this.value,
       data: this.data
-    };
-  }
-
-  public signTxWithPrivKey(privKey: string) {
-    const p = privKey.startsWith("0x") ? privKey.substr(2) : privKey;
-    const tx = new EthTx(this.getUnsignedTx());
-    tx.sign(new Buffer(privKey, 'hex'));
-    this.signature = '0x' + tx.serialize().toString('hex');
+    });
   }
 }

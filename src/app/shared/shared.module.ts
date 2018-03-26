@@ -7,10 +7,10 @@ import { ModalComponent } from './modal/modal.component';
     CommonModule
   ],
   exports: [
-  	ModalComponent
+    ModalComponent
   ],
   declarations: [
-	  ModalComponent
+    ModalComponent
   ]
 })
 export class SharedModule { }

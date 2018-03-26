@@ -1,6 +1,9 @@
 import {Injectable, NgZone} from '@angular/core';
 import {Subject} from 'rxjs/Subject';
 import {Observable} from 'rxjs/Observable';
+import {PrivateKeyService} from './private-key.service';
+import {KeyManagerService} from './key.manager.interface';
+import {EthereumTransaction} from '../shared/model/EthereumTransaction';
 
 declare let TrezorConnect: any;
 
@@ -68,7 +71,7 @@ export declare interface Recipient {
 }
 
 @Injectable()
-export class TrezorConnectService {
+export class TrezorConnectService implements KeyManagerService {
   private _trezorConnect: any;
 
   /**
@@ -141,11 +144,11 @@ export class TrezorConnectService {
     return subject.asObservable();
   }
 
-  public getEthereumAddress(): Observable<string> {
+  public getEthereumAddresses(): Observable<string[]> {
     return Observable.create(observer => {
       this._trezorConnect.ethereumGetAddress("m/44'/60'/0'/0", result => {
         if (result.success) {
-          observer.next(result.address);
+          observer.next([result.address]);
         } else {
           observer.error(new Error('Couldn\'t fetch the user\'s eth address from Trezor'));
         }
@@ -153,6 +156,13 @@ export class TrezorConnectService {
       });
     });
   }
+
+
+  signTransaction(transaction: EthereumTransaction): Observable<EthereumTransaction> {
+    return null;
+  }
+
+  resetState() { }
 
   /**
    * Asks device to sign Ethereum transaction.

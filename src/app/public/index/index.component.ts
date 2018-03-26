@@ -103,16 +103,16 @@ export class IndexComponent implements OnInit {
   }
 
   metaMaskAuthState() {
-    this.web3Service.getEthereumAddress().subscribe((address: string) => {
+    this.web3Service.getEthereumAddresses().subscribe((addresses: string[]) => {
       this.currentAuth = AuthState.metamask;
-      this.updateAddress(address);
+      this.updateAddress(addresses[0]);
     });
   }
 
   trezorAuthState() {
-    this.trezorService.getEthereumAddress().subscribe((address: string) => {
+    this.trezorService.getEthereumAddresses().subscribe((addresses: string[]) => {
       this.currentAuth = AuthState.trezor;
-      this.updateAddress(address);
+      this.updateAddress(addresses[0]);
     });
   }
 

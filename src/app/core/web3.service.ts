@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
 import Web3 from "web3";
 import {Observable} from 'rxjs/Observable';
-import {observable} from 'rxjs/symbol/observable';
+import {KeyManagerService} from './key.manager.interface';
+import {EthereumTransaction} from '../shared/model/EthereumTransaction';
 
 declare var web3;
 declare const keythereum;
 
-
 @Injectable()
-export class Web3Service {
+export class Web3Service implements KeyManagerService {
   public providerDetected: boolean;
 
   public web3js: any;
@@ -28,7 +28,31 @@ export class Web3Service {
     }
   }
 
-  public getEthereumAddress(): Observable<string> {
+  public getBalance(address: string): Observable<number> {
+    return Observable.create((observer) => {
+      this.web3js.eth.getBalance(address).then((balance) => {
+        observer.next(balance);
+        observer.complete();
+      });
+    });
+  }
+
+  public getTransactions(address: string) {
+
+  }
+
+  public sendRawTransaction(transaction: EthereumTransaction): Observable<any> {
+    return Observable.create((observer) => {
+      observer.next();
+      observer.complete();
+    });
+  }
+
+  ////////
+  //// Key Mgmt Functions
+  ////////
+
+  public getEthereumAddresses(): Observable<string[]> {
     return Observable.create((observer) => {
       this.web3js.eth.getAccounts().then((accounts) => {
         if (accounts.length === 0) {
@@ -48,16 +72,15 @@ export class Web3Service {
     });
   }
 
-  public getBalance(address: string): Observable<number> {
-    return Observable.create((observer) => {
-      this.web3js.eth.getBalance(address).then((balance) => {
-        observer.next(balance);
-        observer.complete();
-      });
+  signTransaction(transaction: EthereumTransaction): Observable<EthereumTransaction> {
+    return Observable.create(observer => {
+      observer.next(transaction);
+      observer.complete();
     });
   }
 
-  public getTransactions(address: string) {
-
-  }
+  /**
+   * Not necessary here since we don't keep any state
+   */
+  resetState() { }
 }
