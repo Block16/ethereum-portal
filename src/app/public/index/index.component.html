@@ -113,11 +113,11 @@
 						<p class="lining-proportional">.0003 ETH</p>
 					</div>
 					<div *ngIf="userPreferences['manualGas']">
-						<div class="caption">Gas price</div>
-						<input type="range">
+						<label for="gas-price" class="caption form-label">Gas price</label>
+						<input id="gas-price" type="range">
 						
-						<div class="caption">Gas limit</div>
-						<input type="number" class="no-arrow-buttons">
+						<label for="gas-limit" class="caption form-label">Gas limit</label>
+						<input id="gas-limit" type="number" class="no-arrow-buttons">
 					</div>
 					<button class="button">Generate transaction</button><br>
 				</section>

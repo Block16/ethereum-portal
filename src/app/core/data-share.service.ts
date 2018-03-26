@@ -1,4 +1,5 @@
-import {BehaviorSubject} from 'rxjs/BehaviorSubject';
+import { OnInit } from '@angular/core';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Injectable } from '@angular/core';
 
 @Injectable()
@@ -6,7 +7,6 @@ export class DataShareService {
 	public showSidebar = new BehaviorSubject(false);
 	public recentTransactions = new BehaviorSubject([]);
 	public userPreferences = new BehaviorSubject({});
-	
 	
 	getShowSidebar() {
 	  return this.showSidebar.asObservable();
@@ -17,16 +17,8 @@ export class DataShareService {
 	}
 	
 	getUserPreferences() {
+		console.log('hi');
 	  return this.userPreferences.asObservable();
-	}
-	
-	ngOnInit() {
-		let defaultPreferences = {
-			'viewGeneratedTransaction': false,
-			'manualGas': false,
-			'darkMode': false
-		}
-    this.userPreferences.next(defaultPreferences);
 	}
 	
   constructor() { }

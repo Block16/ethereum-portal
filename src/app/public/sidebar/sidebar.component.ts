@@ -51,5 +51,6 @@ export class SidebarComponent implements OnInit {
   }
 
   public ngOnInit(): void {
+    this.userPreferences = this.dataShareService.getUserPreferences();
   }
 }
