@@ -1,24 +1,27 @@
-import { Injectable } from '@angular/core';
-import Transport from '@ledgerhq/hw-transport-u2f';
-// import Transport from "@ledgerhq/hw-transport-node-hid";
-import Eth from '@ledgerhq/hw-app-eth';
-import { Observable } from 'rxjs/Observable';
-import { isNullOrUndefined } from 'util';
+import {Injectable} from '@angular/core';
+import {Observable} from 'rxjs/Observable';
+import {isNullOrUndefined} from 'util';
+import {LedgerTransport} from "../shared/ledger-transport";
+import {LedgerEth} from "../shared/ledger-eth";
+
+declare let u2f;
 
 @Injectable()
 export class LedgerService {
 
   // Don't use these instance variables in the functions
-  private transport: Transport;
-  private eth: Eth;
+  private transport: LedgerTransport;
+  private eth: LedgerEth;
 
-  constructor() { }
+  constructor() {
+    this.transport = new LedgerTransport("w0w", 30);
+  }
 
-  private getEthInstance(): Observable<Eth> {
+  /* private getEthInstance(): Observable<any> {
     return Observable.create(observer => {
       this.getTransport().subscribe(transport => {
         if (isNullOrUndefined(this.eth)) {
-          this.eth = new Eth(transport);
+          this.eth = new LedgerEth(transport);
         }
         observer.next(this.eth);
         observer.complete();
@@ -29,7 +32,7 @@ export class LedgerService {
   /**
    * Get the browser UF2 transport
    * @returns {Observable<>}
-   */
+
   private getTransport(): Observable<Transport> {
     return Observable.create(observer => {
       if (isNullOrUndefined(this.transport)) {
@@ -43,16 +46,45 @@ export class LedgerService {
         observer.complete();
       }
     });
+  } */
+
+  private getEthInstance(): Observable<any> {
+    return Observable.create(observer => {
+      if (isNullOrUndefined(this.eth)) {
+        this.eth = new LedgerEth(this.transport);
+      }
+      observer.next(this.eth);
+      observer.complete();
+    });
+  }
+
+  public displayOnLedger() {
+    return Observable.create(obs => {
+      this.getEthInstance().subscribe(eth => {
+        eth.getAddress("m/44'/60'/0'", true, false).subscribe((r) => {
+          console.log("ok");
+          obs.next("ok");
+          obs.complete();
+        }, err => {
+          console.log("Fucke");
+          obs.error("fucke");
+          obs.complete();
+        });
+      });
+    });
   }
 
   public getEthereumAddress(): Observable<string> {
     return Observable.create(observer => {
       this.getEthInstance().subscribe(eth => {
-        this.eth.getAddress("44'/60'/0'/0'/0").then(o => {
+        eth.getAddress("m/44'/60'/0'").subscribe(o => {
           observer.next(o.address);
           observer.complete();
         }, err => {
           console.log("Couldn't get ethereum address from ledger");
+          if (!isNullOrUndefined(err.errorCode)) {
+            console.log(u2f.getErrorByCode(err.errorCode));
+          }
           console.log(err);
           observer.error(err.toString());
           observer.complete();

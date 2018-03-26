@@ -61,10 +61,16 @@ export class IndexComponent implements OnInit {
 
   ledgerAuthState() {
     this.currentAuth = AuthState.ledger;
-    this.ledgerService.getEthereumAddress().subscribe((address: string) => {
+    this.ledgerService.displayOnLedger().subscribe((r) => {
+      this.ledgerService.getEthereumAddress().subscribe((address: string) => {
+        this.ethereumAddress = address;
+        this.updateAddress(address);
+      });
+    });
+    /* this.ledgerService.getEthereumAddress().subscribe((address: string) => {
       this.ethereumAddress = address;
       this.updateAddress(address);
-    });
+    }); */
   }
 
   generateTransaction() {

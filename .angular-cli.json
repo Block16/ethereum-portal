@@ -21,7 +21,11 @@
       "styles": [
         "styles.scss"
       ],
-      "scripts": [],
+      "scripts": [
+        "assets/javascript/connect.js",
+        "assets/javascript/buffer.js",
+        "assets/javascript/u2f-api.js"
+      ],
       "environmentSource": "environments/environment.ts",
       "environments": {
         "dev": "environments/environment.ts",
