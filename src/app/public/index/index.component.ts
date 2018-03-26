@@ -6,7 +6,7 @@ import {TrezorConnectService} from '../../core/trezor-connect.service';
 import {Web3Service} from "../../core/web3.service";
 
 enum AuthState {
-  trezor, bitbox, metamask, utcFile, privateKey, ledger
+  none, trezor, bitbox, metamask, utcFile, privateKey, ledger
 }
 
 @Component({
@@ -18,7 +18,6 @@ export class IndexComponent implements OnInit {
   @ViewChild('_recentTransactions') _recentTransactions: ElementRef;
   public AuthState = AuthState;
   public currentAuth: AuthState;
-  public authed = true;
 
   // Document states
   private windowHeight: number;
@@ -26,10 +25,12 @@ export class IndexComponent implements OnInit {
   private windowMin: number;
   private windowMax: number;
 
-  //// UI states
+  // UI states
   public showQR = false;
   public showNonRecommended = false;
   public showSidebar: boolean;
+  public detectedInjectedProvider: boolean;
+
   // User preferences
   public userPreferences = {};
 
@@ -38,10 +39,12 @@ export class IndexComponent implements OnInit {
   public sendAmount: number;
   public sendAsset = -1;
   public sendMax = false;
+
   // Modal states
-  private fileUploadText = 'Upload UTC file';
-  private showTestModal = false;
-  private showUTCPasswordModal = false;
+  public fileUploadText = 'Upload UTC file';
+  public showTestModal = false;
+  public showUTCPasswordModal = false;
+
   // User info
   public recentTransactions = [];
   public newTransaction = {};
@@ -66,13 +69,8 @@ export class IndexComponent implements OnInit {
   public newTransactionCircleStyle = {};
 
   @Output() ethereumAddressChange: EventEmitter<string> = new EventEmitter<string>();
-  /*
-  @Output() mobileChange: EventEmitter<string> = new EventEmitter<string>();
-  @Input() set mobile(value) {
-    this.msisdn_confirm = this.msisdn = value;
-  }
-  */
   public ethereumAddress: string;
+  public ethereumBalance: number;
 
   constructor (
     private dataShareService: DataShareService,
@@ -80,15 +78,21 @@ export class IndexComponent implements OnInit {
     private ledgerService: LedgerService,
     private trezorService: TrezorConnectService
   ) {
+    this.currentAuth = AuthState.none;
     // TODO: Update this off the bat if their MetaMask is unlocked
     this.ethereumAddress = '';
+    this.ethereumBalance = 0;
+
+    this.detectedInjectedProvider = this.web3Service.providerDetected;
 
     this.dataShareService.recentTransactions.subscribe((value: any) => {
       this.recentTransactions = value;
     });
+
     this.dataShareService.userPreferences.subscribe((value: any) => {
       this.userPreferences = value;
     });
+
     this.dataShareService.showSidebar.subscribe((value: any) => {
       this.showSidebar = value;
     });
@@ -98,10 +102,16 @@ export class IndexComponent implements OnInit {
     this.dataShareService.showSidebar.next(bool);
   }
 
+  metaMaskAuthState() {
+    this.web3Service.getEthereumAddress().subscribe((address: string) => {
+      this.currentAuth = AuthState.metamask;
+      this.updateAddress(address);
+    });
+  }
+
   trezorAuthState() {
-    this.currentAuth = AuthState.trezor;
     this.trezorService.getEthereumAddress().subscribe((address: string) => {
-      this.ethereumAddress = address;
+      this.currentAuth = AuthState.trezor;
       this.updateAddress(address);
     });
   }
@@ -111,7 +121,15 @@ export class IndexComponent implements OnInit {
   }
 
   randomTransaction() {
-    const addresses = ['0x2a65Aca4D5fC5B5C859090a6c34d164135398226', '0x9034C5691E4CF92507E79a5A29D8e162b9506cD9', '0x4Cd988AfBad37289BAAf53C13e98E2BD46aAEa8c', '0xf73C3c65bde10BF26c2E1763104e609A41702EFE', '0x8d12A197cB00D4747a1fe03395095ce2A5CC6819', '0x4781BEe730C9056414D86cE9411a8fb7FF02219f', '0x2ddb2555c3C7Ad23991125CAa4775E19b93204b9'];
+    const addresses = [
+      '0x2a65Aca4D5fC5B5C859090a6c34d164135398226',
+      '0x9034C5691E4CF92507E79a5A29D8e162b9506cD9',
+      '0x4Cd988AfBad37289BAAf53C13e98E2BD46aAEa8c',
+      '0xf73C3c65bde10BF26c2E1763104e609A41702EFE',
+      '0x8d12A197cB00D4747a1fe03395095ce2A5CC6819',
+      '0x4781BEe730C9056414D86cE9411a8fb7FF02219f',
+      '0x2ddb2555c3C7Ad23991125CAa4775E19b93204b9'
+    ];
     const toAddress = addresses[Math.floor(Math.random() * addresses.length)];
     const fromAddress = addresses[Math.floor(Math.random() * addresses.length)];
     const statuses = ['processing', 'confirmed', 'failed'];
@@ -159,7 +177,12 @@ export class IndexComponent implements OnInit {
   }
 
   private updateAddress(address: string) {
+    this.ethereumAddress = address;
     this.ethereumAddressChange.emit(address);
+
+    this.web3Service.getBalance(address).subscribe((balance) => {
+
+    });
   }
 
   toggleMenu() {

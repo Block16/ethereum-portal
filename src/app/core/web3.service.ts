@@ -1,9 +1,16 @@
 import { Injectable } from '@angular/core';
 import Web3 from "web3";
+import {Observable} from 'rxjs/Observable';
+import {observable} from 'rxjs/symbol/observable';
+
 declare var web3;
+declare const keythereum;
+
 
 @Injectable()
 export class Web3Service {
+  public providerDetected: boolean;
+
   public web3js: any;
   public infuraLocation = "https://mainnet.infura.io";
 
@@ -11,12 +18,43 @@ export class Web3Service {
     if (typeof web3 !== 'undefined') {
       // Use Mist/MetaMask's provider
       this.web3js = new Web3(web3.currentProvider);
-      console.log("Using metamask provider");
+      this.providerDetected = true;
+      console.log("Using metamask/mist provider");
     } else {
       // Not using metamask
       this.web3js = new Web3(new Web3.providers.HttpProvider(this.infuraLocation));
+      this.providerDetected = false;
       console.log("Using infura provider");
     }
+  }
+
+  public getEthereumAddress(): Observable<string> {
+    return Observable.create((observer) => {
+      this.web3js.eth.getAccounts().then((accounts) => {
+        if (accounts.length === 0) {
+          // TODO: not logged in.
+          observer.error(new Error("Could not get accounts from provider"));
+        } else {
+          // Return default account
+          // TODO: Support multiple accounts later
+          observer.next(accounts[0]);
+        }
+        observer.complete();
+      }, err => {
+        observer.error(err);
+        observer.complete();
+      });
+
+    });
+  }
+
+  public getBalance(address: string): Observable<number> {
+    return Observable.create((observer) => {
+      this.web3js.eth.getBalance(address).then((balance) => {
+        observer.next(balance);
+        observer.complete();
+      });
+    });
   }
 
   public getTransactions(address: string) {

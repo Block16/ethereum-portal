@@ -1,12 +1,12 @@
 <main>
 
-	<div *ngIf="!authed">
+	<div *ngIf="currentAuth == AuthState.none">
 		<h1 class="top-border head1 type2">Ethereum Portal</h1>
 
 		<h2 class="top-border">Auth methods</h2>
 		<section class="section-content">
 			<h3 class="fade">MetaMask and Ledger are recognized automatically.</h3>
-			<button class="button" (click)="authed = true">FAKE AUTH</button><br><br>
+			<button class="button">FAKE AUTH</button><br><br>
 			<button class="button auth-button"
 							(click)="trezorAuthState()">
 				<img src="/assets/img/icons/trezor icon.svg"
@@ -23,7 +23,8 @@
 						 class="icon">
 			</button>
 			<button class="button auth-button"
-							(click)="toggleAuthState(AuthState.metamask)">
+							(click)="metaMaskAuthState()"
+              *ngIf="detectedInjectedProvider">
 				<img src="/assets/img/icons/metamask icon.svg"
 						 class="icon">
 			</button>
@@ -53,15 +54,15 @@
 		</section>
 	</div>
 
-	<div *ngIf="authed">
+	<div *ngIf="currentAuth != AuthState.none">
 		<h1 class="top-border head1 type2">Ethereum Portal</h1>
 		<div class="grid">
 			<div class="grid-cell">
 				<h2 class="top-border head2 type2">View</h2>
 				<div class="caption ">Address</div>
-				<p class="lining-proportional">0x343f2EdA84CEAf92ba0408eE6bE290a2d2d295E4</p>
+				<p class="lining-proportional">0x{{ ethereumAddress }}</p>
 				<div class="caption">ETH</div>
-				<p class="lining-proportional">7.2385</p>
+				<p class="lining-proportional">{{ ethereumBalance }}</p>
 				<div class="tokens bottom-margin">
 					<div class="token"
 							 *ngFor="let token of assets['tokens']; let i = index">
