@@ -19,29 +19,29 @@ export class IndexComponent implements OnInit {
   public AuthState = AuthState;
   public currentAuth: AuthState;
   public authed = true;
-  
+
   // Document states
   private windowHeight: number;
   private windowWidth: number;
   private windowMin: number;
   private windowMax: number;
-  
+
   //// UI states
-  public showQR: boolean = false;
-  public showNonRecommended: boolean = false;
+  public showQR = false;
+  public showNonRecommended = false;
   public showSidebar: boolean;
   // User preferences
   public userPreferences = {};
-  
+
   // Form states
   public sendAddress: string;
   public sendAmount: number;
   public sendAsset = -1;
-  public sendMax: boolean = false;
+  public sendMax = false;
   // Modal states
-  private fileUploadText: string = 'Upload UTC file';
-  private showTestModal: boolean = false;
-  private showUTCPasswordModal: boolean = false;
+  private fileUploadText = 'Upload UTC file';
+  private showTestModal = false;
+  private showUTCPasswordModal = false;
   // User info
   public recentTransactions = [];
   public newTransaction = {};
@@ -59,12 +59,12 @@ export class IndexComponent implements OnInit {
       { 'name': 'UKG',
         'amount': .04 }
     ]
-  }
-  
+  };
+
   // Styles
   public newTransactionStyle = {};
   public newTransactionCircleStyle = {};
-  
+
   @Output() ethereumAddressChange: EventEmitter<string> = new EventEmitter<string>();
   /*
   @Output() mobileChange: EventEmitter<string> = new EventEmitter<string>();
@@ -82,7 +82,7 @@ export class IndexComponent implements OnInit {
   ) {
     // TODO: Update this off the bat if their MetaMask is unlocked
     this.ethereumAddress = '';
-    
+
     this.dataShareService.recentTransactions.subscribe((value: any) => {
       this.recentTransactions = value;
     });
@@ -93,7 +93,7 @@ export class IndexComponent implements OnInit {
       this.showSidebar = value;
     });
   }
-  
+
   setShowSidebar(bool) {
     this.dataShareService.showSidebar.next(bool);
   }
@@ -105,25 +105,24 @@ export class IndexComponent implements OnInit {
       this.updateAddress(address);
     });
   }
-  
+
   generateTransaction() {
     this.newTransaction = this.randomTransaction();
   }
-  
+
   randomTransaction() {
-    var addresses = ['0x2a65Aca4D5fC5B5C859090a6c34d164135398226','0x9034C5691E4CF92507E79a5A29D8e162b9506cD9','0x4Cd988AfBad37289BAAf53C13e98E2BD46aAEa8c','0xf73C3c65bde10BF26c2E1763104e609A41702EFE','0x8d12A197cB00D4747a1fe03395095ce2A5CC6819','0x4781BEe730C9056414D86cE9411a8fb7FF02219f','0x2ddb2555c3C7Ad23991125CAa4775E19b93204b9'];
-    var toAddress = addresses[Math.floor(Math.random()*addresses.length)];
-    var fromAddress = addresses[Math.floor(Math.random()*addresses.length)];
-    var statuses = ['processing', 'confirmed', 'failed'];
-    var status = 'processing';
-    var status = statuses[Math.floor(Math.random()*statuses.length)]
-    var confirmations = 0;
+    const addresses = ['0x2a65Aca4D5fC5B5C859090a6c34d164135398226', '0x9034C5691E4CF92507E79a5A29D8e162b9506cD9', '0x4Cd988AfBad37289BAAf53C13e98E2BD46aAEa8c', '0xf73C3c65bde10BF26c2E1763104e609A41702EFE', '0x8d12A197cB00D4747a1fe03395095ce2A5CC6819', '0x4781BEe730C9056414D86cE9411a8fb7FF02219f', '0x2ddb2555c3C7Ad23991125CAa4775E19b93204b9'];
+    const toAddress = addresses[Math.floor(Math.random() * addresses.length)];
+    const fromAddress = addresses[Math.floor(Math.random() * addresses.length)];
+    const statuses = ['processing', 'confirmed', 'failed'];
+    const status = statuses[Math.floor(Math.random() * statuses.length)];
+    let confirmations = 0;
     if (status == 'confirmed') {
       confirmations = Math.floor(Math.random() * 20);
     }
-    var tokens = ['ETH','SPHTX','WETH','UKG','THETA','ZRX','CS','MAN','REM'];
-    var token = tokens[Math.floor(Math.random()*tokens.length)];
-    var amount = Math.floor(Math.random() * 1000000);
+    const tokens = ['ETH', 'SPHTX', 'WETH', 'UKG', 'THETA', 'ZRX', 'CS', 'MAN', 'REM'];
+    const token = tokens[Math.floor(Math.random() * tokens.length)];
+    const amount = Math.floor(Math.random() * 1000000);
     return {
       'toAddress': toAddress,
       'fromAddress': fromAddress,
@@ -132,20 +131,20 @@ export class IndexComponent implements OnInit {
       'token': token,
       'amount': amount,
       'created': new Date()
-    }
+    };
   }
-  
+
   showApproveNewTransaction() {
     this.newTransaction = this.randomTransaction();
     // size and positionnew transaction element
     this.setNewTransactionViewFullscreen();
     // this.setNewTransactionStyle();
   }
-  
+
   transactionSigned() {
-    
+
     this.setNewTransactionViewToDock();
-        
+
     // setTimeout(() => {
     //   this.recentTransactions.push(this.newTransaction);
     //   this.dataShareService.recentTransactions.next(this.recentTransactions);
@@ -154,7 +153,7 @@ export class IndexComponent implements OnInit {
     //   this.setNewTransactionStyle();
     // }, 500)
   }
-  
+
   toggleAuthState(authState: AuthState) {
     this.currentAuth = authState;
   }
@@ -166,18 +165,18 @@ export class IndexComponent implements OnInit {
   toggleMenu() {
 
   }
-  
+
   clickMaxButton() {
     this.sendMax = !this.sendMax;
     if (this.sendMax) {
       this.sendAsset == -1 ?
-      this.sendAmount = this.assets['ETH']:
+      this.sendAmount = this.assets['ETH'] :
       this.sendAmount = this.assets['tokens'][this.sendAsset]['amount'];
     } else if (!this.sendMax) {
       this.sendAmount = null;
     }
   }
-  
+
   sendAssetName(assetIndex) {
     let assetName = '';
     assetIndex == -1 ?
@@ -185,7 +184,7 @@ export class IndexComponent implements OnInit {
       assetName = this.assets['tokens'][assetIndex]['name'];
     return assetName;
   }
-  
+
   getAssetAmount(assetIndex) {
     let assetAmount;
     assetIndex == -1 ?
@@ -193,7 +192,7 @@ export class IndexComponent implements OnInit {
       assetAmount = this.assets['tokens'][assetIndex]['amount'];
     return assetAmount;
   }
-  
+
   changeSendAmount() {
     console.log(this.sendAmount);
     if (this.sendAmount < this.getAssetAmount(this.sendAsset)) {
@@ -203,11 +202,11 @@ export class IndexComponent implements OnInit {
       console.log(2);
       setTimeout(() => {
         this.sendAmount = this.getAssetAmount(this.sendAsset);
-      }, 0)
+      }, 0);
       this.sendMax = true;
     }
   }
-  
+
   changeSendAsset() {
     this.sendMax = false;
     this.sendAmount = null;
@@ -222,73 +221,73 @@ export class IndexComponent implements OnInit {
     this.callibratePage();
     this.resetNewTransactionView();
   }
-  
+
   fullTransactionViewCircleRadius() {
     return Math.sqrt(Math.pow(this.windowMax / 2, 2) + Math.pow(this.windowMin / 2, 2));
   }
-  
+
   resetNewTransactionView() {
-    var r = this.fullTransactionViewCircleRadius();
-    var leftOffset = (r - this.windowWidth / 2) * -1;
-    var topOffset = (r + this.windowHeight / 2 + this.windowHeight);
-    var transactionTransform = 'translate(0px,' + this.windowHeight + 'px) scale(.15)';
-    var circleTransform = 'translate(' + leftOffset + 'px,' + topOffset + 'px) scale(.15)';
-    
+    const r = this.fullTransactionViewCircleRadius();
+    const leftOffset = (r - this.windowWidth / 2) * -1;
+    const topOffset = (r + this.windowHeight / 2 + this.windowHeight);
+    const transactionTransform = 'translate(0px,' + this.windowHeight + 'px) scale(.15)';
+    const circleTransform = 'translate(' + leftOffset + 'px,' + topOffset + 'px) scale(.15)';
+
     this.newTransactionCircleStyle['transition'] = '0s';
     this.newTransactionCircleStyle['width'] = (r * 2) + 'px';
     this.newTransactionCircleStyle['height'] = (r * 2) + 'px';
-    
+
     this.newTransactionStyle['transform'] = transactionTransform;
     this.newTransactionCircleStyle['transform'] = circleTransform;
   }
-  
+
   setNewTransactionViewFullscreen() {
-    var r = this.fullTransactionViewCircleRadius();
-    var leftOffset = (r - this.windowWidth / 2) * -1;
-    var topOffset = (r - this.windowHeight / 2) * -1;
-    var transactionTransform = 'translate(0,0)';
-    var circleTransform = 'translate(' + leftOffset + 'px,' + topOffset + 'px) scale(1)';
-    
+    const r = this.fullTransactionViewCircleRadius();
+    const leftOffset = (r - this.windowWidth / 2) * -1;
+    const topOffset = (r - this.windowHeight / 2) * -1;
+    const transactionTransform = 'translate(0,0)';
+    const circleTransform = 'translate(' + leftOffset + 'px,' + topOffset + 'px) scale(1)';
+
     this.newTransactionCircleStyle['width'] = (r * 2) + 'px';
     this.newTransactionCircleStyle['height'] = (r * 2) + 'px';
     this.newTransactionCircleStyle['transition'] = '.5s';
     this.newTransactionCircleStyle['transform'] = circleTransform;
-    
+
     this.newTransactionStyle['opacity'] = '1';
     this.newTransactionStyle['transform'] = transactionTransform;
   }
-  
+
   setNewTransactionViewToDock() {
-    var transactionDotSize = '12.8px';
-    var transactionDotXOffset = '24px';
-    var marketingHeight = this._recentTransactions.nativeElement.offsetHeight;
-    var transactionYOffset = this._recentTransactions.nativeElement.offsetHeight + this._recentTransactions.nativeElement.offsetTop;
-    var transactionTransform = 'translate(' +transactionDotXOffset + ',' + transactionYOffset + 'px)';
+    const transactionDotSize = '12.8px';
+    const transactionDotXOffset = '24px';
+    const marketingHeight = this._recentTransactions.nativeElement.offsetHeight;
+    const transactionYOffset = this._recentTransactions.nativeElement.offsetHeight + this._recentTransactions.nativeElement.offsetTop;
+    const transactionTransform = 'translate(' + transactionDotXOffset + ',' + transactionYOffset + 'px)';
     this.newTransactionCircleStyle['transform'] = transactionTransform;
     this.newTransactionCircleStyle['height'] = transactionDotSize;
     this.newTransactionCircleStyle['width'] = transactionDotSize;
-    
+
     this.newTransactionStyle['opacity'] = '0';
-    
+
     setTimeout(() => {
       this.recentTransactions.push(this.newTransaction);
       this.dataShareService.recentTransactions.next(this.recentTransactions);
       this.resetNewTransactionView();
-    }, 500)
+    }, 500);
   }
-  
+
   utcInputChange(event: Event) {
-    this.fileUploadText = event.target.files[0].name;
+    this.fileUploadText = (<HTMLInputElement>event.target).files[0].name;
     this.showUTCPasswordModal = true;
   }
-  
+
   callibratePage() {
     this.windowHeight = window.innerHeight;
     this.windowWidth = window.innerWidth;
     this.windowMin = Math.min(this.windowWidth, this.windowHeight);
     this.windowMax = Math.max(this.windowWidth, this.windowHeight);
   }
-  
+
   @HostListener('window:resize', ['$event'])
   onResize(event) {
     this.windowHeight = event.target.innerHeight;
