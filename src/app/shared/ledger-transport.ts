@@ -7,9 +7,7 @@ declare var buffer;
 
 export class LedgerTransport {
 
-  constructor(readonly scrambleKey: string, private timeoutSeconds: number) {
-    this.timeoutSeconds = timeoutSeconds;
-  }
+  constructor(readonly scrambleKey: string, private timeoutSeconds?: number) { }
 
   public exchange(apduHex): Observable<any> {
     const apdu = new buffer.Buffer(apduHex, 'hex');

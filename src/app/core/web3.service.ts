@@ -22,4 +22,8 @@ export class Web3Service {
   public getTransactions(address: string) {
 
   }
+
+  public generateTransaction() {
+
+  }
 }

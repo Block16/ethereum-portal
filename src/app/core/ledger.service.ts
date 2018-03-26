@@ -3,6 +3,11 @@ import {Observable} from 'rxjs/Observable';
 import {isNullOrUndefined} from 'util';
 import {LedgerTransport} from "../shared/ledger-transport";
 import {LedgerEth} from "../shared/ledger-eth";
+import * as EthTx from 'ethereumjs-tx';
+
+declare const Buffer;
+declare const TrezorConnect;
+declare const keythereum;
 
 declare let u2f;
 
@@ -14,7 +19,7 @@ export class LedgerService {
   private eth: LedgerEth;
 
   constructor() {
-    this.transport = new LedgerTransport("w0w", 30);
+    this.transport = new LedgerTransport("w0w", 60);
   }
 
   /* private getEthInstance(): Observable<any> {
@@ -66,8 +71,8 @@ export class LedgerService {
           obs.next("ok");
           obs.complete();
         }, err => {
-          console.log("Fucke");
-          obs.error("fucke");
+          console.log(err);
+          obs.error(err);
           obs.complete();
         });
       });
