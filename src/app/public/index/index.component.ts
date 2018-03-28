@@ -18,7 +18,6 @@ export class IndexComponent implements OnInit {
   @ViewChild('_recentTransactions') _recentTransactions: ElementRef;
   public AuthState = AuthState;
   public currentAuth: AuthState;
-
   // Document states
   private windowHeight: number;
   private windowWidth: number;
@@ -243,6 +242,7 @@ export class IndexComponent implements OnInit {
     this.dataShareService.recentTransactions.next(this.recentTransactions);
     this.callibratePage();
     this.resetNewTransactionView();
+    this.currentAuth = AuthState.metamask;
   }
 
   fullTransactionViewCircleRadius() {

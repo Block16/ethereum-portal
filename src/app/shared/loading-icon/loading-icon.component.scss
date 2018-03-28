@@ -1,0 +1,102 @@
+@import '../../../assets/sass-imports/_variables.scss';
+@import '../../../assets/sass-imports/_mixins.scss';
+
+$blockSize: .5em;
+$blockSpacing: $blockSize * .5;
+
+$iconSize: $blockSize * 2 + $blockSpacing * 2;
+$iconHeight: $iconSize;
+$iconWidth: $iconSize;
+
+$period: 1s;
+
+@keyframes container {
+  to {
+    transform: translateY($blockSize * 2 + $blockSpacing * 2);
+  }
+}
+
+@keyframes box-1 {
+  0% {
+    transform: rotate(0deg);
+  }
+  70% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(-180deg);
+  }
+}
+@keyframes box-2 {
+  20% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(180deg);
+  }
+  100% {
+    transform: rotate(180deg);
+  }
+}
+@keyframes box-1-counter {
+  0% {
+    transform: rotate(0deg);
+  }
+  70% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(180deg);
+  }
+}
+@keyframes box-2-counter {
+  20% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(-180deg);
+  }
+  100% {
+    transform: rotate(-180deg);
+  }
+}
+
+:host {
+  display: block;
+  margin: $defaultMargin;
+}
+
+.loading {
+  display: flex;
+  align-items: center;
+  flex-flow: column;
+  
+  .container {
+    animation: container $period linear infinite;
+  }
+  
+  .box-1, .box-2 {
+    transform-origin: center ($blockSize / 2 + $blockSpacing) * -1;
+  }
+  
+  .box-1 {
+    animation: box-1 $period ease-in infinite;
+  }
+  .box-2 {
+    animation: box-2 $period ease-in infinite;
+  }
+  
+  .counter {
+    height: $blockSize;
+    width: $blockSize;
+    margin-bottom: $blockSpacing;
+    background: black;
+  }
+      
+  .box-1 .counter {
+    animation: box-1-counter $period linear infinite;
+  }
+  .box-2 .counter {
+    animation: box-2-counter $period linear infinite;
+  }
+}
