@@ -63,24 +63,27 @@
 			 class="grid">
 		<div class="grid-cell">
 			<h2 class="top-border head2 type2">View</h2>
-			<div class="caption ">Address</div>
-			<p class="lining-proportional">0x{{ ethereumAddress }}</p>
-			<div class="caption">ETH</div>
-			<p class="lining-proportional">{{ ethereumBalance }}</p>
-			<div class="tokens bottom-margin">
-				<div class="token"
-						 *ngFor="let token of assets['tokens']; let i = index">
-					<div class="caption">{{ assets['tokens'][i].name }}</div>
-					<p class="lining-proportional">{{ assets['tokens'][i].amount }}</p>
+			<section class="section-content">
+				<div class="caption ">Address</div>
+				<p class="lining-proportional">0x{{ ethereumAddress }}</p>
+				<div class="caption">ETH</div>
+				<p class="lining-proportional">{{ ethereumBalance }}</p>
+				<div class="tokens bottom-margin">
+					<div class="token"
+							 *ngFor="let token of assets['tokens']; let i = index">
+						<div class="caption">{{ assets['tokens'][i].name }}</div>
+						<p class="lining-proportional">{{ assets['tokens'][i].amount }}</p>
+					</div>
 				</div>
-			</div>
-			<h3 class="section-toggle top-border no-bottom-margin"
-					[ngClass]="{ 'open': showQR }"
-					(click)="showQR = !showQR">QR</h3>
-			<section class="section-content"
-							 *ngIf="showQR">
-				<img src="assets/img/QR dummy.png"
-						 class="qr">
+				<h3 class="section-toggle top-border no-bottom-margin"
+						[ngClass]="{ 'open': showQR }"
+						(click)="showQR = !showQR">QR</h3>
+				<section class="section-content"
+								 *ngIf="showQR">
+					<img src="assets/img/QR dummy.png"
+							 class="qr">
+				</section>
+				<loading-icon></loading-icon>
 			</section>
 		</div>
 		<div class="grid-cell">

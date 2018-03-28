@@ -136,7 +136,7 @@ h3 {
 	$columnSideMargin: 1em;
 	display: grid;
   grid-template-columns: repeat(auto-fit, minmax(20em, 1fr));
-  grid-gap: $defaultMargin * 2 $defaultMargin;
+  grid-gap: $defaultMargin * 2 0;
 	// display: flex;
 	// flex-flow: row wrap;
 	.grid-cell {

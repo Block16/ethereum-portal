@@ -26,19 +26,21 @@ export class TransactionListComponent implements OnInit {
     const fromAddress = addresses[Math.floor(Math.random() * addresses.length)];
     const statuses = ['processing', 'confirmed', 'failed'];
     const status = statuses[Math.floor(Math.random() * statuses.length)];
+    const kind = ['to', 'from'][Math.floor(Math.random() * 2)];
     let confirmations = 0;
     if (status == 'confirmed') {
       confirmations = Math.floor(Math.random() * 20);
     }
-    const tokens = ['ETH', 'SPHTX', 'WETH', 'UKG', 'THETA', 'ZRX', 'CS', 'MAN', 'REM'];
-    const token = tokens[Math.floor(Math.random() * tokens.length)];
+    const assets = ['ETH', 'SPHTX', 'WETH', 'UKG', 'THETA', 'ZRX', 'CS', 'MAN', 'REM'];
+    const asset = assets[Math.floor(Math.random() * assets.length)];
     const amount = Math.floor(Math.random() * 1000000);
     return {
       'toAddress': toAddress,
       'fromAddress': fromAddress,
       'status': status,
+      'kind': kind,
       'confirmations': confirmations,
-      'token': token,
+      'asset': asset,
       'amount': amount,
       'created': new Date()
     };
@@ -48,6 +50,7 @@ export class TransactionListComponent implements OnInit {
   	for (var i = 0; i < 12; i++) {
   		this.transactions.push(this.randomTransaction());
   	}
+  	console.log(this.transactions[0]);
   }
 
 }
