@@ -1,150 +1,143 @@
 <main>
-
-	<div *ngIf="currentAuth == AuthState.none">
-
-		<div class="grid">
-			<h1 class="top-border head1 type2">Ethereum Portal</h1>
-			<div class="grid-cell">
-				<h2 class="top-border">Select auth methods</h2>
-				<section class="section-content">
-					<h3 class="fade">MetaMask and Ledger are recognized automatically.</h3>
+	<h1 class="top-border head1 type2">Ethereum Portal</h1>
+	<div *ngIf="currentAuth == AuthState.none"
+			 class="grid">
+		<div class="grid-cell">
+			<h2 class="top-border">Select auth methods</h2>
+			<section class="section-content">
+				<h3 class="fade">MetaMask and Ledger are recognized automatically.</h3>
+				<button class="button"
+								(click)="currentAuth = AuthState.metamask">FAKE AUTH</button><br><br>
+				<button class="button auth-button"
+								(click)="trezorAuthState()">
+					<img src="/assets/img/icons/trezor icon.svg"
+							 class="icon">
+				</button>
+				<button class="button auth-button"
+								(click)="toggleAuthState(AuthState.bitbox)">
+					<img src="/assets/img/icons/digital bitbox icon.svg"
+							 class="icon">
+				</button>
+				<button class="button auth-button"
+								(click)="toggleAuthState(AuthState.ledger)">
+					<img src="/assets/img/icons/ledger icon.svg"
+							 class="icon">
+				</button>
+				<button class="button auth-button"
+								(click)="metaMaskAuthState()"
+			              *ngIf="detectedInjectedProvider">
+					<img src="/assets/img/icons/metamask icon.svg"
+							 class="icon">
+				</button>
+				<br><br>
+			
+				<button class="button file-upload">
+					<input type="file"
+								 id="utc-upload"
+								 (change)="utcInputChange($event)">
+								 <span>{{ fileUploadText }}</span>
+				</button>
+				<br><br>
+				<button class="button"
+								(click)="showTestModal = !showTestModal">show test modal</button>
+			</section>
+			<h3 class="section-toggle top-border"
+					[ngClass]="{ 'open': showNonRecommended }"
+					(click)="showNonRecommended = !showNonRecommended">Non-recommended methods</h3>
+			<section *ngIf="showNonRecommended"
+							 class="section-content">
+				<label for="private-key" class="caption form-label">Raw private key</label>
+				<div class="text-input-plus">
+					<input type="text"  id="private-key">
 					<button class="button"
-									(click)="currentAuth = AuthState.metamask">FAKE AUTH</button><br><br>
-					<button class="button auth-button"
-									(click)="trezorAuthState()">
-						<img src="/assets/img/icons/trezor icon.svg"
-								 class="icon">
-					</button>
-					<button class="button auth-button"
-									(click)="toggleAuthState(AuthState.bitbox)">
-						<img src="/assets/img/icons/digital bitbox icon.svg"
-								 class="icon">
-					</button>
-					<button class="button auth-button"
-									(click)="toggleAuthState(AuthState.ledger)">
-						<img src="/assets/img/icons/ledger icon.svg"
-								 class="icon">
-					</button>
-					<button class="button auth-button"
-									(click)="metaMaskAuthState()"
-				              *ngIf="detectedInjectedProvider">
-						<img src="/assets/img/icons/metamask icon.svg"
-								 class="icon">
-					</button>
-					<br><br>
-				
-					<button class="button file-upload">
-						<input type="file"
-									 id="utc-upload"
-									 (change)="utcInputChange($event)">
-									 <span>{{ fileUploadText }}</span>
-					</button>
-					<br><br>
-					<button class="button"
-									(click)="showTestModal = !showTestModal">show test modal</button>
-				</section>
-				<h3 class="section-toggle top-border"
-						[ngClass]="{ 'open': showNonRecommended }"
-						(click)="showNonRecommended = !showNonRecommended">Non-recommended methods</h3>
-				<section *ngIf="showNonRecommended"
-								 class="section-content">
-					<label for="private-key" class="caption form-label">Raw private key</label>
-					<div class="text-input-plus">
-						<input type="text"  id="private-key">
-						<button class="button"
-										[ngClass]="{ 'disabled': !privateKeyIsValid }">Submit</button>
-					</div>
-				</section>
-			</div>
-			<div class="grid-cell">
-				<h2 class="top-border">Don't have a wallet?</h2>
-			</div>
+									[ngClass]="{ 'disabled': !privateKeyIsValid }">Submit</button>
+				</div>
+			</section>
+		</div>
+		<div class="grid-cell">
+			<h2 class="top-border">Don't have a wallet?</h2>
 		</div>
 	</div>
 
-	<div *ngIf="currentAuth != AuthState.none">
-		<h1 class="top-border head1 type2">Ethereum Portal</h1>
-		<div class="grid">
-			<div class="grid-cell">
-				<h2 class="top-border head2 type2">View</h2>
-				<div class="caption ">Address</div>
-				<p class="lining-proportional">0x{{ ethereumAddress }}</p>
-				<div class="caption">ETH</div>
-				<p class="lining-proportional">{{ ethereumBalance }}</p>
-				<div class="tokens bottom-margin">
-					<div class="token"
-							 *ngFor="let token of assets['tokens']; let i = index">
-						<div class="caption">{{ assets['tokens'][i].name }}</div>
-						<p class="lining-proportional">{{ assets['tokens'][i].amount }}</p>
+	<div *ngIf="currentAuth != AuthState.none"
+			 class="grid">
+		<div class="grid-cell">
+			<h2 class="top-border head2 type2">View</h2>
+			<div class="caption ">Address</div>
+			<p class="lining-proportional">0x{{ ethereumAddress }}</p>
+			<div class="caption">ETH</div>
+			<p class="lining-proportional">{{ ethereumBalance }}</p>
+			<div class="tokens bottom-margin">
+				<div class="token"
+						 *ngFor="let token of assets['tokens']; let i = index">
+					<div class="caption">{{ assets['tokens'][i].name }}</div>
+					<p class="lining-proportional">{{ assets['tokens'][i].amount }}</p>
+				</div>
+			</div>
+			<h3 class="section-toggle top-border no-bottom-margin"
+					[ngClass]="{ 'open': showQR }"
+					(click)="showQR = !showQR">QR</h3>
+			<section class="section-content"
+							 *ngIf="showQR">
+				<img src="assets/img/QR dummy.png"
+						 class="qr">
+			</section>
+		</div>
+		<div class="grid-cell">
+			<h2 class="top-border head2 type2">Send</h2>
+			<section class="section-content">
+				<label for="text-to-address" class="caption form-label">To <span class="fade">Ethereum address</span></label>
+				<input type="text"
+							 id="text-to-address"
+						   [(ngModel)]="sendAddress"
+							 class="wide"><br><br>
+				<label for="text-amount" class="caption form-label">Amount</label>
+				<div class="text-input-plus">
+					<input type="number"
+								 id="text-amount"
+								 [(ngModel)]="sendAmount"
+								 (ngModelChange)="changeSendAmount()"
+								 class="wide no-arrow-buttons">
+					<div class="max-button"
+							 [ngClass]="{ 'on': sendMax }"
+							 (click)="clickMaxButton()">Max</div>
+					<div class="custom-select">
+						<div class="select-overlay">
+							<span>{{ sendAssetName(sendAsset) }}</span>
+						</div>
+						<select name="" id=""
+									  [(ngModel)]="sendAsset"
+									  (change)="changeSendAsset()">
+							<option value="-1">ETH</option>
+							<option *ngFor="let token of assets['tokens']; let i = index" value="{{i}}">{{ assets['tokens'][i].name }}</option>
+						</select>
 					</div>
 				</div>
-				<h3 class="section-toggle top-border no-bottom-margin"
-						[ngClass]="{ 'open': showQR }"
-						(click)="showQR = !showQR">QR</h3>
-				<section class="section-content"
-								 *ngIf="showQR">
-					<img src="assets/img/QR dummy.png"
-							 class="qr">
-				</section>
-			</div>
-			<div class="grid-cell">
-				<h2 class="top-border head2 type2">Send</h2>
-				<section class="section-content">
-					<label for="text-to-address" class="caption form-label">To <span class="fade">Ethereum address</span></label>
-					<input type="text"
-								 id="text-to-address"
-							   [(ngModel)]="sendAddress"
-								 class="wide"><br><br>
-					<label for="text-amount" class="caption form-label">Amount</label>
-					<div class="text-input-plus">
-						<input type="number"
-									 id="text-amount"
-									 [(ngModel)]="sendAmount"
-									 (ngModelChange)="changeSendAmount()"
-									 class="wide no-arrow-buttons">
-						<div class="max-button"
-								 [ngClass]="{ 'on': sendMax }"
-								 (click)="clickMaxButton()">Max</div>
-						<div class="custom-select">
-							<div class="select-overlay">
-								<span>{{ sendAssetName(sendAsset) }}</span>
-							</div>
-							<select name="" id=""
-										  [(ngModel)]="sendAsset"
-										  (change)="changeSendAsset()">
-								<option value="-1">ETH</option>
-								<option *ngFor="let token of assets['tokens']; let i = index" value="{{i}}">{{ assets['tokens'][i].name }}</option>
-							</select>
-						</div>
-					</div>
-					<div *ngIf="!userPreferences['manualGas']">
-						<div class="caption">Estimated transaction fee</div>
-						<p class="lining-proportional">.0003 ETH</p>
-					</div>
-					<div *ngIf="userPreferences['manualGas']">
-						<label for="gas-price" class="caption form-label">Gas price</label>
-						<input id="gas-price" type="range">
+				<div *ngIf="!userPreferences['manualGas']">
+					<div class="caption">Estimated transaction fee</div>
+					<p class="lining-proportional">.0003 ETH</p>
+				</div>
+				<div *ngIf="userPreferences['manualGas']">
+					<label for="gas-price" class="caption form-label">Gas price</label>
+					<input id="gas-price" type="range">
 
-						<label for="gas-limit" class="caption form-label">Gas limit</label>
-						<input id="gas-limit" type="number" class="no-arrow-buttons">
-					</div>
-					<button class="button">Generate transaction</button><br>
-				</section>
-			</div>
-			<div class="grid-cell">
-				<h2 class="top-border head2 type2">History</h2>
-				<section class="section-content">
-					<p>Is a non-negative value relative to the inline size of the grid container. If the size of the grid container depends on the size of its tracks, then the percentage must be treated as auto. The intrinsic size contributions of the track may be adjusted to the size of the grid container and increase the final size of the track by the minimum amount that would result in honoring the percentage.</p>
-				</section>
-			</div>
-			<div class="grid-cell">
-				<h2 class="top-border head2 type2">Something else</h2>
-				<section class="section-content">
-					<button class="button"
-									(click)="showTestModal = !showTestModal">show test modal</button>
-					<loading-icon></loading-icon>
-				</section>
-			</div>
+					<label for="gas-limit" class="caption form-label">Gas limit</label>
+					<input id="gas-limit" type="number" class="no-arrow-buttons">
+				</div>
+				<button class="button">Generate transaction</button><br>
+			</section>
+		</div>
+<!-- 		<div class="grid-cell">
+			<h2 class="top-border head2 type2">Something else</h2>
+			<section class="section-content">
+				<loading-icon></loading-icon>
+			</section>
+		</div> -->
+		<div class="grid-cell">
+			<h2 class="top-border head2 type2">History</h2>
+			<section class="section-content">
+				<app-transaction-list></app-transaction-list>
+			</section>
 		</div>
 	</div>
 </main>
@@ -195,6 +188,8 @@
 </modal>
 
 <div class="dev-buttons">
+	<div class="dev-button"
+			 (click)="showTestModal = !showTestModal">Show test modal</div>
 	<div class="dev-button"
 		 	 (click)="showApproveNewTransaction()">Generate transaction</div>
 	<div class="dev-button"

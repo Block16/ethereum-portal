@@ -8,6 +8,7 @@ import {IndexComponent} from './index/index.component';
 import {PublicRoutingModule} from './public.routing';
 import {SharedModule} from '../shared/shared.module';
 import { FormsModule } from '@angular/forms';
+import { TransactionListComponent } from './transaction-list/transaction-list.component';
 
 
 @NgModule({
@@ -21,7 +22,8 @@ import { FormsModule } from '@angular/forms';
   declarations: [
     LayoutComponent,
     SidebarComponent,
-    IndexComponent
+    IndexComponent,
+    TransactionListComponent
   ],
   providers: [
     IndexComponent

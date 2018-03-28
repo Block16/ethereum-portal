@@ -5,16 +5,6 @@
 $modalOverlayZ: 1;
 $modalModalZ: 2;
 
-// :host {
-// 	position: fixed;
-// 	z-index: $modalZ;
-// 	display: flex;
-// 	justify-content: center;
-// 	align-items: center;
-// 	overflow: auto;
-// 	@include tblr;
-// }
-
 .overlay {
 	position: fixed;
 	z-index: $modalOverlayZ;
@@ -53,8 +43,4 @@ $modalModalZ: 2;
 	.modal-title {
 		
 	}
-}
-
-.modal-content {
-	// padding-left: $sideDockWidth;
 }
