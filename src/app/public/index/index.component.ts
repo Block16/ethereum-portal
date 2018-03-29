@@ -18,6 +18,7 @@ export class IndexComponent implements OnInit {
   @ViewChild('_recentTransactions') _recentTransactions: ElementRef;
   public AuthState = AuthState;
   public currentAuth: AuthState;
+
   // Document states
   private windowHeight: number;
   private windowWidth: number;
@@ -38,6 +39,7 @@ export class IndexComponent implements OnInit {
   public sendAmount: number;
   public sendAsset = -1;
   public sendMax = false;
+  public privateKey: string;
 
   // Modal states
   public fileUploadText = 'Upload UTC file';
@@ -78,6 +80,8 @@ export class IndexComponent implements OnInit {
     private trezorService: TrezorConnectService
   ) {
     this.currentAuth = AuthState.none;
+    this.privateKey = '';
+
     // TODO: Update this off the bat if their MetaMask is unlocked
     this.ethereumAddress = '';
     this.ethereumBalance = 0;
@@ -99,6 +103,11 @@ export class IndexComponent implements OnInit {
 
   setShowSidebar(bool) {
     this.dataShareService.showSidebar.next(bool);
+  }
+
+  privateKeyAuthState(event) {
+    this.currentAuth = AuthState.privateKey;
+    this.privateKey = event.privateKey;
   }
 
   metaMaskAuthState() {

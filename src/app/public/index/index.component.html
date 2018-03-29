@@ -30,7 +30,7 @@
 							 class="icon">
 				</button>
 				<br><br>
-			
+
 				<button class="button file-upload">
 					<input type="file"
 								 id="utc-upload"
@@ -46,12 +46,7 @@
 					(click)="showNonRecommended = !showNonRecommended">Non-recommended methods</h3>
 			<section *ngIf="showNonRecommended"
 							 class="section-content">
-				<label for="private-key" class="caption form-label">Raw private key</label>
-				<div class="text-input-plus">
-					<input type="text"  id="private-key">
-					<button class="button"
-									[ngClass]="{ 'disabled': !privateKeyIsValid }">Submit</button>
-				</div>
+        <app-private-key-form (privateKey)="privateKeyAuthState($event)"></app-private-key-form>
 			</section>
 		</div>
 		<div class="grid-cell">
