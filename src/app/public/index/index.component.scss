@@ -71,6 +71,8 @@ $newTransactionTransformTime: .25s;
 .new-transaction-circle {
 	z-index: $newTransactionCircleZ;
 	position: fixed;
+	top: 0;
+	left: 0;
 	z-index: 1;
 	border-radius: 99em;
 	background: $yellow;
