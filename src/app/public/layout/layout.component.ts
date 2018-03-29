@@ -14,7 +14,7 @@ export class LayoutComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-
+    
   }
 
   public onAddressChange(event) {

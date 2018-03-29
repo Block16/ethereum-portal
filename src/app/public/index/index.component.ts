@@ -242,7 +242,7 @@ export class IndexComponent implements OnInit {
     this.dataShareService.recentTransactions.next(this.recentTransactions);
     this.callibratePage();
     this.resetNewTransactionView();
-    this.currentAuth = AuthState.metamask;
+    // this.currentAuth = AuthState.metamask;
   }
 
   fullTransactionViewCircleRadius() {

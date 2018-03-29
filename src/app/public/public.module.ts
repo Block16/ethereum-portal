@@ -9,6 +9,7 @@ import {PublicRoutingModule} from './public.routing';
 import {SharedModule} from '../shared/shared.module';
 import { FormsModule } from '@angular/forms';
 import { TransactionListComponent } from './transaction-list/transaction-list.component';
+import { IntroComponent } from './intro/intro.component';
 
 
 @NgModule({
@@ -23,7 +24,8 @@ import { TransactionListComponent } from './transaction-list/transaction-list.co
     LayoutComponent,
     SidebarComponent,
     IndexComponent,
-    TransactionListComponent
+    TransactionListComponent,
+    IntroComponent
   ],
   providers: [
     IndexComponent
