@@ -9,7 +9,7 @@
       "outDir": "dist",
       "assets": [
         "assets",
-        "favicon.ico"
+        "favicon.png"
       ],
       "index": "index.html",
       "main": "main.ts",
@@ -22,7 +22,10 @@
         "styles.scss"
       ],
       "scripts": [
-        "assets/javascript/keythereum.min.js"
+        "assets/javascript/keythereum.min.js",
+        "assets/javascript/connect.js",
+        "assets/javascript/buffer.js",
+        "assets/javascript/u2f-api.js"
       ],
       "environmentSource": "environments/environment.ts",
       "environments": {

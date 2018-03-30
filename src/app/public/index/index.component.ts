@@ -126,6 +126,21 @@ export class IndexComponent implements OnInit {
     });
   }
 
+
+  ledgerAuthState() {
+    this.currentAuth = AuthState.ledger;
+    this.ledgerService.displayOnLedger().subscribe((r) => {
+      this.ledgerService.getEthereumAddress().subscribe((address: string) => {
+        this.ethereumAddress = address;
+        this.updateAddress(address);
+      });
+    });
+    /* this.ledgerService.getEthereumAddress().subscribe((address: string) => {
+      this.ethereumAddress = address;
+      this.updateAddress(address);
+    }); */
+  }
+
   generateTransaction() {
     this.newTransaction = this.randomTransaction();
   }
@@ -249,7 +264,6 @@ export class IndexComponent implements OnInit {
     this.recentTransactions.push(this.randomTransaction());
     this.recentTransactions.push(this.randomTransaction());
     this.recentTransactions.push(this.randomTransaction());
-
     this.dataShareService.recentTransactions.next(this.recentTransactions);
     this.calibratePage();
     this.resetNewTransactionView();
