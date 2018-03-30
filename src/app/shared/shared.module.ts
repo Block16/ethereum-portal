@@ -4,6 +4,7 @@ import { ModalComponent } from './modal/modal.component';
 import { LoadingIconComponent } from './loading-icon/loading-icon.component';
 import { PrivateKeyFormComponent } from './private-key-form/private-key-form.component';
 import { ReactiveFormsModule } from "@angular/forms";
+import { ToggleSwitchComponent } from './ui/toggle-switch/toggle-switch.component';
 
 @NgModule({
   imports: [
@@ -18,7 +19,8 @@ import { ReactiveFormsModule } from "@angular/forms";
   declarations: [
     ModalComponent,
     LoadingIconComponent,
-    PrivateKeyFormComponent
+    PrivateKeyFormComponent,
+    ToggleSwitchComponent
   ]
 })
 export class SharedModule { }

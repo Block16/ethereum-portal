@@ -10,7 +10,8 @@
 		 *ngIf="showSidebar"
 		 (click)="showSidebar = !showSidebar"></div>
 <div class="sidebar"
-		 [ngClass]="{ 'open': showSidebar }">
+		 [ngClass]="{ 'open': showSidebar }"
+		 [ngStyle]="theme">
 	<div class="sidebar-top">
 		<a href="http://block16.io" target="_blank"><img src="assets/img/branding/logo.svg"
 					 class="logo"></a>

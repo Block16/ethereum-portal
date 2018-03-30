@@ -4,6 +4,7 @@ import {DataShareService} from "../../core/data-share.service";
 import {LedgerService} from '../../core/ledger.service';
 import {TrezorConnectService} from '../../core/trezor-connect.service';
 import {Web3Service} from "../../core/web3.service";
+import { DomSanitizer } from '@angular/platform-browser';
 
 enum AuthState {
   none, trezor, bitbox, metamask, utcFile, privateKey, ledger
@@ -78,7 +79,8 @@ export class IndexComponent implements OnInit {
     private dataShareService: DataShareService,
     private web3Service: Web3Service,
     private ledgerService: LedgerService,
-    private trezorService: TrezorConnectService
+    private trezorService: TrezorConnectService,
+    private sanitizer: DomSanitizer
   ) {
     this.currentAuth = AuthState.none;
     this.privateKey = '';
@@ -101,6 +103,10 @@ export class IndexComponent implements OnInit {
     this.dataShareService.showSidebar.subscribe((value: any) => {
       this.showSidebar = value;
     });
+  }
+  
+  sanitize(property) {
+    return this.sanitizer.bypassSecurityTrustStyle(property);
   }
 
   setShowSidebar(bool) {

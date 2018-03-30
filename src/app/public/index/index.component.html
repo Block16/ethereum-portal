@@ -1,9 +1,11 @@
 <main>
-	<h1 class="top-border head1 type2">Ethereum Portal</h1>
+	<h1 class="top-border head1 type2"
+			[ngStyle]="theme.textStyle">Ethereum Portal</h1>
 	<div *ngIf="currentAuth == AuthState.none"
 			 class="grid">
 		<div class="grid-cell">
 			<h2 class="top-border">Select auth methods</h2>
+			
 			<section class="section-content">
 				<h3 class="fade">MetaMask and Ledger are recognized automatically.</h3>
 				<button class="button"

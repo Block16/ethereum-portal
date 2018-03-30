@@ -1,3 +1,6 @@
-<app-intro></app-intro>
-<app-sidebar [account]="ethereumAddress"></app-sidebar>
-<app-index (ethereumAddressChange)="onAddressChange($event)"></app-index>
+<div class="layout"
+		 [ngStyle]="theme.backgroundStyle">
+	<app-sidebar [account]="ethereumAddress"></app-sidebar>
+	<app-index (ethereumAddressChange)="onAddressChange($event)"
+						 [ngStyle]="theme.mainStyle"></app-index>
+</div>

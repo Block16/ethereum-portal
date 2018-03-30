@@ -5,6 +5,12 @@ $green: #00CF34;
 $red: #ED466E;
 $overlayColor: hsla(0,0,0,.5);
 
+// opacities
+$op1: .05; // subtle (hover states)
+$op2: .1;  // inputs, disabled switches, chevron markers
+$op3: .2;  // closed sections and disabled buttons
+$op4: .4;  // enabled switches, secondary labels
+
 // fonts
 $FM: 'FuturaMedium';
 $FB: 'FuturaBold';

@@ -5,6 +5,7 @@ import {LedgerService} from './ledger.service';
 import {HttpClientModule} from "@angular/common/http";
 import {Web3Service} from "./web3.service";
 import {DataShareService} from "./data-share.service";
+import {ThemeService} from "./theme.service";
 
 @NgModule({
   imports: [
@@ -13,11 +14,13 @@ import {DataShareService} from "./data-share.service";
   ],
   providers: [
     DataShareService,
-    TrezorConnectService,
     LedgerService,
+    TrezorConnectService,
+    ThemeService,
     Web3Service
   ],
   declarations: [
+  
   ]
 })
 export class CoreModule {
