@@ -14,6 +14,33 @@ main {
 	// justify-content: center;
 }
 
+.wallets {
+		display: grid;
+	  grid-template-columns: repeat(auto-fit, minmax(5em, 1fr));
+	  grid-gap: $defaultMargin / 2;
+	  .wallet {
+	  	cursor: pointer;
+	  	.wallet-icon {
+	  		position: relative;
+	  		background: black;
+	  		color: $backgroundColor;
+	  		width: 100%;
+	  		height: 0;
+	  		padding-bottom: 100%;
+	  		input[type="file"] {
+	  			opacity: 0;
+	  			cursor: pointer;
+	  			@include posa-tblr;
+	  		}
+	  		img {
+	  			margin: auto;
+	  			height: 40%;
+	  			@include posa-tblr;
+	  		}
+	  	}
+	  }
+}
+
 .recent-transactions {
 	position: fixed;
 	width: $defaultMargin * 2 + $menuButtonWidth;

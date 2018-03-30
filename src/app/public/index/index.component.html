@@ -3,40 +3,48 @@
 	<div *ngIf="currentAuth == AuthState.none"
 			 class="grid">
 		<div class="grid-cell">
-			<h2 class="top-border">Select auth methods</h2>
+			<h2 class="top-border">Select wallet</h2>
 			<section class="section-content">
-				<h3 class="fade">MetaMask and Ledger are recognized automatically.</h3>
-				<button class="button"
-								(click)="currentAuth = AuthState.metamask">FAKE AUTH</button><br><br>
-				<button class="button auth-button"
-								(click)="trezorAuthState()">
-					<img src="/assets/img/icons/trezor icon.svg"
-							 class="icon">
-				</button>
-				<button class="button auth-button"
-								(click)="toggleAuthState(AuthState.bitbox)">
-					<img src="/assets/img/icons/digital bitbox icon.svg"
-							 class="icon">
-				</button>
-				<button class="button auth-button"
-								(click)="toggleAuthState(AuthState.ledger)">
-					<img src="/assets/img/icons/ledger icon.svg"
-							 class="icon">
-				</button>
-				<button class="button auth-button"
-								(click)="metaMaskAuthState()"
-			              *ngIf="detectedInjectedProvider">
-					<img src="/assets/img/icons/metamask icon.svg"
-							 class="icon">
-				</button>
-				<br><br>
-
-        <!-- UTC Input -->
-				<app-utc-file-form (privateKey)="utcAuthState($event)"></app-utc-file-form>
-
-				<br><br>
-				<button class="button"
-								(click)="showTestModal = !showTestModal">show test modal</button>
+				<div class="wallets">
+					<div class="wallet">
+						<div class="wallet-icon"
+								 (click)="metaMaskAuthState()">
+							<img src="assets/img/icons/metamask icon light.svg" alt="">
+						</div>
+						<span class="head3">Metamask</span>
+					</div>
+					<div class="wallet">
+						<div class="wallet-icon"
+								 (click)="toggleAuthState(AuthState.ledger)">
+							<img src="assets/img/icons/ledger icon light.svg" alt="">
+						</div>
+						<span class="head3">Ledger</span>
+					</div>
+					<div class="wallet">
+						<div class="wallet-icon"
+								 (click)="trezorAuthState()">
+							<img src="assets/img/icons/trezor icon light.svg" alt="">
+						</div>
+						<span class="head3">Trezor</span>
+					</div>
+					<div class="wallet">
+						<div class="wallet-icon"
+								 (click)="toggleAuthState(AuthState.bitbox)">
+							<img src="assets/img/icons/digital bitbox icon light.svg" alt="">
+						</div>
+						<span class="head3">Digital Bitbox</span>
+					</div>
+					<div class="wallet">
+						<div class="wallet-icon">
+						  <input type="file"
+						 	 			 id="utc-upload"
+						 				 (change)="utcInputChange($event)">
+							<img src="assets/img/icons/utc icon light.svg" alt="">
+						</div>
+						<span class="head3">.UTC file</span>
+					</div>
+				</div>
+				<br>
 			</section>
 			<h3 class="section-toggle top-border"
 					[ngClass]="{ 'open': showNonRecommended }"
@@ -45,6 +53,11 @@
 							 class="section-content">
         <app-private-key-form (privateKey)="privateKeyAuthState($event)"></app-private-key-form>
 			</section>
+			<button class="button"
+							(click)="currentAuth = AuthState.metamask">FAKE AUTH</button>
+			<br><br>
+			<button class="button"
+							(click)="showTestModal = !showTestModal">show test modal</button>
 		</div>
 		<div class="grid-cell">
 			<h2 class="top-border">Don't have a wallet?</h2>
