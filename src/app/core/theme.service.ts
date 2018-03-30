@@ -58,7 +58,7 @@ export class ThemeService {
 		let bgColorRGB = this.hexToRgb(themeSource['backgroundColor']);
 		
 		theme['mainStyle'] = {
-			'background-color': themeSource.backgroundColor
+			'background-color': themeSource.backgroundColor,
 			'color': themeSource.primaryColor,
 			'border-color': themeSource.primaryColor
 		}
