@@ -19,6 +19,7 @@ main {
 	  grid-template-columns: repeat(auto-fit, minmax(5em, 1fr));
 	  grid-gap: $defaultMargin / 2;
 	  .wallet {
+	  	overflow: hidden;
 	  	cursor: pointer;
 	  	.wallet-icon {
 	  		position: relative;
@@ -35,6 +36,15 @@ main {
 	  		img {
 	  			margin: auto;
 	  			height: 40%;
+	  			&[src="assets/img/icons/ledger icon light.svg"] {
+		  			height: 34%;
+	  			}
+	  			&[src="assets/img/icons/trezor icon light.svg"] {
+		  			height: 43%;
+	  			}
+	  			&[src="assets/img/icons/digital bitbox icon light.svg"] {
+		  			height: 43%;
+	  			}
 	  			@include posa-tblr;
 	  		}
 	  	}

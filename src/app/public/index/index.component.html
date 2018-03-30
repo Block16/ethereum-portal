@@ -52,12 +52,12 @@
 			<section *ngIf="showNonRecommended"
 							 class="section-content">
         <app-private-key-form (privateKey)="privateKeyAuthState($event)"></app-private-key-form>
+				<button class="button"
+								(click)="currentAuth = AuthState.metamask">FAKE AUTH</button>
+				<br><br>
+				<button class="button"
+								(click)="showTestModal = !showTestModal">show test modal</button>
 			</section>
-			<button class="button"
-							(click)="currentAuth = AuthState.metamask">FAKE AUTH</button>
-			<br><br>
-			<button class="button"
-							(click)="showTestModal = !showTestModal">show test modal</button>
 		</div>
 		<div class="grid-cell">
 			<h2 class="top-border">Don't have a wallet?</h2>
