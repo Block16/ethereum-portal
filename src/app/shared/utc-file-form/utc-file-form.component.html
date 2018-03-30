@@ -1,0 +1,17 @@
+<button class="button file-upload">
+  <input type="file"
+         id="utc-upload"
+         (change)="utcInputChange($event)">
+  <span>{{ fileUploadText }}</span>
+</button>
+
+<modal [(visible)]="showUtcModal"
+       [title]="'UTC password'">
+  <form [formGroup]="passwordForm" (submit)="passwordSubmit()">
+    <section class="section-content pad-left">
+      <label for="utc-password" class="caption form-label">Password</label>
+      <input type="password" class="wide" id="utc-password" [formControl]="passwordForm.controls['password']">
+    </section>
+    <button class="button wide" type="submit">Submit</button>
+  </form>
+</modal>

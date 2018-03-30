@@ -4,6 +4,7 @@ import { ModalComponent } from './modal/modal.component';
 import { LoadingIconComponent } from './loading-icon/loading-icon.component';
 import { PrivateKeyFormComponent } from './private-key-form/private-key-form.component';
 import { ReactiveFormsModule } from "@angular/forms";
+import { UtcFileFormComponent } from './utc-file-form/utc-file-form.component';
 
 @NgModule({
   imports: [
@@ -13,12 +14,14 @@ import { ReactiveFormsModule } from "@angular/forms";
   exports: [
     ModalComponent,
     LoadingIconComponent,
-    PrivateKeyFormComponent
+    PrivateKeyFormComponent,
+    UtcFileFormComponent
   ],
   declarations: [
     ModalComponent,
     LoadingIconComponent,
-    PrivateKeyFormComponent
+    PrivateKeyFormComponent,
+    UtcFileFormComponent
   ]
 })
 export class SharedModule { }

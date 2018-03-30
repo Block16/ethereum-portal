@@ -42,9 +42,7 @@ export class IndexComponent implements OnInit {
   public privateKey: string;
 
   // Modal states
-  public fileUploadText = 'Upload UTC file';
   public showTestModal = false;
-  public showUTCPasswordModal = false;
 
   // User info
   public recentTransactions = [];
@@ -103,6 +101,12 @@ export class IndexComponent implements OnInit {
 
   setShowSidebar(bool) {
     this.dataShareService.showSidebar.next(bool);
+  }
+
+  utcAuthState(event) {
+    debugger;
+    this.currentAuth = AuthState.utcFile;
+    this.privateKey = event;
   }
 
   privateKeyAuthState(event) {
@@ -249,7 +253,7 @@ export class IndexComponent implements OnInit {
     this.recentTransactions.push(this.randomTransaction());
 
     this.dataShareService.recentTransactions.next(this.recentTransactions);
-    this.callibratePage();
+    this.calibratePage();
     this.resetNewTransactionView();
     // this.currentAuth = AuthState.metamask;
   }
@@ -308,12 +312,7 @@ export class IndexComponent implements OnInit {
     }, 500);
   }
 
-  utcInputChange(event: Event) {
-    this.fileUploadText = (<HTMLInputElement>event.target).files[0].name;
-    this.showUTCPasswordModal = true;
-  }
-
-  callibratePage() {
+  calibratePage() {
     this.windowHeight = window.innerHeight;
     this.windowWidth = window.innerWidth;
     this.windowMin = Math.min(this.windowWidth, this.windowHeight);
@@ -324,6 +323,6 @@ export class IndexComponent implements OnInit {
   onResize(event) {
     this.windowHeight = event.target.innerHeight;
     this.windowWidth = event.target.innerWidth;
-    this.callibratePage();
+    this.calibratePage();
   }
 }

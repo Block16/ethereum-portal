@@ -31,12 +31,9 @@
 				</button>
 				<br><br>
 
-				<button class="button file-upload">
-					<input type="file"
-								 id="utc-upload"
-								 (change)="utcInputChange($event)">
-								 <span>{{ fileUploadText }}</span>
-				</button>
+        <!-- UTC Input -->
+				<app-utc-file-form (privateKey)="utcAuthState($event)"></app-utc-file-form>
+
 				<br><br>
 				<button class="button"
 								(click)="showTestModal = !showTestModal">show test modal</button>
@@ -174,16 +171,6 @@
 
 <modal [(visible)]="showTestModal"
 			 [title]="'Title'">hello</modal>
-
-
-<modal [(visible)]="showUTCPasswordModal"
-			 [title]="'UTC password'">
-	<section class="section-content pad-left">
-		<label for="utc-password" class="caption form-label">Password</label>
-		<input type="password" class="wide" id="utc-password">
-	</section>
-	<button class="button wide">Submit</button>
-</modal>
 
 <div class="dev-buttons">
 	<div class="dev-button"
