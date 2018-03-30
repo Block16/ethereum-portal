@@ -20,13 +20,13 @@ main {
 	  grid-gap: $defaultMargin / 2;
 	  .wallet {
 	  	overflow: hidden;
-	  	cursor: pointer;
 	  	.wallet-icon {
 	  		position: relative;
 	  		background: black;
 	  		color: $backgroundColor;
 	  		width: 100%;
 	  		height: 0;
+		  	cursor: pointer;
 	  		padding-bottom: 100%;
 	  		input[type="file"] {
 	  			opacity: 0;
@@ -34,6 +34,7 @@ main {
 	  			@include posa-tblr;
 	  		}
 	  		img {
+	  			@include pass-through;
 	  			margin: auto;
 	  			height: 40%;
 	  			&[src="assets/img/icons/ledger icon light.svg"] {
