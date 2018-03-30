@@ -1,4 +1,13 @@
+import * as ethutils from 'ethereumjs-util';
 declare var buffer;
+
+export function privateKeyToAddress(privateKey: string): string {
+  // Sitewide we don't deal with 0x prefix
+  if (privateKey.length !== 64) {
+    throw new Error("Private key was not length 64, was length: " + privateKey.length);
+  }
+  return ethutils.privateToAddress(parseInt(privateKey, 16)).toString('hex');
+}
 
 export function webSafe64(base64): string {
   return base64.replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');

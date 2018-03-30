@@ -3,6 +3,7 @@ import {DataShareService} from "../../core/data-share.service";
 import {LedgerService} from '../../core/ledger.service';
 import {TrezorConnectService} from '../../core/trezor-connect.service';
 import {Web3Service} from "../../core/web3.service";
+import {privateKeyToAddress} from "../../shared/utils";
 
 enum AuthState {
   none, trezor, bitbox, metamask, utcFile, privateKey, ledger
@@ -104,12 +105,12 @@ export class IndexComponent implements OnInit {
 
   utcAuthState(event) {
     this.currentAuth = AuthState.utcFile;
-    this.privateKey = event;
+    this.updatePrivateKey(event);
   }
 
   privateKeyAuthState(event) {
     this.currentAuth = AuthState.privateKey;
-    this.privateKey = event.privateKey;
+    this.updatePrivateKey(event.privateKey);
   }
 
   metaMaskAuthState() {
@@ -199,6 +200,11 @@ export class IndexComponent implements OnInit {
 
   toggleAuthState(authState: AuthState) {
     this.currentAuth = authState;
+  }
+
+  private updatePrivateKey(privateKey: string) {
+    this.privateKey = privateKey;
+    this.updateAddress(privateKeyToAddress(this.privateKey));
   }
 
   private updateAddress(address: string) {

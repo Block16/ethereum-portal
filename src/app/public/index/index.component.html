@@ -35,13 +35,7 @@
 						<span class="head3">Digital Bitbox</span>
 					</div>
 					<div class="wallet">
-						<div class="wallet-icon">
-						  <input type="file"
-						 	 			 id="utc-upload"
-						 				 (change)="utcInputChange($event)">
-							<img src="assets/img/icons/utc icon light.svg" alt="">
-						</div>
-						<span class="head3">.UTC file</span>
+            <app-utc-file-form (privateKey)="utcAuthState($event)"></app-utc-file-form>
 					</div>
 				</div>
 				<br>
