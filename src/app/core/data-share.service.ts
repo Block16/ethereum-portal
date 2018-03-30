@@ -8,8 +8,27 @@ export class DataShareService {
 	public recentTransactions = new BehaviorSubject([]);
 	public userPreferences = new BehaviorSubject({});
 	
+	public themes = {
+		'Default': {
+			'color': 'black',
+			'background-color': 'lightgray'
+		},
+		'Dark': {
+			'color': 'white',
+			'background-color': 'black'
+		}
+	}
+	
 	getShowSidebar() {
 	  return this.showSidebar.asObservable();
+	}
+	
+	getTheme(themeName: string) {
+		if (this.themes[themeName]) {
+			return this.themes[themeName];
+		} else {
+			console.log('Theme name error!');
+		}
 	}
 	
 	getRecentTransactions() {
@@ -17,7 +36,6 @@ export class DataShareService {
 	}
 	
 	getUserPreferences() {
-		console.log('hi');
 	  return this.userPreferences.asObservable();
 	}
 	

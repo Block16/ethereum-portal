@@ -194,7 +194,10 @@ $maxButtonMargin: ($inputHeight - $maxButtonHeight) / 2;
 	overflow: hidden;
 	cursor: pointer;
 	background: url('/assets/img/icons/select arrow.svg') right .7em top .8em / .5em no-repeat,
-							hsla(0,0,0,.2);
+							hsla(0,0,0,.1);
+	&.small {
+		font-size: 0.875em; // 14px
+	}
 	.select-overlay {
 		display: grid;
 		grid-template-columns: 1fr 1em;

@@ -51,22 +51,46 @@
 		</div>
 	</div>
 	<div class="preference"
-			 (click)="setUserPreference('viewGenerated', !userPreferences['viewGenerated'])">
+			 (click)="setUserPreference('showGenerated', !userPreferences['showGenerated'])">
 		<span>View generated transaction</span>
 		<div class="toggle-switch"
-				 [ngClass]="{'on': userPreferences['viewGenerated'] }">
+				 [ngClass]="{'on': userPreferences['showGenerated'] }">
 		</div>
 	</div>
-	<div class="preference"
-			 (click)="setUserPreference('darkMode', !userPreferences['darkMode'])">
-		<span>Dark mode</span>
-		<div class="toggle-switch"
-				 [ngClass]="{'on': userPreferences['darkMode'] }">
+	<div class="preference">
+		<span>Theme</span>
+		
+		<div class="custom-select small">
+			<div class="select-overlay">
+				<span>{{ userPreferences['theme'] }}</span>
+			</div>
+			<select name="" id=""
+						  [(ngModel)]="userPreferences['theme']"
+						  (change)="changeTheme()">
+				<option value="Default">Default</option>
+				<option value="Dark">Dark</option>
+			</select>
 		</div>
 		<!-- <input id="dark-mode"
 					 class="toggle-switch"
 					 [ngModel]="darkMode"
 					 type="checkbox">
 		<label for="dark-mode"></label> -->
+	</div>
+	<div class="preference">
+		<span>Additional denomination</span>
+		
+		<div class="custom-select small">
+			<div class="select-overlay">
+				<span>{{ userPreferences['denomination'] }}</span>
+			</div>
+			<select name="" id=""
+						  [(ngModel)]="userPreferences['denomination']"
+						  (change)="changeDemonination()">
+				<option value="None">None</option>
+				<option value="USD">USD</option>
+				<option value="Euro">Euro</option>
+			</select>
+		</div>
 	</div>
 </div>

@@ -30,6 +30,7 @@ export class IndexComponent implements OnInit {
   public showNonRecommended = false;
   public showSidebar: boolean;
   public detectedInjectedProvider: boolean;
+  private theme;
 
   // User preferences
   public userPreferences = {};
@@ -94,6 +95,7 @@ export class IndexComponent implements OnInit {
 
     this.dataShareService.userPreferences.subscribe((value: any) => {
       this.userPreferences = value;
+      this.theme = this.dataShareService.getTheme(value['theme']);
     });
 
     this.dataShareService.showSidebar.subscribe((value: any) => {
