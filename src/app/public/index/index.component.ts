@@ -1,5 +1,4 @@
 import {Component, ElementRef, EventEmitter, HostListener, OnInit, Output, ViewChild} from '@angular/core';
-import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {DataShareService} from "../../core/data-share.service";
 import {LedgerService} from '../../core/ledger.service';
 import {TrezorConnectService} from '../../core/trezor-connect.service';
@@ -104,7 +103,6 @@ export class IndexComponent implements OnInit {
   }
 
   utcAuthState(event) {
-    debugger;
     this.currentAuth = AuthState.utcFile;
     this.privateKey = event;
   }
@@ -324,5 +322,11 @@ export class IndexComponent implements OnInit {
     this.windowHeight = event.target.innerHeight;
     this.windowWidth = event.target.innerWidth;
     this.calibratePage();
+  }
+
+  @HostListener('window:beforeunload', ['$event'])
+  onUnload($event) {
+    // Make sure to clear the privatekey before we unload the application
+    this.privateKey = '';
   }
 }

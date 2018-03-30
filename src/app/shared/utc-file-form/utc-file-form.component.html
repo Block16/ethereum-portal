@@ -5,8 +5,7 @@
   <span>{{ fileUploadText }}</span>
 </button>
 
-<modal [(visible)]="showUtcModal"
-       [title]="'UTC password'">
+<modal [(visible)]="showUtcModal" [title]="'UTC password'">
   <form [formGroup]="passwordForm" (submit)="passwordSubmit()">
     <section class="section-content pad-left">
       <label for="utc-password" class="caption form-label">Password</label>
