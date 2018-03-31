@@ -1,0 +1,9 @@
+<div class="dot processing"
+		 *ngIf="status == 'processing'"
+		 [ngStyle]="theme.processingBackgroundStyle"></div>
+<div class="dot confirmed"
+		 *ngIf="status == 'confirmed'"
+		 [ngStyle]="theme.confirmedBackgroundStyle"></div>
+<div class="dot failed"
+		 *ngIf="status == 'failed'"
+		 [ngStyle]="theme.failedBackgroundStyle"></div>

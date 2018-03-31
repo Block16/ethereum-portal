@@ -6,6 +6,8 @@ import { PrivateKeyFormComponent } from './private-key-form/private-key-form.com
 import { ReactiveFormsModule } from "@angular/forms";
 import { ToggleSwitchComponent } from './ui/toggle-switch/toggle-switch.component';
 import { UtcFileFormComponent } from './utc-file-form/utc-file-form.component';
+import { MenuButtonComponent } from './ui/menu-button/menu-button.component';
+import { TransactionDotComponent } from './ui/transaction-dot/transaction-dot.component';
 
 @NgModule({
   imports: [
@@ -17,14 +19,18 @@ import { UtcFileFormComponent } from './utc-file-form/utc-file-form.component';
     LoadingIconComponent,
     ToggleSwitchComponent,
     PrivateKeyFormComponent,
-    UtcFileFormComponent
+    UtcFileFormComponent,
+    MenuButtonComponent,
+    TransactionDotComponent
   ],
   declarations: [
     ModalComponent,
     LoadingIconComponent,
     PrivateKeyFormComponent,
     ToggleSwitchComponent,
-    UtcFileFormComponent
+    UtcFileFormComponent,
+    MenuButtonComponent,
+    TransactionDotComponent
   ]
 })
 export class SharedModule { }

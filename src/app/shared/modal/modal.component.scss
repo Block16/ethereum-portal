@@ -1,6 +1,5 @@
 @import '../../../assets/sass-imports/_variables.scss';
 @import '../../../assets/sass-imports/_mixins.scss';
-@import '../../public/sidebar/sidebar.component.scss';
 
 $modalOverlayZ: 1;
 $modalModalZ: 2;
@@ -26,11 +25,14 @@ $modalModalZ: 2;
 
 .modal {
 	position: relative;
-	background: $backgroundColor;
 	margin: auto 0;
 	max-width: $modalMaxWidth;
 	width: 100%;
 	@include no-pass-through;
+}
+
+.modal-inner {
+	background: $backgroundColor;
 }
 
 .modal-top {

@@ -1,10 +1,5 @@
-<div class="menu-button"
-		 (click)="showSidebar = !showSidebar">
-	<div class="symbol-box x"
-				  [ngClass]="{ 'x': showSidebar }">
-		<div class="symbol"></div>
-	</div>
-</div>
+<menu-button class="menu-button"
+						 [(value)]="showSidebar"></menu-button>
 
 <div class="overlay"
 		 *ngIf="showSidebar"
@@ -24,10 +19,8 @@
 	<div class="recent-entries">
 		<div *ngFor="let tx of recentTransactions"
 				 class="recent-entry">
-			<div class="dot"
-					 [ngClass]="{ 'processing': tx.status == 'processing',
-					 							'confirmed': tx.status == 'confirmed',
-					 							'failed': tx.status == 'failed' }"></div>
+			
+			<transaction-dot class="dot" [status]="tx.status"></transaction-dot>
 			<div class="main">
 				<span *ngIf="tx.status == 'confirmed'">{{tx.confirmations}} confirmations</span>
 				<span *ngIf="tx.status == 'processing'">Processing</span>

@@ -97,6 +97,15 @@ export class ThemeService {
 													primaryColorRGB.b+','+
 													themeSource.op2+')',
 		}
+		theme['processingBackgroundStyle'] = {
+			'background-color': themeSource.processingColor
+		}
+		theme['confirmedBackgroundStyle'] = {
+			'background-color': themeSource.confirmedColor
+		}
+		theme['failedBackgroundStyle'] = {
+			'background-color': themeSource.failedColor
+		}
 		return theme;
 	}
 	

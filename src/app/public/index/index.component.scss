@@ -61,37 +61,6 @@ main {
 	@include no-select-pointer;
 	.transaction {
 		padding: 0 0 $defaultMargin / 1.4;
-		&:before {
-			content: '';
-			display: block;
-			opacity: 1;
-			width: $transactionDotSize;
-			height: $transactionDotSize;
-			background: gray;
-			margin: 0 auto;
-			border-radius: 99em;
-		}
-		&.confirmed {
-			&:before {
-				background: $green;
-			}
-		}
-		&.failed {
-			&:before {
-				background: $red;
-			}
-		}
-		&.processing {
-			&:before {
-				background: $yellow;
-				animation: pulse 1s alternate infinite;
-				@keyframes pulse {
-					to {
-						opacity: .15;
-					}
-				}
-			}
-		}
 	}
 }
 

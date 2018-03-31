@@ -1,0 +1,13 @@
+<div class="menu-button"
+		 (click)="click()">
+	<div class="symbol-box x"
+				  [ngClass]="{ 'x': this.value || this.static }">
+		<div class="symbol"
+				 [ngStyle]="theme.primaryBackgroundStyle">
+			<div class="bar1"
+					 [ngStyle]="theme.primaryBackgroundStyle"></div>
+			<div class="bar2"
+					 [ngStyle]="theme.primaryBackgroundStyle"></div>
+		</div>
+	</div>
+</div>

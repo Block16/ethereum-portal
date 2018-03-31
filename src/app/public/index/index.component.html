@@ -175,11 +175,10 @@
 <div #_recentTransactions
 		 class="recent-transactions"
 		 (click)="setShowSidebar(true)">
-	<div *ngFor="let transaction of recentTransactions"
-				class="transaction"
-				[ngClass]="{'processing': transaction.status == 'processing',
-										'confirmed': transaction.status == 'confirmed',
-										'failed': transaction.status == 'failed'}"></div>
+	<div *ngFor="let tx of recentTransactions"
+				class="transaction">
+		<transaction-dot [status]="tx.status"></transaction-dot>
+	</div>
 </div>
 
 <modal [(visible)]="showTestModal"
