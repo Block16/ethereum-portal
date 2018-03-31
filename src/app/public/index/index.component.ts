@@ -4,6 +4,8 @@ import {LedgerService} from '../../core/ledger.service';
 import {TrezorConnectService} from '../../core/trezor-connect.service';
 import {Web3Service} from "../../core/web3.service";
 import {privateKeyToAddress} from "../../shared/utils";
+import {PrivateKeyService} from "../../core/private-key.service";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 
 enum AuthState {
   none, trezor, bitbox, metamask, utcFile, privateKey, ledger
@@ -35,11 +37,11 @@ export class IndexComponent implements OnInit {
   public userPreferences = {};
 
   // Form states
+  public sendForm: FormGroup;
   public sendAddress: string;
   public sendAmount: number;
   public sendAsset = -1;
   public sendMax = false;
-  public privateKey: string;
 
   // Modal states
   public showTestModal = false;
@@ -72,13 +74,14 @@ export class IndexComponent implements OnInit {
   public ethereumBalance: number;
 
   constructor (
+    private formBuilder: FormBuilder,
     private dataShareService: DataShareService,
     private web3Service: Web3Service,
     private ledgerService: LedgerService,
-    private trezorService: TrezorConnectService
+    private trezorService: TrezorConnectService,
+    private privateKeyService: PrivateKeyService
   ) {
     this.currentAuth = AuthState.none;
-    this.privateKey = '';
 
     // TODO: Update this off the bat if their MetaMask is unlocked
     this.ethereumAddress = '';
@@ -97,6 +100,20 @@ export class IndexComponent implements OnInit {
     this.dataShareService.showSidebar.subscribe((value: any) => {
       this.showSidebar = value;
     });
+
+    this.sendForm = this.formBuilder.group({
+      'sendAddress': ['', [
+          Validators.required,
+          Validators.pattern("(0x){0,1}[a-fA-F0-9]{40}")
+        ]
+      ],
+      'sendAmount': ['', [Validators.required]],
+      'sendAsset': ['', [Validators.required]]
+    });
+  }
+
+  sendTransaction() {
+
   }
 
   setShowSidebar(bool) {
@@ -126,7 +143,6 @@ export class IndexComponent implements OnInit {
       this.updateAddress(addresses[0]);
     });
   }
-
 
   ledgerAuthState() {
     this.currentAuth = AuthState.ledger;
@@ -203,8 +219,8 @@ export class IndexComponent implements OnInit {
   }
 
   private updatePrivateKey(privateKey: string) {
-    this.privateKey = privateKey;
-    this.updateAddress(privateKeyToAddress(this.privateKey));
+    this.updateAddress(privateKeyToAddress(privateKey));
+    this.privateKeyService.setPrivateKey(privateKey);
   }
 
   private updateAddress(address: string) {
@@ -212,7 +228,7 @@ export class IndexComponent implements OnInit {
     this.ethereumAddressChange.emit(address);
 
     this.web3Service.getBalance(address).subscribe((balance) => {
-
+      this.ethereumBalance = balance;
     });
   }
 
@@ -223,7 +239,7 @@ export class IndexComponent implements OnInit {
   clickMaxButton() {
     this.sendMax = !this.sendMax;
     if (this.sendMax) {
-      this.sendAsset == -1 ?
+      this.sendAsset === -1 ?
       this.sendAmount = this.assets['ETH'] :
       this.sendAmount = this.assets['tokens'][this.sendAsset]['amount'];
     } else if (!this.sendMax) {
@@ -233,7 +249,7 @@ export class IndexComponent implements OnInit {
 
   sendAssetName(assetIndex) {
     let assetName = '';
-    assetIndex == -1 ?
+    assetIndex === -1 ?
       assetName = 'ETH' :
       assetName = this.assets['tokens'][assetIndex]['name'];
     return assetName;
@@ -241,7 +257,7 @@ export class IndexComponent implements OnInit {
 
   getAssetAmount(assetIndex) {
     let assetAmount;
-    assetIndex == -1 ?
+    assetIndex === -1 ?
       assetAmount = this.assets['ETH'] :
       assetAmount = this.assets['tokens'][assetIndex]['amount'];
     return assetAmount;
@@ -316,8 +332,7 @@ export class IndexComponent implements OnInit {
     const transactionDotXOffset = '24px';
     const marketingHeight = this._recentTransactions.nativeElement.offsetHeight;
     const transactionYOffset = this._recentTransactions.nativeElement.offsetHeight + this._recentTransactions.nativeElement.offsetTop;
-    const transactionTransform = 'translate(' + transactionDotXOffset + ',' + transactionYOffset + 'px)';
-    this.newTransactionCircleStyle['transform'] = transactionTransform;
+    this.newTransactionCircleStyle['transform'] = 'translate(' + transactionDotXOffset + ',' + transactionYOffset + 'px)';
     this.newTransactionCircleStyle['height'] = transactionDotSize;
     this.newTransactionCircleStyle['width'] = transactionDotSize;
 
@@ -346,7 +361,6 @@ export class IndexComponent implements OnInit {
 
   @HostListener('window:beforeunload', ['$event'])
   onUnload($event) {
-    // Make sure to clear the privatekey before we unload the application
-    this.privateKey = '';
+
   }
 }

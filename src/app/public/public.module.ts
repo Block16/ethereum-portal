@@ -7,7 +7,7 @@ import {LayoutComponent} from './layout/layout.component';
 import {IndexComponent} from './index/index.component';
 import {PublicRoutingModule} from './public.routing';
 import {SharedModule} from '../shared/shared.module';
-import { FormsModule } from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { TransactionListComponent } from './transaction-list/transaction-list.component';
 import { IntroComponent } from './intro/intro.component';
 
@@ -16,7 +16,7 @@ import { IntroComponent } from './intro/intro.component';
   imports: [
     PublicRoutingModule,
     CommonModule,
-    FormsModule,
+    ReactiveFormsModule,
     RouterModule,
     SharedModule
   ],

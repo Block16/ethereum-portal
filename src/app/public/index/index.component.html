@@ -88,45 +88,50 @@
 		<div class="grid-cell">
 			<h2 class="top-border head2 type2">Send</h2>
 			<section class="section-content">
-				<label for="text-to-address" class="caption form-label">To <span class="fade">Ethereum address</span></label>
-				<input type="text"
-							 id="text-to-address"
-						   [(ngModel)]="sendAddress"
-							 class="wide"><br><br>
-				<label for="text-amount" class="caption form-label">Amount</label>
-				<div class="text-input-plus">
-					<input type="number"
-								 id="text-amount"
-								 [(ngModel)]="sendAmount"
-								 (ngModelChange)="changeSendAmount()"
-								 class="wide no-arrow-buttons">
-					<div class="max-button"
-							 [ngClass]="{ 'on': sendMax }"
-							 (click)="clickMaxButton()">Max</div>
-					<div class="custom-select">
-						<div class="select-overlay">
-							<span>{{ sendAssetName(sendAsset) }}</span>
-						</div>
-						<select name="" id=""
-									  [(ngModel)]="sendAsset"
-									  (change)="changeSendAsset()">
-							<option value="-1">ETH</option>
-							<option *ngFor="let token of assets['tokens']; let i = index" value="{{i}}">{{ assets['tokens'][i].name }}</option>
-						</select>
-					</div>
-				</div>
-				<div *ngIf="!userPreferences['manualGas']">
-					<div class="caption">Estimated transaction fee</div>
-					<p class="lining-proportional">.0003 ETH</p>
-				</div>
-				<div *ngIf="userPreferences['manualGas']">
-					<label for="gas-price" class="caption form-label">Gas price</label>
-					<input id="gas-price" type="range">
+        <form [formGroup]="sendForm" (submit)="sendTransaction()">
 
-					<label for="gas-limit" class="caption form-label">Gas limit</label>
-					<input id="gas-limit" type="number" class="no-arrow-buttons">
-				</div>
-				<button class="button">Generate transaction</button><br>
+				  <label for="text-to-address" class="caption form-label">To <span class="fade">Ethereum address</span></label>
+				  <input type="text" id="text-to-address" [formControl]="sendForm.controls['sendAddress']" class="wide">
+
+          <br><br>
+
+				  <label for="text-amount" class="caption form-label">Amount</label>
+				  <div class="text-input-plus">
+
+				  	<input type="number" id="text-amount" [formControl]="sendForm.controls['sendAmount']" class="wide no-arrow-buttons">
+
+            <div class="max-button"
+				  			 [ngClass]="{ 'on': sendMax }"
+				  			 (click)="clickMaxButton()">Max</div>
+
+				  	<div class="custom-select">
+				  		<div class="select-overlay">
+				  			<span>{{ sendAssetName(sendAsset) }}</span>
+				  		</div>
+				  		<select name="asset-selection" id="asset-selection" [formControl]="sendForm.controls['sendAsset']">
+				  			<option value="-1">ETH</option>
+				  			<option *ngFor="let token of assets['tokens']; let i = index" value="{{i}}">{{ assets['tokens'][i].name }}</option>
+				  		</select>
+				  	</div>
+
+				  </div>
+
+				  <div *ngIf="!userPreferences['manualGas']">
+				  	<div class="caption">Estimated transaction fee</div>
+				  	<p class="lining-proportional">.0003 ETH</p>
+				  </div>
+
+				  <div *ngIf="userPreferences['manualGas']">
+				  	<label for="gas-price" class="caption form-label">Gas price</label>
+				  	<input id="gas-price" type="range">
+
+				  	<label for="gas-limit" class="caption form-label">Gas limit</label>
+				  	<input id="gas-limit" type="number" class="no-arrow-buttons">
+				  </div>
+
+				  <button class="button" type="submit" [ngClass]="{ 'disabled': !sendForm.valid }">Generate transaction</button>
+          <br>
+        </form>
 			</section>
 		</div>
 <!-- 		<div class="grid-cell">

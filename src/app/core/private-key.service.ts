@@ -1,15 +1,15 @@
-import { Injectable } from '@angular/core';
+import {HostListener, Injectable} from '@angular/core';
 import {KeyManagerService} from './key.manager.interface';
 import {Observable} from 'rxjs/Observable';
 import {isNullOrUndefined} from 'util';
-import {EthereumTransaction} from '../shared/model/EthereumTransaction';
+import {EthereumTransaction} from '../shared/model/ethereum-transaction';
 import * as buffer from 'buffer';
+import {privateKeyToAddress} from "../shared/utils";
 
 @Injectable()
 export class PrivateKeyService implements KeyManagerService {
 
   private privateKey;
-  private publicKey;
   private ethereumAddress;
 
   private privateKeyPattern = '[a-fA-F0-9]{64}';
@@ -23,6 +23,7 @@ export class PrivateKeyService implements KeyManagerService {
       throw new Error("Invalid privatekey");
     }
     this.privateKey = privateKey;
+    this.ethereumAddress = privateKeyToAddress(this.privateKey);
   }
 
   /**
@@ -35,8 +36,9 @@ export class PrivateKeyService implements KeyManagerService {
   }
 
   getEthereumAddresses(): Observable<string[]> {
+    // TODO: maybe upgrade this to an HD wallet
     return Observable.create(observer => {
-      observer.next([]);
+      observer.next([this.ethereumAddress]);
       observer.complete();
     });
   }
@@ -55,7 +57,12 @@ export class PrivateKeyService implements KeyManagerService {
 
   resetState() {
     this.privateKey = '';
-    this.publicKey = '';
     this.ethereumAddress = '';
+  }
+
+  @HostListener('window:beforeunload', ['$event'])
+  onUnload($event) {
+    // make sure we unload the privatekey before unloading the application
+    this.resetState();
   }
 }

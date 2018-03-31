@@ -6,6 +6,7 @@ import {HttpClientModule} from "@angular/common/http";
 import {Web3Service} from "./web3.service";
 import {DataShareService} from "./data-share.service";
 import {SharedModule} from "../shared/shared.module";
+import {PrivateKeyService} from "./private-key.service";
 
 @NgModule({
   imports: [
@@ -17,7 +18,8 @@ import {SharedModule} from "../shared/shared.module";
     DataShareService,
     TrezorConnectService,
     LedgerService,
-    Web3Service
+    Web3Service,
+    PrivateKeyService
   ],
   declarations: [
   ]

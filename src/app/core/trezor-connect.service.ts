@@ -3,7 +3,7 @@ import {Subject} from 'rxjs/Subject';
 import {Observable} from 'rxjs/Observable';
 import {PrivateKeyService} from './private-key.service';
 import {KeyManagerService} from './key.manager.interface';
-import {EthereumTransaction} from '../shared/model/EthereumTransaction';
+import {EthereumTransaction} from '../shared/model/ethereum-transaction';
 
 declare let TrezorConnect: any;
 
