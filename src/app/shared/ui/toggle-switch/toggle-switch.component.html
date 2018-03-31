@@ -1,3 +1,7 @@
-<p>
-  toggle-switch works!
-</p>
+<div class="toggle-switch"
+		 (click)="click()"
+		 [ngClass]="{'on': value }"
+		 [ngStyle]="value ? theme.toggleSwitchOnStyle : theme.toggleSwitchOffStyle">
+		 <div class="knob"
+		 			[ngStyle]="theme.primaryBackgroundStyle"></div>
+</div>

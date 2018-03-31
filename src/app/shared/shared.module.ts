@@ -15,6 +15,7 @@ import { UtcFileFormComponent } from './utc-file-form/utc-file-form.component';
   exports: [
     ModalComponent,
     LoadingIconComponent,
+    ToggleSwitchComponent,
     PrivateKeyFormComponent,
     UtcFileFormComponent
   ],

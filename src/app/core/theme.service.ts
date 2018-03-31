@@ -65,6 +65,9 @@ export class ThemeService {
 		theme['backgroundStyle'] = {
 			'background-color': themeSource.backgroundColor
 		}
+		theme['primaryBackgroundStyle'] = {
+			'background-color': themeSource.primaryColor
+		}
 		theme['textStyle'] = {
 			'color': themeSource.primaryColor,
 			'border-color': themeSource.primaryColor
@@ -78,7 +81,7 @@ export class ThemeService {
 													primaryColorRGB.r+','+
 													primaryColorRGB.g+','+
 													primaryColorRGB.b+','+
-													themeSource.op1+')',
+													themeSource.op2+')',
 		}
 		theme['toggleSwitchOnStyle'] = {
 			'background-color': 'rgba('+

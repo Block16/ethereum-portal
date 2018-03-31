@@ -11,12 +11,13 @@
 		 (click)="showSidebar = !showSidebar"></div>
 <div class="sidebar"
 		 [ngClass]="{ 'open': showSidebar }"
-		 [ngStyle]="theme">
+		 [ngStyle]="theme.mainStyle">
 	<div class="sidebar-top">
 		<a href="http://block16.io" target="_blank"><img src="assets/img/branding/logo.svg"
 					 class="logo"></a>
 	</div>
-	<div class="h2Border menu-title">
+	<div class="h2Border menu-title"
+			 [ngStyle]="theme.textStyle">
 		<h2>Recent</h2>
 		<span class="caption section-caption all-small-caps">past hour</span>
 	</div>
@@ -37,32 +38,36 @@
 			<img class="chevron" src="assets/img/icons/chevron right.svg" alt="">
 		</div>
 	</div>
-	<div class="h2Border menu-title">
+	<div class="h2Border menu-title"
+			 [ngStyle]="theme.textStyle">
 		<h2>Auth</h2>
 		<span class="caption all-small-caps">Current auth</span>
 	</div>
-	<div class="h2Border menu-title">
+	<div class="h2Border menu-title"
+			 [ngStyle]="theme.textStyle">
 		<h2>Preferences</h2>
 	</div>
 	<div class="preference"
 			 (click)="setUserPreference('manualGas', !userPreferences['manualGas'])">
 		<span>Set gas price manually</span>
-		<div class="toggle-switch"
-				 [ngClass]="{'on': userPreferences['manualGas'] }">
-		</div>
+		<toggle-switch [clickable]="false"
+									 [(value)]="userPreferences['manualGas']"
+		></toggle-switch>
 	</div>
 	<div class="preference"
 			 (click)="setUserPreference('showGenerated', !userPreferences['showGenerated'])">
 		<span>View generated transaction</span>
-		<div class="toggle-switch"
-				 [ngClass]="{'on': userPreferences['showGenerated'] }">
-		</div>
+		<toggle-switch [clickable]="false"
+									 [(value)]="userPreferences['showGenerated']"
+		></toggle-switch>
 	</div>
 	<div class="preference">
 		<span>Theme</span>
 		
-		<div class="custom-select small">
-			<div class="select-overlay">
+		<div class="custom-select small"
+				 [ngStyle]="theme.selectStyle">
+			<div class="select-overlay"
+					 [ngStyle]="theme.textStyle">
 				<span>{{ userPreferences['theme'] }}</span>
 			</div>
 			<select name="" id=""
@@ -81,8 +86,10 @@
 	<div class="preference">
 		<span>Additional denomination</span>
 		
-		<div class="custom-select small">
-			<div class="select-overlay">
+		<div class="custom-select small"
+				 [ngStyle]="theme.selectStyle">
+			<div class="select-overlay"
+					 [ngStyle]="theme.textStyle">
 				<span>{{ userPreferences['denomination'] }}</span>
 			</div>
 			<select name="" id=""
