@@ -1,0 +1,71 @@
+@import '../../../../assets/sass-imports/_variables.scss';
+@import '../../../../assets/sass-imports/_mixins.scss';
+
+:host {
+	display: block;
+	position: relative;
+}
+.menu-button {
+	height: $menuButtonHeight + $defaultMargin * 2;
+	width: $sideDockWidth;
+	@include no-select-pointer;
+}
+
+.symbol-box {
+	$lineThickness: 4px;
+	$transitionTime: .1s;
+	@include pass-through;
+	@include posa-tblr;
+	height: $menuButtonHeight;
+	width: $menuButtonWidth;
+	margin: auto;
+	box-sizing: content-box;
+	background: transparent;
+	overflow: hidden;
+	.symbol {
+		position: absolute;
+		background: black;
+		width: $menuButtonWidth * 2;
+		height: $lineThickness;
+		top: $menuButtonHeight / 2 - $lineThickness / 2;
+		left: -$menuButtonWidth / 2;
+		transform: rotate(0deg);
+		transition: transform $transitionTime,
+								top $transitionTime;
+		.bar1 {
+			background: black;
+			top: -$menuButtonHeight / 2 + $lineThickness / 2;
+			transition: transform $transitionTime,
+									top $transitionTime,
+									opacity $transitionTime / 2;
+		}
+		.bar2 {
+			background: black;
+			bottom: -$menuButtonHeight / 2 + $lineThickness / 2;
+			transition: transform $transitionTime,
+									bottom $transitionTime;
+		}
+		.bar1, .bar2 {
+			content: '';
+			position: absolute;
+			left: 0;
+			width: $menuButtonWidth * 2;
+			height: $lineThickness;
+			transform: rotate(0deg);
+		}
+	}
+	&.x {
+		.symbol {
+			transform: rotate(57deg);
+			.bar1 {
+				top: 0;
+				transform: rotate(0deg);
+				opacity: 0;
+			}
+			.bar2 {
+				bottom: 0;
+				transform: rotate(66deg);
+			}
+		}
+	}
+}

@@ -15,68 +15,8 @@ $overlayZ: 1;
 	z-index: $menuButtonZ;
 	top: 0;
 	left: 0;
-	width: $sideDockWidth;
-	@include no-select-pointer;
 }
 
-.symbol-box {
-	$lineThickness: 4px;
-	$transitionTime: .1s;
-	@include pass-through;
-	position: relative;
-	height: $menuButtonHeight;
-	width: $menuButtonWidth;
-	margin: $defaultMargin;
-	box-sizing: content-box;
-	background: transparent;
-	overflow: hidden;
-	.symbol {
-		position: absolute;
-		background: black;
-		width: $menuButtonWidth * 2;
-		height: $lineThickness;
-		top: $menuButtonHeight / 2 - $lineThickness / 2;
-		left: -$menuButtonWidth / 2;
-		transform: rotate(0deg);
-		transition: transform $transitionTime,
-								top $transitionTime;
-		&:before {
-			background: black;
-			top: -$menuButtonHeight / 2 + $lineThickness / 2;
-			transition: transform $transitionTime,
-									top $transitionTime,
-									opacity $transitionTime / 2;
-		}
-		&:after {
-			background: black;
-			bottom: -$menuButtonHeight / 2 + $lineThickness / 2;
-			transition: transform $transitionTime,
-									bottom $transitionTime;
-		}
-		&:before, &:after {
-			content: '';
-			position: absolute;
-			left: 0;
-			width: $menuButtonWidth * 2;
-			height: $lineThickness;
-			transform: rotate(0deg);
-		}
-	}
-	&.x {
-		.symbol {
-			transform: rotate(57deg);
-			&:before {
-				top: 0;
-				transform: rotate(0deg);
-				opacity: 0;
-			}
-			&:after {
-				bottom: 0;
-				transform: rotate(66deg);
-			}
-		}
-	}
-}
 
 .overlay {
 	position: fixed;
@@ -140,27 +80,6 @@ $overlayZ: 1;
 	@include no-select-pointer;
 	&:hover {
 		background: hsla(0,0,0,.05);
-	}
-	.dot {
-		height: $transactionDotSize;
-		width: $transactionDotSize;
-		background: $yellow;
-		border-radius: 99em;
-		&.processing {
-			background: $yellow;
-			animation: pulse 1s alternate infinite;
-		}
-		&.confirmed {
-			background: $green;
-		}
-		&.failed {
-			background: $red;
-		}
-		@keyframes pulse {
-			to {
-				opacity: .15;
-			}
-		}
 	}
 	.main {
 		flex: 1;

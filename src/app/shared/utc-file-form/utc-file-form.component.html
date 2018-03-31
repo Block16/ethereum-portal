@@ -1,11 +1,7 @@
-<button class="button file-upload">
-  <input type="file"
-         id="utc-upload"
-         (change)="utcInputChange($event)">
-  <span>{{ fileUploadText }}</span>
-  <img src="assets/img/icons/utc icon light.svg" alt="">
-  <span class="head3">.UTC file</span>
-</button>
+<input type="file"
+       id="utc-upload"
+       (change)="utcInputChange($event)">
+<!--   <span>{{ fileUploadText }}</span> -->
 
 <modal [(visible)]="showUtcModal" [title]="'UTC password'">
   <form [formGroup]="passwordForm" (submit)="passwordSubmit()">

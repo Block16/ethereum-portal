@@ -1,0 +1,36 @@
+@import '../../../../assets/sass-imports/_variables.scss';
+@import '../../../../assets/sass-imports/_mixins.scss';
+
+.toggle-switch {
+	$switchHeight: 1.5em;
+	$switchWidth: 3em;
+	$knobHeight: $switchHeight;
+	$knobWidth: $switchHeight;
+	position: relative;
+	height: $switchHeight;
+	width: $switchWidth;
+	background: hsla(0,0,0,.1);
+	border-radius: 99em;
+	@include no-select-pointer;
+	.knob {
+		display: block;
+		position: absolute;
+		left: 0;
+		height: $switchHeight;
+		width: $switchHeight;
+		background: black;
+		border-radius: 99em;
+		transition: left $defaultTransitionTime * 2, transform $defaultTransitionTime * 2;
+	}
+	&:hover {
+		.knob {
+			transform: scale(1.1);
+		}
+	}
+	&.on {
+		background: hsla(0,0,0,.4);
+		.knob {
+			left: $switchWidth - $knobWidth;
+		}
+	}
+}

@@ -1,9 +1,0 @@
-@import '../../../assets/sass-imports/_variables.scss';
-@import '../../../assets/sass-imports/_mixins.scss';
-
-:host {
-	display: none;
-	@include posa-tblr;
-	z-index: 999;
-	background: black;
-}

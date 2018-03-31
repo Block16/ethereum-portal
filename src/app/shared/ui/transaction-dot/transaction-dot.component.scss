@@ -1,0 +1,27 @@
+@import '../../../../assets/sass-imports/_variables.scss';
+@import '../../../../assets/sass-imports/_mixins.scss';
+
+.dot {
+	display: block;
+	opacity: 1;
+	width: $transactionDotSize;
+	height: $transactionDotSize;
+	background: gray;
+	margin: 0 auto;
+	border-radius: 99em;
+	&.confirmed {
+		background: $green;
+	}
+	&.failed {
+		background: $red;
+	}
+	&.processing {
+		background: $yellow;
+		animation: pulse 1s alternate infinite;
+		@keyframes pulse {
+			to {
+				opacity: .15;
+			}
+		}
+	}
+}
