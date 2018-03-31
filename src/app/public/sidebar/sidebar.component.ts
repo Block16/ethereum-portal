@@ -4,7 +4,6 @@ import {Web3Service} from "../../core/web3.service";
 import {DataShareService} from "../../core/data-share.service";
 import {FormBuilder, FormGroup, FormsModule} from '@angular/forms';
 import {ThemeService} from "../../core/theme.service";
-import {ThemeSource} from "../../shared/model/theme-source";
 import {Theme} from "../../shared/model/theme/theme";
 
 @Component({
@@ -23,13 +22,12 @@ export class SidebarComponent implements OnDestroy {
   public manualGas = false;
   public viewGenerated = false;
   public darkMode = false;
-  public selectedTheme = 'Default';
 
   // ui-elements
   public userPreferences = {};
   public recentTransactions = [];
   public showSidebar = false;
-  private theme;
+  public theme: Theme;
 
   // forms
   public themeForm: FormGroup;
@@ -38,10 +36,6 @@ export class SidebarComponent implements OnDestroy {
   @Input()
   set account(address: string) {
     this.address = address;
-    console.log(this.address);
-    if (this.address !== "") {
-
-    }
   }
 
   constructor(
@@ -59,11 +53,12 @@ export class SidebarComponent implements OnDestroy {
       });
 
       // Set the default to the theme we get back from the service
-      this.themeForm.controls['themePreferences'].setValue(theme.name, {onlySelf: true});
+      // this.themeForm.controls['themePreferences'].setValue(theme.name, {onlySelf: true});
 
       // Make sure we sub to changes in the theme
       this.themeChangeSubscription = this.themeForm.get('themePreferences').valueChanges.subscribe((themeName: string) => {
         this.themeService.setTheme(themeName);
+        // this.themeForm.controls['themePreferences'].setValue(themeName, {onlySelf: true});
       });
     });
 
