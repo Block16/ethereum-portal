@@ -8,8 +8,7 @@
 		 [ngClass]="{ 'open': showSidebar }"
 		 [ngStyle]="theme.mainStyle">
 	<div class="sidebar-top">
-		<a href="http://block16.io" target="_blank"><img src="assets/img/branding/logo.svg"
-					 class="logo"></a>
+		<a href="http://block16.io" target="_blank"><img src="/assets/img/branding/logo.svg" class="logo"></a>
 	</div>
 	<div class="h2Border menu-title"
 			 [ngStyle]="theme.textStyle">
@@ -17,9 +16,7 @@
 		<span class="caption section-caption all-small-caps">past hour</span>
 	</div>
 	<div class="recent-entries">
-		<div *ngFor="let tx of recentTransactions"
-				 class="recent-entry">
-			
+		<div *ngFor="let tx of recentTransactions" class="recent-entry">
 			<transaction-dot class="dot" [status]="tx.status"></transaction-dot>
 			<div class="main">
 				<span *ngIf="tx.status == 'confirmed'">{{tx.confirmations}} confirmations</span>
@@ -31,24 +28,18 @@
 			<img class="chevron" src="assets/img/icons/chevron right.svg" alt="">
 		</div>
 	</div>
-	<div class="h2Border menu-title"
-			 [ngStyle]="theme.textStyle">
+	<div class="h2Border menu-title" [ngStyle]="theme.textStyle">
 		<h2>Auth</h2>
 		<span class="caption all-small-caps">Current auth</span>
 	</div>
-	<div class="h2Border menu-title"
-			 [ngStyle]="theme.textStyle">
+	<div class="h2Border menu-title" [ngStyle]="theme.textStyle">
 		<h2>Preferences</h2>
 	</div>
-	<div class="preference"
-			 (click)="setUserPreference('manualGas', !userPreferences['manualGas'])">
+	<div class="preference" (click)="setUserPreference('manualGas', !userPreferences['manualGas'])">
 		<span>Set gas price manually</span>
-		<toggle-switch [clickable]="false"
-									 [(value)]="userPreferences['manualGas']"
-		></toggle-switch>
+		<toggle-switch [clickable]="false" [(value)]="userPreferences['manualGas']"></toggle-switch>
 	</div>
-	<div class="preference"
-			 (click)="setUserPreference('showGenerated', !userPreferences['showGenerated'])">
+	<div class="preference" (click)="setUserPreference('showGenerated', !userPreferences['showGenerated'])">
 		<span>View generated transaction</span>
 		<toggle-switch [clickable]="false"
 									 [(value)]="userPreferences['showGenerated']"
@@ -56,16 +47,16 @@
 	</div>
 	<div class="preference">
 		<span>Theme</span>
-		
-		<div class="custom-select small"
-				 [ngStyle]="theme.selectStyle">
-			<div class="select-overlay"
-					 [ngStyle]="theme.textStyle">
+    <form [formGroup]="themeForm">
+
+		<div class="custom-select small" [ngStyle]="theme.selectStyle">
+			<div class="select-overlay" [ngStyle]="theme.textStyle">
 				<span>{{ userPreferences['theme'] }}</span>
 			</div>
-			<select name="" id=""
-						  [(ngModel)]="userPreferences['theme']"
-						  (change)="changeTheme()">
+			<select name="theme-preferences-switch" id="theme-preferences-switch"
+              [formControl]="themeForm.controls['themePreferences']">
+						  <!-- [(ngModel)]="userPreferences['theme']"
+						  (change)="changeTheme()"> -->
 				<option value="Default">Default</option>
 				<option value="Dark">Dark</option>
 			</select>
@@ -75,23 +66,23 @@
 					 [ngModel]="darkMode"
 					 type="checkbox">
 		<label for="dark-mode"></label> -->
+    </form>
 	</div>
 	<div class="preference">
 		<span>Additional denomination</span>
-		
-		<div class="custom-select small"
-				 [ngStyle]="theme.selectStyle">
-			<div class="select-overlay"
-					 [ngStyle]="theme.textStyle">
-				<span>{{ userPreferences['denomination'] }}</span>
-			</div>
-			<select name="" id=""
-						  [(ngModel)]="userPreferences['denomination']"
-						  (change)="changeDemonination()">
-				<option value="None">None</option>
-				<option value="USD">USD</option>
-				<option value="Euro">Euro</option>
-			</select>
-		</div>
+
+    <form [formGroup]="denominationForm">
+		  <div class="custom-select small" [ngStyle]="theme.selectStyle">
+		  	<div class="select-overlay" [ngStyle]="theme.textStyle">
+		  		<span>{{ userPreferences['denomination'] }}</span>
+		  	</div>
+		  	<select name="denominations-select" id="denominations-select">
+          <!-- [(ngModel)]="userPreferences['denomination']" (change)="changeDenomination()"> -->
+		  		<option value="None">None</option>
+		  		<option value="USD">USD</option>
+		  		<option value="Euro">Euro</option>
+		  	</select>
+		  </div>
+    </form>
 	</div>
 </div>
