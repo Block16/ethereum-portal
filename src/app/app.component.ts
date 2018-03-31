@@ -1,10 +1,5 @@
-<<<<<<< HEAD
 import { Component, OnInit } from '@angular/core';
 import { DataShareService } from "./core/data-share.service";
-=======
-import {Component, OnInit} from '@angular/core';
-import {DataShareService} from "./core/data-share.service";
->>>>>>> master
 
 @Component({
   selector: 'app-root',

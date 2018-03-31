@@ -29,7 +29,7 @@ main {
 	  		height: 0;
 		  	cursor: pointer;
 	  		padding-bottom: 100%;
-	  		input[type="file"] {
+	  		.utc {
 	  			opacity: 0;
 	  			cursor: pointer;
 	  			@include posa-tblr;

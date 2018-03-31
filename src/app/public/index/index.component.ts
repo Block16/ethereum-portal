@@ -76,8 +76,7 @@ export class IndexComponent implements OnInit {
     private dataShareService: DataShareService,
     private web3Service: Web3Service,
     private ledgerService: LedgerService,
-    private trezorService: TrezorConnectService,
-    private sanitizer: DomSanitizer
+    private trezorService: TrezorConnectService
   ) {
     this.currentAuth = AuthState.none;
     this.privateKey = '';
@@ -100,10 +99,6 @@ export class IndexComponent implements OnInit {
     this.dataShareService.showSidebar.subscribe((value: any) => {
       this.showSidebar = value;
     });
-  }
-  
-  sanitize(property) {
-    return this.sanitizer.bypassSecurityTrustStyle(property);
   }
 
   setShowSidebar(bool) {
