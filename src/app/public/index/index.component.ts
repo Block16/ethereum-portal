@@ -1,4 +1,4 @@
-import {Component, ElementRef, EventEmitter, HostListener, OnInit, Output, ViewChild} from '@angular/core';
+import {Component, ElementRef, EventEmitter, HostListener, OnDestroy, OnInit, Output, ViewChild} from '@angular/core';
 import {DataShareService} from "../../core/data-share.service";
 import {LedgerService} from '../../core/ledger.service';
 import {TrezorConnectService} from '../../core/trezor-connect.service';
@@ -6,6 +6,9 @@ import {Web3Service} from "../../core/web3.service";
 import {privateKeyToAddress} from "../../shared/utils";
 import {PrivateKeyService} from "../../core/private-key.service";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {ThemeService} from "../../core/theme.service";
+import {Subscription} from "rxjs/Subscription";
+import {Theme} from "../../shared/model/theme/theme";
 
 enum AuthState {
   none, trezor, bitbox, metamask, utcFile, privateKey, ledger
@@ -16,7 +19,7 @@ enum AuthState {
   templateUrl: './index.component.html',
   styleUrls: ['./index.component.scss']
 })
-export class IndexComponent implements OnInit {
+export class IndexComponent implements OnInit, OnDestroy {
   @ViewChild('_recentTransactions') _recentTransactions: ElementRef;
   public AuthState = AuthState;
   public currentAuth: AuthState;
@@ -32,10 +35,11 @@ export class IndexComponent implements OnInit {
   public showNonRecommended = false;
   public showSidebar: boolean;
   public detectedInjectedProvider: boolean;
-  private theme;
 
   // User preferences
   public userPreferences = {};
+  private themeSubscription: Subscription;
+  public theme: Theme;
 
   // Form states
   public sendForm: FormGroup;
@@ -76,6 +80,7 @@ export class IndexComponent implements OnInit {
 
   constructor (
     private formBuilder: FormBuilder,
+    private themeService: ThemeService,
     private dataShareService: DataShareService,
     private web3Service: Web3Service,
     private ledgerService: LedgerService,
@@ -88,15 +93,20 @@ export class IndexComponent implements OnInit {
     this.ethereumAddress = '';
     this.ethereumBalance = 0;
 
+    // If we detected metamask or mist
     this.detectedInjectedProvider = this.web3Service.providerDetected;
 
+    this.themeSubscription = this.themeService.theme.subscribe(theme => {
+      this.theme = theme;
+    });
+
+    // TODO: pull this out
     this.dataShareService.recentTransactions.subscribe((value: any) => {
       this.recentTransactions = value;
     });
 
     this.dataShareService.userPreferences.subscribe((value: any) => {
       this.userPreferences = value;
-      this.theme = this.dataShareService.getTheme(value['theme']);
     });
 
     this.dataShareService.showSidebar.subscribe((value: any) => {
@@ -112,6 +122,19 @@ export class IndexComponent implements OnInit {
       'sendAmount': ['', [Validators.required]],
       'sendAsset': ['', [Validators.required]]
     });
+  }
+
+  ngOnInit(): void {
+    this.recentTransactions.push(this.randomTransaction());
+    this.recentTransactions.push(this.randomTransaction());
+    this.recentTransactions.push(this.randomTransaction());
+    this.dataShareService.recentTransactions.next(this.recentTransactions);
+    this.calibratePage();
+    this.resetNewTransactionView();
+  }
+
+  ngOnDestroy(): void {
+    this.themeSubscription.unsubscribe();
   }
 
   sendTransaction() {
@@ -204,9 +227,7 @@ export class IndexComponent implements OnInit {
   }
 
   transactionSigned() {
-
     this.setNewTransactionViewToDock();
-
     // setTimeout(() => {
     //   this.recentTransactions.push(this.newTransaction);
     //   this.dataShareService.recentTransactions.next(this.recentTransactions);
@@ -282,16 +303,6 @@ export class IndexComponent implements OnInit {
   changeSendAsset() {
     this.sendMax = false;
     this.sendAmount = null;
-  }
-
-  ngOnInit() {
-    this.recentTransactions.push(this.randomTransaction());
-    this.recentTransactions.push(this.randomTransaction());
-    this.recentTransactions.push(this.randomTransaction());
-    this.dataShareService.recentTransactions.next(this.recentTransactions);
-    this.calibratePage();
-    this.resetNewTransactionView();
-    // this.currentAuth = AuthState.metamask;
   }
 
   fullTransactionViewCircleRadius() {

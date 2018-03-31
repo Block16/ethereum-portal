@@ -11,7 +11,7 @@ import {ThemeSource} from "../../shared/model/theme-source";
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.scss']
 })
-export class SidebarComponent implements OnInit {
+export class SidebarComponent implements OnDestroy {
   public address: string;
 
   private themeSubscription: Subscription;
@@ -23,7 +23,7 @@ export class SidebarComponent implements OnInit {
   public darkMode = false;
   public selectedTheme = 'Default';
 
-  // ui
+  // ui-elements
   public userPreferences = {};
   public recentTransactions = [];
   public showSidebar = false;
@@ -67,7 +67,6 @@ export class SidebarComponent implements OnInit {
 
     this.dataShareService.userPreferences.subscribe((value: any) => {
       this.userPreferences = value;
-      this.theme = this.dataShareService.getTheme(value['theme']);
     });
 
     this.dataShareService.showSidebar.subscribe((value: any) => {
@@ -77,8 +76,9 @@ export class SidebarComponent implements OnInit {
     this.address = "";
   }
 
-  public ngOnInit(): void {
 
+  ngOnDestroy(): void {
+    this.themeSubscription.unsubscribe();
   }
 
   updatePreferences() {

@@ -1,6 +1,5 @@
 import {Injectable} from '@angular/core';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
-import {ThemeService} from './theme.service';
 
 @Injectable()
 export class DataShareService {
@@ -8,9 +7,7 @@ export class DataShareService {
   public recentTransactions = new BehaviorSubject([]);
   public userPreferences = new BehaviorSubject({});
 
-  constructor(private themeService: ThemeService) {
-
-  }
+  constructor() { }
 
   /*
 
@@ -50,10 +47,6 @@ export class DataShareService {
 
   getShowSidebar() {
     return this.showSidebar.asObservable();
-  }
-
-  getTheme(themeName: string) {
-    return this.themeService.getTheme(themeName);
   }
 
   getRecentTransactions() {

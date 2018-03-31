@@ -1,26 +1,36 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import { DataShareService } from "../../core/data-share.service";
+import {Theme} from "../../shared/model/theme/theme";
+import {Subscription} from "rxjs/Subscription";
+import {ThemeService} from "../../core/theme.service";
 
 @Component({
   selector: 'app-layout',
   templateUrl: './layout.component.html',
   styleUrls: ['./layout.component.scss']
 })
-export class LayoutComponent implements OnInit {
-  public theme;
+export class LayoutComponent implements OnDestroy {
+  public theme: Theme;
+  private themeSubscription: Subscription;
   public ethereumAddress: string;
   private userPreferences;
 
-  constructor(private dataShareService: DataShareService) {
+  constructor(
+    private dataShareService: DataShareService,
+    private themeService: ThemeService
+  ) {
     this.ethereumAddress = "";
     this.dataShareService.userPreferences.subscribe((value: any) => {
       this.userPreferences = value;
-      this.theme = this.dataShareService.getTheme(value['theme']);
+
+      this.themeSubscription = this.themeService.theme.subscribe(theme => {
+        this.theme = theme;
+      });
     });
   }
 
-  public ngOnInit(): void {
-    
+  public ngOnDestroy(): void {
+    this.themeSubscription.unsubscribe();
   }
 
   public onAddressChange(event) {

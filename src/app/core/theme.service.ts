@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {isNullOrUndefined} from "util";
 import {ThemeSource} from "../shared/model/theme-source";
 import {BehaviorSubject} from "rxjs/BehaviorSubject";
+import {Theme} from "../shared/model/theme/theme";
 
 @Injectable()
 export class ThemeService {
@@ -42,15 +43,16 @@ export class ThemeService {
     }
   ];
 
-  public themes: any[];
-  public theme: BehaviorSubject<any>;
+  public themes: Theme[];
+  public theme: BehaviorSubject<Theme>;
 
   constructor() {
-    this.theme = new BehaviorSubject({});
     this.themes = [];
     this.themeSources.forEach((themeSource: ThemeSource) => {
       this.themes.push(ThemeService.constructTheme(themeSource));
     });
+    // Set the default theme initially
+    this.theme = new BehaviorSubject(this.themes[0]);
   }
 
   static hexToRgb(hex) {
@@ -62,38 +64,38 @@ export class ThemeService {
     } : null;
   }
 
-  static constructTheme(themeSource: ThemeSource) {
+  static constructTheme(themeSource: ThemeSource): Theme {
 
-    const theme = {};
+    const theme: Theme = <Theme>{};
 
     const primaryColorRGB = ThemeService.hexToRgb(themeSource.primaryColor);
     const bgColorRGB = ThemeService.hexToRgb(themeSource.backgroundColor);
 
-    theme['mainStyle'] = {
+    theme.mainStyle = {
       'background-color': themeSource.backgroundColor,
       'color': themeSource.primaryColor,
       'border-color': themeSource.primaryColor
     };
 
-    theme['backgroundStyle'] = {
+    theme.backgroundStyle = {
       'background-color': themeSource.backgroundColor
     };
 
-    theme['primaryBackgroundStyle'] = {
+    theme.primaryBackgroundStyle = {
       'background-color': themeSource.primaryColor
     };
 
-    theme['textStyle'] = {
+    theme.textStyle = {
       'color': themeSource.primaryColor,
       'border-color': themeSource.primaryColor
     };
 
-    theme['buttonStyle'] = {
+    theme.buttonStyle = {
       'color': themeSource.backgroundColor,
       'background-color': themeSource.primaryColor
     };
 
-    theme['toggleSwitchOffStyle'] = {
+    theme.toggleSwitchOffStyle = {
       'background-color': 'rgba(' +
       primaryColorRGB.r + ',' +
       primaryColorRGB.g + ',' +
@@ -101,7 +103,7 @@ export class ThemeService {
       themeSource.op2 + ')',
     };
 
-    theme['toggleSwitchOnStyle'] = {
+    theme.toggleSwitchOnStyle = {
       'background-color': 'rgba(' +
       primaryColorRGB.r + ',' +
       primaryColorRGB.g + ',' +
@@ -109,7 +111,7 @@ export class ThemeService {
       themeSource.op4 + ')',
     };
 
-    theme['selectStyle'] = {
+    theme.selectStyle = {
       'background-color': 'rgba(' +
       primaryColorRGB.r + ',' +
       primaryColorRGB.g + ',' +
@@ -117,15 +119,15 @@ export class ThemeService {
       themeSource.op2 + ')',
     };
 
-    theme['processingBackgroundStyle'] = {
+    theme.processingBackgroundStyle = {
       'background-color': themeSource.processingColor
     };
 
-    theme['confirmedBackgroundStyle'] = {
+    theme.confirmedBackgroundStyle = {
       'background-color': themeSource.confirmedColor
     };
 
-    theme['failedBackgroundStyle'] = {
+    theme.failedBackgroundStyle = {
       'background-color': themeSource.failedColor
     };
 

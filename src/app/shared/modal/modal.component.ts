@@ -1,12 +1,14 @@
-import {Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
-import {DataShareService} from "../../core/data-share.service";
+import {Component, OnInit, Input, Output, EventEmitter, OnDestroy} from '@angular/core';
+import {Subscription} from "rxjs/Subscription";
+import {Theme} from "../model/theme/theme";
+import {ThemeService} from "../../core/theme.service";
 
 @Component({
   selector: 'modal',
   templateUrl: 'modal.component.html',
   styleUrls: ['modal.component.scss']
 })
-export class ModalComponent implements OnInit {
+export class ModalComponent implements OnDestroy {
   @Input() closable = true;
   @Input() canCloseIf: any;
   @Input() visible: boolean;
@@ -14,11 +16,12 @@ export class ModalComponent implements OnInit {
   @Input() maxWidth: string;
   @Input() title: string;
   @Output() visibleChange: EventEmitter<boolean> = new EventEmitter<boolean>();
-  public theme: any;
+  public theme: Theme;
+  private themeSubscription: Subscription;
 
-  constructor(private dataShareService: DataShareService) {
-    this.dataShareService.userPreferences.subscribe((value: any) => {
-      this.theme = this.dataShareService.getTheme(value['theme']);
+  constructor(private themeService: ThemeService) {
+    this.themeSubscription = this.themeService.theme.subscribe(theme => {
+      this.theme = theme;
     });
   }
 
@@ -29,7 +32,7 @@ export class ModalComponent implements OnInit {
     }
   }
 
-  ngOnInit() {
+  ngOnDestroy(): void {
+    this.themeSubscription.unsubscribe();
   }
-
 }
