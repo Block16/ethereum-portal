@@ -91,18 +91,16 @@
         <form [formGroup]="sendForm" (submit)="sendTransaction()">
 
 				  <label for="text-to-address" class="caption form-label">To <span class="fade">Ethereum address</span></label>
-				  <input type="text" id="text-to-address" [formControl]="sendForm.controls['sendAddress']" class="wide">
+				  <input type="text" id="text-to-address" placeholder="0xAfDB9..." [formControl]="sendForm.controls['sendAddress']" class="wide">
 
           <br><br>
 
 				  <label for="text-amount" class="caption form-label">Amount</label>
 				  <div class="text-input-plus">
 
-				  	<input type="number" id="text-amount" [formControl]="sendForm.controls['sendAmount']" class="wide no-arrow-buttons">
+				  	<input type="number" id="text-amount" placeholder="0" [formControl]="sendForm.controls['sendAmount']" class="wide no-arrow-buttons">
 
-            <div class="max-button"
-				  			 [ngClass]="{ 'on': sendMax }"
-				  			 (click)="clickMaxButton()">Max</div>
+            <div class="max-button" [ngClass]="{ 'on': sendMax }" (click)="clickMaxButton()">Max</div>
 
 				  	<div class="custom-select">
 				  		<div class="select-overlay">

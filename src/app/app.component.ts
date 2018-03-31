@@ -13,7 +13,7 @@ export class AppComponent implements OnInit {
     'showGenerated': true,
     'theme': 'Default',
     'denomination': 'None'
-  }
+  };
 
   constructor(private dataShareService: DataShareService) {
 
