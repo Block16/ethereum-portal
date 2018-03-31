@@ -1,10 +1,9 @@
 import {Component, ElementRef, EventEmitter, HostListener, OnInit, Output, ViewChild} from '@angular/core';
-import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {DataShareService} from "../../core/data-share.service";
 import {LedgerService} from '../../core/ledger.service';
 import {TrezorConnectService} from '../../core/trezor-connect.service';
 import {Web3Service} from "../../core/web3.service";
-import { DomSanitizer } from '@angular/platform-browser';
+import {privateKeyToAddress} from "../../shared/utils";
 
 enum AuthState {
   none, trezor, bitbox, metamask, utcFile, privateKey, ledger
@@ -44,9 +43,7 @@ export class IndexComponent implements OnInit {
   public privateKey: string;
 
   // Modal states
-  public fileUploadText = 'Upload UTC file';
   public showTestModal = false;
-  public showUTCPasswordModal = false;
 
   // User info
   public recentTransactions = [];
@@ -113,9 +110,14 @@ export class IndexComponent implements OnInit {
     this.dataShareService.showSidebar.next(bool);
   }
 
+  utcAuthState(event) {
+    this.currentAuth = AuthState.utcFile;
+    this.updatePrivateKey(event);
+  }
+
   privateKeyAuthState(event) {
     this.currentAuth = AuthState.privateKey;
-    this.privateKey = event.privateKey;
+    this.updatePrivateKey(event.privateKey);
   }
 
   metaMaskAuthState() {
@@ -130,6 +132,21 @@ export class IndexComponent implements OnInit {
       this.currentAuth = AuthState.trezor;
       this.updateAddress(addresses[0]);
     });
+  }
+
+
+  ledgerAuthState() {
+    this.currentAuth = AuthState.ledger;
+    this.ledgerService.displayOnLedger().subscribe((r) => {
+      this.ledgerService.getEthereumAddress().subscribe((address: string) => {
+        this.ethereumAddress = address;
+        this.updateAddress(address);
+      });
+    });
+    /* this.ledgerService.getEthereumAddress().subscribe((address: string) => {
+      this.ethereumAddress = address;
+      this.updateAddress(address);
+    }); */
   }
 
   generateTransaction() {
@@ -190,6 +207,11 @@ export class IndexComponent implements OnInit {
 
   toggleAuthState(authState: AuthState) {
     this.currentAuth = authState;
+  }
+
+  private updatePrivateKey(privateKey: string) {
+    this.privateKey = privateKey;
+    this.updateAddress(privateKeyToAddress(this.privateKey));
   }
 
   private updateAddress(address: string) {
@@ -255,9 +277,8 @@ export class IndexComponent implements OnInit {
     this.recentTransactions.push(this.randomTransaction());
     this.recentTransactions.push(this.randomTransaction());
     this.recentTransactions.push(this.randomTransaction());
-
     this.dataShareService.recentTransactions.next(this.recentTransactions);
-    this.callibratePage();
+    this.calibratePage();
     this.resetNewTransactionView();
     // this.currentAuth = AuthState.metamask;
   }
@@ -316,12 +337,7 @@ export class IndexComponent implements OnInit {
     }, 500);
   }
 
-  utcInputChange(event: Event) {
-    this.fileUploadText = (<HTMLInputElement>event.target).files[0].name;
-    this.showUTCPasswordModal = true;
-  }
-
-  callibratePage() {
+  calibratePage() {
     this.windowHeight = window.innerHeight;
     this.windowWidth = window.innerWidth;
     this.windowMin = Math.min(this.windowWidth, this.windowHeight);
@@ -332,6 +348,12 @@ export class IndexComponent implements OnInit {
   onResize(event) {
     this.windowHeight = event.target.innerHeight;
     this.windowWidth = event.target.innerWidth;
-    this.callibratePage();
+    this.calibratePage();
+  }
+
+  @HostListener('window:beforeunload', ['$event'])
+  onUnload($event) {
+    // Make sure to clear the privatekey before we unload the application
+    this.privateKey = '';
   }
 }

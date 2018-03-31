@@ -5,6 +5,7 @@ import { LoadingIconComponent } from './loading-icon/loading-icon.component';
 import { PrivateKeyFormComponent } from './private-key-form/private-key-form.component';
 import { ReactiveFormsModule } from "@angular/forms";
 import { ToggleSwitchComponent } from './ui/toggle-switch/toggle-switch.component';
+import { UtcFileFormComponent } from './utc-file-form/utc-file-form.component';
 
 @NgModule({
   imports: [
@@ -14,13 +15,15 @@ import { ToggleSwitchComponent } from './ui/toggle-switch/toggle-switch.componen
   exports: [
     ModalComponent,
     LoadingIconComponent,
-    PrivateKeyFormComponent
+    PrivateKeyFormComponent,
+    UtcFileFormComponent
   ],
   declarations: [
     ModalComponent,
     LoadingIconComponent,
     PrivateKeyFormComponent,
-    ToggleSwitchComponent
+    ToggleSwitchComponent,
+    UtcFileFormComponent
   ]
 })
 export class SharedModule { }

@@ -6,11 +6,13 @@ import {HttpClientModule} from "@angular/common/http";
 import {Web3Service} from "./web3.service";
 import {DataShareService} from "./data-share.service";
 import {ThemeService} from "./theme.service";
+import {SharedModule} from "../shared/shared.module";
 
 @NgModule({
   imports: [
     CommonModule,
-    HttpClientModule
+    HttpClientModule,
+    SharedModule
   ],
   providers: [
     DataShareService,

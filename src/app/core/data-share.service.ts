@@ -64,5 +64,4 @@ export class DataShareService {
 	  return this.userPreferences.asObservable();
 	}
 	
-
 }
