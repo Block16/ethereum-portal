@@ -2,6 +2,7 @@
 
 
 h1, h2, h3, h4, h5 {
+	border-color: inherit;
 }
 
 .jumbo-head {
@@ -12,6 +13,7 @@ h1, .head1 {
 	font: normal 48px $FEB;
 	&.top-border {
 		border-top: $h1BarThickness solid black;
+		border-color: inherit;
 	}
 }
 
@@ -19,6 +21,7 @@ h2, .head2 {
 	font: normal 26px $FEB;
 	&.top-border {
 		border-top: $h2BarThickness solid black;
+		border-color: inherit;
 	}
 }
 
@@ -26,6 +29,7 @@ h3, .head3 {
 	font: normal 17px $FB;
 	&.top-border {
 		border-top: $h3BarThickness solid black;
+		border-color: inherit;
 	}
 }
 
@@ -33,6 +37,7 @@ h4, .head4 {
 	font: bold 16px $S;
 	&.top-border {
 		border-top: $h4BarThickness solid black;
+		border-color: inherit;
 	}
 }
 

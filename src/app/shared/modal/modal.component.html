@@ -6,20 +6,24 @@
 		 *ngIf="visible">
 	<div class="modal"
 			 [ngStyle]="{'max-width': maxWidth}">
-		<div class="modal-top">
-			<div class="modal-close"
-					 (click)="close()">
-				<div class="symbol-box x"><div class="symbol"></div></div>
+		<div class="modal-inner"
+				 [ngStyle]="theme.mainStyle">
+			<div class="modal-top">
+				<div class="modal-close"
+						 (click)="close()">
+					<menu-button [static]="true"></menu-button>
+				</div>
+				<div class="modal-title">
+					<h1 class="h1Border"
+							*ngIf="title"
+							[ngStyle]="theme.textStyle">{{ title }}</h1>
+				</div>
 			</div>
-			<div class="modal-title">
-				<h1 class="h1Border"
-						*ngIf="title">{{ title }}</h1>
+			<div class="modal-content"
+				 [ngClass]="{'modal-padding': padding}"
+				 [ngStyle]="{'max-width': maxWidth}">
+				<ng-content></ng-content>
 			</div>
-		</div>
-		<div class="modal-content"
-			 [ngClass]="{'modal-padding': padding}"
-			 [ngStyle]="{'max-width': maxWidth}">
-			<ng-content></ng-content>
 		</div>
 	</div>
 </div>

@@ -16,11 +16,13 @@ export class SidebarComponent implements OnInit {
   public manualGas: boolean = false;
   public viewGenerated: boolean = false;
   public darkMode: boolean = false;
+  public selectedTheme = 'Default';
   
   // ui
   public userPreferences = {};
   public recentTransactions = [];
   public showSidebar: boolean = false;
+  private theme;
 
   @Input()
   set account(address: string) {
@@ -29,6 +31,19 @@ export class SidebarComponent implements OnInit {
     if (this.address !== "") {
 
     }
+  }
+  updatePreferences() {
+    this.dataShareService.userPreferences.next(this.userPreferences);
+  }
+  
+  
+  changeDemonination() {
+    console.log('denomination')
+    this.updatePreferences();
+  }
+  
+  changeTheme() {
+    this.updatePreferences();
   }
   
   setUserPreference(preference, setting) {
@@ -43,6 +58,7 @@ export class SidebarComponent implements OnInit {
     });
     this.dataShareService.userPreferences.subscribe((value: any) => {
       this.userPreferences = value;
+      this.theme = this.dataShareService.getTheme(value['theme']);
     });
     this.dataShareService.showSidebar.subscribe((value: any) => {
       this.showSidebar = value;
@@ -51,6 +67,6 @@ export class SidebarComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.userPreferences = this.dataShareService.getUserPreferences();
+    
   }
 }

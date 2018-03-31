@@ -1,5 +1,6 @@
 <main>
-	<h1 class="top-border head1 type2">Ethereum Portal</h1>
+	<h1 class="top-border head1 type2"
+			[ngStyle]="theme.textStyle">Ethereum Portal</h1>
 	<div *ngIf="currentAuth == AuthState.none"
 			 class="grid">
 		<div class="grid-cell">
@@ -34,8 +35,13 @@
 						</div>
 						<span class="head3">Digital Bitbox</span>
 					</div>
+					
 					<div class="wallet">
-            <app-utc-file-form (privateKey)="utcAuthState($event)"></app-utc-file-form>
+						<div class="wallet-icon">
+							<app-utc-file-form (privateKey)="utcAuthState($event)"></app-utc-file-form>
+						  <img src="assets/img/icons/utc icon light.svg" alt="">
+						</div>
+						<span class="head3">.UTC file</span>
 					</div>
 				</div>
 				<br>
@@ -174,11 +180,10 @@
 <div #_recentTransactions
 		 class="recent-transactions"
 		 (click)="setShowSidebar(true)">
-	<div *ngFor="let transaction of recentTransactions"
-				class="transaction"
-				[ngClass]="{'processing': transaction.status == 'processing',
-										'confirmed': transaction.status == 'confirmed',
-										'failed': transaction.status == 'failed'}"></div>
+	<div *ngFor="let tx of recentTransactions"
+				class="transaction">
+		<transaction-dot [status]="tx.status"></transaction-dot>
+	</div>
 </div>
 
 <modal [(visible)]="showTestModal"

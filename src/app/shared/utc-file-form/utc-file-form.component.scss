@@ -1,0 +1,13 @@
+@import '../../../assets/sass-imports/_variables.scss';
+@import '../../../assets/sass-imports/_mixins.scss';
+@import '../../public/sidebar/sidebar.component.scss';
+
+:host {
+	@include posa-tblr;
+}
+
+input[type="file"] {
+	opacity: 0;
+	cursor: pointer;
+	@include posa-tblr;
+}

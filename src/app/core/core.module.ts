@@ -5,6 +5,7 @@ import {LedgerService} from './ledger.service';
 import {HttpClientModule} from "@angular/common/http";
 import {Web3Service} from "./web3.service";
 import {DataShareService} from "./data-share.service";
+import {ThemeService} from "./theme.service";
 import {SharedModule} from "../shared/shared.module";
 import {PrivateKeyService} from "./private-key.service";
 
@@ -16,12 +17,14 @@ import {PrivateKeyService} from "./private-key.service";
   ],
   providers: [
     DataShareService,
-    TrezorConnectService,
     LedgerService,
-    Web3Service,
     PrivateKeyService
+    TrezorConnectService,
+    ThemeService,
+    Web3Service
   ],
   declarations: [
+  
   ]
 })
 export class CoreModule {
