@@ -1,13 +1,59 @@
 import {Injectable} from '@angular/core';
 import {isNullOrUndefined} from "util";
-import {ThemeSource, ThemeSources} from "./static-models/theme-source";
+import {ThemeSource} from "../shared/model/theme-source";
+import {BehaviorSubject} from "rxjs/BehaviorSubject";
 
 @Injectable()
 export class ThemeService {
+  private op1 = .05;
+  private op2 = .1;
+  private op3 = .2;
+  private op4 = .4;
+  private backgroundColor = '#EFF1F2';
+  private black = '#000000';
+  private yellow = '#f6eb0f';
+  private green = '#00CF34';
+  private red = '#ED466E';
 
-  constructor() { }
+  public themeSources: ThemeSource[] = [
+    <ThemeSource> {
+      'name': 'Default',
+      'primaryColor': this.black,
+      'backgroundColor': this.backgroundColor,
+      'processingColor': this.yellow,
+      'failedColor': this.red,
+      'confirmedColor': this.green,
+      'op1': this.op1,
+      'op2': this.op2,
+      'op3': this.op3,
+      'op4': this.op4
+    },
+    <ThemeSource> {
+      'name': 'Dark',
+      'primaryColor': this.backgroundColor,
+      'backgroundColor': this.black,
+      'processingColor': this.yellow,
+      'failedColor': this.red,
+      'confirmedColor': this.green,
+      'op1': this.op1,
+      'op2': this.op2,
+      'op3': this.op3,
+      'op4': this.op4
+    }
+  ];
 
-  hexToRgb(hex) {
+  public themes: any[];
+  public theme: BehaviorSubject<any>;
+
+  constructor() {
+    this.theme = new BehaviorSubject({});
+    this.themes = [];
+    this.themeSources.forEach((themeSource: ThemeSource) => {
+      this.themes.push(ThemeService.constructTheme(themeSource));
+    });
+  }
+
+  static hexToRgb(hex) {
     const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
     return result ? {
       r: parseInt(result[1], 16),
@@ -16,12 +62,12 @@ export class ThemeService {
     } : null;
   }
 
-  constructTheme(themeSource: ThemeSource) {
+  static constructTheme(themeSource: ThemeSource) {
 
     const theme = {};
 
-    const primaryColorRGB = this.hexToRgb(themeSource.primaryColor);
-    const bgColorRGB = this.hexToRgb(themeSource.backgroundColor);
+    const primaryColorRGB = ThemeService.hexToRgb(themeSource.primaryColor);
+    const bgColorRGB = ThemeService.hexToRgb(themeSource.backgroundColor);
 
     theme['mainStyle'] = {
       'background-color': themeSource.backgroundColor,
@@ -87,10 +133,14 @@ export class ThemeService {
   }
 
   getTheme(themeName: string) {
-    const themeSource = ThemeSources.find(t => t.name === themeName);
+    const themeSource = this.themeSources.find(t => t.name === themeName);
     if (isNullOrUndefined(themeSource)) {
       throw new Error("Theme with name: " + themeName + " was not found.");
     }
-    return this.constructTheme(themeSource);
+    return ThemeService.constructTheme(themeSource);
+  }
+
+  setTheme() {
+
   }
 }

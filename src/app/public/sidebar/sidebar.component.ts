@@ -4,6 +4,7 @@ import {Web3Service} from "../../core/web3.service";
 import {DataShareService} from "../../core/data-share.service";
 import {FormBuilder, FormGroup, FormsModule} from '@angular/forms';
 import {ThemeService} from "../../core/theme.service";
+import {ThemeSource} from "../../shared/model/theme-source";
 
 @Component({
   selector: 'app-sidebar',
@@ -13,16 +14,19 @@ import {ThemeService} from "../../core/theme.service";
 export class SidebarComponent implements OnInit {
   public address: string;
 
+  private themeSubscription: Subscription;
+  public themes: any[];
+
   // preferences
-  public manualGas: boolean = false;
-  public viewGenerated: boolean = false;
-  public darkMode: boolean = false;
+  public manualGas = false;
+  public viewGenerated = false;
+  public darkMode = false;
   public selectedTheme = 'Default';
 
   // ui
   public userPreferences = {};
   public recentTransactions = [];
-  public showSidebar: boolean = false;
+  public showSidebar = false;
   private theme;
 
   // forms
@@ -43,6 +47,11 @@ export class SidebarComponent implements OnInit {
     private dataShareService: DataShareService,
     private themeService: ThemeService
   ) {
+    this.themes = this.themeService.themes;
+    this.themeSubscription = this.themeService.theme.subscribe(theme => {
+      this.theme = theme;
+    });
+
 
     this.themeForm = this.formBuilder.group({
       'themePreferences': [[]]
@@ -75,7 +84,6 @@ export class SidebarComponent implements OnInit {
   updatePreferences() {
     this.dataShareService.userPreferences.next(this.userPreferences);
   }
-
 
   changeDenomination() {
     console.log('denomination');

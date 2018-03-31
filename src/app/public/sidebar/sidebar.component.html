@@ -53,12 +53,10 @@
 			<div class="select-overlay" [ngStyle]="theme.textStyle">
 				<span>{{ userPreferences['theme'] }}</span>
 			</div>
-			<select name="theme-preferences-switch" id="theme-preferences-switch"
-              [formControl]="themeForm.controls['themePreferences']">
+			<select name="theme-preferences-switch" id="theme-preferences-switch" [formControl]="themeForm.controls['themePreferences']">
 						  <!-- [(ngModel)]="userPreferences['theme']"
 						  (change)="changeTheme()"> -->
-				<option value="Default">Default</option>
-				<option value="Dark">Dark</option>
+        <option *ngFor="let t of themes" [ngValue]="t.name">{{ t.name }}</option>
 			</select>
 		</div>
 		<!-- <input id="dark-mode"
