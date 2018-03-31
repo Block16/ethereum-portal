@@ -1,5 +1,5 @@
-import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
-import { DataShareService } from "../../../core/data-share.service";
+import {Component, EventEmitter, Input, Output, OnInit} from '@angular/core';
+import {DataShareService} from "../../../core/data-share.service";
 
 @Component({
   selector: 'toggle-switch',
@@ -9,8 +9,9 @@ import { DataShareService } from "../../../core/data-share.service";
 export class ToggleSwitchComponent implements OnInit {
   @Input() enabled: boolean = true;
   @Input() clickable: boolean = true;
-  @Input() value: string;
+  @Input() value: boolean;
   @Output() valueChange: EventEmitter<boolean> = new EventEmitter<boolean>();
+  public theme: any;
 
   constructor(private dataShareService: DataShareService) {
     this.dataShareService.userPreferences.subscribe((value: any) => {
@@ -19,12 +20,12 @@ export class ToggleSwitchComponent implements OnInit {
   }
 
   click() {
-  	if (this.enabled && this.clickable) {
-  		this.value = !this.value;
-  		this.valueChange.emit(this.value);
-  	}
+    if (this.enabled && this.clickable) {
+      this.value = !this.value;
+      this.valueChange.emit(this.value);
+    }
   }
-  
+
   ngOnInit() {
   }
 

@@ -18,13 +18,13 @@ import {PrivateKeyService} from "./private-key.service";
   providers: [
     DataShareService,
     LedgerService,
-    PrivateKeyService
+    PrivateKeyService,
     TrezorConnectService,
     ThemeService,
     Web3Service
   ],
   declarations: [
-  
+
   ]
 })
 export class CoreModule {

@@ -1,5 +1,5 @@
 import {Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
-import { DataShareService } from "../../core/data-share.service";
+import {DataShareService} from "../../core/data-share.service";
 
 @Component({
   selector: 'modal',
@@ -14,6 +14,7 @@ export class ModalComponent implements OnInit {
   @Input() maxWidth: string;
   @Input() title: string;
   @Output() visibleChange: EventEmitter<boolean> = new EventEmitter<boolean>();
+  public theme: any;
 
   constructor(private dataShareService: DataShareService) {
     this.dataShareService.userPreferences.subscribe((value: any) => {
@@ -22,11 +23,10 @@ export class ModalComponent implements OnInit {
   }
 
   close() {
-  	if (this.closable) {
-  		this.visible = false;
-  		this.visibleChange.emit(this.visible);
-  		console.log(this.visible);
-  	}
+    if (this.closable) {
+      this.visible = false;
+      this.visibleChange.emit(this.visible);
+    }
   }
 
   ngOnInit() {
