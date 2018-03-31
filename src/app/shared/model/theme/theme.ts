@@ -1,5 +1,6 @@
 
 export interface Theme {
+  name: string;
   mainStyle: any;
   backgroundStyle: any;
   primaryBackgroundStyle: any;

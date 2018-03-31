@@ -5,6 +5,7 @@ import {DataShareService} from "../../core/data-share.service";
 import {FormBuilder, FormGroup, FormsModule} from '@angular/forms';
 import {ThemeService} from "../../core/theme.service";
 import {ThemeSource} from "../../shared/model/theme-source";
+import {Theme} from "../../shared/model/theme/theme";
 
 @Component({
   selector: 'app-sidebar',
@@ -15,7 +16,8 @@ export class SidebarComponent implements OnDestroy {
   public address: string;
 
   private themeSubscription: Subscription;
-  public themes: any[];
+  private themeChangeSubscription: Subscription;
+  public themes: Theme[];
 
   // preferences
   public manualGas = false;
@@ -50,11 +52,19 @@ export class SidebarComponent implements OnDestroy {
     this.themes = this.themeService.themes;
     this.themeSubscription = this.themeService.theme.subscribe(theme => {
       this.theme = theme;
-    });
 
+      // Build the theme changing selector
+      this.themeForm = this.formBuilder.group({
+        'themePreferences': []
+      });
 
-    this.themeForm = this.formBuilder.group({
-      'themePreferences': [[]]
+      // Set the default to the theme we get back from the service
+      this.themeForm.controls['themePreferences'].setValue(theme.name, {onlySelf: true});
+
+      // Make sure we sub to changes in the theme
+      this.themeChangeSubscription = this.themeForm.get('themePreferences').valueChanges.subscribe((themeName: string) => {
+        this.themeService.setTheme(themeName);
+      });
     });
 
     this.denominationForm = this.formBuilder.group({
@@ -79,6 +89,7 @@ export class SidebarComponent implements OnDestroy {
 
   ngOnDestroy(): void {
     this.themeSubscription.unsubscribe();
+    this.themeChangeSubscription.unsubscribe();
   }
 
   updatePreferences() {

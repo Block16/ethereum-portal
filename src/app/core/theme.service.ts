@@ -71,6 +71,8 @@ export class ThemeService {
     const primaryColorRGB = ThemeService.hexToRgb(themeSource.primaryColor);
     const bgColorRGB = ThemeService.hexToRgb(themeSource.backgroundColor);
 
+    theme.name = themeSource.name;
+
     theme.mainStyle = {
       'background-color': themeSource.backgroundColor,
       'color': themeSource.primaryColor,
@@ -134,15 +136,11 @@ export class ThemeService {
     return theme;
   }
 
-  getTheme(themeName: string) {
-    const themeSource = this.themeSources.find(t => t.name === themeName);
-    if (isNullOrUndefined(themeSource)) {
+  setTheme(themeName: string) {
+    const theme = this.themes.find(t => t.name === themeName);
+    if (isNullOrUndefined(theme)) {
       throw new Error("Theme with name: " + themeName + " was not found.");
     }
-    return ThemeService.constructTheme(themeSource);
-  }
-
-  setTheme() {
-
+    this.theme.next(theme);
   }
 }
