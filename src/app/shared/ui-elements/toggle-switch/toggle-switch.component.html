@@ -1,7 +1,17 @@
-<div class="toggle-switch"
+<!-- <div class="toggle-switch"
 		 (click)="click()"
 		 [ngClass]="{'on': value }"
 		 [ngStyle]="value ? theme.toggleSwitchOnStyle : theme.toggleSwitchOffStyle">
 		 <div class="knob"
 		 			[ngStyle]="theme.primaryBackgroundStyle"></div>
-</div>
+</div> -->
+<input type="checkbox"
+			 id="{{ name }}"
+			 [checked]="value">
+<label for="{{ name }}"
+			 class="toggle-switch"
+			 [ngClass]="{ 'non-clickable': !clickable }"
+			 [ngStyle]="value ? theme.toggleSwitchOnStyle : theme.toggleSwitchOffStyle">
+			 	<div class="knob"
+			 			 [ngStyle]="theme.primaryBackgroundStyle"></div>
+</label>

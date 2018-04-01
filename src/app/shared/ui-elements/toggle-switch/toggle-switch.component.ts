@@ -9,6 +9,7 @@ import {ThemeService} from "../../../core/theme.service";
   styleUrls: ['./toggle-switch.component.scss']
 })
 export class ToggleSwitchComponent implements OnDestroy {
+  @Input() name: string;
   @Input() enabled = true;
   @Input() clickable = true;
   @Input() value: boolean;
@@ -20,13 +21,6 @@ export class ToggleSwitchComponent implements OnDestroy {
     this.themeSubscription = this.themeService.theme.subscribe(theme => {
       this.theme = theme;
     });
-  }
-
-  click() {
-    if (this.enabled && this.clickable) {
-      this.value = !this.value;
-      this.valueChange.emit(this.value);
-    }
   }
 
   ngOnDestroy(): void {

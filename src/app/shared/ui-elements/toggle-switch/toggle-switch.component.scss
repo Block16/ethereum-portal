@@ -1,17 +1,22 @@
 @import '../../../../assets/sass-imports/_variables.scss';
 @import '../../../../assets/sass-imports/_mixins.scss';
 
+$switchHeight: 1.5em;
+$switchWidth: 3em;
+$knobHeight: $switchHeight;
+$knobWidth: $switchHeight;
+
 .toggle-switch {
-	$switchHeight: 1.5em;
-	$switchWidth: 3em;
-	$knobHeight: $switchHeight;
-	$knobWidth: $switchHeight;
+	display: inline-block;
 	position: relative;
 	height: $switchHeight;
 	width: $switchWidth;
 	background: hsla(0,0,0,.1);
 	border-radius: 99em;
 	@include no-select-pointer;
+	&.non-clickable {
+		@include pass-through;
+	}
 	.knob {
 		display: block;
 		position: absolute;
@@ -23,12 +28,16 @@
 		transition: left $defaultTransitionTime * 2, transform $defaultTransitionTime * 2;
 	}
 	&:hover {
+		background: hsla(0,0,0,$op2);
 		.knob {
 			transform: scale(1.1);
 		}
 	}
-	&.on {
-		background: hsla(0,0,0,.4);
+}
+
+input[type=checkbox] {
+	visibility: hidden;
+	&:checked + label {
 		.knob {
 			left: $switchWidth - $knobWidth;
 		}

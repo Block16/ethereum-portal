@@ -37,11 +37,15 @@
 	</div>
 	<div class="preference" (click)="setUserPreference('manualGas', !userPreferences['manualGas'])">
 		<span>Set gas price manually</span>
-		<toggle-switch [clickable]="false" [(value)]="userPreferences['manualGas']"></toggle-switch>
+		<toggle-switch [clickable]="false"
+									 [(value)]="userPreferences['manualGas']"
+									 [name]="manualGas"></toggle-switch>
 	</div>
 	<div class="preference" (click)="setUserPreference('showGenerated', !userPreferences['showGenerated'])">
 		<span>View generated transaction</span>
-		<toggle-switch [clickable]="false" [(value)]="userPreferences['showGenerated']"
+		<toggle-switch [clickable]="false"
+									 [(value)]="userPreferences['showGenerated']"
+									 [name]="showGenerated"
 		></toggle-switch>
 	</div>
 	<div class="preference">

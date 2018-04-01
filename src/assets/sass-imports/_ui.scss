@@ -63,6 +63,7 @@ input[type="text"], input[type="number"], input[type="password"] {
 	padding: .3em 0 .3em .5em;
 	box-sizing: border-box;
 	font-feature-settings: "lnum", "pnum";
+	-webkit-appearance: none;
 	&.no-arrow-buttons {
 		&::-webkit-outer-spin-button,
 		&::-webkit-inner-spin-button {
@@ -82,42 +83,6 @@ input[type="text"], input[type="number"], input[type="password"] {
 	margin-bottom: $defaultMargin;
 	input[type="text"], input[type="number"], input[type="password"] {
 		flex: 1;
-	}
-}
-
-input[type=checkbox] {
-	$switchHeight: 1.5em;
-	$switchWidth: 3em;
-	$knobHeight: $switchHeight;
-	$knobWidth: $switchHeight;
-	visibility: hidden;
-	& + label {
-		position: relative;
-		height: $switchHeight;
-		width: $switchWidth;
-		background: hsla(0,0,0,.1);
-		border-radius: 99em;
-		@include no-select-pointer;
-		&:before {
-			content: '';
-			display: block;
-			position: absolute;
-			left: 0;
-			height: $switchHeight;
-			width: $switchHeight;
-			background: black;
-			border-radius: 99em;
-			transition: left $defaultTransitionTime * 2;
-		}
-		&:hover {
-			background: hsla(0,0,0,.2);
-		}
-	}
-	&:checked + label {
-		background: hsla(0,0,0,.4);
-		&:before {
-			left: $switchWidth - $knobWidth;
-		}
 	}
 }
 
@@ -186,6 +151,7 @@ $maxButtonMargin: ($inputHeight - $maxButtonHeight) / 2;
 		cursor: pointer;
 		height: $inputHeight;
 		font: 1em $FB2;
+		-webkit-appearance: none;
 	}
 }
 
