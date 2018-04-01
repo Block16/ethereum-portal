@@ -8,39 +8,39 @@
 			<section class="section-content">
 				<div class="wallets">
 					<div class="wallet">
-						<div class="wallet-icon"
+						<app-button class="wallet-icon"
 								 (click)="metaMaskAuthState()">
 							<img src="assets/img/icons/metamask icon light.svg" alt="">
-						</div>
+						</app-button>
 						<span class="head3">Metamask</span>
 					</div>
 					<div class="wallet">
-						<div class="wallet-icon"
-								 (click)="toggleAuthState(AuthState.ledger)">
+						<app-button class="wallet-icon"
+								 				(click)="toggleAuthState(AuthState.ledger)">
 							<img src="assets/img/icons/ledger icon light.svg" alt="">
-						</div>
+						</app-button>
 						<span class="head3">Ledger</span>
 					</div>
 					<div class="wallet">
-						<div class="wallet-icon"
-								 (click)="trezorAuthState()">
+						<app-button class="wallet-icon" 
+								 				(click)="trezorAuthState()">
 							<img src="assets/img/icons/trezor icon light.svg" alt="">
-						</div>
+						</app-button>
 						<span class="head3">Trezor</span>
 					</div>
 					<div class="wallet">
-						<div class="wallet-icon"
-								 (click)="toggleAuthState(AuthState.bitbox)">
+						<app-button class="wallet-icon"
+								 				(click)="toggleAuthState(AuthState.bitbox)">
 							<img src="assets/img/icons/digital bitbox icon light.svg" alt="">
-						</div>
+						</app-button>
 						<span class="head3">Digital Bitbox</span>
 					</div>
 					
 					<div class="wallet">
-						<div class="wallet-icon">
+						<app-button class="wallet-icon">
 							<app-utc-file-form (privateKey)="utcAuthState($event)"></app-utc-file-form>
 						  <img src="assets/img/icons/utc icon light.svg" alt="">
-						</div>
+						</app-button>
 						<span class="head3">.UTC file</span>
 					</div>
 				</div>
@@ -58,6 +58,7 @@
 				<button class="button"
 								(click)="showTestModal = !showTestModal">show test modal</button>
 			</section>
+			<app-button>button</app-button>
 		</div>
 		<div class="grid-cell">
 			<h2 class="top-border">Don't have a wallet?</h2>

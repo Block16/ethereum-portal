@@ -1,0 +1,80 @@
+@import '../../../../assets/sass-imports/_variables.scss';
+@import '../../../../assets/sass-imports/_mixins.scss';
+
+$buttonColor: black;
+$textColor: white;
+$outlineThickness: 3px;
+$outlineDistance: $outlineThickness + 1px;
+$outlineColor: $buttonColor;
+
+:host {
+	display: inline-block;
+	font: 1em $FB2;
+  position: relative;
+  background: $buttonColor;
+  color: $backgroundColor;
+  padding: .5em 2em;
+  cursor: pointer;
+  outline: none;
+  border: none;
+  border-radius: 0em;
+  user-select: none;
+  &.wallet-icon {
+		position: relative;
+		background: black;
+		color: $backgroundColor;
+		width: 100%;
+		height: 0;
+  	cursor: pointer;
+		padding: 0 0 100% 0;
+		.utc {
+			opacity: 0;
+			cursor: pointer;
+			@include posa-tblr;
+		}
+		/deep/ img {
+			@include pass-through;
+			margin: auto;
+			height: 40%;
+			&[src="assets/img/icons/ledger icon light.svg"] {
+  			height: 34%;
+			}
+			&[src="assets/img/icons/trezor icon light.svg"] {
+  			height: 43%;
+			}
+			&[src="assets/img/icons/digital bitbox icon light.svg"] {
+  			height: 43%;
+			}
+			@include posa-tblr;
+		}
+  }
+  &:focus {
+    .outline {
+      top: -$outlineDistance;
+      bottom: -$outlineDistance;
+      left: -$outlineDistance;
+      right: -$outlineDistance;
+      border-radius: 2px;
+      opacity: 1;
+    }
+  }
+  &:active {
+    .outline {
+      $plus: 1;
+      opacity: .25;
+      top: -$outlineDistance - $plus;
+      bottom: -$outlineDistance - $plus;
+      left: -$outlineDistance - $plus;
+      right: -$outlineDistance - $plus;
+      border-radius: 2px;
+      border-width: 1px;
+    }
+  }
+  .outline {
+    border: $outlineThickness solid $outlineColor;
+    pointer-events: none;
+    position: absolute;
+    opacity: 0;
+    transition: .08s;
+  }
+}

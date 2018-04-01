@@ -1,3 +1,4 @@
+
 @import '../../../assets/sass-imports/_variables.scss';
 @import '../../../assets/sass-imports/_mixins.scss';
 
@@ -20,8 +21,8 @@ main {
 	  grid-template-columns: repeat(auto-fit, minmax(5em, 1fr));
 	  grid-gap: $defaultMargin / 2;
 	  .wallet {
-	  	overflow: hidden;
-	  	.wallet-icon {
+	  	// overflow: hidden;
+	  	.wallet-icon2 {
 	  		position: relative;
 	  		background: black;
 	  		color: $backgroundColor;
