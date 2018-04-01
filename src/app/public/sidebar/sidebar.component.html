@@ -47,10 +47,9 @@
 	<div class="preference">
 		<span>Theme</span>
     <form [formGroup]="themeForm">
-
 		<div class="custom-select small" [ngStyle]="theme.selectStyle">
 			<div class="select-overlay" [ngStyle]="theme.textStyle">
-				<span>{{ userPreferences['theme'] }}</span>
+				<span>{{ theme['name'] }}</span>
 			</div>
 			<select name="theme-preferences-switch" id="theme-preferences-switch" [formControl]="themeForm.controls['themePreferences']">
 						  <!-- [(ngModel)]="userPreferences['theme']"
