@@ -9,6 +9,10 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {ThemeService} from "../../core/theme.service";
 import {Subscription} from "rxjs/Subscription";
 import {Theme} from "../../shared/model/theme/theme";
+import {EthereumAssetService} from "../../core/ethereum-asset.service";
+import {EthereumAsset} from "../../shared/model/ethereum-asset";
+import {UserPreferencesService} from "../../core/user-preferences.service";
+import {UserPreferences} from "../../shared/model/user-preferences";
 
 enum AuthState {
   none, trezor, bitbox, metamask, utcFile, privateKey, ledger
@@ -37,7 +41,8 @@ export class IndexComponent implements OnInit, OnDestroy {
   public detectedInjectedProvider: boolean;
 
   // User preferences
-  public userPreferences = {};
+  private userPreferencesSubscription: Subscription;
+  public userPreferences: UserPreferences;
   private themeSubscription: Subscription;
   public theme: Theme;
 
@@ -52,23 +57,10 @@ export class IndexComponent implements OnInit, OnDestroy {
   public showTestModal = false;
 
   // User info
+  private assetSubscription: Subscription;
+  public assets: EthereumAsset[];
   public recentTransactions = [];
   public newTransaction = {};
-  public assets = {
-    'ETH': 7.52563325,
-    'tokens': [
-      { 'name': 'SPHTX',
-        'amount': 85671.342 },
-      { 'name': 'THETA',
-        'amount': 123124.52134 },
-      { 'name': 'CS',
-        'amount': 1231 },
-      { 'name': 'MAN',
-        'amount': 12453636456.44 },
-      { 'name': 'UKG',
-        'amount': .04 }
-    ]
-  };
 
   // Styles
   public newTransactionStyle = {};
@@ -81,11 +73,13 @@ export class IndexComponent implements OnInit, OnDestroy {
   constructor (
     private formBuilder: FormBuilder,
     private themeService: ThemeService,
+    private userPreferencesService: UserPreferencesService,
     private dataShareService: DataShareService,
     private web3Service: Web3Service,
     private ledgerService: LedgerService,
     private trezorService: TrezorConnectService,
-    private privateKeyService: PrivateKeyService
+    private privateKeyService: PrivateKeyService,
+    private assetService: EthereumAssetService
   ) {
     this.currentAuth = AuthState.none;
 
@@ -96,8 +90,14 @@ export class IndexComponent implements OnInit, OnDestroy {
     // If we detected metamask or mist
     this.detectedInjectedProvider = this.web3Service.providerDetected;
 
+    // Theme
     this.themeSubscription = this.themeService.theme.subscribe(theme => {
       this.theme = theme;
+    });
+
+    // Assets
+    this.assetSubscription = this.assetService.ethereumAssets.subscribe(assets => {
+      this.assets = assets;
     });
 
     // TODO: pull this out
@@ -105,22 +105,12 @@ export class IndexComponent implements OnInit, OnDestroy {
       this.recentTransactions = value;
     });
 
-    this.dataShareService.userPreferences.subscribe((value: any) => {
-      this.userPreferences = value;
+    this.userPreferencesService.userPreferences.subscribe(preferences => {
+      this.userPreferences = preferences;
     });
 
     this.dataShareService.showSidebar.subscribe((value: any) => {
       this.showSidebar = value;
-    });
-
-    this.sendForm = this.formBuilder.group({
-      'sendAddress': ['', [
-          Validators.required,
-          Validators.pattern("(0x){0,1}[a-fA-F0-9]{40}")
-        ]
-      ],
-      'sendAmount': ['', [Validators.required]],
-      'sendAsset': ['', [Validators.required]]
     });
   }
 
@@ -135,10 +125,6 @@ export class IndexComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.themeSubscription.unsubscribe();
-  }
-
-  sendTransaction() {
-
   }
 
   setShowSidebar(bool) {
@@ -250,59 +236,13 @@ export class IndexComponent implements OnInit, OnDestroy {
     this.ethereumAddress = address;
     this.ethereumAddressChange.emit(address);
 
+    // Go fetch the balance of the address immediately, TODO: refactor this into the assets call
     this.web3Service.getBalance(address).subscribe((balance) => {
       this.ethereumBalance = balance;
     });
-  }
 
-  toggleMenu() {
-
-  }
-
-  clickMaxButton() {
-    this.sendMax = !this.sendMax;
-    if (this.sendMax) {
-      this.sendAsset === -1 ?
-      this.sendAmount = this.assets['ETH'] :
-      this.sendAmount = this.assets['tokens'][this.sendAsset]['amount'];
-    } else if (!this.sendMax) {
-      this.sendAmount = null;
-    }
-  }
-
-  sendAssetName(assetIndex) {
-    let assetName = '';
-    assetIndex === -1 ?
-      assetName = 'ETH' :
-      assetName = this.assets['tokens'][assetIndex]['name'];
-    return assetName;
-  }
-
-  getAssetAmount(assetIndex) {
-    let assetAmount;
-    assetIndex === -1 ?
-      assetAmount = this.assets['ETH'] :
-      assetAmount = this.assets['tokens'][assetIndex]['amount'];
-    return assetAmount;
-  }
-
-  changeSendAmount() {
-    console.log(this.sendAmount);
-    if (this.sendAmount < this.getAssetAmount(this.sendAsset)) {
-      console.log(1);
-      this.sendMax = false;
-    } else if (this.sendAmount >= this.getAssetAmount(this.sendAsset)) {
-      console.log(2);
-      setTimeout(() => {
-        this.sendAmount = this.getAssetAmount(this.sendAsset);
-      }, 0);
-      this.sendMax = true;
-    }
-  }
-
-  changeSendAsset() {
-    this.sendMax = false;
-    this.sendAmount = null;
+    // Go fetch the assets for the new address
+    this.assetService.updateAddress(address);
   }
 
   fullTransactionViewCircleRadius() {

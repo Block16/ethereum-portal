@@ -41,8 +41,7 @@
 	</div>
 	<div class="preference" (click)="setUserPreference('showGenerated', !userPreferences['showGenerated'])">
 		<span>View generated transaction</span>
-		<toggle-switch [clickable]="false"
-									 [(value)]="userPreferences['showGenerated']"
+		<toggle-switch [clickable]="false" [(value)]="userPreferences['showGenerated']"
 		></toggle-switch>
 	</div>
 	<div class="preference">

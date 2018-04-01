@@ -9,6 +9,7 @@ import { UtcFileFormComponent } from './utc-file-form/utc-file-form.component';
 import { MenuButtonComponent } from './ui-elements/menu-button/menu-button.component';
 import { TransactionDotComponent } from './ui-elements/transaction-dot/transaction-dot.component';
 import { ButtonComponent } from './ui-elements/button/button.component';
+import { SendFormComponent } from './send-form/send-form.component';
 
 @NgModule({
   imports: [
@@ -23,7 +24,8 @@ import { ButtonComponent } from './ui-elements/button/button.component';
     PrivateKeyFormComponent,
     UtcFileFormComponent,
     MenuButtonComponent,
-    TransactionDotComponent
+    TransactionDotComponent,
+    SendFormComponent
   ],
   declarations: [
     ModalComponent,
@@ -33,7 +35,8 @@ import { ButtonComponent } from './ui-elements/button/button.component';
     UtcFileFormComponent,
     MenuButtonComponent,
     TransactionDotComponent,
-    ButtonComponent
+    ButtonComponent,
+    SendFormComponent
   ]
 })
 export class SharedModule { }

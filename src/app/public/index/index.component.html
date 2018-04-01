@@ -10,36 +10,36 @@
 					<div class="wallet">
 						<app-button class="wallet-icon"
 								 (click)="metaMaskAuthState()">
-							<img src="assets/img/icons/metamask icon light.svg" alt="">
+							<img src="/assets/img/icons/metamask icon light.svg" alt="">
 						</app-button>
 						<span class="head3">Metamask</span>
 					</div>
 					<div class="wallet">
 						<app-button class="wallet-icon"
 								 				(click)="toggleAuthState(AuthState.ledger)">
-							<img src="assets/img/icons/ledger icon light.svg" alt="">
+							<img src="/assets/img/icons/ledger icon light.svg" alt="">
 						</app-button>
 						<span class="head3">Ledger</span>
 					</div>
 					<div class="wallet">
 						<app-button class="wallet-icon" 
 								 				(click)="trezorAuthState()">
-							<img src="assets/img/icons/trezor icon light.svg" alt="">
+							<img src="/assets/img/icons/trezor icon light.svg" alt="">
 						</app-button>
 						<span class="head3">Trezor</span>
 					</div>
 					<div class="wallet">
 						<app-button class="wallet-icon"
 								 				(click)="toggleAuthState(AuthState.bitbox)">
-							<img src="assets/img/icons/digital bitbox icon light.svg" alt="">
+							<img src="/assets/img/icons/digital bitbox icon light.svg" alt="">
 						</app-button>
 						<span class="head3">Digital Bitbox</span>
 					</div>
-					
+
 					<div class="wallet">
 						<app-button class="wallet-icon">
 							<app-utc-file-form (privateKey)="utcAuthState($event)"></app-utc-file-form>
-						  <img src="assets/img/icons/utc icon light.svg" alt="">
+						  <img src="/assets/img/icons/utc icon light.svg" alt="">
 						</app-button>
 						<span class="head3">.UTC file</span>
 					</div>
@@ -65,86 +65,35 @@
 		</div>
 	</div>
 
-	<div *ngIf="currentAuth != AuthState.none"
-			 class="grid">
+	<div *ngIf="currentAuth != AuthState.none" class="grid">
 		<div class="grid-cell">
 			<h2 class="top-border head2 type2">View</h2>
 			<section class="section-content">
 				<div class="caption ">Address</div>
 				<p class="lining-proportional">0x{{ ethereumAddress }}</p>
-				<div class="caption">ETH</div>
-				<p class="lining-proportional">{{ ethereumBalance }}</p>
 				<div class="tokens bottom-margin">
 					<div class="token"
-							 *ngFor="let token of assets['tokens']; let i = index">
-						<div class="caption">{{ assets['tokens'][i].name }}</div>
-						<p class="lining-proportional">{{ assets['tokens'][i].amount }}</p>
+							 *ngFor="let token of assets; let i = index">
+						<div class="caption">{{ token.name }}</div>
+						<p class="lining-proportional">{{ token.calculatedAmount }}</p>
 					</div>
 				</div>
-				<h3 class="section-toggle top-border no-bottom-margin"
+
+        <h3 class="section-toggle top-border no-bottom-margin"
 						[ngClass]="{ 'open': showQR }"
 						(click)="showQR = !showQR">QR</h3>
-				<section class="section-content"
+
+        <section class="section-content"
 								 *ngIf="showQR">
-					<img src="assets/img/QR dummy.png"
-							 class="qr">
+					<img src="/assets/img/QR dummy.png" class="qr">
 				</section>
-				<loading-icon></loading-icon>
+
+        <loading-icon></loading-icon>
 			</section>
 		</div>
 		<div class="grid-cell">
-			<h2 class="top-border head2 type2">Send</h2>
-			<section class="section-content">
-        <form [formGroup]="sendForm" (submit)="sendTransaction()">
-
-				  <label for="text-to-address" class="caption form-label">To <span class="fade">Ethereum address</span></label>
-				  <input type="text" id="text-to-address" placeholder="0xAfDB9..." [formControl]="sendForm.controls['sendAddress']" class="wide">
-
-          <br><br>
-
-				  <label for="text-amount" class="caption form-label">Amount</label>
-				  <div class="text-input-plus">
-
-				  	<input type="number" id="text-amount" placeholder="0" [formControl]="sendForm.controls['sendAmount']" class="wide no-arrow-buttons">
-
-            <div class="max-button" [ngClass]="{ 'on': sendMax }" (click)="clickMaxButton()">Max</div>
-
-				  	<div class="custom-select">
-				  		<div class="select-overlay">
-				  			<span>{{ sendAssetName(sendAsset) }}</span>
-				  		</div>
-				  		<select name="asset-selection" id="asset-selection" [formControl]="sendForm.controls['sendAsset']">
-				  			<option value="-1">ETH</option>
-				  			<option *ngFor="let token of assets['tokens']; let i = index" value="{{i}}">{{ assets['tokens'][i].name }}</option>
-				  		</select>
-				  	</div>
-
-				  </div>
-
-				  <div *ngIf="!userPreferences['manualGas']">
-				  	<div class="caption">Estimated transaction fee</div>
-				  	<p class="lining-proportional">.0003 ETH</p>
-				  </div>
-
-				  <div *ngIf="userPreferences['manualGas']">
-				  	<label for="gas-price" class="caption form-label">Gas price</label>
-				  	<input id="gas-price" type="range">
-
-				  	<label for="gas-limit" class="caption form-label">Gas limit</label>
-				  	<input id="gas-limit" type="number" class="no-arrow-buttons">
-				  </div>
-
-				  <button class="button" type="submit" [ngClass]="{ 'disabled': !sendForm.valid }">Generate transaction</button>
-          <br>
-        </form>
-			</section>
+      <app-send-form></app-send-form>
 		</div>
-<!-- 		<div class="grid-cell">
-			<h2 class="top-border head2 type2">Something else</h2>
-			<section class="section-content">
-				<loading-icon></loading-icon>
-			</section>
-		</div> -->
 		<div class="grid-cell">
 			<h2 class="top-border head2 type2">History</h2>
 			<section class="section-content">
@@ -152,6 +101,7 @@
 			</section>
 		</div>
 	</div>
+
 </main>
 
 <div class="new-transaction-circle"

@@ -1,26 +1,15 @@
-import { Component, OnInit } from '@angular/core';
-import { DataShareService } from "./core/data-share.service";
+import { Component } from '@angular/core';
+import {UserPreferencesService} from "./core/user-preferences.service";
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnInit {
+export class AppComponent {
+  constructor(
+    private userPreferencesService: UserPreferencesService
+  ) {
 
-  public defaultPreferences = {
-    'manualGas': false,
-    'showGenerated': true,
-    'theme': 'Default',
-    'denomination': 'None'
-  };
-
-  constructor(private dataShareService: DataShareService) {
-
-  }
-
-  public ngOnInit(): void {
-    this.dataShareService.userPreferences.next(this.defaultPreferences);
-    console.log(this.dataShareService.getUserPreferences());
   }
 }

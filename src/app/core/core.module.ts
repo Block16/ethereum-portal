@@ -8,6 +8,8 @@ import {DataShareService} from "./data-share.service";
 import {ThemeService} from "./theme.service";
 import {SharedModule} from "../shared/shared.module";
 import {PrivateKeyService} from "./private-key.service";
+import {EthereumAssetService} from "./ethereum-asset.service";
+import {UserPreferencesService} from "./user-preferences.service";
 
 @NgModule({
   imports: [
@@ -17,10 +19,12 @@ import {PrivateKeyService} from "./private-key.service";
   ],
   providers: [
     DataShareService,
+    EthereumAssetService,
     LedgerService,
     PrivateKeyService,
     TrezorConnectService,
     ThemeService,
+    UserPreferencesService,
     Web3Service
   ],
   declarations: [
