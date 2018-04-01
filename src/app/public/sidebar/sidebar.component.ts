@@ -74,7 +74,7 @@ export class SidebarComponent implements OnDestroy {
       this.recentTransactions = value;
     });
 
-    this.userPreferencesService.userPreferences.subscribe(value => {
+    this.userPrefSubscription = this.userPreferencesService.userPreferences.subscribe(value => {
       this.userPreferences = value;
     });
 
@@ -89,19 +89,7 @@ export class SidebarComponent implements OnDestroy {
   ngOnDestroy(): void {
     this.themeSubscription.unsubscribe();
     this.themeChangeSubscription.unsubscribe();
-  }
-
-  updatePreferences() {
-    this.userPreferencesService.setPreferences(this.userPreferences);
-  }
-
-  changeDenomination() {
-    console.log('denomination');
-    this.updatePreferences();
-  }
-
-  changeTheme() {
-    this.updatePreferences();
+    this.userPrefSubscription.unsubscribe();
   }
 
   setUserPreference(preference, setting) {
