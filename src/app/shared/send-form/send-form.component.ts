@@ -1,17 +1,22 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Web3Service} from "../../core/web3.service";
 import {EthereumAsset} from "../model/ethereum-asset";
 import {Subscription} from "rxjs/Subscription";
 import {EthereumAssetService} from "../../core/ethereum-asset.service";
+import {UserPreferences} from "../model/user-preferences";
+import {UserPreferencesService} from "../../core/user-preferences.service";
 
 @Component({
   selector: 'app-send-form',
   templateUrl: './send-form.component.html',
   styleUrls: ['./send-form.component.scss']
 })
-export class SendFormComponent implements OnInit {
-  public currentAsset: any;
+export class SendFormComponent implements OnInit, OnDestroy {
+  private userPrefSub: Subscription;
+  public userPreferences: UserPreferences;
+
+  public currentAsset: EthereumAsset;
   public sendForm: FormGroup;
   public sendAmount: number;
   public sendMax: boolean;
@@ -24,8 +29,13 @@ export class SendFormComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private web3Service: Web3Service,
-    private assetService: EthereumAssetService
+    private assetService: EthereumAssetService,
+    private userPrefService: UserPreferencesService
   ) {
+    this.userPrefSub = this.userPrefService.userPreferences.subscribe(userPref => {
+      this.userPreferences = userPref;
+    });
+
     this.assetSubscription = this.assetService.ethereumAssets.subscribe(assets => {
       this.assets = assets;
     });
@@ -53,6 +63,11 @@ export class SendFormComponent implements OnInit {
   }
 
   ngOnInit() {
+  }
+
+
+  ngOnDestroy(): void {
+    this.userPrefSub.unsubscribe();
   }
 
   sendTransaction() {
