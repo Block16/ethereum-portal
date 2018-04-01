@@ -3,6 +3,7 @@ import Web3 from "web3";
 import {Observable} from 'rxjs/Observable';
 import {KeyManagerService} from './key.manager.interface';
 import {EthereumTransaction} from '../shared/model/ethereum-transaction';
+import {isArray, isNullOrUndefined} from "util";
 
 declare var web3;
 declare const keythereum;
@@ -55,13 +56,13 @@ export class Web3Service implements KeyManagerService {
   public getEthereumAddresses(): Observable<string[]> {
     return Observable.create((observer) => {
       this.web3js.eth.getAccounts().then((accounts) => {
-        if (accounts.length === 0) {
+        if (isArray(accounts) && accounts.length > 0) {
+          observer.next(accounts);
+        } else if (!isArray(accounts) && !isNullOrUndefined(accounts)) {
+          observer.next(accounts);
+        } else {
           // TODO: not logged in.
           observer.error(new Error("Could not get accounts from provider"));
-        } else {
-          // Return default account
-          // TODO: Support multiple accounts later
-          observer.next(accounts[0]);
         }
         observer.complete();
       }, err => {
