@@ -5,8 +5,6 @@ import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 export class DataShareService {
   public showSidebar = new BehaviorSubject(false);
   public recentTransactions = new BehaviorSubject([]);
-  public userPreferences = new BehaviorSubject({});
-
   constructor() { }
 
   /*
@@ -52,9 +50,4 @@ export class DataShareService {
   getRecentTransactions() {
     return this.recentTransactions.asObservable();
   }
-
-  getUserPreferences() {
-    return this.userPreferences.asObservable();
-  }
-
 }

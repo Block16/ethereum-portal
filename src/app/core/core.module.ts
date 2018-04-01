@@ -9,6 +9,7 @@ import {ThemeService} from "./theme.service";
 import {SharedModule} from "../shared/shared.module";
 import {PrivateKeyService} from "./private-key.service";
 import {EthereumAssetService} from "./ethereum-asset.service";
+import {UserPreferencesService} from "./user-preferences.service";
 
 @NgModule({
   imports: [
@@ -23,6 +24,7 @@ import {EthereumAssetService} from "./ethereum-asset.service";
     PrivateKeyService,
     TrezorConnectService,
     ThemeService,
+    UserPreferencesService,
     Web3Service
   ],
   declarations: [

@@ -36,11 +36,7 @@ export class SendFormComponent implements OnInit {
     this.currentAsset = this.assets[0];
 
     this.sendForm = this.formBuilder.group({
-      'sendAddress': ['', [
-        Validators.required,
-        Validators.pattern("(0x){0,1}[a-fA-F0-9]{40}")
-      ]
-      ],
+      'sendAddress': ['', [ Validators.required, Validators.pattern("(0x){0,1}[a-fA-F0-9]{40}") ] ],
       'sendAmount': ['', [Validators.required]],
       'sendAsset': ['', [Validators.required]]
     });

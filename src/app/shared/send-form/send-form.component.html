@@ -20,7 +20,7 @@
         </div>
         <select name="asset-selection" id="asset-selection" [formControl]="sendForm.controls['sendAsset']">
           <option value="-1">ETH</option>
-          <option *ngFor="let token of assets['tokens']; let i = index" value="{{i}}">{{ assets['tokens'][i].name }}</option>
+          <option *ngFor="let token of assets; let i = index" value="{{ token.name }}">{{ token.name }}</option>
         </select>
       </div>
 

@@ -5,6 +5,8 @@ import {DataShareService} from "../../core/data-share.service";
 import {FormBuilder, FormGroup, FormsModule} from '@angular/forms';
 import {ThemeService} from "../../core/theme.service";
 import {Theme} from "../../shared/model/theme/theme";
+import {UserPreferencesService} from "../../core/user-preferences.service";
+import {UserPreferences} from "../../shared/model/user-preferences";
 
 @Component({
   selector: 'app-sidebar',
@@ -24,7 +26,8 @@ export class SidebarComponent implements OnDestroy {
   public darkMode = false;
 
   // ui-elements
-  public userPreferences = {};
+  public userPreferences: UserPreferences;
+  public userPrefSubscription: Subscription;
   public recentTransactions = [];
   public showSidebar = false;
   public theme: Theme;
@@ -41,6 +44,7 @@ export class SidebarComponent implements OnDestroy {
   constructor(
     private formBuilder: FormBuilder,
     private dataShareService: DataShareService,
+    private userPreferencesService: UserPreferencesService,
     private themeService: ThemeService
   ) {
     this.themes = this.themeService.themes;
@@ -70,7 +74,7 @@ export class SidebarComponent implements OnDestroy {
       this.recentTransactions = value;
     });
 
-    this.dataShareService.userPreferences.subscribe((value: any) => {
+    this.userPreferencesService.userPreferences.subscribe(value => {
       this.userPreferences = value;
     });
 
@@ -88,7 +92,7 @@ export class SidebarComponent implements OnDestroy {
   }
 
   updatePreferences() {
-    this.dataShareService.userPreferences.next(this.userPreferences);
+    this.userPreferencesService.setPreferences(this.userPreferences);
   }
 
   changeDenomination() {
@@ -102,6 +106,6 @@ export class SidebarComponent implements OnDestroy {
 
   setUserPreference(preference, setting) {
     this.userPreferences[preference] = setting;
-    this.dataShareService.userPreferences.next(this.userPreferences);
+    this.userPreferencesService.setPreferences(this.userPreferences);
   }
 }

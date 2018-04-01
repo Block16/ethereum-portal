@@ -11,6 +11,8 @@ import {Subscription} from "rxjs/Subscription";
 import {Theme} from "../../shared/model/theme/theme";
 import {EthereumAssetService} from "../../core/ethereum-asset.service";
 import {EthereumAsset} from "../../shared/model/ethereum-asset";
+import {UserPreferencesService} from "../../core/user-preferences.service";
+import {UserPreferences} from "../../shared/model/user-preferences";
 
 enum AuthState {
   none, trezor, bitbox, metamask, utcFile, privateKey, ledger
@@ -39,7 +41,8 @@ export class IndexComponent implements OnInit, OnDestroy {
   public detectedInjectedProvider: boolean;
 
   // User preferences
-  public userPreferences = {};
+  private userPreferencesSubscription: Subscription;
+  public userPreferences: UserPreferences;
   private themeSubscription: Subscription;
   public theme: Theme;
 
@@ -70,6 +73,7 @@ export class IndexComponent implements OnInit, OnDestroy {
   constructor (
     private formBuilder: FormBuilder,
     private themeService: ThemeService,
+    private userPreferencesService: UserPreferencesService,
     private dataShareService: DataShareService,
     private web3Service: Web3Service,
     private ledgerService: LedgerService,
@@ -101,15 +105,13 @@ export class IndexComponent implements OnInit, OnDestroy {
       this.recentTransactions = value;
     });
 
-    this.dataShareService.userPreferences.subscribe((value: any) => {
-      this.userPreferences = value;
+    this.userPreferencesService.userPreferences.subscribe(preferences => {
+      this.userPreferences = preferences;
     });
 
     this.dataShareService.showSidebar.subscribe((value: any) => {
       this.showSidebar = value;
     });
-
-
   }
 
   ngOnInit(): void {
