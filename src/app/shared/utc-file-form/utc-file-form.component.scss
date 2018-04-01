@@ -2,6 +2,7 @@
 @import '../../../assets/sass-imports/_mixins.scss';
 
 :host {
+	overflow: hidden;
 	@include posa-tblr;
 }
 

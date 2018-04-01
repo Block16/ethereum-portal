@@ -32,17 +32,17 @@ $outlineColor: $buttonColor;
 			cursor: pointer;
 			@include posa-tblr;
 		}
-		/deep/ img {
+		/deep/  img {
 			@include pass-through;
 			margin: auto;
 			height: 40%;
-			&[src="assets/img/icons/ledger icon light.svg"] {
+			&[src="/assets/img/icons/ledger icon light.svg"] {
   			height: 34%;
 			}
-			&[src="assets/img/icons/trezor icon light.svg"] {
+			&[src="/assets/img/icons/trezor icon light.svg"] {
   			height: 43%;
 			}
-			&[src="assets/img/icons/digital bitbox icon light.svg"] {
+			&[src="/assets/img/icons/digital bitbox icon light.svg"] {
   			height: 43%;
 			}
 			@include posa-tblr;

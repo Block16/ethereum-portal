@@ -13,7 +13,11 @@ export class ButtonComponent implements OnInit {
 	@Input() kind: string;
 	
   constructor() { }
-
+  
+  spacebar() {
+  	console.log('pressed space on focused element');
+  }
+  
   ngOnInit() {
   }
 
