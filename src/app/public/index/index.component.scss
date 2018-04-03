@@ -22,34 +22,22 @@ main {
 	  grid-gap: $defaultMargin / 2;
 	  .wallet {
 	  	// overflow: hidden;
-	  	.wallet-icon2 {
-	  		position: relative;
-	  		background: black;
-	  		color: $backgroundColor;
-	  		width: 100%;
-	  		height: 0;
-		  	cursor: pointer;
-	  		padding-bottom: 100%;
-	  		.utc {
-	  			opacity: 0;
-	  			cursor: pointer;
-	  			@include posa-tblr;
-	  		}
-	  		img {
-	  			@include pass-through;
-	  			margin: auto;
-	  			height: 40%;
-	  			&[src="assets/img/icons/ledger icon light.svg"] {
-		  			height: 34%;
-	  			}
-	  			&[src="assets/img/icons/trezor icon light.svg"] {
-		  			height: 43%;
-	  			}
-	  			&[src="assets/img/icons/digital bitbox icon light.svg"] {
-		  			height: 43%;
-	  			}
-	  			@include posa-tblr;
-	  		}
+	  	
+	  	.svg-wrapper {
+	  	  display: inline-block;
+	  	  margin: auto;
+  			height: 40%;
+  			&.ledger {
+	  			height: 34%;
+  			}
+  			&.trezor {
+	  			height: 43%;
+  			}
+  			&.digital-bitbox {
+	  			height: 43%;
+  			}
+	  	  @include posa-tblr;
+	  	  @include flex-center;
 	  	}
 	  }
 }

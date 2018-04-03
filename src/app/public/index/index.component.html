@@ -5,41 +5,56 @@
 			 class="grid">
 		<div class="grid-cell">
 			<h2 class="top-border">Select wallet</h2>
+			<app-button (click)="themeService.updateSVGs('blue', 'red')">
+				updateSVGs('blue')
+			</app-button>
+			
 			<section class="section-content">
 				<div class="wallets">
 					<div class="wallet">
 						<app-button class="wallet-icon"
-								 (click)="metaMaskAuthState()">
-							<img src="/assets/img/icons/metamask icon light.svg" alt="">
+												[ngStyle]="theme.primaryBackgroundStyle"
+											  (click)="metaMaskAuthState()">
+							<!-- <img src="/assets/img/icons/metamask icon light.svg" alt=""> -->
+							
+							<div class="svg-wrapper secondary-svg" [inlineSVG]="'/assets/img/icons/inline-svg/metamask icon light.svg'"></div>
 						</app-button>
 						<span class="head3">Metamask</span>
 					</div>
 					<div class="wallet">
 						<app-button class="wallet-icon"
+												[ngStyle]="theme.primaryBackgroundStyle"
 								 				(click)="toggleAuthState(AuthState.ledger)">
-							<img src="/assets/img/icons/ledger icon light.svg" alt="">
+							<!-- <img src="/assets/img/icons/ledger icon light.svg" alt=""> -->
+							<div class="svg-wrapper secondary-svg ledger" [inlineSVG]="'/assets/img/icons/inline-svg/ledger icon light.svg'"></div>
 						</app-button>
 						<span class="head3">Ledger</span>
 					</div>
 					<div class="wallet">
 						<app-button class="wallet-icon" 
+												[ngStyle]="theme.primaryBackgroundStyle"
 								 				(click)="trezorAuthState()">
-							<img src="/assets/img/icons/trezor icon light.svg" alt="">
+							<!-- <img src="/assets/img/icons/trezor icon light.svg" alt=""> -->
+							<div class="svg-wrapper secondary-svg trezor" [inlineSVG]="'/assets/img/icons/inline-svg/trezor icon light.svg'"></div>
 						</app-button>
 						<span class="head3">Trezor</span>
 					</div>
 					<div class="wallet">
 						<app-button class="wallet-icon"
+												[ngStyle]="theme.primaryBackgroundStyle"
 								 				(click)="toggleAuthState(AuthState.bitbox)">
-							<img src="/assets/img/icons/digital bitbox icon light.svg" alt="">
+							<!-- <img src="/assets/img/icons/digital bitbox icon light.svg" alt=""> -->
+							<div class="svg-wrapper secondary-svg digital-bitbox" [inlineSVG]="'/assets/img/icons/inline-svg/digital bitbox icon light.svg'"></div>
 						</app-button>
 						<span class="head3">Digital Bitbox</span>
 					</div>
 
 					<div class="wallet">
-						<app-button class="wallet-icon">
+						<app-button class="wallet-icon"
+												[ngStyle]="theme.primaryBackgroundStyle">
 							<app-utc-file-form (privateKey)="utcAuthState($event)"></app-utc-file-form>
-						  <img src="/assets/img/icons/utc icon light.svg" alt="">
+						  <!-- <img src="/assets/img/icons/utc icon light.svg" alt=""> -->
+							<div class="svg-wrapper secondary-svg utc" [inlineSVG]="'/assets/img/icons/inline-svg/utc icon light.svg'"></div>
 						</app-button>
 						<span class="head3">.UTC file</span>
 					</div>

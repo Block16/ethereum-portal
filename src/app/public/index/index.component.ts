@@ -14,6 +14,7 @@ import {EthereumAsset} from "../../shared/model/ethereum-asset";
 import {UserPreferencesService} from "../../core/user-preferences.service";
 import {UserPreferences} from "../../shared/model/user-preferences";
 
+
 enum AuthState {
   none, trezor, bitbox, metamask, utcFile, privateKey, ledger
 }
@@ -79,7 +80,7 @@ export class IndexComponent implements OnInit, OnDestroy {
     private ledgerService: LedgerService,
     private trezorService: TrezorConnectService,
     private privateKeyService: PrivateKeyService,
-    private assetService: EthereumAssetService
+    private assetService: EthereumAssetService,
   ) {
     this.currentAuth = AuthState.none;
 
@@ -93,8 +94,11 @@ export class IndexComponent implements OnInit, OnDestroy {
     // Theme
     this.themeSubscription = this.themeService.theme.subscribe(theme => {
       this.theme = theme;
+      this.themeService.updateSVGs(theme.primaryColor, theme.secondaryColor);
+      // this.updateSVGs('blue');
     });
 
+    
     // Assets
     this.assetSubscription = this.assetService.ethereumAssets.subscribe(assets => {
       this.assets = assets;

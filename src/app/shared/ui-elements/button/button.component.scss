@@ -8,6 +8,10 @@ $outlineDistance: $outlineThickness + 1px;
 $outlineColor: $buttonColor;
 $outlineActiveOffset: 1;
 
+.wallet-icon {
+  
+}
+
 :host {
 	display: inline-block;
 	font: 1em $FB2;
@@ -28,26 +32,6 @@ $outlineActiveOffset: 1;
 		height: 0;
   	cursor: pointer;
 		padding: 0 0 100% 0;
-		.utc {
-			opacity: 0;
-			cursor: pointer;
-			@include posa-tblr;
-		}
-		/deep/ img {
-			@include pass-through;
-			margin: auto;
-			height: 40%;
-			&[src="/assets/img/icons/ledger icon light.svg"] {
-  			height: 34%;
-			}
-			&[src="/assets/img/icons/trezor icon light.svg"] {
-  			height: 43%;
-			}
-			&[src="/assets/img/icons/digital bitbox icon light.svg"] {
-  			height: 43%;
-			}
-			@include posa-tblr;
-		}
   }
   .outline {
     border: $outlineThickness solid $outlineColor;
@@ -81,4 +65,11 @@ $outlineActiveOffset: 1;
       border-width: 1px;
     }
   }
+}
+
+
+.utc {
+  opacity: 0;
+  cursor: pointer;
+  @include posa-tblr;
 }

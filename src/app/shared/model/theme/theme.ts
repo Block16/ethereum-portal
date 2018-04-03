@@ -1,6 +1,8 @@
 
 export interface Theme {
   name: string;
+  primaryColor: string;
+  secondaryColor: string;
   mainStyle: any;
   backgroundStyle: any;
   primaryBackgroundStyle: any;
@@ -12,4 +14,5 @@ export interface Theme {
   processingBackgroundStyle: any;
   confirmedBackgroundStyle: any;
   failedBackgroundStyle: any;
+  primaryHueRotateStyle: any;
 }

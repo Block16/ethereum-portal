@@ -8,7 +8,11 @@
 		 [ngClass]="{ 'open': showSidebar }"
 		 [ngStyle]="theme.mainStyle">
 	<div class="sidebar-top">
-		<a href="http://block16.io" target="_blank"><img src="/assets/img/branding/logo.svg" class="logo"></a>
+		<a href="http://block16.io"
+			 class="primary-svg logo"
+			 [inlineSVG]="'/assets/img/icons/inline-svg/logo.svg'"
+			 target="_blank">
+		</a>
 	</div>
 	<div class="h2Border menu-title"
 			 [ngStyle]="theme.textStyle">

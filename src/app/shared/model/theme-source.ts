@@ -1,7 +1,7 @@
 export interface ThemeSource {
   name: string;
-  backgroundColor: string;
-  primaryColor: string;
+  primaryColor: string; // "text color"
+  secondaryColor: string; // "background color"
   processingColor: string;
   confirmedColor: string;
   failedColor: string;

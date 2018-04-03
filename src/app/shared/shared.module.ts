@@ -10,11 +10,14 @@ import { MenuButtonComponent } from './ui-elements/menu-button/menu-button.compo
 import { TransactionDotComponent } from './ui-elements/transaction-dot/transaction-dot.component';
 import { ButtonComponent } from './ui-elements/button/button.component';
 import { SendFormComponent } from './send-form/send-form.component';
+import { InlineSVGModule } from 'ng-inline-svg';
+
 
 @NgModule({
   imports: [
     CommonModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    InlineSVGModule
   ],
   exports: [
     ButtonComponent,
@@ -25,7 +28,8 @@ import { SendFormComponent } from './send-form/send-form.component';
     UtcFileFormComponent,
     MenuButtonComponent,
     TransactionDotComponent,
-    SendFormComponent
+    SendFormComponent,
+    InlineSVGModule
   ],
   declarations: [
     ModalComponent,
