@@ -36,6 +36,7 @@ $overlayZ: 1;
 	position: fixed;
 	z-index: $menuZ;
 	display: block;
+	overflow: auto;
 	top: 0;
 	left: -$sidebarWidth;
 	background: $backgroundColor;

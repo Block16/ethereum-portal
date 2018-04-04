@@ -27,7 +27,8 @@ export class ThemeService {
       'op1': this.op1,
       'op2': this.op2,
       'op3': this.op3,
-      'op4': this.op4
+      'op4': this.op4,
+      'newTransactionPrimaryText': true
     },
     {
       'name': 'Dark',
@@ -39,7 +40,21 @@ export class ThemeService {
       'op1': this.op1,
       'op2': this.op2,
       'op3': this.op3,
-      'op4': this.op4
+      'op4': this.op4,
+      'newTransactionPrimaryText': true
+    },
+    {
+      'name': 'Blueprint',
+      'primaryColor': '#FFF4E6',
+      'secondaryColor': '#143EB3',
+      'processingColor': '#F3FFC2',
+      'failedColor': '#FF7598',
+      'confirmedColor': '#40E38F',
+      'op1': this.op1,
+      'op2': this.op2,
+      'op3': this.op3,
+      'op4': this.op4,
+      'newTransactionPrimaryText': false
     }
   ];
 
@@ -60,21 +75,43 @@ export class ThemeService {
     // This is part of a hack-ey (but seemingly necessary) solution to dynamically change the color of SVG images/icons to match the theme. It is used alongside ng-inline-svg, and the .primary-svg or .secondary-svg class must be placed on the element with the [inlineSVG] directive, to indicate its color in relationt o the theme. I also manually edit the .svg files so that their height and width attributes are 100%, so they can be sized by their parent element
     
     if (primaryColor) {
-      let primaryColorSVGs = document.querySelectorAll('.primary-svg svg path');
-      for(let i = 0; i < primaryColorSVGs.length; i++) {
+      let primaryColorPaths = document.querySelectorAll('.primary-svg svg path');
+      for(let i = 0; i < primaryColorPaths.length; i++) {
         console.log(i);
-        console.log(primaryColorSVGs[i]);
-        primaryColorSVGs[i].setAttribute('fill', primaryColor);
+        console.log(primaryColorPaths[i]);
+        primaryColorPaths[i].setAttribute('fill', primaryColor);
+        // primaryColorPaths[i].style.fill = primaryColor;
+      }
+      let primaryColorPolygons = document.querySelectorAll('.primary-svg svg polygon');
+      for(let i = 0; i < primaryColorPolygons.length; i++) {
+        console.log(i);
+        console.log(primaryColorPolygons[i]);
+        primaryColorPolygons[i].setAttribute('fill', primaryColor);
+        // primaryColorPolygons[i].style.fill = primaryColor;
       }
     }
     if (secondaryColor) {
-      let secondaryColorSVGs = document.querySelectorAll('.secondary-svg svg path');
-      for(let i = 0; i < secondaryColorSVGs.length; i++) {
+      let secondaryColorPaths = document.querySelectorAll('.secondary-svg svg path');
+      for(let i = 0; i < secondaryColorPaths.length; i++) {
         console.log(i);
-        console.log(secondaryColorSVGs[i]);
-        secondaryColorSVGs[i].setAttribute('fill', secondaryColor);
+        console.log(secondaryColorPaths[i]);
+        secondaryColorPaths[i].setAttribute('fill', secondaryColor);
+        // secondaryColorPaths[i].style.fill = secondaryColor;
+      }
+      let secondaryColorPolygons = document.querySelectorAll('.secondary-svg svg polygon');
+      for(let i = 0; i < secondaryColorPolygons.length; i++) {
+        console.log(i);
+        console.log(secondaryColorPolygons[i]);
+        secondaryColorPolygons[i].setAttribute('fill', secondaryColor);
+        // secondaryColorPolygons[i].style.fill = secondaryColor;
       }
     }
+  }
+  
+  
+  static luma(hex) { // returns a value which represents brightness adjusted for human perception.
+    var rgb = this.hexToRgb(hex);
+    return (0.2126 * rgb.r) + (0.7152 * rgb.g) + (0.0722 * rgb.b); // SMPTE C, Rec. 709 weightings
   }
   
   static hexToHSL(hex) {
@@ -140,6 +177,10 @@ export class ThemeService {
     theme.primaryColor = themeSource.primaryColor;
     theme.secondaryColor = themeSource.secondaryColor;
     
+    theme.isDark = this.luma(theme.primaryColor) > this.luma(theme.secondaryColor) ?
+    true :
+    false;
+    
     theme.mainStyle = {
       'background-color': themeSource.secondaryColor,
       'color': themeSource.primaryColor,
@@ -158,11 +199,34 @@ export class ThemeService {
       'color': themeSource.primaryColor,
       'border-color': themeSource.primaryColor
     };
+    
+    theme.secondaryTextStyle = {
+      'color': themeSource.secondaryColor,
+      'border-color': themeSource.secondaryColor
+    };
+    
+    theme.newTransactionTextStyle = themeSource.newTransactionPrimaryText ? 
+    {
+      'color': themeSource.primaryColor,
+      'border-color': themeSource.primaryColor
+    } : 
+    {
+      'color': themeSource.secondaryColor,
+      'border-color': themeSource.secondaryColor
+    }
 
     theme.buttonStyle = {
       'color': themeSource.secondaryColor,
       'background-color': themeSource.primaryColor
     };
+    
+    theme.primaryBorderStyle = {
+      'border-color': themeSource.primaryColor
+    }
+    
+    theme.secondaryBorderStyle = {
+      'border-color': themeSource.secondaryColor
+    }
 
     theme.toggleSwitchOffStyle = {
       'background-color': 'rgba(' +

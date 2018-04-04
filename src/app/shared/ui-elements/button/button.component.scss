@@ -56,7 +56,7 @@ $outlineActiveOffset: 1;
   }
   &:active {
     .outline {
-      opacity: .25;
+      opacity: 1;
       top: -$outlineDistance - $outlineActiveOffset;
       bottom: -$outlineDistance - $outlineActiveOffset;
       left: -$outlineDistance - $outlineActiveOffset;

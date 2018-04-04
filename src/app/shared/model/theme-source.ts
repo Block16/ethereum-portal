@@ -9,4 +9,5 @@ export interface ThemeSource {
   op2: number;
   op3: number;
   op4: number;
+  newTransactionPrimaryText: boolean;
 }

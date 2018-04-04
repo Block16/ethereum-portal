@@ -5,10 +5,6 @@
 			 class="grid">
 		<div class="grid-cell">
 			<h2 class="top-border">Select wallet</h2>
-			<app-button (click)="themeService.updateSVGs('blue', 'red')">
-				updateSVGs('blue')
-			</app-button>
-			
 			<section class="section-content">
 				<div class="wallets">
 					<div class="wallet">
@@ -17,7 +13,14 @@
 											  (click)="metaMaskAuthState()">
 							<!-- <img src="/assets/img/icons/metamask icon light.svg" alt=""> -->
 							
-							<div class="svg-wrapper secondary-svg" [inlineSVG]="'/assets/img/icons/inline-svg/metamask icon light.svg'"></div>
+							<div [hidden]="theme.isDark">
+								<div class="svg-wrapper secondary-svg"
+										 [inlineSVG]="'/assets/img/icons/inline-svg/metamask icon light.svg'"></div>
+							</div>
+							<div [hidden]="!theme.isDark">
+								<div class="svg-wrapper secondary-svg"
+										 [inlineSVG]="'/assets/img/icons/inline-svg/metamask icon.svg'"></div>
+							</div>
 						</app-button>
 						<span class="head3">Metamask</span>
 					</div>
@@ -73,7 +76,7 @@
 				<button class="button"
 								(click)="showTestModal = !showTestModal">show test modal</button>
 			</section>
-			<app-button>button</app-button>
+			<app-button [ngStyle]="theme.buttonStyle">button</app-button>
 		</div>
 		<div class="grid-cell">
 			<h2 class="top-border">Don't have a wallet?</h2>
@@ -122,12 +125,16 @@
 <div class="new-transaction-circle"
 		 [ngClass]="{ 'small': newTransactionToDock }"
 		 [ngStyle]="newTransactionCircleStyle">
+		 <div class="circle-fill"
+				  [ngStyle]="theme.processingBackgroundStyle"></div>
 </div>
 <div class="new-transaction"
 		 [ngStyle]="newTransactionStyle">
 	<div class="content">
-		<h1 class="top-border">Approve transaction</h1>
-		<section class="section-content">
+		<h1 class="top-border"
+				[ngStyle]="theme.newTransactionTextStyle">Approve transaction</h1>
+		<section class="section-content"
+						 [ngStyle]="theme.newTransactionTextStyle">
 			<h3 class="type2">Transaction will send immediately after approval on your [auth method]</h3>
 			<span class="caption">To</span><br>
 			<p class="lining-proportional">{{newTransaction.toAddress}}</p>

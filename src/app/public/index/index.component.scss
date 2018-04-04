@@ -68,6 +68,7 @@ $newTransactionTransformTime: .25s;
 .new-transaction-circle {
 	z-index: $newTransactionCircleZ;
 	position: fixed;
+	overflow: hidden;
 	top: 0;
 	left: 0;
 	z-index: 1;
@@ -78,6 +79,11 @@ $newTransactionTransformTime: .25s;
 	&.small {
 		height: $transactionDotSize;
 		width: $transactionDotSize;
+	}
+	.circle-fill {
+		@include posa-tblr;
+		border-radius: 99em;
+		background: $yellow;
 	}
 }
 .new-transaction {
