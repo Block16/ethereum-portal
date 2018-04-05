@@ -36,7 +36,7 @@ export class ThemeService {
       'name': 'Dark',
       'primaryColor': this.backgroundColor,
       'secondaryColor': this.black,
-      'accentColor': this.black,
+      'accentColor': this.backgroundColor,
       'processingColor': this.yellow,
       'failedColor': this.red,
       'confirmedColor': this.green,
@@ -50,7 +50,7 @@ export class ThemeService {
       'name': 'Blueprint',
       'primaryColor': '#FFF4E6',
       'secondaryColor': '#143EB3',
-      'accentColor': '#143EB3',
+      'accentColor': '#FFF4E6',
       'processingColor': '#F3FFC2',
       'failedColor': '#FF7598',
       'confirmedColor': '#40E38F',
@@ -75,13 +75,27 @@ export class ThemeService {
       'op5': this.op5 * 1.3
     },
     {
-      'name': 'Vegan',
+      'name': 'Brown',
       'primaryColor': '#6E2C00',
       'secondaryColor': '#DBC39C',
       'accentColor': '#6E2C00',
       'processingColor': '#FFF5BA',
       'failedColor': '#BF8B41',
       'confirmedColor': '#78AB85', 
+      'op1': this.op1,
+      'op2': this.op2,
+      'op3': this.op3,
+      'op4': this.op4,
+      'op5': this.op5
+    },
+    {
+      'name': 'Capsule',
+      'primaryColor': '#E6FAF1',
+      'secondaryColor': '#848599',
+      'accentColor': '#38F5A7',
+      'processingColor': '#FFED82',
+      'failedColor': '#F77562',
+      'confirmedColor': '#38F5A7', 
       'op1': this.op1,
       'op2': this.op2,
       'op3': this.op3,
@@ -103,38 +117,54 @@ export class ThemeService {
     
   }
   
-  public updateSVGs(primaryColor, secondaryColor) {
+  public updateSVGs(theme) {
     // This is part of a hack-ey (but seemingly necessary) solution to dynamically change the color of SVG images/icons to match the theme. It is used alongside ng-inline-svg, and the .primary-svg or .secondary-svg class must be placed on the element with the [inlineSVG] directive, to indicate its color in relationt o the theme. I also manually edit the .svg files so that their height and width attributes are 100%, so they can be sized by their parent element
     
-    if (primaryColor) {
+    if (theme.primaryColor) {
       let primaryColorPaths = document.querySelectorAll('.primary-svg svg path');
       for(let i = 0; i < primaryColorPaths.length; i++) {
         // console.log(i);
         // console.log(primaryColorPaths[i]);
-        primaryColorPaths[i].setAttribute('fill', primaryColor);
+        primaryColorPaths[i].setAttribute('fill', theme.primaryColor);
         // primaryColorPaths[i].style.fill = primaryColor;
       }
       let primaryColorPolygons = document.querySelectorAll('.primary-svg svg polygon');
       for(let i = 0; i < primaryColorPolygons.length; i++) {
         // console.log(i);
         // console.log(primaryColorPolygons[i]);
-        primaryColorPolygons[i].setAttribute('fill', primaryColor);
+        primaryColorPolygons[i].setAttribute('fill', theme.primaryColor);
         // primaryColorPolygons[i].style.fill = primaryColor;
       }
     }
-    if (secondaryColor) {
+    if (theme.secondaryColor) {
       let secondaryColorPaths = document.querySelectorAll('.secondary-svg svg path');
       for(let i = 0; i < secondaryColorPaths.length; i++) {
         // console.log(i);
         // console.log(secondaryColorPaths[i]);
-        secondaryColorPaths[i].setAttribute('fill', secondaryColor);
+        secondaryColorPaths[i].setAttribute('fill', theme.secondaryColor);
         // secondaryColorPaths[i].style.fill = secondaryColor;
       }
       let secondaryColorPolygons = document.querySelectorAll('.secondary-svg svg polygon');
       for(let i = 0; i < secondaryColorPolygons.length; i++) {
         // console.log(i);
         // console.log(secondaryColorPolygons[i]);
-        secondaryColorPolygons[i].setAttribute('fill', secondaryColor);
+        secondaryColorPolygons[i].setAttribute('fill', theme.secondaryColor);
+        // secondaryColorPolygons[i].style.fill = secondaryColor;
+      }
+    }
+    if (theme.accentColor) {
+      let accentColorPaths = document.querySelectorAll('.accent-svg svg path');
+      for(let i = 0; i < accentColorPaths.length; i++) {
+        // console.log(i);
+        // console.log(secondaryColorPaths[i]);
+        accentColorPaths[i].setAttribute('fill', theme.accentColor);
+        // secondaryColorPaths[i].style.fill = secondaryColor;
+      }
+      let accentColorPolygons = document.querySelectorAll('.accent-svg svg polygon');
+      for(let i = 0; i < accentColorPolygons.length; i++) {
+        // console.log(i);
+        // console.log(secondaryColorPolygons[i]);
+        accentColorPolygons[i].setAttribute('fill', theme.accentColor);
         // secondaryColorPolygons[i].style.fill = secondaryColor;
       }
     }
@@ -201,7 +231,7 @@ export class ThemeService {
 
     const theme: Theme = <Theme>{};
 
-    const primaryColorRGB = ThemeService.hexToRgb(themeSource.primaryColor);
+    const primaryColorRgb = ThemeService.hexToRgb(themeSource.primaryColor);
     const bgColorRGB = ThemeService.hexToRgb(themeSource.secondaryColor);
     const accentColorRgb = this.hexToRgb(themeSource.accentColor);
 
@@ -211,6 +241,8 @@ export class ThemeService {
     theme.primaryColorRgb = this.hexToRgb(themeSource.primaryColor);
     theme.secondaryColor = themeSource.secondaryColor;
     theme.secondaryColorRgb = this.hexToRgb(themeSource.secondaryColor);
+    theme.accentColor = themeSource.accentColor;
+    theme.accentColorRgb = this.hexToRgb(themeSource.accentColor);
     theme.op1 = themeSource.op1;
     theme.op2 = themeSource.op2;
     theme.op3 = themeSource.op3;
@@ -234,6 +266,9 @@ export class ThemeService {
     theme.primaryBackgroundStyle = {
       'background-color': themeSource.primaryColor
     };
+    theme.accentBackgroundStyle = {
+      'background-color': themeSource.accentColor
+    };
     
     theme.overlayStyle = {
       
@@ -253,6 +288,10 @@ export class ThemeService {
       'color': themeSource.secondaryColor,
       'border-color': themeSource.secondaryColor
     };
+    theme.accentTextStyle = {
+      'color': themeSource.accentColor,
+      'border-color': themeSource.accentColor
+    };
     
     theme.textInputFocusStyle = {
       'background': 'rgba('+
@@ -260,8 +299,9 @@ export class ThemeService {
                     theme.primaryColorRgb.g+','+
                     theme.primaryColorRgb.b+','+
                     theme.op1+')',
-      'border-left': '4px solid ' + themeSource.primaryColor;
+      'border-left': '4px solid ' + themeSource.accentColor;
     }
+    
     theme.textInputBlurStyle = {
       'background': 'rgba('+
                     theme.primaryColorRgb.r+','+
@@ -269,10 +309,10 @@ export class ThemeService {
                     theme.primaryColorRgb.b+','+
                     theme.op1+')',
       'border-left': '4px solid ' + 'rgba('+
-                     theme.primaryColorRgb.r+','+
-                     theme.primaryColorRgb.g+','+
-                     theme.primaryColorRgb.b+','+
-                     theme.op2+')';
+                     theme.accentColorRgb.r+','+
+                     theme.accentColorRgb.g+','+
+                     theme.accentColorRgb.b+','+
+                     theme.op4+')';
     }
     
     theme.newTransactionTextStyle = this.luma(themeSource.primaryColor) > this.luma(themeSource.secondaryColor) ? 
@@ -293,6 +333,10 @@ export class ThemeService {
       'color': themeSource.primaryColor,
       'background-color': themeSource.secondaryColor
     };
+    theme.accentButtonStyle = {
+      'color': themeSource.accentColor,
+      'background-color': themeSource.accentColor
+    };
     
     theme.primaryBorderStyle = {
       'border-color': themeSource.primaryColor
@@ -301,28 +345,38 @@ export class ThemeService {
     theme.secondaryBorderStyle = {
       'border-color': themeSource.secondaryColor
     }
+    
+    theme.accentBorderStyle = {
+      'border-color': themeSource.accentColor
+    }
 
     theme.toggleSwitchOffStyle = {
       'background-color': 'rgba(' +
-      primaryColorRGB.r + ',' +
-      primaryColorRGB.g + ',' +
-      primaryColorRGB.b + ',' +
+      primaryColorRgb.r + ',' +
+      primaryColorRgb.g + ',' +
+      primaryColorRgb.b + ',' +
       themeSource.op2 + ')',
     };
 
-    theme.toggleSwitchOnStyle = {
+    theme.toggleSwitchOnStyle = theme.primaryColor == theme.accentColor ? {
       'background-color': 'rgba(' +
-      primaryColorRGB.r + ',' +
-      primaryColorRGB.g + ',' +
-      primaryColorRGB.b + ',' +
-      themeSource.op4 + ')',
+      accentColorRgb.r + ',' +
+      accentColorRgb.g + ',' +
+      accentColorRgb.b + ',' +
+      theme.op4 + ')',
+    } : {
+      'background-color': 'rgba(' +
+      accentColorRgb.r + ',' +
+      accentColorRgb.g + ',' +
+      accentColorRgb.b + ',' +
+      1 + ')',
     };
 
     theme.selectStyle = {
       'background-color': 'rgba(' +
-      primaryColorRGB.r + ',' +
-      primaryColorRGB.g + ',' +
-      primaryColorRGB.b + ',' +
+      primaryColorRgb.r + ',' +
+      primaryColorRgb.g + ',' +
+      primaryColorRgb.b + ',' +
       themeSource.op2 + ')',
     };
 

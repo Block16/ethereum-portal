@@ -4,12 +4,13 @@
 	<div *ngIf="currentAuth == AuthState.none"
 			 class="grid">
 		<div class="grid-cell">
-			<h2 class="top-border">Select wallet</h2>
+			<h2 class="top-border"
+					[ngStyle]="theme.textStyle">Select wallet</h2>
 			<section class="section-content">
 				<div class="wallets">
 					<div class="wallet">
 						<app-button class="wallet-icon"
-												[ngStyle]="theme.primaryBackgroundStyle"
+												[ngStyle]="theme.accentBackgroundStyle"
 											  (click)="metaMaskAuthState()">
 							<!-- <img src="/assets/img/icons/metamask icon light.svg" alt=""> -->
 							
@@ -22,44 +23,49 @@
 										 [inlineSVG]="'/assets/img/icons/inline-svg/metamask icon.svg'"></div>
 							</div>
 						</app-button>
-						<span class="head3">Metamask</span>
+						<span class="head3"
+									[ngStyle]="theme.accentTextStyle">Metamask</span>
 					</div>
 					<div class="wallet">
 						<app-button class="wallet-icon"
-												[ngStyle]="theme.primaryBackgroundStyle"
+												[ngStyle]="theme.accentBackgroundStyle"
 								 				(click)="toggleAuthState(AuthState.ledger)">
 							<!-- <img src="/assets/img/icons/ledger icon light.svg" alt=""> -->
 							<div class="svg-wrapper secondary-svg ledger" [inlineSVG]="'/assets/img/icons/inline-svg/ledger icon light.svg'"></div>
 						</app-button>
-						<span class="head3">Ledger</span>
+						<span class="head3"
+									[ngStyle]="theme.accentTextStyle">Ledger</span>
 					</div>
 					<div class="wallet">
 						<app-button class="wallet-icon" 
-												[ngStyle]="theme.primaryBackgroundStyle"
+												[ngStyle]="theme.accentBackgroundStyle"
 								 				(click)="trezorAuthState()">
 							<!-- <img src="/assets/img/icons/trezor icon light.svg" alt=""> -->
 							<div class="svg-wrapper secondary-svg trezor" [inlineSVG]="'/assets/img/icons/inline-svg/trezor icon light.svg'"></div>
 						</app-button>
-						<span class="head3">Trezor</span>
+						<span class="head3"
+									[ngStyle]="theme.accentTextStyle">Trezor</span>
 					</div>
 					<div class="wallet">
 						<app-button class="wallet-icon"
-												[ngStyle]="theme.primaryBackgroundStyle"
+												[ngStyle]="theme.accentBackgroundStyle"
 								 				(click)="toggleAuthState(AuthState.bitbox)">
 							<!-- <img src="/assets/img/icons/digital bitbox icon light.svg" alt=""> -->
 							<div class="svg-wrapper secondary-svg digital-bitbox" [inlineSVG]="'/assets/img/icons/inline-svg/digital bitbox icon light.svg'"></div>
 						</app-button>
-						<span class="head3">Digital Bitbox</span>
+						<span class="head3"
+									[ngStyle]="theme.accentTextStyle">Digital Bitbox</span>
 					</div>
 
 					<div class="wallet">
 						<app-button class="wallet-icon"
-												[ngStyle]="theme.primaryBackgroundStyle">
+												[ngStyle]="theme.accentBackgroundStyle">
 							<app-utc-file-form (privateKey)="utcAuthState($event)"></app-utc-file-form>
 						  <!-- <img src="/assets/img/icons/utc icon light.svg" alt=""> -->
 							<div class="svg-wrapper secondary-svg utc" [inlineSVG]="'/assets/img/icons/inline-svg/utc icon light.svg'"></div>
 						</app-button>
-						<span class="head3">.UTC file</span>
+						<span class="head3"
+									[ngStyle]="theme.accentTextStyle">.UTC file</span>
 					</div>
 				</div>
 				<br>
@@ -76,7 +82,8 @@
 			<app-button [ngStyle]="theme.buttonStyle">button</app-button>
 		</div>
 		<div class="grid-cell">
-			<h2 class="top-border">Don't have a wallet?</h2>
+			<h2 class="top-border"
+					[ngStyle]="theme.textStyle">Don't have a wallet?</h2>
 		</div>
 	</div>
 

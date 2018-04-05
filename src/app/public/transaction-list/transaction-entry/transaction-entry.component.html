@@ -25,8 +25,12 @@
 		<span *ngIf="transaction.kind == 'to'">To</span>
 		<span *ngIf="transaction.kind == 'from'">Fr</span>
 	</div>
+	
 	<div class="address lining-proportional">
-		0x343f2EdA84CEAf92ba0408eE6bE290a2d2d295E4</div>
+		0x343f2EdA84CEAf92ba0408eE6bE290a2d2d295E4
+		<b class="overflow-fade"
+			 [ngStyle]="{ 'background': 'linear-gradient(to right, transparent 0%, transparent 80%, ' + theme.secondaryColor + ' 95%, ' + theme.secondaryColor + ' 100%)' }"></b>
+	</div>
 	<div class="chevron">
 		<img src="assets/img/icons/chevron right.svg">
 	</div>

@@ -13,6 +13,7 @@ $knobWidth: $switchHeight;
 	width: $switchWidth;
 	background: hsla(0,0,0,.1);
 	border-radius: 99em;
+	transition: $defaultTransitionTime;
 	@include no-select-pointer;
 	&.non-clickable {
 		@include pass-through;

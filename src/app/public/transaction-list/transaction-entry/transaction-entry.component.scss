@@ -59,9 +59,7 @@
 		grid-area: address;
 		opacity: .3;
 		overflow: hidden;
-		&::after {
-			content: '';
-			background: linear-gradient(to right, transparent 0%, transparent 80%, $backgroundColor 95%, $backgroundColor 100%);
+		.overflow-fade {
 			z-index: 2;
 			@include posa-tblr;
 		}

@@ -94,7 +94,7 @@ export class IndexComponent implements OnInit, OnDestroy {
     // Theme
     this.themeSubscription = this.themeService.theme.subscribe(theme => {
       this.theme = theme;
-      this.themeService.updateSVGs(theme.primaryColor, theme.secondaryColor);
+      this.themeService.updateSVGs(theme);
       // this.updateSVGs('blue');
     });
 

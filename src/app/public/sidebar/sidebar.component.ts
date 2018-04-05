@@ -50,7 +50,7 @@ export class SidebarComponent implements OnDestroy {
     this.themes = this.themeService.themes;
     this.themeSubscription = this.themeService.theme.subscribe(theme => {
       this.theme = theme;
-      this.themeService.updateSVGs(theme.primaryColor, theme.secondaryColor);
+      this.themeService.updateSVGs(theme);
     });
 
     // Build the theme changing selector

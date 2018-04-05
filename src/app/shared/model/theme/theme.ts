@@ -20,18 +20,23 @@ export interface Theme {
   mainStyle: any;
   backgroundStyle: any;
   primaryBackgroundStyle: any;
+  accentBackgroundStyle: any;
+  
   overlayStyle: any;
   
   textStyle: any;
   secondaryTextStyle: any;
+  accentTextStyle: any;
   
   buttonStyle: any;
   secondaryButtonStyle: any;
+  accentButtonStyle: any;
   
   newTransactionTextStyle: any;
   
   primaryBorderStyle: any;
   secondaryBorderStyle: any;
+  accentBorderStyle: any;
   
   toggleSwitchOffStyle: any;
   toggleSwitchOnStyle: any;

@@ -13,7 +13,7 @@
 
 .symbol-box {
 	$lineThickness: 5px;
-	$transitionTime: .1s;
+	$transitionTime: .125s;
 	@include pass-through;
 	@include posa-tblr;
 	height: $menuButtonHeight;

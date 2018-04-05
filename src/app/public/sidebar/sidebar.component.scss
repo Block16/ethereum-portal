@@ -50,16 +50,19 @@ $overlayZ: 1;
 		align-items: center;
 		justify-content: flex-end;
 		height: $defaultMargin * 2 + $menuButtonHeight;
-		a {
+		.logo {
+			height: $menuButtonHeight * 1.3;
+			width: 10em;
 			opacity: 1;
+			animation: .1s logo-in ease-in;
+			@keyframes logo-in {
+				from { opacity: 0; }
+				to { opacity: 1; }
+			}
 			transition: $defaultTransitionTime;
 			&:hover {
 				opacity: .2;
 			}
-		}
-		.logo {
-			height: $menuButtonHeight * 1.3;
-			width: 10em;
 		}
 	}
 	&.open {
