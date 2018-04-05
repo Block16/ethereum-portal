@@ -91,11 +91,39 @@ export class ThemeService {
     {
       'name': 'Capsule',
       'primaryColor': '#E6FAF1',
-      'secondaryColor': '#848599',
+      'secondaryColor': '#707182',
       'accentColor': '#38F5A7',
       'processingColor': '#FFED82',
       'failedColor': '#F77562',
       'confirmedColor': '#38F5A7', 
+      'op1': this.op1,
+      'op2': this.op2,
+      'op3': this.op3,
+      'op4': this.op4,
+      'op5': this.op5
+    },
+    {
+      'name': 'Cloud',
+      'primaryColor': '#7E9191',
+      'secondaryColor': '#E6F5F3',
+      'accentColor': '#6FB2B3',
+      'processingColor': '#EDE5C9',
+      'failedColor': '#CF9A93',
+      'confirmedColor': '#8DCCA5', 
+      'op1': this.op1,
+      'op2': this.op2,
+      'op3': this.op3,
+      'op4': this.op4,
+      'op5': this.op5
+    },
+    {
+      'name': 'Cotton Candy',
+      'primaryColor': '#6A8196',
+      'secondaryColor': '#F0F3FA',
+      'accentColor': '#D685BF',
+      'processingColor': '#F5DFE9',
+      'failedColor': '#E1A7E8',
+      'confirmedColor': '#9BEBC2', 
       'op1': this.op1,
       'op2': this.op2,
       'op3': this.op3,
@@ -337,6 +365,16 @@ export class ThemeService {
       'color': themeSource.accentColor,
       'background-color': themeSource.accentColor
     };
+    
+    theme.maxButtonOffStyle = {
+      'color': themeSource.primaryColor,
+      'border-color': themeSource.primaryColor
+    }
+    theme.maxButtonOnStyle = {
+      'color': themeSource.secondaryColor,
+      'border': 'none',
+      'background': themeSource.accentColor
+    }
     
     theme.primaryBorderStyle = {
       'border-color': themeSource.primaryColor

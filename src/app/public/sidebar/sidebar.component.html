@@ -26,10 +26,13 @@
 														[transaction]="tx"
 														[theme]="theme"></app-recent-transaction>
 	</div>
-	<div class="h2Border menu-title" [ngStyle]="theme.textStyle">
+	<div class="h2Border menu-title bottom-margin" [ngStyle]="theme.textStyle">
 		<h2>Auth</h2>
 		<span class="caption all-small-caps">Current auth</span>
 	</div>
+	<section class="section-content">
+		<app-button [ngStyle]="theme.buttonStyle">Un-auth</app-button>
+	</section>
 	<div class="h2Border menu-title" [ngStyle]="theme.textStyle">
 		<h2>Preferences</h2>
 	</div>

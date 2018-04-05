@@ -69,11 +69,8 @@
 		display: flex;
 		align-items: center;
 		justify-content: flex-end;
+		margin-right: .7em;
+		opacity: $op3;
 		@include no-select;
-		img {
-			height: 1.5em;
-			opacity: .08;
-			margin-right: .5em;
-		}
 	}
 }

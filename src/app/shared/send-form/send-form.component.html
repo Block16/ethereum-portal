@@ -28,7 +28,10 @@
                       theme.textInputFocusStyle : 
                       theme.textInputBlurStyle">
 
-      <div class="max-button" [ngClass]="{ 'on': sendMax }" (click)="clickMaxButton()">Max</div>
+      <div class="max-button"
+           [ngClass]="{ 'on': sendMax }"
+           [ngStyle]="sendMax ? theme.maxButtonOnStyle : theme.maxButtonOffStyle"
+           (click)="clickMaxButton()">Max</div>
 
       <div class="custom-select">
         <div class="select-overlay">

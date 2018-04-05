@@ -101,7 +101,15 @@
 					</div>
 				</div>
 				<app-toggle-section [title]="'QR'">
-					<img src="/assets/img/QR dummy.png" class="qr">
+					<ngx-kjua
+					    [text]="'0x' + ethereumAddress"
+					    [renderAsync]="false"
+					    [crisp]="true"
+					    [ecLevel]="'L'"
+					    [size]="'250'"
+					    [fill]="theme.primaryColor"
+					    [back]="'transparent'"
+					  ></ngx-kjua>
 				</app-toggle-section>
 
         <loading-icon></loading-icon>

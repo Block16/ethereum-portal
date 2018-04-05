@@ -7,7 +7,7 @@ export interface Theme {
   secondaryColor: string;
   secondaryColorRgb: any;
   accentColor: string;
-  accentColorRgb: string;
+  accentColorRgb: any;
   
   op1: number;
   op2: number;
@@ -31,6 +31,9 @@ export interface Theme {
   buttonStyle: any;
   secondaryButtonStyle: any;
   accentButtonStyle: any;
+  
+  maxButtonOnStyle: any;
+  maxButtonOffStyle: any;
   
   newTransactionTextStyle: any;
   

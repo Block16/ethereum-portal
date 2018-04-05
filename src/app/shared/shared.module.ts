@@ -13,13 +13,15 @@ import { SendFormComponent } from './send-form/send-form.component';
 import { InlineSVGModule } from 'ng-inline-svg';
 import { InputComponent } from './ui-elements/input/input.component';
 import { ToggleSectionComponent } from './ui-elements/toggle-section/toggle-section.component';
+import { NgxKjuaModule } from 'ngx-kjua';
 
 
 @NgModule({
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    InlineSVGModule
+    InlineSVGModule,
+    NgxKjuaModule,
   ],
   exports: [
     ButtonComponent,
@@ -33,7 +35,8 @@ import { ToggleSectionComponent } from './ui-elements/toggle-section/toggle-sect
     SendFormComponent,
     InlineSVGModule,
     InputComponent,
-    ToggleSectionComponent
+    ToggleSectionComponent,
+    NgxKjuaModule,
   ],
   declarations: [
     ModalComponent,
