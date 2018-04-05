@@ -9,6 +9,8 @@ import {PublicRoutingModule} from './public.routing';
 import {SharedModule} from '../shared/shared.module';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { TransactionListComponent } from './transaction-list/transaction-list.component';
+import { RecentTransactionComponent } from './sidebar/recent-transaction/recent-transaction.component';
+import { TransactionEntryComponent } from './transaction-list/transaction-entry/transaction-entry.component';
 
 
 @NgModule({
@@ -23,7 +25,9 @@ import { TransactionListComponent } from './transaction-list/transaction-list.co
     LayoutComponent,
     SidebarComponent,
     IndexComponent,
-    TransactionListComponent
+    TransactionListComponent,
+    RecentTransactionComponent,
+    TransactionEntryComponent
   ],
   providers: [
     IndexComponent

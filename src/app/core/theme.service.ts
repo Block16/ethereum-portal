@@ -10,6 +10,7 @@ export class ThemeService {
   private op2 = .1;
   private op3 = .2;
   private op4 = .4;
+  private op5 = .6
   private backgroundColor = '#EFF1F2';
   private black = '#000000';
   private yellow = '#f6eb0f';
@@ -21,6 +22,7 @@ export class ThemeService {
       'name': 'Default',
       'primaryColor': this.black,
       'secondaryColor': this.backgroundColor,
+      'accentColor': this.black,
       'processingColor': this.yellow,
       'failedColor': this.red,
       'confirmedColor': this.green,
@@ -28,25 +30,27 @@ export class ThemeService {
       'op2': this.op2,
       'op3': this.op3,
       'op4': this.op4,
-      'newTransactionPrimaryText': true
+      'op5': this.op5
     },
     {
       'name': 'Dark',
       'primaryColor': this.backgroundColor,
       'secondaryColor': this.black,
+      'accentColor': this.black,
       'processingColor': this.yellow,
       'failedColor': this.red,
       'confirmedColor': this.green,
-      'op1': this.op1,
-      'op2': this.op2,
-      'op3': this.op3,
-      'op4': this.op4,
-      'newTransactionPrimaryText': true
+      'op1': this.op1 * 2.5,
+      'op2': this.op1 * 2.5,
+      'op3': this.op2 * 2.5,
+      'op4': this.op3 * 2.5,
+      'op5': this.op5
     },
     {
       'name': 'Blueprint',
       'primaryColor': '#FFF4E6',
       'secondaryColor': '#143EB3',
+      'accentColor': '#143EB3',
       'processingColor': '#F3FFC2',
       'failedColor': '#FF7598',
       'confirmedColor': '#40E38F',
@@ -54,7 +58,35 @@ export class ThemeService {
       'op2': this.op2,
       'op3': this.op3,
       'op4': this.op4,
-      'newTransactionPrimaryText': false
+      'op5': this.op5
+    },
+    {
+      'name': 'Leet',
+      'primaryColor': '#F5007E',
+      'secondaryColor': '#FFFFFF',
+      'accentColor': '#F5007E',
+      'processingColor': '#FFDD18',
+      'failedColor': '#F5007E',
+      'confirmedColor': '#12FF8B', 
+      'op1': this.op1,
+      'op2': this.op2,
+      'op3': this.op3,
+      'op4': this.op4 * 2,
+      'op5': this.op5 * 1.3
+    },
+    {
+      'name': 'Vegan',
+      'primaryColor': '#6E2C00',
+      'secondaryColor': '#DBC39C',
+      'accentColor': '#6E2C00',
+      'processingColor': '#FFF5BA',
+      'failedColor': '#BF8B41',
+      'confirmedColor': '#78AB85', 
+      'op1': this.op1,
+      'op2': this.op2,
+      'op3': this.op3,
+      'op4': this.op4,
+      'op5': this.op5
     }
   ];
 
@@ -77,15 +109,15 @@ export class ThemeService {
     if (primaryColor) {
       let primaryColorPaths = document.querySelectorAll('.primary-svg svg path');
       for(let i = 0; i < primaryColorPaths.length; i++) {
-        console.log(i);
-        console.log(primaryColorPaths[i]);
+        // console.log(i);
+        // console.log(primaryColorPaths[i]);
         primaryColorPaths[i].setAttribute('fill', primaryColor);
         // primaryColorPaths[i].style.fill = primaryColor;
       }
       let primaryColorPolygons = document.querySelectorAll('.primary-svg svg polygon');
       for(let i = 0; i < primaryColorPolygons.length; i++) {
-        console.log(i);
-        console.log(primaryColorPolygons[i]);
+        // console.log(i);
+        // console.log(primaryColorPolygons[i]);
         primaryColorPolygons[i].setAttribute('fill', primaryColor);
         // primaryColorPolygons[i].style.fill = primaryColor;
       }
@@ -93,15 +125,15 @@ export class ThemeService {
     if (secondaryColor) {
       let secondaryColorPaths = document.querySelectorAll('.secondary-svg svg path');
       for(let i = 0; i < secondaryColorPaths.length; i++) {
-        console.log(i);
-        console.log(secondaryColorPaths[i]);
+        // console.log(i);
+        // console.log(secondaryColorPaths[i]);
         secondaryColorPaths[i].setAttribute('fill', secondaryColor);
         // secondaryColorPaths[i].style.fill = secondaryColor;
       }
       let secondaryColorPolygons = document.querySelectorAll('.secondary-svg svg polygon');
       for(let i = 0; i < secondaryColorPolygons.length; i++) {
-        console.log(i);
-        console.log(secondaryColorPolygons[i]);
+        // console.log(i);
+        // console.log(secondaryColorPolygons[i]);
         secondaryColorPolygons[i].setAttribute('fill', secondaryColor);
         // secondaryColorPolygons[i].style.fill = secondaryColor;
       }
@@ -171,11 +203,19 @@ export class ThemeService {
 
     const primaryColorRGB = ThemeService.hexToRgb(themeSource.primaryColor);
     const bgColorRGB = ThemeService.hexToRgb(themeSource.secondaryColor);
+    const accentColorRgb = this.hexToRgb(themeSource.accentColor);
 
     theme.name = themeSource.name;
     
     theme.primaryColor = themeSource.primaryColor;
+    theme.primaryColorRgb = this.hexToRgb(themeSource.primaryColor);
     theme.secondaryColor = themeSource.secondaryColor;
+    theme.secondaryColorRgb = this.hexToRgb(themeSource.secondaryColor);
+    theme.op1 = themeSource.op1;
+    theme.op2 = themeSource.op2;
+    theme.op3 = themeSource.op3;
+    theme.op4 = themeSource.op4;
+    theme.op5 = themeSource.op5;
     
     theme.isDark = this.luma(theme.primaryColor) > this.luma(theme.secondaryColor) ?
     true :
@@ -194,6 +234,15 @@ export class ThemeService {
     theme.primaryBackgroundStyle = {
       'background-color': themeSource.primaryColor
     };
+    
+    theme.overlayStyle = {
+      
+      'background': 'rgba('+
+                    accentColorRgb.r+','+
+                    accentColorRgb.g+','+
+                    accentColorRgb.b+','+
+                    theme.op5+')',
+    }
 
     theme.textStyle = {
       'color': themeSource.primaryColor,
@@ -205,19 +254,44 @@ export class ThemeService {
       'border-color': themeSource.secondaryColor
     };
     
-    theme.newTransactionTextStyle = themeSource.newTransactionPrimaryText ? 
-    {
-      'color': themeSource.primaryColor,
-      'border-color': themeSource.primaryColor
-    } : 
+    theme.textInputFocusStyle = {
+      'background': 'rgba('+
+                    theme.primaryColorRgb.r+','+
+                    theme.primaryColorRgb.g+','+
+                    theme.primaryColorRgb.b+','+
+                    theme.op1+')',
+      'border-left': '4px solid ' + themeSource.primaryColor;
+    }
+    theme.textInputBlurStyle = {
+      'background': 'rgba('+
+                    theme.primaryColorRgb.r+','+
+                    theme.primaryColorRgb.g+','+
+                    theme.primaryColorRgb.b+','+
+                    theme.op1+')',
+      'border-left': '4px solid ' + 'rgba('+
+                     theme.primaryColorRgb.r+','+
+                     theme.primaryColorRgb.g+','+
+                     theme.primaryColorRgb.b+','+
+                     theme.op2+')';
+    }
+    
+    theme.newTransactionTextStyle = this.luma(themeSource.primaryColor) > this.luma(themeSource.secondaryColor) ? 
     {
       'color': themeSource.secondaryColor,
       'border-color': themeSource.secondaryColor
+    } : 
+    {
+      'color': themeSource.primaryColor,
+      'border-color': themeSource.primaryColor
     }
 
     theme.buttonStyle = {
       'color': themeSource.secondaryColor,
       'background-color': themeSource.primaryColor
+    };
+    theme.secondaryButtonStyle = {
+      'color': themeSource.primaryColor,
+      'background-color': themeSource.secondaryColor
     };
     
     theme.primaryBorderStyle = {

@@ -1,0 +1,41 @@
+@import '../../../../assets/sass-imports/_variables.scss';
+@import '../../../../assets/sass-imports/_mixins.scss';
+
+.section-toggle {
+	// $color: hsla(0,0,0,.25);
+	$lineWidth: 2px;
+	$lineLength: $lineWidth * 8;
+	$lineSideGap: 4px;
+	position: relative;
+	opacity: .25;
+	margin-bottom: $defaultMargin;
+	// color: $color;
+	// border-top: $lineWidth solid $color;
+	@include no-select-pointer;
+	&:hover {
+		// $color: hsla(0,0,0,.4);
+		// color: $color;
+		// border-color: $color;
+	}
+	&::before, &::after {
+		content: '';
+		position: absolute;
+		left: -$lineLength - $lineSideGap; 
+		top: -$lineWidth;
+		height: $lineWidth;
+		width: $lineLength;
+		background: black;
+	}
+	&::after {
+		transform: rotate(90deg);
+	}
+	&.open {
+		opacity: 1;
+		// $color: hsla(0,0,0,1);
+		// color: $color;
+		// border-color: $color;
+		&::after {
+			transform: rotate(0deg);
+		}
+	}
+}

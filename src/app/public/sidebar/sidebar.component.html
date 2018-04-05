@@ -2,6 +2,7 @@
 						 [(value)]="showSidebar"></menu-button>
 
 <div class="overlay"
+		 [ngStyle]="theme.overlayStyle"
 		 *ngIf="showSidebar"
 		 (click)="showSidebar = !showSidebar"></div>
 <div class="sidebar"
@@ -20,20 +21,9 @@
 		<span class="caption section-caption all-small-caps">past hour</span>
 	</div>
 	<div class="recent-entries">
-		<div *ngFor="let tx of recentTransactions" class="recent-entry">
-			<transaction-dot class="dot" [status]="tx.status"></transaction-dot>
-			<div class="main">
-				<span *ngIf="tx.status == 'confirmed'">{{tx.confirmations}} confirmations</span>
-				<span *ngIf="tx.status == 'processing'">Processing</span>
-				<span *ngIf="tx.status == 'failed'">Failed</span><br>
-				<span class="action lining-proportional">Sent {{tx.amount}} {{tx.token}}</span>
-			</div>
-			<div class="time">ago</div>
-			<!-- <img class="chevron" src="/assets/img/icons/chevron right.svg" alt=""> -->
-			
-			<div class="chevron svg-wrapper primary-svg"
-					 [inlineSVG]="'/assets/img/icons/inline-svg/chevron right.svg'"></div>
-		</div>
+		<app-recent-transaction *ngFor="let tx of recentTransactions"
+														[transaction]="tx"
+														[theme]="theme"></app-recent-transaction>
 	</div>
 	<div class="h2Border menu-title" [ngStyle]="theme.textStyle">
 		<h2>Auth</h2>

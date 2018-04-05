@@ -51,10 +51,10 @@ $overlayZ: 1;
 		justify-content: flex-end;
 		height: $defaultMargin * 2 + $menuButtonHeight;
 		a {
-			opacity: .2;
+			opacity: 1;
 			transition: $defaultTransitionTime;
 			&:hover {
-				opacity: 1;
+				opacity: .2;
 			}
 		}
 		.logo {
@@ -72,35 +72,6 @@ $overlayZ: 1;
 
 .recent-entries {
 	padding: 0 0 20px;
-}
-.recent-entry {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	padding: 10px $defaultMargin 10px $defaultMargin * 1.2;
-	margin: 0 $defaultMargin * -1;
-	@include no-select-pointer;
-	&:hover {
-		background: hsla(0,0,0,.05);
-	}
-	.main {
-		flex: 1;
-		padding-left: 20px;
-		font-weight: bold;
-		.action {
-			font: normal 14px $S;
-			opacity: .5;
-		}
-	}
-	.time {
-		font-size: 12px;
-		opacity: .5;
-	}
-	.chevron {
-		height: 1.5em;
-		opacity: .075;
-		margin: 0 .2em 0 1em;
-	}
 }
 
 .preference {

@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Web3Service} from "../../core/web3.service";
 import {EthereumAsset} from "../model/ethereum-asset";
@@ -13,6 +13,8 @@ import {UserPreferencesService} from "../../core/user-preferences.service";
   styleUrls: ['./send-form.component.scss']
 })
 export class SendFormComponent implements OnInit, OnDestroy {
+  @Input() theme;
+  
   private userPrefSub: Subscription;
   public userPreferences: UserPreferences;
 
@@ -25,6 +27,10 @@ export class SendFormComponent implements OnInit, OnDestroy {
   public assets: EthereumAsset[];
 
   private previousAmount: any;
+  
+  // input states
+  private sendAddressFocus: boolean = false;
+  private sendAmountFocus: boolean = false;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -50,6 +56,7 @@ export class SendFormComponent implements OnInit, OnDestroy {
       'sendAmount': ['', [Validators.required]],
       'sendAsset': ['', [Validators.required]]
     });
+    // debugger;
   }
 
   clickMaxButton() {

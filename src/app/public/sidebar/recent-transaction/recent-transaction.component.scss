@@ -1,0 +1,29 @@
+@import '../../../../assets/sass-imports/_variables.scss';
+@import '../../../../assets/sass-imports/_mixins.scss';
+
+.recent-entry {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 10px $defaultMargin 10px $defaultMargin * 1.2;
+	margin: 0 $defaultMargin * -1;
+	@include no-select-pointer;
+	.main {
+		flex: 1;
+		padding-left: 20px;
+		font-weight: bold;
+		.action {
+			font: normal 14px $S;
+			opacity: .5;
+		}
+	}
+	.time {
+		font-size: 12px;
+		opacity: .5;
+	}
+	.chevron {
+		height: 1.5em;
+		opacity: .075;
+		margin: 0 .2em 0 1em;
+	}
+}

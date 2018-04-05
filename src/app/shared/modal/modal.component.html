@@ -1,5 +1,6 @@
 <div class="overlay"
 		 *ngIf="visible"
+		 [ngStyle]="theme.overlayStyle"
 		 (click)="visible = close()">
 </div>
 <div class="modal-container"

@@ -1,0 +1,23 @@
+<div class="recent-entry"
+		 [ngClass]="{ 'hover': hover }"
+		 (mouseover)="hover = true"
+		 (mouseout)="hover = false"
+		 [ngStyle]="{ 'background': hover ? 'rgba('+
+															  theme.primaryColorRgb.r+','+
+															  theme.primaryColorRgb.g+','+
+															  theme.primaryColorRgb.b+','+
+															  theme.op1+')' :
+															  'transparent' }">
+	<transaction-dot class="dot" [status]="transaction.status"></transaction-dot>
+	<div class="main">
+		<span *ngIf="transaction.status == 'confirmed'">{{transaction.confirmations}} confirmations</span>
+		<span *ngIf="transaction.status == 'processing'">Processing</span>
+		<span *ngIf="transaction.status == 'failed'">Failed</span><br>
+		<span class="action lining-proportional">Sent {{transaction.amount}} {{transaction.token}}</span>
+	</div>
+	<div class="time">ago</div>
+	<!-- <img class="chevron" src="/assets/img/icons/chevron right.svg" alt=""> -->
+	
+	<div class="chevron svg-wrapper primary-svg"
+			 [inlineSVG]="'/assets/img/icons/inline-svg/chevron right.svg'"></div>
+</div>

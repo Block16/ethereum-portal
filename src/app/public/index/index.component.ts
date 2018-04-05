@@ -117,6 +117,10 @@ export class IndexComponent implements OnInit, OnDestroy {
       this.showSidebar = value;
     });
   }
+  
+  test() {
+    console.log('test');
+  }
 
   ngOnInit(): void {
     this.recentTransactions.push(this.randomTransaction());

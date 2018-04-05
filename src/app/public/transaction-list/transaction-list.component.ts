@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import {Subscription} from "rxjs/Subscription";
+import {ThemeService} from "../../core/theme.service";
+import {Theme} from "../../shared/model/theme/theme";
 
 @Component({
   selector: 'app-transaction-list',
@@ -8,8 +11,14 @@ import { Component, OnInit } from '@angular/core';
 export class TransactionListComponent implements OnInit {
 	
 	public transactions = [];
+  public theme: Theme;
+  private themeSubscription: Subscription;
 	
-  constructor() { }
+  constructor(private themeService: ThemeService) {
+    this.themeSubscription = this.themeService.theme.subscribe(theme => {
+      this.theme = theme;
+    });
+  }
 
   
   randomTransaction() {

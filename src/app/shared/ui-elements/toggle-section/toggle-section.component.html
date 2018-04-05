@@ -1,0 +1,9 @@
+<h3 class="section-toggle top-border no-bottom-margin"
+		[ngClass]="{ 'open': show }"
+		[ngStyle]="theme.textStyle"
+		(click)="show = !show">{{ title }}</h3>
+
+<section class="section-content"
+				 *ngIf="show">
+	<ng-content></ng-content>
+</section>

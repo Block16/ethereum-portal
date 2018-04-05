@@ -11,6 +11,8 @@ import { TransactionDotComponent } from './ui-elements/transaction-dot/transacti
 import { ButtonComponent } from './ui-elements/button/button.component';
 import { SendFormComponent } from './send-form/send-form.component';
 import { InlineSVGModule } from 'ng-inline-svg';
+import { InputComponent } from './ui-elements/input/input.component';
+import { ToggleSectionComponent } from './ui-elements/toggle-section/toggle-section.component';
 
 
 @NgModule({
@@ -29,7 +31,9 @@ import { InlineSVGModule } from 'ng-inline-svg';
     MenuButtonComponent,
     TransactionDotComponent,
     SendFormComponent,
-    InlineSVGModule
+    InlineSVGModule,
+    InputComponent,
+    ToggleSectionComponent
   ],
   declarations: [
     ModalComponent,
@@ -40,7 +44,9 @@ import { InlineSVGModule } from 'ng-inline-svg';
     MenuButtonComponent,
     TransactionDotComponent,
     ButtonComponent,
-    SendFormComponent
+    SendFormComponent,
+    InputComponent,
+    ToggleSectionComponent
   ]
 })
 export class SharedModule { }

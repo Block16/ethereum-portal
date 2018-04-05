@@ -1,0 +1,8 @@
+<input type="text"
+			 [formControl]="control"
+       class="wide"
+       (blur)="focus = false"
+       (focus)="focus = true"
+	     [ngStyle]="focus ? 
+	                theme.textInputFocusStyle : 
+	                theme.textInputBlurStyle">

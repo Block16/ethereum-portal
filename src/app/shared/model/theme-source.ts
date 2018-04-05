@@ -2,6 +2,7 @@ export interface ThemeSource {
   name: string;
   primaryColor: string; // "text color"
   secondaryColor: string; // "background color"
+  accentColor: string;
   processingColor: string;
   confirmedColor: string;
   failedColor: string;
@@ -9,5 +10,5 @@ export interface ThemeSource {
   op2: number;
   op3: number;
   op4: number;
-  newTransactionPrimaryText: boolean;
+  op5: number;
 }

@@ -1,16 +1,32 @@
 <h2 class="top-border head2 type2">Send</h2>
 <section class="section-content">
   <form [formGroup]="sendForm" (submit)="sendTransaction()">
-
+    {{ sendForm.controls['sendAddress'].value }}
     <label for="text-to-address" class="caption form-label">To <span class="fade">Ethereum address</span></label>
-    <input type="text" id="text-to-address" placeholder="0xAfDB9..." [formControl]="sendForm.controls['sendAddress']" class="wide">
-
+<!--     <input type="text"
+           id="text-to-address"
+           placeholder="0xAfDB9..."
+           [formControl]="sendForm.controls['sendAddress']"
+           class="wide"
+           (blur)="sendAddressFocus = false" (focus)="sendAddressFocus = true"
+           [ngStyle]="sendAddressFocus ? 
+                      theme.textInputFocusStyle : 
+                      theme.textInputBlurStyle"> -->
+    <app-input [control]="sendForm.controls['sendAddress']"></app-input>
     <br><br>
-
+    
     <label for="text-amount" class="caption form-label">Amount</label>
     <div class="text-input-plus">
 
-      <input type="number" id="text-amount" placeholder="0" [formControl]="sendForm.controls['sendAmount']" class="wide no-arrow-buttons">
+      <input type="number"
+             id="text-amount"
+             placeholder="0"
+             [formControl]="sendForm.controls['sendAmount']"
+             class="wide no-arrow-buttons"
+             (blur)="sendAmountFocus = false" (focus)="sendAmountFocus =  true"
+             [ngStyle]="sendAmountFocus ? 
+                      theme.textInputFocusStyle : 
+                      theme.textInputBlurStyle">
 
       <div class="max-button" [ngClass]="{ 'on': sendMax }" (click)="clickMaxButton()">Max</div>
 

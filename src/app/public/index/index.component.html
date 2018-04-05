@@ -64,18 +64,15 @@
 				</div>
 				<br>
 			</section>
-			<h3 class="section-toggle top-border"
-					[ngClass]="{ 'open': showNonRecommended }"
-					(click)="showNonRecommended = !showNonRecommended">Non-recommended methods</h3>
-			<section *ngIf="showNonRecommended"
-							 class="section-content">
+			
+			<app-toggle-section [title]="'Non-recommended methods'">
         <app-private-key-form (privateKey)="privateKeyAuthState($event)"></app-private-key-form>
 				<button class="button"
 								(click)="currentAuth = AuthState.metamask">FAKE AUTH</button>
 				<br><br>
 				<button class="button"
 								(click)="showTestModal = !showTestModal">show test modal</button>
-			</section>
+			</app-toggle-section>
 			<app-button [ngStyle]="theme.buttonStyle">button</app-button>
 		</div>
 		<div class="grid-cell">
@@ -96,21 +93,15 @@
 						<p class="lining-proportional">{{ token.calculatedAmount }}</p>
 					</div>
 				</div>
-
-        <h3 class="section-toggle top-border no-bottom-margin"
-						[ngClass]="{ 'open': showQR }"
-						(click)="showQR = !showQR">QR</h3>
-
-        <section class="section-content"
-								 *ngIf="showQR">
+				<app-toggle-section [title]="'QR'">
 					<img src="/assets/img/QR dummy.png" class="qr">
-				</section>
+				</app-toggle-section>
 
         <loading-icon></loading-icon>
 			</section>
 		</div>
 		<div class="grid-cell">
-      <app-send-form></app-send-form>
+      <app-send-form [theme]="theme"></app-send-form>
 		</div>
 		<div class="grid-cell">
 			<h2 class="top-border head2 type2">History</h2>
@@ -161,10 +152,13 @@
 			 [title]="'Title'">hello</modal>
 
 <div class="dev-buttons">
-	<div class="dev-button"
-			 (click)="showTestModal = !showTestModal">Show test modal</div>
-	<div class="dev-button"
-		 	 (click)="showApproveNewTransaction()">Generate transaction</div>
-	<div class="dev-button"
-		 	 (click)="transactionSigned()">Sign transaction</div>
+	<app-button class="dev-button"
+			 [ngStyle]="theme.buttonStyle"
+			 (click)="showTestModal = !showTestModal">Show test modal</app-button>
+	<app-button class="dev-button"
+			 [ngStyle]="theme.buttonStyle"
+		 	 (click)="showApproveNewTransaction()">Generate transaction</app-button>
+	<app-button class="dev-button"
+			 [ngStyle]="theme.buttonStyle"
+		 	 (click)="transactionSigned()">Sign transaction</app-button>
 </div>
