@@ -1,4 +1,4 @@
-import {Component, Input, OnInit, Output, OnDestroy} from '@angular/core';
+import {Attribute, Component, HostBinding, Input, OnInit, OnDestroy} from '@angular/core';
 import {Subscription} from "rxjs/Subscription";
 import {ThemeService} from "../../../core/theme.service";
 import {Theme} from "../../model/theme/theme";
@@ -12,12 +12,20 @@ import {Theme} from "../../model/theme/theme";
   }
 })
 export class ButtonComponent implements OnInit {
-	
+  
+	@HostBinding('class.disabled') disabled: boolean = false;
+  @HostBinding('class.accent') accent;
 	@Input() kind: string;
+  @Input() disabled: boolean = false;
+  
   public theme: Theme;
   private themeSubscription: Subscription;
 	
-	constructor(private themeService: ThemeService) {
+	constructor(
+    @Attribute('size') private size: string = 'normal',
+    @Attribute('accent') private accent: boolean = false,
+    private themeService: ThemeService
+    ) {
 	  this.themeSubscription = this.themeService.theme.subscribe(theme => {
 	    this.theme = theme;
 	  });

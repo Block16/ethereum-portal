@@ -64,7 +64,6 @@ export class SidebarComponent implements OnDestroy {
     // Make sure we sub to changes in the theme
     this.themeChangeSubscription = this.themeForm.get('themePreferences').valueChanges.subscribe((themeName: string) => {
       this.themeService.setTheme(themeName);
-      // this.themeForm.controls['themePreferences'].setValue(themeName, {onlySelf: true});
     });
 
     this.denominationForm = this.formBuilder.group({

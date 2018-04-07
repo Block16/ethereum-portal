@@ -1,7 +1,6 @@
 <h2 class="top-border head2 type2">Send</h2>
 <section class="section-content">
   <form [formGroup]="sendForm" (submit)="sendTransaction()">
-    {{ sendForm.controls['sendAddress'].value }}
     <label for="text-to-address" class="caption form-label">To <span class="fade">Ethereum address</span></label>
 <!--     <input type="text"
            id="text-to-address"
@@ -12,7 +11,8 @@
            [ngStyle]="sendAddressFocus ? 
                       theme.textInputFocusStyle : 
                       theme.textInputBlurStyle"> -->
-    <app-input [control]="sendForm.controls['sendAddress']"></app-input>
+    <app-input [control]="sendForm.controls['sendAddress']"
+               [type]="'text'"></app-input>
     <br><br>
     
     <label for="text-amount" class="caption form-label">Amount</label>
@@ -57,8 +57,9 @@
       <label for="gas-limit" class="caption form-label">Gas limit</label>
       <input id="gas-limit" type="number" class="no-arrow-buttons">
     </div>
-
-    <button class="button" type="submit" [ngClass]="{ 'disabled': !sendForm.valid }">Generate transaction</button>
+    <app-button (click)="sendForm.submit()"
+                [disabled]="!sendForm.valid">Generate transaction</app-button>
+    <!-- <button class="button" type="submit" [ngClass]="{ 'disabled': !sendForm.valid }">Generate transaction</button> -->
     <br>
   </form>
 </section>

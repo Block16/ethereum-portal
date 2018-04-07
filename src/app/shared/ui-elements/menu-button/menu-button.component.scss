@@ -12,7 +12,7 @@
 }
 
 .symbol-box {
-	$lineThickness: 5px;
+	$lineThickness: 6px;
 	$transitionTime: .125s;
 	@include pass-through;
 	@include posa-tblr;
@@ -55,7 +55,7 @@
 		}
 	}
 	&.x {
-		$symbolRotation: 60deg;
+		$symbolRotation: 64deg;
 		.symbol {
 			transform: rotate($symbolRotation);
 			.bar1 {

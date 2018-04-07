@@ -52,16 +52,20 @@
 	<div class="preference">
 		<span>Theme</span>
     <form [formGroup]="themeForm">
-		<div class="custom-select small" [ngStyle]="theme.selectStyle">
+    <app-select [control]="themeForm.controls['themePreferences']"
+    						[options]="themes"
+    						[optionProperty]="'name'"></app-select>
+<!-- 		<div class="custom-select small" [ngStyle]="theme.selectStyle">
 			<div class="select-overlay" [ngStyle]="theme.textStyle">
 				<span>{{ theme['name'] }}</span>
 			</div>
-			<select name="theme-preferences-switch" id="theme-preferences-switch" [formControl]="themeForm.controls['themePreferences']">
-						  <!-- [(ngModel)]="userPreferences['theme']"
-						  (change)="changeTheme()"> -->
-        <option *ngFor="let t of themes" [ngValue]="t.name">{{ t.name }}</option>
+			<select name="theme-preferences-switch"
+							id="theme-preferences-switch"
+							[formControl]="themeForm.controls['themePreferences']">
+        <option *ngFor="let t of themes"
+				        [ngValue]="t.name">{{ t.name }}</option>
 			</select>
-		</div>
+		</div> -->
 		<!-- <input id="dark-mode"
 					 class="toggle-switch"
 					 [ngModel]="darkMode"

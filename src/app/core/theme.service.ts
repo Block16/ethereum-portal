@@ -33,6 +33,20 @@ export class ThemeService {
       'op5': this.op5
     },
     {
+      'name': 'Clay',
+      'primaryColor': '#47463E',
+      'secondaryColor': '#F2F1EF',
+      'accentColor': '#BA350B',
+      'processingColor': '#E8D47B',
+      'failedColor': '#BA350B',
+      'confirmedColor': '#00B7CF',
+      'op1': this.op1,
+      'op2': this.op2,
+      'op3': this.op3,
+      'op4': this.op4,
+      'op5': this.op5
+    },
+    {
       'name': 'Dark',
       'primaryColor': this.backgroundColor,
       'secondaryColor': this.black,
@@ -40,6 +54,20 @@ export class ThemeService {
       'processingColor': this.yellow,
       'failedColor': this.red,
       'confirmedColor': this.green,
+      'op1': this.op1 * 2.5,
+      'op2': this.op1 * 2.5,
+      'op3': this.op2 * 2.5,
+      'op4': this.op3 * 2.5,
+      'op5': this.op5
+    },
+    {
+      'name': 'OLED',
+      'primaryColor': '#FFFFFF',
+      'secondaryColor': '#000000',
+      'accentColor': '#FFFFFF',
+      'processingColor': '#FFFF00',
+      'failedColor': '#FF0000',
+      'confirmedColor': '#00FF00',
       'op1': this.op1 * 2.5,
       'op2': this.op1 * 2.5,
       'op3': this.op2 * 2.5,
@@ -67,11 +95,11 @@ export class ThemeService {
       'accentColor': '#F5007E',
       'processingColor': '#FFDD18',
       'failedColor': '#F5007E',
-      'confirmedColor': '#12FF8B', 
+      'confirmedColor': '#12FF8B',
       'op1': this.op1,
       'op2': this.op2,
       'op3': this.op3,
-      'op4': this.op4 * 2,
+      'op4': this.op4 * 1.25,
       'op5': this.op5 * 1.3
     },
     {
@@ -81,7 +109,7 @@ export class ThemeService {
       'accentColor': '#6E2C00',
       'processingColor': '#FFF5BA',
       'failedColor': '#BF8B41',
-      'confirmedColor': '#78AB85', 
+      'confirmedColor': '#78AB85',
       'op1': this.op1,
       'op2': this.op2,
       'op3': this.op3,
@@ -95,7 +123,7 @@ export class ThemeService {
       'accentColor': '#38F5A7',
       'processingColor': '#FFED82',
       'failedColor': '#F77562',
-      'confirmedColor': '#38F5A7', 
+      'confirmedColor': '#38F5A7',
       'op1': this.op1,
       'op2': this.op2,
       'op3': this.op3,
@@ -123,7 +151,35 @@ export class ThemeService {
       'accentColor': '#D685BF',
       'processingColor': '#F5DFE9',
       'failedColor': '#E1A7E8',
-      'confirmedColor': '#9BEBC2', 
+      'confirmedColor': '#9BEBC2',
+      'op1': this.op1,
+      'op2': this.op2,
+      'op3': this.op3,
+      'op4': this.op4,
+      'op5': this.op5
+    },
+    {
+      'name': 'Neon',
+      'primaryColor': '#0095FF',
+      'secondaryColor': '#FFFFFF',
+      'accentColor': '#FF12DB',
+      'processingColor': '#F7FF05',
+      'failedColor': '#FF12DB',
+      'confirmedColor': '#08FFAB',
+      'op1': this.op1,
+      'op2': this.op2,
+      'op3': this.op3,
+      'op4': this.op4,
+      'op5': this.op5
+    },
+    {
+      'name': 'Electric Blue',
+      'primaryColor': '#FFFFFF',
+      'secondaryColor': '#0095FF',
+      'accentColor': '#FF13AC',
+      'processingColor': '#FFFFFF',
+      'failedColor': '#FF12DB',
+      'confirmedColor': '#08FFAB',
       'op1': this.op1,
       'op2': this.op2,
       'op3': this.op3,
@@ -327,7 +383,7 @@ export class ThemeService {
                     theme.primaryColorRgb.g+','+
                     theme.primaryColorRgb.b+','+
                     theme.op1+')',
-      'border-left': '4px solid ' + themeSource.accentColor;
+      'border-left': '4px solid ' + themeSource.accentColor
     }
     
     theme.textInputBlurStyle = {
@@ -340,7 +396,7 @@ export class ThemeService {
                      theme.accentColorRgb.r+','+
                      theme.accentColorRgb.g+','+
                      theme.accentColorRgb.b+','+
-                     theme.op4+')';
+                     theme.op4+')'
     }
     
     theme.newTransactionTextStyle = this.luma(themeSource.primaryColor) > this.luma(themeSource.secondaryColor) ? 
@@ -407,7 +463,7 @@ export class ThemeService {
       accentColorRgb.r + ',' +
       accentColorRgb.g + ',' +
       accentColorRgb.b + ',' +
-      1 + ')',
+      theme.op4 + ')',
     };
 
     theme.selectStyle = {
