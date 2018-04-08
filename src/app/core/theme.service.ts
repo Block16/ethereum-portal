@@ -24,8 +24,8 @@ export class ThemeService {
       'secondaryColor': this.backgroundColor,
       'accentColor': this.black,
       'processingColor': this.yellow,
-      'failedColor': this.red,
-      'confirmedColor': this.green,
+      'failedBackground': this.red,
+      'confirmedBackground': this.green,
       'op1': this.op1,
       'op2': this.op2,
       'op3': this.op3,
@@ -38,8 +38,8 @@ export class ThemeService {
       'secondaryColor': this.black,
       'accentColor': this.backgroundColor,
       'processingColor': this.yellow,
-      'failedColor': this.red,
-      'confirmedColor': this.green,
+      'failedBackground': this.red,
+      'confirmedBackground': this.green,
       'op1': this.op1 * 2.5,
       'op2': this.op1 * 2.5,
       'op3': this.op2 * 2.5,
@@ -48,12 +48,12 @@ export class ThemeService {
     },
     {
       'name': 'Blueprint',
-      'primaryColor': '#FFF4E6',
-      'secondaryColor': '#143EB3',
-      'accentColor': '#FFF4E6',
-      'processingColor': '#F3FFC2',
-      'failedColor': '#FF7598',
-      'confirmedColor': '#40E38F',
+      'primaryColor': '#FFFFFF',
+      'secondaryColor': '#0048FF',
+      'accentColor': '#FFFFFF',
+      'processingColor': '#FFFFFF',
+      'failedBackground': 'icon',
+      'confirmedBackground': 'icon',
       'op1': this.op1,
       'op2': this.op2,
       'op3': this.op3,
@@ -66,8 +66,8 @@ export class ThemeService {
       'secondaryColor': '#FFFFFF',
       'accentColor': '#F5007E',
       'processingColor': '#FFDD18',
-      'failedColor': '#F5007E',
-      'confirmedColor': '#12FF8B', 
+      'failedBackground': '#F5007E',
+      'confirmedBackground': '#12FF8B', 
       'op1': this.op1,
       'op2': this.op2,
       'op3': this.op3,
@@ -80,8 +80,8 @@ export class ThemeService {
       'secondaryColor': '#DBC39C',
       'accentColor': '#6E2C00',
       'processingColor': '#FFF5BA',
-      'failedColor': '#BF8B41',
-      'confirmedColor': '#78AB85', 
+      'failedBackground': '#BF8B41',
+      'confirmedBackground': '#78AB85', 
       'op1': this.op1,
       'op2': this.op2,
       'op3': this.op3,
@@ -91,11 +91,11 @@ export class ThemeService {
     {
       'name': 'Capsule',
       'primaryColor': '#E6FAF1',
-      'secondaryColor': '#707182',
+      'secondaryColor': '#4F505C',
       'accentColor': '#38F5A7',
       'processingColor': '#FFED82',
-      'failedColor': '#F77562',
-      'confirmedColor': '#38F5A7', 
+      'failedBackground': '#F77562',
+      'confirmedBackground': '#38F5A7', 
       'op1': this.op1,
       'op2': this.op2,
       'op3': this.op3,
@@ -108,8 +108,8 @@ export class ThemeService {
       'secondaryColor': '#E6F5F3',
       'accentColor': '#6FB2B3',
       'processingColor': '#EDE5C9',
-      'failedColor': '#CF9A93',
-      'confirmedColor': '#8DCCA5', 
+      'failedBackground': '#CF9A93',
+      'confirmedBackground': '#8DCCA5', 
       'op1': this.op1,
       'op2': this.op2,
       'op3': this.op3,
@@ -122,8 +122,64 @@ export class ThemeService {
       'secondaryColor': '#F0F3FA',
       'accentColor': '#D685BF',
       'processingColor': '#F5DFE9',
-      'failedColor': '#E1A7E8',
-      'confirmedColor': '#9BEBC2', 
+      'failedBackground': '#E1A7E8',
+      'confirmedBackground': '#9BEBC2', 
+      'op1': this.op1,
+      'op2': this.op2,
+      'op3': this.op3,
+      'op4': this.op4,
+      'op5': this.op5
+    },
+    {
+      'name': 'Neon',
+      'primaryColor': '#0095FF',
+      'secondaryColor': '#FFFFFF',
+      'accentColor': '#FF12DB',
+      'processingColor': '#F7FF05',
+      'failedBackground': 'icon',
+      'confirmedBackground': 'icon',
+      'op1': this.op1,
+      'op2': this.op2,
+      'op3': this.op3,
+      'op4': this.op4,
+      'op5': this.op5
+    },
+    {
+      'name': 'Electric Blue',
+      'primaryColor': '#FFFFFF',
+      'secondaryColor': '#0095FF',
+      'accentColor': '#FF13AC',
+      'processingColor': '#FFFFFF',
+      'failedBackground': '#FF12DB',
+      'confirmedBackground': '#08FFAB',
+      'op1': this.op1,
+      'op2': this.op2,
+      'op3': this.op3,
+      'op4': this.op4,
+      'op5': this.op5
+    },
+    {
+      'name': 'Peach',
+      'primaryColor': '#FF835E',
+      'secondaryColor': '#FFF9D3',
+      'accentColor': '#FF9EA0',
+      'processingColor': '#FFEA8C',
+      'failedBackground': '#FF835E',
+      'confirmedBackground': '#BBED79',
+      'op1': this.op1,
+      'op2': this.op2,
+      'op3': this.op3,
+      'op4': this.op4,
+      'op5': this.op5
+    },
+    {
+      'name': 'Lavender',
+      'primaryColor': '#BD79A5',
+      'secondaryColor': '#DBC3D6',
+      'accentColor': '#766287',
+      'processingColor': '#FFF2F7',
+      'failedBackground': '#BD79A5',
+      'confirmedBackground': '#9DAD8E',
       'op1': this.op1,
       'op2': this.op2,
       'op3': this.op3,
@@ -422,12 +478,24 @@ export class ThemeService {
       'background-color': themeSource.processingColor
     };
 
-    theme.confirmedBackgroundStyle = {
-      'background-color': themeSource.confirmedColor
+    theme.confirmedBackgroundStyle = 
+    themeSource.confirmedBackground == 'icon' ? 
+    {
+      'background': 'url(assets/img/themes/' + themeSource.name + '-confirm.svg) center / contain no-repeat',
+      'transform': 'scale(1.15)'
+    } :
+    {
+      'background': themeSource.confirmedBackground
     };
 
-    theme.failedBackgroundStyle = {
-      'background-color': themeSource.failedColor
+    theme.failedBackgroundStyle = 
+    themeSource.failedBackground == 'icon' ? 
+    {
+      'background': 'url(assets/img/themes/' + themeSource.name + '-fail.svg) center / contain no-repeat',
+      'transform': 'scale(1.15)'
+    } :
+    {
+      'background': themeSource.failedBackground
     };
 
     return theme;
