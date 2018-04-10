@@ -36,27 +36,28 @@
 	<div class="h2Border menu-title" [ngStyle]="theme.textStyle">
 		<h2>Preferences</h2>
 	</div>
-	<div class="preference" (click)="setUserPreference('manualGas', !userPreferences['manualGas'])">
+	
+	<app-hover-style class="preference" (click)="setUserPreference('manualGas', !userPreferences['manualGas'])">
 		<span>Set gas price manually</span>
 		<toggle-switch [clickable]="false"
 									 [(value)]="userPreferences['manualGas']"
 									 [name]="manualGas"></toggle-switch>
-	</div>
-	<div class="preference" (click)="setUserPreference('showGenerated', !userPreferences['showGenerated'])">
+	</app-hover-style>
+	<app-hover-style class="preference" (click)="setUserPreference('showGenerated', !userPreferences['showGenerated'])">
 		<span>View generated transaction</span>
 		<toggle-switch [clickable]="false"
 									 [(value)]="userPreferences['showGenerated']"
 									 [name]="showGenerated"
 		></toggle-switch>
-	</div>
+	</app-hover-style>
 	<div class="preference">
 		<span>Theme</span>
     <form [formGroup]="themeForm">
       <app-select [control]="themeForm.controls['themePreferences']"
     						  [options]="themes"
                   [initialValue]="theme"
-    						  [optionProperty]="'name'">
-
+    						  [optionProperty]="'name'"
+    						  small>
       </app-select>
 <!-- 		<div class="custom-select small" [ngStyle]="theme.selectStyle">
 			<div class="select-overlay" [ngStyle]="theme.textStyle">
@@ -80,17 +81,12 @@
 		<span>Additional denomination</span>
 
     <form [formGroup]="denominationForm">
-		  <div class="custom-select small" [ngStyle]="theme.selectStyle">
-		  	<div class="select-overlay" [ngStyle]="theme.textStyle">
-		  		<span>{{ userPreferences['denomination'] }}</span>
-		  	</div>
-		  	<select name="denominations-select" id="denominations-select">
-          <!-- [(ngModel)]="userPreferences['denomination']" (change)="changeDenomination()"> -->
-		  		<option value="None">None</option>
-		  		<option value="USD">USD</option>
-		  		<option value="Euro">Euro</option>
-		  	</select>
-		  </div>
+      <app-select [control]="denominationForm.controls['additionalDenomination']"
+    						  [options]="denominations"
+                  [initialValue]="'None'"
+    						  small>
+
+      </app-select>
     </form>
 	</div>
 </div>

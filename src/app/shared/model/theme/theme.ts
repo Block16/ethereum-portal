@@ -47,6 +47,9 @@ export interface Theme {
   textInputFocusStyle: any;
   textInputBlurStyle: any;
   
+  selectOverlayStyle: any;
+  selectArrowStyle: any;
+  
   selectStyle: any;
   
   processingBackgroundStyle: any;

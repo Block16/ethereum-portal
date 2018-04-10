@@ -11,6 +11,7 @@ import {Theme} from "../../model/theme/theme";
     tabindex: '0'
   }
 })
+
 export class ButtonComponent implements OnInit {
 
 	@HostBinding('class.disabled') disabled = false;

@@ -83,13 +83,10 @@ $overlayZ: 1;
 	align-items: center;
 	padding: $defaultMargin / 2 $defaultMargin;
 	margin: 0 $defaultMargin * -1;
-	&:hover {
-		background: hsla(0,0,0,.05);
-	}
 	span {
 		opacity: .5;
 		font-size: $captionFontSize;
 	}
-	@include no-select-pointer;
+	@include no-select;
 }
 

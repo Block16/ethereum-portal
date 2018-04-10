@@ -35,6 +35,9 @@ export class SidebarComponent implements OnDestroy {
   // forms
   public themeForm: FormGroup;
   public denominationForm: FormGroup;
+  public denominations = [
+    'None', 'USD', 'EUR'
+  ]
 
   @Input()
   set account(address: string) {
@@ -67,7 +70,7 @@ export class SidebarComponent implements OnDestroy {
     });
 
     this.denominationForm = this.formBuilder.group({
-
+      'additionalDenomination': []
     });
 
     this.dataShareService.recentTransactions.subscribe((value: any) => {
