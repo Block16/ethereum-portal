@@ -1,10 +1,10 @@
 import {Component, ElementRef, EventEmitter, HostListener, OnDestroy, OnInit, Output, ViewChild} from '@angular/core';
 import {DataShareService} from "../../core/data-share.service";
-import {LedgerService} from '../../core/ledger.service';
-import {TrezorConnectService} from '../../core/trezor-connect.service';
+import {LedgerService} from '../../core/key-manager-services/ledger.service';
+import {TrezorConnectService} from '../../core/key-manager-services/trezor-connect.service';
 import {Web3Service} from "../../core/web3.service";
 import {privateKeyToAddress} from "../../shared/utils";
-import {PrivateKeyService} from "../../core/private-key.service";
+import {PrivateKeyService} from "../../core/key-manager-services/private-key.service";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {ThemeService} from "../../core/theme.service";
 import {Subscription} from "rxjs/Subscription";
@@ -98,7 +98,7 @@ export class IndexComponent implements OnInit, OnDestroy {
       // this.updateSVGs('blue');
     });
 
-    
+
     // Assets
     this.assetSubscription = this.assetService.ethereumAssets.subscribe(assets => {
       this.assets = assets;
@@ -117,7 +117,7 @@ export class IndexComponent implements OnInit, OnDestroy {
       this.showSidebar = value;
     });
   }
-  
+
   test() {
     console.log('test');
   }

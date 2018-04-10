@@ -26,8 +26,6 @@ export class SelectComponent implements OnInit  {
 	  this.themeSubscription = this.themeService.theme.subscribe(theme => {
 	    this.theme = theme;
 	  });
-
-
   }
 
   ngOnInit() {

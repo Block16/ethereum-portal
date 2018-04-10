@@ -14,7 +14,7 @@ import {UserPreferencesService} from "../../core/user-preferences.service";
 })
 export class SendFormComponent implements OnInit, OnDestroy {
   @Input() theme;
-  
+
   private userPrefSub: Subscription;
   public userPreferences: UserPreferences;
 
@@ -27,7 +27,7 @@ export class SendFormComponent implements OnInit, OnDestroy {
   public assets: EthereumAsset[];
 
   private previousAmount: any;
-  
+
   // input states
   private sendAddressFocus: boolean = false;
   private sendAmountFocus: boolean = false;
@@ -56,7 +56,6 @@ export class SendFormComponent implements OnInit, OnDestroy {
       'sendAmount': ['', [Validators.required]],
       'sendAsset': ['', [Validators.required]]
     });
-    // debugger;
   }
 
   clickMaxButton() {
