@@ -13,11 +13,8 @@ import {EthereumAssetService} from "../../core/ethereum-asset.service";
 import {EthereumAsset} from "../../shared/model/ethereum-asset";
 import {UserPreferencesService} from "../../core/user-preferences.service";
 import {UserPreferences} from "../../shared/model/user-preferences";
-
-
-enum AuthState {
-  none, trezor, bitbox, metamask, utcFile, privateKey, ledger
-}
+import {AuthState} from '../../shared/model/auth-state';
+import {CoreKeyManagerService} from "../../core/key-manager-services/core-key-manager.service";
 
 @Component({
   selector: 'app-index',
@@ -81,6 +78,8 @@ export class IndexComponent implements OnInit, OnDestroy {
     private trezorService: TrezorConnectService,
     private privateKeyService: PrivateKeyService,
     private assetService: EthereumAssetService,
+
+    private coreKeyManagerService: CoreKeyManagerService
   ) {
     this.currentAuth = AuthState.none;
 
@@ -141,17 +140,20 @@ export class IndexComponent implements OnInit, OnDestroy {
 
   utcAuthState(event) {
     this.currentAuth = AuthState.utcFile;
+    this.coreKeyManagerService.setCurrentAuth(this.currentAuth);
     this.updatePrivateKey(event);
   }
 
   privateKeyAuthState(event) {
     this.currentAuth = AuthState.privateKey;
+    this.coreKeyManagerService.setCurrentAuth(this.currentAuth);
     this.updatePrivateKey(event.privateKey);
   }
 
   metaMaskAuthState() {
     this.web3Service.getEthereumAddresses().subscribe((addresses: string[]) => {
       this.currentAuth = AuthState.metamask;
+      this.coreKeyManagerService.setCurrentAuth(this.currentAuth);
       this.updateAddress(addresses[0]);
     });
   }
@@ -159,12 +161,15 @@ export class IndexComponent implements OnInit, OnDestroy {
   trezorAuthState() {
     this.trezorService.getEthereumAddresses().subscribe((addresses: string[]) => {
       this.currentAuth = AuthState.trezor;
+      this.coreKeyManagerService.setCurrentAuth(this.currentAuth);
       this.updateAddress(addresses[0]);
     });
   }
 
   ledgerAuthState() {
     this.currentAuth = AuthState.ledger;
+    this.coreKeyManagerService.setCurrentAuth(this.currentAuth);
+
     this.ledgerService.displayOnLedger().subscribe((r) => {
       this.ledgerService.getEthereumAddress().subscribe((address: string) => {
         this.ethereumAddress = address;

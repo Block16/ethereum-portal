@@ -11,6 +11,7 @@ import {PrivateKeyService} from "./key-manager-services/private-key.service";
 import {EthereumAssetService} from "./ethereum-asset.service";
 import {UserPreferencesService} from "./user-preferences.service";
 import {CoreKeyManagerService} from "./key-manager-services/core-key-manager.service";
+import {MetamaskService} from "./key-manager-services/metamask.service";
 
 @NgModule({
   imports: [
@@ -27,6 +28,7 @@ import {CoreKeyManagerService} from "./key-manager-services/core-key-manager.ser
     ThemeService,
     UserPreferencesService,
     Web3Service,
+    MetamaskService,
     CoreKeyManagerService
   ],
   declarations: [

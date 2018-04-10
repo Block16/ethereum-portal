@@ -29,8 +29,8 @@ export class SendFormComponent implements OnInit, OnDestroy {
   private previousAmount: any;
 
   // input states
-  private sendAddressFocus: boolean = false;
-  private sendAmountFocus: boolean = false;
+  private sendAddressFocus = false;
+  private sendAmountFocus = false;
 
   constructor(
     private formBuilder: FormBuilder,

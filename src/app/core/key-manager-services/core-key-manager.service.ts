@@ -6,32 +6,73 @@ import {LedgerService} from "./ledger.service";
 import {MetamaskService} from "./metamask.service";
 import {PrivateKeyService} from "./private-key.service";
 import {TrezorConnectService} from "./trezor-connect.service";
+import {AuthState} from "../../shared/model/auth-state";
+import {isNullOrUndefined} from "util";
 
 @Injectable()
 export class CoreKeyManagerService implements KeyManagerService {
 
   private currentKeyManager: KeyManagerService;
-  private currentAuth;
+  private currentAuth: AuthState;
 
   constructor(
     private ledgerService: LedgerService,
     private metamaskService: MetamaskService,
     private privateKeyService: PrivateKeyService,
     private trezorConnectService: TrezorConnectService
-  ) { }
+  ) {
+    this.currentAuth = AuthState.none;
+  }
 
-  setCurrentAuth(currentAuth) {
+  setCurrentAuth(currentAuth: AuthState, privateKey?: string) {
     this.currentAuth = currentAuth;
+    switch (this.currentAuth) {
+      case AuthState.privateKey: {
+        this.currentKeyManager = this.privateKeyService;
+        if (isNullOrUndefined(privateKey)) {
+          throw new Error('Privatekey was not defined');
+        }
+        this.privateKeyService.setPrivateKey(privateKey);
+        break;
+      }
+      case AuthState.metamask: {
+        this.currentKeyManager = this.metamaskService;
+        break;
+      }
+      case AuthState.trezor: {
+        this.currentKeyManager = this.trezorConnectService;
+        break;
+      }
+      case AuthState.utcFile: {
+        this.currentKeyManager = this.privateKeyService;
+        if (isNullOrUndefined(privateKey)) {
+          throw new Error('Privatekey was not defined');
+        }
+        this.privateKeyService.setPrivateKey(privateKey);
+        break;
+      }
+      case AuthState.none: {
+        this.currentKeyManager = undefined;
+        break;
+      }
+    }
   }
 
   getEthereumAddresses(): Observable<string[]> {
-    return null;
+    if (isNullOrUndefined(this.currentKeyManager)) {
+      throw new Error('currentKeyManager is not defined, cannot call service methods without a privatekey manager');
+    }
+    return this.currentKeyManager.getEthereumAddresses();
   }
 
   signTransaction(transaction: EthereumTransaction): Observable<EthereumTransaction> {
-    return null;
+    if (isNullOrUndefined(this.currentKeyManager)) {
+      throw new Error('currentKeyManager is not defined, cannot call service methods without a privatekey manager');
+    }
+    return this.currentKeyManager.signTransaction(transaction);
   }
 
   resetState() {
+
   }
 }
