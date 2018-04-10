@@ -6,6 +6,10 @@ $switchWidth: 3em;
 $knobHeight: $switchHeight;
 $knobWidth: $switchHeight;
 
+:host {
+	display: block;
+}
+
 .toggle-switch {
 	display: inline-block;
 	position: relative;
@@ -37,6 +41,7 @@ $knobWidth: $switchHeight;
 }
 
 input[type=checkbox] {
+	position: absolute;
 	visibility: hidden;
 	&:checked + label {
 		.knob {

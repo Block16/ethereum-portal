@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import Web3 from "web3";
 import {Observable} from 'rxjs/Observable';
-import {KeyManagerService} from './key.manager.interface';
+import {KeyManagerService} from './key-manager-services/key.manager.interface';
 import {EthereumTransaction} from '../shared/model/ethereum-transaction';
 import {isArray, isNullOrUndefined} from "util";
 

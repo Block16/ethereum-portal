@@ -51,7 +51,7 @@ $overlayZ: 1;
 		justify-content: flex-end;
 		height: $defaultMargin * 2 + $menuButtonHeight;
 		.logo {
-			height: $menuButtonHeight * 1.3;
+			height: $menuButtonHeight * 1.2;
 			width: 10em;
 			opacity: 1;
 			animation: .1s logo-in ease-in;
@@ -83,13 +83,10 @@ $overlayZ: 1;
 	align-items: center;
 	padding: $defaultMargin / 2 $defaultMargin;
 	margin: 0 $defaultMargin * -1;
-	&:hover {
-		background: hsla(0,0,0,.05);
-	}
 	span {
 		opacity: .5;
 		font-size: $captionFontSize;
 	}
-	@include no-select-pointer;
+	@include no-select;
 }
 

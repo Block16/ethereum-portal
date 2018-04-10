@@ -2,8 +2,8 @@
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
 import {isNullOrUndefined} from 'util';
-import {LedgerTransport} from "../shared/ledger-transport";
-import {LedgerEth} from "../shared/ledger-eth";
+import {LedgerTransport} from "../../shared/ledger-transport";
+import {LedgerEth} from "../../shared/ledger-eth";
 import * as EthTx from 'ethereumjs-tx';
 
 declare const Buffer;

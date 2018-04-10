@@ -14,6 +14,8 @@ import { InlineSVGModule } from 'ng-inline-svg';
 import { InputComponent } from './ui-elements/input/input.component';
 import { ToggleSectionComponent } from './ui-elements/toggle-section/toggle-section.component';
 import { NgxKjuaModule } from 'ngx-kjua';
+import { SelectComponent } from './ui-elements/select/select.component';
+import { HoverStyleComponent } from './ui-elements/hover-style/hover-style.component';
 
 
 @NgModule({
@@ -37,6 +39,8 @@ import { NgxKjuaModule } from 'ngx-kjua';
     InputComponent,
     ToggleSectionComponent,
     NgxKjuaModule,
+    SelectComponent,
+    HoverStyleComponent
   ],
   declarations: [
     ModalComponent,
@@ -49,7 +53,9 @@ import { NgxKjuaModule } from 'ngx-kjua';
     ButtonComponent,
     SendFormComponent,
     InputComponent,
-    ToggleSectionComponent
+    ToggleSectionComponent,
+    SelectComponent,
+    HoverStyleComponent
   ]
 })
 export class SharedModule { }

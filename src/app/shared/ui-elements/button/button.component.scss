@@ -24,6 +24,10 @@ $outlineActiveOffset: 1;
   border: none;
   border-radius: 0em;
   user-select: none;
+  &.disabled {
+    opacity: .3;
+    pointer-events: none;
+  }
   &.wallet-icon {
 		position: relative;
 		background: black;

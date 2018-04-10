@@ -2,9 +2,9 @@ import {HostListener, Injectable} from '@angular/core';
 import {KeyManagerService} from './key.manager.interface';
 import {Observable} from 'rxjs/Observable';
 import {isNullOrUndefined} from 'util';
-import {EthereumTransaction} from '../shared/model/ethereum-transaction';
+import {EthereumTransaction} from '../../shared/model/ethereum-transaction';
 import * as buffer from 'buffer';
-import {privateKeyToAddress} from "../shared/utils";
+import {privateKeyToAddress} from "../../shared/utils";
 
 @Injectable()
 export class PrivateKeyService implements KeyManagerService {
