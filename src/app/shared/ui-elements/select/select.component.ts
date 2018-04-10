@@ -50,10 +50,6 @@ export class SelectComponent implements OnInit  {
 	  });
   }
   
-  increment() {
-  	this.test++;
-  }
-  
   ngOnInit() {
     if (!isNullOrUndefined(this.initialValue)) {
       this.control.setValue(this.initialValue, {onlySelf: true});
