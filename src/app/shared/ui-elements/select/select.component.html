@@ -5,8 +5,7 @@
 	<div class="select-arrow"
 			 [ngStyle]="theme.selectArrowStyle"></div>
 </div>
-<select [formControl]="control"
-				(change)="increment()">
+<select [formControl]="control">
   <option *ngIf="placeholder" disabled selected>{{ placeholder }}</option>
   <option *ngFor="let option of options"
 			    [ngValue]="option">{{optionProperty ? option[optionProperty] : option}}</option>
