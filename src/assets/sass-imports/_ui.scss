@@ -86,9 +86,6 @@ input[type="text"], input[type="number"], input[type="password"] {
 	}
 }
 
-
-
-$selectWidth: 6em;
 $maxButtonHeight: $inputHeight * .7;
 $maxButtonMargin: ($inputHeight - $maxButtonHeight) / 2;
 .max-button {
@@ -97,7 +94,7 @@ $maxButtonMargin: ($inputHeight - $maxButtonHeight) / 2;
 	opacity: .5;
 	height: $maxButtonHeight;
 	top: $maxButtonMargin;
-	right: $selectWidth + $maxButtonMargin;
+	right: $maxButtonMargin;
 	border: 1px solid $color;
 	box-sizing: border-box;
 	font-family: $FB2;
@@ -117,43 +114,7 @@ $maxButtonMargin: ($inputHeight - $maxButtonHeight) / 2;
 		color: $backgroundColor;
 	}
 }
-.custom-select {
-	height: $inputHeight;
-	width: $selectWidth;
-	position: relative;
-	z-index: 1;
-	overflow: hidden;
-	cursor: pointer;
-	background: url('/assets/img/icons/select arrow.svg') right .7em top .8em / .5em no-repeat,
-							hsla(0,0,0,.1);
-	&.small {
-		font-size: 0.875em; // 14px
-	}
-	.select-overlay {
-		display: grid;
-		grid-template-columns: 1fr 1em;
-		z-index: 2;
-		color: black;
-		@include posa-tblr;
-		@include pass-through;
-		span {
-			font: 1em $FB2;
-			@include flex-center;
-		}
-	}
-	select {
-		width: $selectWidth + 1em;
-		background: transparent;
-		border-radius: 0;
-		outline: none;
-		// color: transparent;
-		border: none;
-		cursor: pointer;
-		height: $inputHeight;
-		font: 1em $FB2;
-		-webkit-appearance: none;
-	}
-}
+
 
 .bottom-margin {
 	margin-bottom: $defaultMargin;

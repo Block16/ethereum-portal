@@ -18,22 +18,22 @@
     <label for="text-amount" class="caption form-label">Amount</label>
     <div class="text-input-plus">
 
-      <input type="number"
-             id="text-amount"
-             placeholder="0"
-             [formControl]="sendForm.controls['sendAmount']"
-             class="wide no-arrow-buttons"
-             (blur)="sendAmountFocus = false" (focus)="sendAmountFocus =  true"
-             [ngStyle]="sendAmountFocus ? 
-                      theme.textInputFocusStyle : 
-                      theme.textInputBlurStyle">
-
-      <div class="max-button"
-           [ngClass]="{ 'on': sendMax }"
-           [ngStyle]="sendMax ? theme.maxButtonOnStyle : theme.maxButtonOffStyle"
-           (click)="clickMaxButton()">Max</div>
-
-      <div class="custom-select">
+      <div class="input-and-max">
+        <input type="number"
+               id="text-amount"
+               placeholder="0"
+               [formControl]="sendForm.controls['sendAmount']"
+               class="wide no-arrow-buttons"
+               (blur)="sendAmountFocus = false" (focus)="sendAmountFocus =  true"
+               [ngStyle]="sendAmountFocus ? 
+                        theme.textInputFocusStyle : 
+                        theme.textInputBlurStyle">
+        <div class="max-button"
+             [ngClass]="{ 'on': sendMax }"
+             [ngStyle]="sendMax ? theme.maxButtonOnStyle : theme.maxButtonOffStyle"
+             (click)="clickMaxButton()">Max</div>
+      </div>
+      <!-- <div class="custom-select">
         <div class="select-overlay">
           <span>{{ this.currentAsset.name }}</span>
         </div>
@@ -41,7 +41,12 @@
           <option value="-1">ETH</option>
           <option *ngFor="let token of assets; let i = index" value="{{ token.name }}">{{ token.name }}</option>
         </select>
-      </div>
+      </div> -->
+      
+      <app-select [control]="sendForm.controls['sendAsset']"
+                  [options]="assets"
+                  [initialValue]="currentAsset"
+                  [optionProperty]="'name'"></app-select>
 
     </div>
 

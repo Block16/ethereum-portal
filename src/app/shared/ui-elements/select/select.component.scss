@@ -1,0 +1,59 @@
+@import '../../../../assets/sass-imports/_variables.scss';
+@import '../../../../assets/sass-imports/_mixins.scss';
+
+$selectWidth: 6em;
+:host {
+	display: inline-block;
+	height: $inputHeight;
+	width: $selectWidth;
+	position: relative;
+	z-index: 1;
+	overflow: hidden;
+	cursor: pointer;
+	&.small {
+		font-size: 0.875em; // 14px
+	}
+	.select-overlay {
+		display: grid;
+		grid-template-columns: 1fr 1em;
+		z-index: 2;
+		color: black;
+		@include posa-tblr;
+		@include pass-through;
+		span {
+			z-index: 2;
+			font: 1em $FB2;
+			@include flex-center;
+		}
+		.select-cover {
+			z-index: 1;
+			@include posa-tblr;
+		}
+		.select-arrow {
+			$arrowWidth: .5em;
+			$arrowHeight: .6em;
+			position: absolute;
+			z-index: 2;
+			top: $inputHeight / 2 - $arrowHeight / 1.5;
+			right: $arrowWidth;
+			width: 0;
+			height: 0;
+			border-style: solid;
+			border-width: $arrowHeight $arrowWidth / 2 0 $arrowWidth / 2;
+			border-color: black transparent transparent transparent;
+		}
+	}
+	select {
+		opacity: 0;
+		width: $selectWidth + 1em;
+		background: transparent;
+		border-radius: 0;
+		outline: none;
+		// color: transparent;
+		border: none;
+		cursor: pointer;
+		height: $inputHeight;
+		font: 1em $FB2;
+		-webkit-appearance: none;
+	}
+}

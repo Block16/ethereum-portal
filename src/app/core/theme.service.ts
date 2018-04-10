@@ -399,6 +399,25 @@ export class ThemeService {
                      theme.op4+')'
     }
     
+    theme.selectOverlayStyle = {
+      'background': 
+                    'linear-gradient('+'rgba('+
+                    theme.primaryColorRgb.r+','+
+                    theme.primaryColorRgb.g+','+
+                    theme.primaryColorRgb.b+','+
+                    theme.op2+')'+','+'rgba('+
+                    theme.primaryColorRgb.r+','+
+                    theme.primaryColorRgb.g+','+
+                    theme.primaryColorRgb.b+','+
+                    theme.op2+')'+'), '+
+                    theme.secondaryColor,
+      'color': theme.primaryColor
+    }
+    
+    theme.selectArrowStyle = {
+      'border-color': theme.primaryColor + ' transparent transparent transparent'
+    }
+    
     theme.newTransactionTextStyle = this.luma(themeSource.primaryColor) > this.luma(themeSource.secondaryColor) ? 
     {
       'color': themeSource.secondaryColor,

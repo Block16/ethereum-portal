@@ -15,6 +15,7 @@ import { InputComponent } from './ui-elements/input/input.component';
 import { ToggleSectionComponent } from './ui-elements/toggle-section/toggle-section.component';
 import { NgxKjuaModule } from 'ngx-kjua';
 import { SelectComponent } from './ui-elements/select/select.component';
+import { HoverStyleComponent } from './ui-elements/hover-style/hover-style.component';
 
 
 @NgModule({
@@ -38,7 +39,8 @@ import { SelectComponent } from './ui-elements/select/select.component';
     InputComponent,
     ToggleSectionComponent,
     NgxKjuaModule,
-    SelectComponent
+    SelectComponent,
+    HoverStyleComponent
   ],
   declarations: [
     ModalComponent,
@@ -52,7 +54,8 @@ import { SelectComponent } from './ui-elements/select/select.component';
     SendFormComponent,
     InputComponent,
     ToggleSectionComponent,
-    SelectComponent
+    SelectComponent,
+    HoverStyleComponent
   ]
 })
 export class SharedModule { }
