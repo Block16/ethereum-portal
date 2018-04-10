@@ -12,29 +12,29 @@ import {Theme} from "../../model/theme/theme";
   }
 })
 export class ButtonComponent implements OnInit {
-  
-	@HostBinding('class.disabled') disabled: boolean = false;
+
+	@HostBinding('class.disabled') disabled = false;
   @HostBinding('class.accent') accent;
 	@Input() kind: string;
-  @Input() disabled: boolean = false;
-  
+  @Input('disabled') disabledInput = false;
+
   public theme: Theme;
   private themeSubscription: Subscription;
-	
+
 	constructor(
     @Attribute('size') private size: string = 'normal',
-    @Attribute('accent') private accent: boolean = false,
+    @Attribute('accent') private accentAttribute: boolean = false,
     private themeService: ThemeService
     ) {
 	  this.themeSubscription = this.themeService.theme.subscribe(theme => {
 	    this.theme = theme;
 	  });
 	}
-  
+
   spacebar() {
   	console.log('pressed space on focused element');
   }
-  
+
   ngOnInit() {
   }
 
