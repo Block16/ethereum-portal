@@ -9,6 +9,7 @@ import {Theme} from "../../model/theme/theme";
   styleUrls: ['./button.component.scss'],
   host: {
     'tabindex': '0',
+    'role': 'button',
     '[class.accent]': 'this.accent', 
     '[class.hover]': 'this.hover',
     '[style.background]': `this.accent ? 
