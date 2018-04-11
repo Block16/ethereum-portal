@@ -73,6 +73,7 @@ export class CoreKeyManagerService implements KeyManagerService {
   }
 
   resetState() {
-
+    this.setCurrentAuth(AuthState.none);
+    this.privateKeyService.resetState();
   }
 }

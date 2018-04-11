@@ -44,6 +44,7 @@ export class Web3Service implements KeyManagerService {
 
   public sendRawTransaction(transaction: EthereumTransaction): Observable<any> {
     return Observable.create((observer) => {
+      
       observer.next();
       observer.complete();
     });

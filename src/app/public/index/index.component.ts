@@ -140,13 +140,13 @@ export class IndexComponent implements OnInit, OnDestroy {
 
   utcAuthState(event) {
     this.currentAuth = AuthState.utcFile;
-    this.coreKeyManagerService.setCurrentAuth(this.currentAuth);
+    this.coreKeyManagerService.setCurrentAuth(this.currentAuth, event);
     this.updatePrivateKey(event);
   }
 
   privateKeyAuthState(event) {
     this.currentAuth = AuthState.privateKey;
-    this.coreKeyManagerService.setCurrentAuth(this.currentAuth);
+    this.coreKeyManagerService.setCurrentAuth(this.currentAuth, event);
     this.updatePrivateKey(event.privateKey);
   }
 
@@ -242,7 +242,6 @@ export class IndexComponent implements OnInit, OnDestroy {
 
   private updatePrivateKey(privateKey: string) {
     this.updateAddress(privateKeyToAddress(privateKey));
-    this.privateKeyService.setPrivateKey(privateKey);
   }
 
   private updateAddress(address: string) {
