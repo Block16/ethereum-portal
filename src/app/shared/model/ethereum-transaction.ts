@@ -13,9 +13,8 @@ export class EthereumTransaction {
     readonly value: string,
     readonly data?: string
   ) {
-    // Get rid of the 0x prefix
-    if (toAddress.startsWith("0x")) {
-      this.toAddress = toAddress.substr(2);
+    if (!toAddress.startsWith("0x")) {
+      this.toAddress = '0x' + toAddress;
     } else {
       this.toAddress = toAddress;
     }

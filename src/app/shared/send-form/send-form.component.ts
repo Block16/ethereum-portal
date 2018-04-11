@@ -8,6 +8,8 @@ import {UserPreferences} from "../model/user-preferences";
 import {UserPreferencesService} from "../../core/user-preferences.service";
 import {CoreKeyManagerService} from "../../core/key-manager-services/core-key-manager.service";
 import {EthereumTransaction} from "../model/ethereum-transaction";
+import {isNullOrUndefined} from "util";
+import Web3 from "web3";
 
 @Component({
   selector: 'app-send-form',
@@ -31,8 +33,7 @@ export class SendFormComponent implements OnInit, OnDestroy {
   private previousAmount: any;
 
   // input states
-  private sendAddressFocus = false;
-  private sendAmountFocus = false;
+  public sendAmountFocus = false;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -50,6 +51,8 @@ export class SendFormComponent implements OnInit, OnDestroy {
     });
 
     this.sendMax = false;
+
+    // TODO: Fix this to use the forms
     this.sendAmount = 0;
     this.previousAmount = 0;
     this.currentAsset = this.assets[0];
@@ -65,7 +68,7 @@ export class SendFormComponent implements OnInit, OnDestroy {
     this.sendMax = !this.sendMax;
     if (this.sendMax) {
       this.previousAmount = this.sendAmount;
-      this.sendAmount = this.currentAsset.calculatedAmount;
+      // this.sendAmount = this.currentAsset.calculatedAmount().toString();
     } else {
       this.sendAmount = this.previousAmount;
     }
@@ -79,8 +82,36 @@ export class SendFormComponent implements OnInit, OnDestroy {
     this.userPrefSub.unsubscribe();
   }
 
-  sendTransaction() { 
-    console.log('submitted');
+  sendTransaction() {
+    const sendAsset = <EthereumAsset>this.sendForm.controls['sendAsset'].value;
+    const premodifiedAmount = this.sendForm.controls['sendAmount'].value;
+
+    let toAddress = this.sendForm.controls['sendAddress'].value; // has to be hex
+    const rawAmount = Web3.sendAsset.amountToRaw(premodifiedAmount); // parameter or hex
+    const nonce = 0; // hex
+    let data = ''; // hex
+
+    // TODO: Manual gas
+
+    // If we are not sending eth, we need to use the contract's address
+    if (sendAsset.symbol !== 'ETH') {
+      // take the target address and hold
+      const tempAddress = toAddress;
+      if (isNullOrUndefined(sendAsset.contractAddress)) {
+        throw new Error('Couldn\'t find address for contract, cannot send tokens');
+      }
+      toAddress = sendAsset.contractAddress;
+      // TODO: From address, transfer etc
+      data = tempAddress;
+    }
+
+    console.log(sendAsset);
+    console.log(premodifiedAmount);
+    console.log(toAddress);
+    console.log(rawAmount);
+
+    debugger;
+
     // TODO: Build transaction, use core key manager
     this.coreKeyManagerService.signTransaction(<EthereumTransaction>{}).subscribe((transaction: EthereumTransaction) => {
       this.web3Service.sendRawTransaction(transaction);
