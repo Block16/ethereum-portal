@@ -15,6 +15,6 @@
 </div>
 
 <section class="section-content"
-				 *ngIf="show">
+				 [hidden]="!show">
 	<ng-content></ng-content>
 </section>

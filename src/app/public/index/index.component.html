@@ -71,7 +71,7 @@
 				<br>
 			</section>
 			
-			<app-toggle-section [title]="'Non-recommended methods'">
+			<app-toggle-section [title]="'Non-recommended'">
         <app-private-key-form (privateKey)="privateKeyAuthState($event)"></app-private-key-form>
 				<button class="button"
 								(click)="currentAuth = AuthState.metamask">FAKE AUTH</button>
@@ -79,8 +79,8 @@
 				<button class="button"
 								(click)="showTestModal = !showTestModal">show test modal</button>
 			</app-toggle-section>
-			<app-button>button</app-button>
-			<app-button accent small>accent button</app-button>
+			<!-- <app-button>button</app-button>
+			<app-button accent small>accent button</app-button> -->
 		</div>
 		<div class="grid-cell">
 			<h2 class="top-border"
@@ -167,7 +167,7 @@
 <modal [(visible)]="showTestModal"
 			 [title]="'Title'">hello</modal>
 
-<div class="dev-buttons">
+<!-- <div class="dev-buttons">
 	<app-button class="dev-button"
 			 [ngStyle]="theme.buttonStyle"
 			 (click)="showTestModal = !showTestModal">Show test modal</app-button>
@@ -178,3 +178,4 @@
 			 [ngStyle]="theme.buttonStyle"
 		 	 (click)="transactionSigned()">Sign transaction</app-button>
 </div>
+ -->
