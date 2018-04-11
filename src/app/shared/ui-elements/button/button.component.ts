@@ -11,6 +11,7 @@ import {Theme} from "../../model/theme/theme";
     'tabindex': '0',
     'role': 'button',
     '[class.accent]': 'this.accent',
+    '[class.disabled]': 'this.disabled',
     '[style.background]': `this.accent ? 
                            this.theme.accentColor :
                            this.theme.primaryColor`,
@@ -20,7 +21,6 @@ import {Theme} from "../../model/theme/theme";
 
 export class ButtonComponent implements OnInit {
 
-	@HostBinding('class.disabled') disabled = false;
   @HostListener('mouseover') onMouseOver() {
      this.hover = true;
   }
@@ -28,7 +28,7 @@ export class ButtonComponent implements OnInit {
      this.hover = false;
   }
 	@Input() kind: string;
-  @Input('disabled') disabledInput = false;
+  @Input('disabled') disabled = false;
 
   public theme: Theme;
   private hover: boolean = false;

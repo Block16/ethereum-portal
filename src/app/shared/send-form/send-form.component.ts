@@ -30,10 +30,6 @@ export class SendFormComponent implements OnInit, OnDestroy {
 
   private previousAmount: any;
 
-  // input states
-  private sendAddressFocus = false;
-  private sendAmountFocus = false;
-
   constructor(
     private formBuilder: FormBuilder,
     private web3Service: Web3Service,

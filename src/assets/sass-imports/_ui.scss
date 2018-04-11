@@ -81,7 +81,7 @@ input[type="text"], input[type="number"], input[type="password"] {
 	display: flex;
 	justify-content: space-between;
 	margin-bottom: $defaultMargin;
-	input[type="text"], input[type="number"], input[type="password"] {
+	input[type="text"], input[type="number"], input[type="password"], app-input {
 		flex: 1;
 	}
 }

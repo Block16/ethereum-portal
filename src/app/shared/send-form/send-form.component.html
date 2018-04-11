@@ -12,6 +12,8 @@
                       theme.textInputFocusStyle : 
                       theme.textInputBlurStyle"> -->
     <app-input [control]="sendForm.controls['sendAddress']"
+               [inputID]="'text-to-address'"
+               [inputName]="'text-to-address'"
                [type]="'text'"></app-input>
     <br><br>
     
@@ -19,15 +21,12 @@
     <div class="text-input-plus">
 
       <div class="input-and-max">
-        <input type="number"
-               id="text-amount"
-               placeholder="0"
-               [formControl]="sendForm.controls['sendAmount']"
-               class="wide no-arrow-buttons"
-               (blur)="sendAmountFocus = false" (focus)="sendAmountFocus =  true"
-               [ngStyle]="sendAmountFocus ? 
-                        theme.textInputFocusStyle : 
-                        theme.textInputBlurStyle">
+        
+        <app-input [control]="sendForm.controls['sendAmount']"
+                   [inputID]="'text-amount'"
+                   [inputName]="'text-amount'"
+                   [inputPlaceholder]="0"
+                   [type]="'text'"></app-input>
         <div class="max-button"
              [ngClass]="{ 'on': sendMax }"
              [ngStyle]="sendMax ? theme.maxButtonOnStyle : theme.maxButtonOffStyle"

@@ -1,41 +1,66 @@
 @import '../../../../assets/sass-imports/_variables.scss';
 @import '../../../../assets/sass-imports/_mixins.scss';
 
+$lineWidth: 2px;
+$lineLength: 16px;
+$lineSideGap: 4px;
+
+
+.top {
+	position: relative;
+	@include no-select-pointer;
+	&.open {
+		opacity: 1;
+		.toggle-indicator  {
+			.line-1 {
+				opacity: 0;
+				transform: rotate(180deg);
+			}
+			.line-2 {
+				transform: rotate(180deg);
+			}
+		}
+	}
+}
+
+.toggle-indicator {
+	display: block;
+	position: absolute;
+	// background: blue;
+	height: $lineLength;
+	width: $lineLength;
+	left: 0; 
+	top: 0;
+	.line-1, .line-2 {
+		content: '';
+		position: absolute;
+		height: $lineWidth;
+		width: $lineLength;
+		background: black;
+		transition: $defaultTransitionTime * 2 ease-out;
+		transform: rotate(0deg);
+	}
+	.line-2  {
+		opacity: 1;
+		transform: rotate(90deg);
+	}
+}
+
+h3 {
+	margin-left: $lineLength + $lineSideGap;
+}
+
+
 .section-toggle {
 	// $color: hsla(0,0,0,.25);
-	$lineWidth: 2px;
-	$lineLength: $lineWidth * 8;
-	$lineSideGap: 4px;
 	position: relative;
-	opacity: .25;
+	opacity: .4;
 	margin-bottom: $defaultMargin;
 	// color: $color;
 	// border-top: $lineWidth solid $color;
-	@include no-select-pointer;
 	&:hover {
 		// $color: hsla(0,0,0,.4);
 		// color: $color;
 		// border-color: $color;
-	}
-	&::before, &::after {
-		content: '';
-		position: absolute;
-		left: -$lineLength - $lineSideGap; 
-		top: -$lineWidth;
-		height: $lineWidth;
-		width: $lineLength;
-		background: black;
-	}
-	&::after {
-		transform: rotate(90deg);
-	}
-	&.open {
-		opacity: 1;
-		// $color: hsla(0,0,0,1);
-		// color: $color;
-		// border-color: $color;
-		&::after {
-			transform: rotate(0deg);
-		}
 	}
 }

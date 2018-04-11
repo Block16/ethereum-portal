@@ -11,6 +11,9 @@ import {Theme} from "../../model/theme/theme";
 })
 export class InputComponent implements OnInit {
   @Input() control: FormControl;
+  @Input() inputID: string;
+  @Input() inputName: string;
+  @Input() inputPlaceholder: string;
   @Input() type: string;
   
   public theme: Theme;
