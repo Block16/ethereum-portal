@@ -10,7 +10,8 @@
 				<div class="wallets">
 					<div class="wallet">
 						<app-button class="wallet-icon"
-											  (click)="metaMaskAuthState()">
+											  (click)="metaMaskAuthState()"
+											  accent>
 							<!-- <img src="/assets/img/icons/metamask icon light.svg" alt=""> -->
 							
 							<div [hidden]="theme.isDark">
@@ -22,11 +23,13 @@
 										 [inlineSVG]="'/assets/img/icons/inline-svg/metamask icon.svg'"></div>
 							</div>
 						</app-button>
-						<span class="head3">Metamask</span>
+						<span class="head3"
+									[ngStyle]="theme.accentTextStyle">Metamask</span>
 					</div>
 					<div class="wallet">
 						<app-button class="wallet-icon"
-								 				(click)="toggleAuthState(AuthState.ledger)">
+								 				(click)="toggleAuthState(AuthState.ledger)"
+								 				accent>
 							<!-- <img src="/assets/img/icons/ledger icon light.svg" alt=""> -->
 							<div class="svg-wrapper secondary-svg ledger" [inlineSVG]="'/assets/img/icons/inline-svg/ledger icon light.svg'"></div>
 						</app-button>
@@ -35,7 +38,8 @@
 					</div>
 					<div class="wallet">
 						<app-button class="wallet-icon"
-								 				(click)="trezorAuthState()">
+								 				(click)="trezorAuthState()"
+								 				accent>
 							<!-- <img src="/assets/img/icons/trezor icon light.svg" alt=""> -->
 							<div class="svg-wrapper secondary-svg trezor" [inlineSVG]="'/assets/img/icons/inline-svg/trezor icon light.svg'"></div>
 						</app-button>
@@ -44,7 +48,8 @@
 					</div>
 					<div class="wallet">
 						<app-button class="wallet-icon"
-								 				(click)="toggleAuthState(AuthState.bitbox)">
+								 				(click)="toggleAuthState(AuthState.bitbox)"
+								 				accent>
 							<!-- <img src="/assets/img/icons/digital bitbox icon light.svg" alt=""> -->
 							<div class="svg-wrapper secondary-svg digital-bitbox" [inlineSVG]="'/assets/img/icons/inline-svg/digital bitbox icon light.svg'"></div>
 						</app-button>
@@ -53,12 +58,14 @@
 					</div>
 
 					<div class="wallet">
-						<app-button class="wallet-icon">
+						<app-button class="wallet-icon"
+						accent>
 							<app-utc-file-form (privateKey)="utcAuthState($event)"></app-utc-file-form>
 						  <!-- <img src="/assets/img/icons/utc icon light.svg" alt=""> -->
 							<div class="svg-wrapper secondary-svg utc" [inlineSVG]="'/assets/img/icons/inline-svg/utc icon light.svg'"></div>
 						</app-button>
-						<span class="head3">.UTC file</span>
+						<span class="head3"
+									[ngStyle]="theme.accentTextStyle">.UTC file</span>
 					</div>
 				</div>
 				<br>
