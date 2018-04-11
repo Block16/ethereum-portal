@@ -355,7 +355,6 @@ export class ThemeService {
     };
     
     theme.overlayStyle = {
-      
       'background': 'rgba('+
                     accentColorRgb.r+','+
                     accentColorRgb.g+','+
@@ -383,7 +382,7 @@ export class ThemeService {
                     theme.primaryColorRgb.g+','+
                     theme.primaryColorRgb.b+','+
                     theme.op1+')',
-      'border-left': '4px solid ' + themeSource.accentColor;
+      'border-left': '4px solid ' + themeSource.accentColor
     }
     
     theme.textInputBlurStyle = {
@@ -396,7 +395,7 @@ export class ThemeService {
                      theme.accentColorRgb.r+','+
                      theme.accentColorRgb.g+','+
                      theme.accentColorRgb.b+','+
-                     theme.op4+')';
+                     theme.op4+')'
     }
     
     theme.newTransactionTextStyle = this.luma(themeSource.primaryColor) > this.luma(themeSource.secondaryColor) ? 
