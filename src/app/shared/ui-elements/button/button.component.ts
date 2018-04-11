@@ -8,7 +8,8 @@ import {Theme} from "../../model/theme/theme";
   templateUrl: './button.component.html',
   styleUrls: ['./button.component.scss'],
   host: {
-    tabindex: '0'
+    tabindex: '0',
+    role: 'button'
   }
 })
 
