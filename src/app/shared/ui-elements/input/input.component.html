@@ -1,12 +1,23 @@
-<input type="text"
-			 [formControl]="control"
-			 [id]="inputID"
-			 [name]="inputName"
-			 [placeholder]="inputPlaceholder"
-       class="wide"
-       [type]="type"
-       (blur)="focus = false"
-       (focus)="focus = true"
-	     [ngStyle]="focus ? 
-	                theme.textInputFocusStyle : 
-	                theme.textInputBlurStyle">
+<label [hidden]="!showLabel"
+			 class="caption form-label component-label"
+			 [for]="inputID"
+			 #label>
+	<ng-content></ng-content>
+</label>
+<div class="input-container">
+	<input type="text"
+				 [(ngModel)]="value"
+				 [formControl]="control"
+				 [id]="inputID"
+				 [name]="inputName"
+	       class="component-input wide"
+	       [type]="type"
+	       (blur)="focus = false"
+	       (focus)="focus = true"
+		     [ngStyle]="focus ? 
+		                theme.textInputFocusStyle : 
+		                theme.textInputBlurStyle">
+	<span *ngIf="inputPlaceholder && !value"
+				class="placeholder lining-proportional"
+				[ngStyle]="theme.textStyle">{{ inputPlaceholder }}</span>
+</div>

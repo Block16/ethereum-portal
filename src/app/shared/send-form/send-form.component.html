@@ -1,7 +1,7 @@
 <h2 class="top-border head2 type2">Send</h2>
 <section class="section-content">
   <form [formGroup]="sendForm" (submit)="sendTransaction()">
-    <label for="text-to-address" class="caption form-label">To <span class="fade">Ethereum address</span></label>
+<!--     <label for="text-to-address" class="caption form-label">To <span class="fade">Ethereum address</span></label> -->
 <!--     <input type="text"
            id="text-to-address"
            placeholder="0xAfDB9..."
@@ -14,10 +14,10 @@
     <app-input [control]="sendForm.controls['sendAddress']"
                [inputID]="'text-to-address'"
                [inputName]="'text-to-address'"
-               [type]="'text'"></app-input>
+               [inputPlaceholder]="'0x…'"
+               [type]="'text'">To <span class="fade">Ethereum address</span></app-input>
     <br><br>
     
-    <label for="text-amount" class="caption form-label">Amount</label>
     <div class="text-input-plus">
 
       <div class="input-and-max">
@@ -25,8 +25,7 @@
         <app-input [control]="sendForm.controls['sendAmount']"
                    [inputID]="'text-amount'"
                    [inputName]="'text-amount'"
-                   [inputPlaceholder]="0"
-                   [type]="'text'"></app-input>
+                   [type]="'text'">Amount</app-input>
         <div class="max-button"
              [ngClass]="{ 'on': sendMax }"
              [ngStyle]="sendMax ? theme.maxButtonOnStyle : theme.maxButtonOffStyle"

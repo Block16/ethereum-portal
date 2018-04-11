@@ -1,10 +1,11 @@
 <form [formGroup]="privateKeyForm" (submit)="onSubmit()">
-  <label for="private-key" class="caption form-label">Raw private key</label>
+<!--   <label for="private-key" class="caption form-label">Raw private key</label> -->
   <div class="text-input-plus">
     <app-input [control]="privateKeyForm.controls['privateKey']"
+               [inputPlaceholder]="'0x…'"
                [inputID]="'private-key'"
                [inputName]="'private-key'"
-               [type]="'text'"></app-input>
+               [type]="'text'">Raw private key</app-input>
     <app-button [disabled]="!privateKeyForm.valid"
                 submit>
       Submit

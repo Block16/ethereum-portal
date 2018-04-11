@@ -1,0 +1,50 @@
+@import '../../../../assets/sass-imports/_variables.scss';
+@import '../../../../assets/sass-imports/_mixins.scss';
+
+:host {
+	position: relative;
+	z-index: 1;
+}
+
+.component-label {
+	
+}
+
+.input-container {
+	position: relative;
+}
+
+.component-input {
+	height: $inputHeight;
+	font: normal 1em $S;
+	outline: none;
+	border: none;
+	border-left: 4px solid black;
+	border-radius: 0;
+	font-weight: bold;
+	background: hsla(0,0,0,.07);
+	padding: .3em 0 .3em .5em;
+	box-sizing: border-box;
+	font-feature-settings: "lnum", "pnum";
+	-webkit-appearance: none;
+	&.no-arrow-buttons {
+		&::-webkit-outer-spin-button,
+		&::-webkit-inner-spin-button {
+		    -webkit-appearance: none;
+		    margin: 0;
+		}
+	}
+	&.wide {
+		width: 100%;
+	}
+}
+
+.placeholder {
+	z-index: 2;
+	display: flex;
+	align-items: center;
+	padding-left: .75em;
+	opacity: $op4;
+	@include posa-tblr;
+	@include pass-through;
+}

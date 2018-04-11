@@ -94,8 +94,8 @@ export class ThemeService {
     'secondaryColor': '#F2F1EF',
     'accentColor': '#BA350B',
     'processingColor': '#E8D47B',
-    'failedBackground': '#BA350B',
-    'confirmedBackground': '#00B7CF',
+    'failedBackground': 'icon',
+    'confirmedBackground': 'icon',
     'op1': this.op1,
     'op2': this.op2,
     'op3': this.op3,
@@ -396,7 +396,8 @@ export class ThemeService {
       theme.primaryColorRgb.g + ',' +
       theme.primaryColorRgb.b + ',' +
       theme.op1 + ')',
-      'border-left': '4px solid ' + themeSource.accentColor
+      'border-left': '4px solid ' + themeSource.accentColor,
+      'color': theme.primaryColor
     };
 
     theme.textInputBlurStyle = {
@@ -409,7 +410,8 @@ export class ThemeService {
       theme.accentColorRgb.r + ',' +
       theme.accentColorRgb.g + ',' +
       theme.accentColorRgb.b + ',' +
-      theme.op4 + ')'
+      theme.op4 + ')',
+      'color': theme.primaryColor
     };
 
     theme.selectOverlayStyle = {
