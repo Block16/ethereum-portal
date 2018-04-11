@@ -62,8 +62,8 @@
       <label for="gas-limit" class="caption form-label">Gas limit</label>
       <input id="gas-limit" type="number" class="no-arrow-buttons">
     </div>
-    <app-button (click)="sendForm.submit()"
-                [disabled]="!sendForm.valid">Generate transaction</app-button>
+    <app-button [disabled]="!sendForm.valid"
+                submit>Generate transaction</app-button>
     <!-- <button class="button" type="submit" [ngClass]="{ 'disabled': !sendForm.valid }">Generate transaction</button> -->
     <br>
   </form>

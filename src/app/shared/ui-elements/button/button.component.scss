@@ -13,6 +13,8 @@ $outlineActiveOffset: 1;
 }
 
 :host {
+  position: relative;
+  z-index: 1;
 	display: inline-block;
 	font: 1em $FB2;
   position: relative;
@@ -71,9 +73,18 @@ $outlineActiveOffset: 1;
   }
 }
 
-
 .utc {
   opacity: 0;
+  cursor: pointer;
+  @include posa-tblr;
+}
+
+.submit-button {
+  z-index: 2;
+  -webkit-appearance: none;
+  opacity: 0;
+  background: none;
+  outline: none;
   cursor: pointer;
   @include posa-tblr;
 }
