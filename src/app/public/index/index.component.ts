@@ -146,7 +146,7 @@ export class IndexComponent implements OnInit, OnDestroy {
 
   privateKeyAuthState(event) {
     this.currentAuth = AuthState.privateKey;
-    this.coreKeyManagerService.setCurrentAuth(this.currentAuth, event);
+    this.coreKeyManagerService.setCurrentAuth(this.currentAuth, event.privateKey);
     this.updatePrivateKey(event.privateKey);
   }
 

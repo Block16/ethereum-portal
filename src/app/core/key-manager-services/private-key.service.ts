@@ -32,7 +32,7 @@ export class PrivateKeyService implements KeyManagerService {
    * @returns {boolean & (RegExpMatchArray | null)}
    */
   public validPrivateKey(privateKey: string) {
-    return !isNullOrUndefined(privateKey) && privateKey.match(this.privateKeyPattern);
+    return !isNullOrUndefined(privateKey) && String(privateKey).match(this.privateKeyPattern);
   }
 
   getEthereumAddresses(): Observable<string[]> {
