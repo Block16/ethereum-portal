@@ -6,6 +6,8 @@ import {Subscription} from "rxjs/Subscription";
 import {EthereumAssetService} from "../../core/ethereum-asset.service";
 import {UserPreferences} from "../model/user-preferences";
 import {UserPreferencesService} from "../../core/user-preferences.service";
+import {CoreKeyManagerService} from "../../core/key-manager-services/core-key-manager.service";
+import {EthereumTransaction} from "../model/ethereum-transaction";
 
 @Component({
   selector: 'app-send-form',
@@ -36,7 +38,8 @@ export class SendFormComponent implements OnInit, OnDestroy {
     private formBuilder: FormBuilder,
     private web3Service: Web3Service,
     private assetService: EthereumAssetService,
-    private userPrefService: UserPreferencesService
+    private userPrefService: UserPreferencesService,
+    private coreKeyManagerService: CoreKeyManagerService
   ) {
     this.userPrefSub = this.userPrefService.userPreferences.subscribe(userPref => {
       this.userPreferences = userPref;
@@ -77,7 +80,10 @@ export class SendFormComponent implements OnInit, OnDestroy {
   }
 
   sendTransaction() {
-
+    // TODO: Build transaction, use core key manager
+    this.coreKeyManagerService.signTransaction(<EthereumTransaction>{}).subscribe((transaction: EthereumTransaction) => {
+      this.web3Service.sendRawTransaction(transaction);
+    });
   }
 
 }
