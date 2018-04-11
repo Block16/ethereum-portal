@@ -1,5 +1,6 @@
 @import '../../../../assets/sass-imports/_variables.scss';
 @import '../../../../assets/sass-imports/_mixins.scss';
+@import '../../../../assets/sass-imports/_ui-outline.scss';
 
 $switchHeight: 1.5em;
 $switchWidth: 3em;
@@ -7,7 +8,11 @@ $knobHeight: $switchHeight;
 $knobWidth: $switchHeight;
 
 :host {
-	display: block;
+	display: block; 
+	height: $switchHeight;
+	.ui-outline {
+		border-radius: 99em;
+	}
 }
 
 .toggle-switch {
@@ -42,7 +47,9 @@ $knobWidth: $switchHeight;
 
 input[type=checkbox] {
 	position: absolute;
-	visibility: hidden;
+	// visibility: hidden;
+	@include pass-through;
+	opacity: 0;
 	&:checked + label {
 		.knob {
 			left: $switchWidth - $knobWidth;

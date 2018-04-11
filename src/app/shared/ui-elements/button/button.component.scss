@@ -1,12 +1,11 @@
 @import '../../../../assets/sass-imports/_variables.scss';
 @import '../../../../assets/sass-imports/_mixins.scss';
+@import '../../../../assets/sass-imports/_ui-outline.scss';
 
 $buttonColor: black;
 $textColor: white;
-$outlineThickness: 3px;
-$outlineDistance: $outlineThickness + 1px;
-$outlineColor: $buttonColor;
-$outlineActiveOffset: 1;
+
+
 
 .wallet-icon {
   
@@ -39,38 +38,6 @@ $outlineActiveOffset: 1;
 		height: 0;
   	cursor: pointer;
 		padding: 0 0 100% 0;
-  }
-  .outline {
-    border: $outlineThickness solid $outlineColor;
-    top: -$outlineDistance;
-    bottom: -$outlineDistance;
-    left: -$outlineDistance;
-    right: -$outlineDistance;
-    pointer-events: none;
-    position: absolute;
-    opacity: 0;
-    transition: .08s;
-  }
-  &:focus {
-    .outline {
-      top: -$outlineDistance;
-      bottom: -$outlineDistance;
-      left: -$outlineDistance;
-      right: -$outlineDistance;
-      border-radius: 1px;
-      opacity: 1;
-    }
-  }
-  &:active {
-    .outline {
-      opacity: 1;
-      top: -$outlineDistance - $outlineActiveOffset;
-      bottom: -$outlineDistance - $outlineActiveOffset;
-      left: -$outlineDistance - $outlineActiveOffset;
-      right: -$outlineDistance - $outlineActiveOffset;
-      border-radius: 2px;
-      border-width: 1px;
-    }
   }
 }
 

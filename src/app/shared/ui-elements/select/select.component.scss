@@ -1,5 +1,6 @@
 @import '../../../../assets/sass-imports/_variables.scss';
 @import '../../../../assets/sass-imports/_mixins.scss';
+@import '../../../../assets/sass-imports/_ui-outline.scss';
 
 $selectWidth: 6em;
 :host {
@@ -8,7 +9,7 @@ $selectWidth: 6em;
 	width: $selectWidth;
 	position: relative;
 	z-index: 1;
-	overflow: hidden;
+	// overflow: hidden;
 	cursor: pointer;
 	&.small {
 		font-size: 0.875em; // 14px

@@ -1,0 +1,60 @@
+$outlineThickness: 3px;
+$outlineDistance: $outlineThickness + 1px;
+
+$outlineHoverOpacity: .7;
+$outlineHoverOffset: 0;
+$outlineHoverThickness: 1px;
+
+$outlineActiveOpacity: 1;
+$outlineActiveOffset: 2px;
+$outlineActiveThickness: 2px;
+
+$outlineFocusOpacity: 1;
+$outlineFocusOffset: 1;
+$outlineFocusThickness: 3px;
+
+:host {
+  position: relative;
+  .ui-outline {
+    border: 0px solid $primaryColor;
+    top: -$outlineDistance;
+    bottom: -$outlineDistance;
+    left: -$outlineDistance;
+    right: -$outlineDistance;
+    border-radius: 1px;
+    position: absolute;
+    opacity: 0;
+    transition: .08s;
+    @include pass-through;
+  }
+  &:hover, &.hover {
+    .ui-outline {
+      opacity: $outlineHoverOpacity;
+      top: -$outlineDistance;
+      bottom: -$outlineDistance;
+      left: -$outlineDistance;
+      right: -$outlineDistance;
+      border-width: $outlineHoverThickness;
+    }
+  }
+  &:focus, &.focus {
+    .ui-outline {
+      opacity: $outlineFocusOpacity;
+      top: -$outlineDistance - $outlineFocusOffset;
+      bottom: -$outlineDistance - $outlineFocusOffset;
+      left: -$outlineDistance - $outlineFocusOffset;
+      right: -$outlineDistance - $outlineFocusOffset;
+      border-width: $outlineFocusThickness;
+    }
+  }
+  &:active {
+    .ui-outline {
+      opacity: $outlineActiveOpacity;
+      top: -$outlineDistance - $outlineActiveOffset;
+      bottom: -$outlineDistance - $outlineActiveOffset;
+      left: -$outlineDistance - $outlineActiveOffset;
+      right: -$outlineDistance - $outlineActiveOffset;
+      border-width: $outlineActiveThickness;
+    }
+  }
+}

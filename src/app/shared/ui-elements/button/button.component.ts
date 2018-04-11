@@ -10,8 +10,7 @@ import {Theme} from "../../model/theme/theme";
   host: {
     'tabindex': '0',
     'role': 'button',
-    '[class.accent]': 'this.accent', 
-    '[class.hover]': 'this.hover',
+    '[class.accent]': 'this.accent',
     '[style.background]': `this.accent ? 
                            this.theme.accentColor :
                            this.theme.primaryColor`,

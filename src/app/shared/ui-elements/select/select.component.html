@@ -1,3 +1,6 @@
+<div class="ui-outline"
+		 [ngStyle]="theme.accentBorderStyle"></div>
+		 
 <div class="select-overlay"
 		 [ngStyle]="theme.textStyle">
 	<span *ngIf="control.value">{{ optionProperty ? control.value[optionProperty] : control.value }}</span>
@@ -5,7 +8,9 @@
 	<div class="select-arrow"
 			 [ngStyle]="theme.selectArrowStyle"></div>
 </div>
-<select [formControl]="control">
+<select [formControl]="control"
+				(blur)="focus = false"
+				(focus)="focus = true">
   <option *ngIf="placeholder" disabled selected>{{ placeholder }}</option>
   <option *ngFor="let option of options"
 			    [ngValue]="option">{{optionProperty ? option[optionProperty] : option}}</option>
