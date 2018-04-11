@@ -26,6 +26,7 @@ $outlineActiveOffset: 1;
   border: none;
   border-radius: 0em;
   user-select: none;
+  -webkit-appearance: none;
   &.disabled {
     opacity: .3;
     pointer-events: none;
@@ -86,5 +87,7 @@ $outlineActiveOffset: 1;
   background: none;
   outline: none;
   cursor: pointer;
+  height: 100%;
+  width: 100%;
   @include posa-tblr;
 }
