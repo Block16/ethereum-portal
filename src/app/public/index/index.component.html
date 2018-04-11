@@ -10,8 +10,8 @@
 				<div class="wallets">
 					<div class="wallet">
 						<app-button class="wallet-icon"
-												[ngStyle]="theme.accentBackgroundStyle"
-											  (click)="metaMaskAuthState()">
+											  (click)="metaMaskAuthState()"
+											  accent>
 							<!-- <img src="/assets/img/icons/metamask icon light.svg" alt=""> -->
 							
 							<div [hidden]="theme.isDark">
@@ -28,8 +28,8 @@
 					</div>
 					<div class="wallet">
 						<app-button class="wallet-icon"
-												[ngStyle]="theme.accentBackgroundStyle"
-								 				(click)="toggleAuthState(AuthState.ledger)">
+								 				(click)="toggleAuthState(AuthState.ledger)"
+								 				accent>
 							<!-- <img src="/assets/img/icons/ledger icon light.svg" alt=""> -->
 							<div class="svg-wrapper secondary-svg ledger" [inlineSVG]="'/assets/img/icons/inline-svg/ledger icon light.svg'"></div>
 						</app-button>
@@ -37,9 +37,9 @@
 									[ngStyle]="theme.accentTextStyle">Ledger</span>
 					</div>
 					<div class="wallet">
-						<app-button class="wallet-icon" 
-												[ngStyle]="theme.accentBackgroundStyle"
-								 				(click)="trezorAuthState()">
+						<app-button class="wallet-icon"
+								 				(click)="trezorAuthState()"
+								 				accent>
 							<!-- <img src="/assets/img/icons/trezor icon light.svg" alt=""> -->
 							<div class="svg-wrapper secondary-svg trezor" [inlineSVG]="'/assets/img/icons/inline-svg/trezor icon light.svg'"></div>
 						</app-button>
@@ -48,8 +48,8 @@
 					</div>
 					<div class="wallet">
 						<app-button class="wallet-icon"
-												[ngStyle]="theme.accentBackgroundStyle"
-								 				(click)="toggleAuthState(AuthState.bitbox)">
+								 				(click)="toggleAuthState(AuthState.bitbox)"
+								 				accent>
 							<!-- <img src="/assets/img/icons/digital bitbox icon light.svg" alt=""> -->
 							<div class="svg-wrapper secondary-svg digital-bitbox" [inlineSVG]="'/assets/img/icons/inline-svg/digital bitbox icon light.svg'"></div>
 						</app-button>
@@ -59,7 +59,7 @@
 
 					<div class="wallet">
 						<app-button class="wallet-icon"
-												[ngStyle]="theme.accentBackgroundStyle">
+						accent>
 							<app-utc-file-form (privateKey)="utcAuthState($event)"></app-utc-file-form>
 						  <!-- <img src="/assets/img/icons/utc icon light.svg" alt=""> -->
 							<div class="svg-wrapper secondary-svg utc" [inlineSVG]="'/assets/img/icons/inline-svg/utc icon light.svg'"></div>
@@ -79,10 +79,8 @@
 				<button class="button"
 								(click)="showTestModal = !showTestModal">show test modal</button>
 			</app-toggle-section>
-			<app-button [ngStyle]="theme.buttonStyle">button</app-button>
-			<app-button [ngStyle]="theme.buttonStyle"
-									accent="true"
-									size="small">accent button</app-button>
+			<app-button>button</app-button>
+			<app-button accent small>accent button</app-button>
 		</div>
 		<div class="grid-cell">
 			<h2 class="top-border"

@@ -79,7 +79,8 @@ export class SendFormComponent implements OnInit, OnDestroy {
     this.userPrefSub.unsubscribe();
   }
 
-  sendTransaction() {
+  sendTransaction() { 
+    console.log('submitted');
     // TODO: Build transaction, use core key manager
     this.coreKeyManagerService.signTransaction(<EthereumTransaction>{}).subscribe((transaction: EthereumTransaction) => {
       this.web3Service.sendRawTransaction(transaction);
