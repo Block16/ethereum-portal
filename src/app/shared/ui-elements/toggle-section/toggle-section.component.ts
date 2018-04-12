@@ -34,7 +34,7 @@ export class ToggleSectionComponent implements OnInit {
 	    this.theme = theme;
 	  });
 	}
-
+	
   ngOnInit() {
   }
 
