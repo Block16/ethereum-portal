@@ -118,8 +118,9 @@
 						<div class="token"
 								 *ngFor="let token of assets">
 							<div class="token-icon">
-								<div class="icon-container op3"
-										 [ngStyle]="theme.accentBackgroundStyle"></div>
+								<div class="icon-container">
+								 	<img [src]="'assets/img/icons/coins/'+token.name.toLowerCase()+'.svg'" alt="">
+								 </div>
 							</div>
 							<div class="token-symbol caption">
 								{{ token.name }}

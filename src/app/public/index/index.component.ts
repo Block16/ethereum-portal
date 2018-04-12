@@ -124,12 +124,10 @@ export class IndexComponent implements OnInit, OnDestroy {
                           'SPHTX',
                           'THETA',
                           'TRX',
-                          'UKG',
                           'ZRX'];
     let numberOfAssets = Math.round(Math.random() * possibleAssets.length);
     
     for (let i = 0; i <= numberOfAssets; i++) {
-      debugger;
       let chosenAssetIndex: number = Math.round(Math.random() * (possibleAssets.length - 1));
       
       let chosenAsset: string = possibleAssets[chosenAssetIndex];
