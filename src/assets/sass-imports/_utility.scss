@@ -1,3 +1,29 @@
+@import '_mixins.scss';
+@import '_variables.scss';
+
+.no-top-margin {
+	margin-top: 0;
+}
+.no-bottom-margin {
+	margin-bottom: 0;
+}
+
 .hidden {
 	display: none;
+}
+
+.op1 {
+	opacity: $op1;
+}
+
+.op2 {
+	opacity: $op2;
+}
+
+.op3 {
+	opacity: $op3;
+}
+
+.op4 {
+	opacity: $op4;
 }

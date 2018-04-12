@@ -357,12 +357,12 @@ export class ThemeService {
       'border-color': themeSource.primaryColor
     };
 
-    theme.backgroundStyle = {
-      'background-color': themeSource.secondaryColor
-    };
 
     theme.primaryBackgroundStyle = {
       'background-color': themeSource.primaryColor
+    };
+    theme.secondaryBackgroundStyle = {
+      'background-color': themeSource.secondaryColor
     };
     theme.accentBackgroundStyle = {
       'background-color': themeSource.accentColor
@@ -376,7 +376,7 @@ export class ThemeService {
                     theme.op5+')',
     }
 
-    theme.textStyle = {
+    theme.primaryTextStyle = {
       'color': themeSource.primaryColor,
       'border-color': themeSource.primaryColor
     };

@@ -35,6 +35,7 @@ export class SidebarComponent implements OnDestroy {
   // forms
   public themeForm: FormGroup;
   public denominationForm: FormGroup;
+  private denominationChangeSubscription: Subscription;
   public denominations = [
     'None', 'USD', 'EUR'
   ]
@@ -60,17 +61,21 @@ export class SidebarComponent implements OnDestroy {
     this.themeForm = this.formBuilder.group({
       'themePreferences': []
     });
+    
+    this.denominationForm = this.formBuilder.group({
+      'additionalDenomination': []
+    });
 
     // Set the default to the theme we get back from the service
     // this.themeForm.controls['themePreferences'].setValue(theme.name, {onlySelf: true});
 
-    // Make sure we sub to changes in the theme
     this.themeChangeSubscription = this.themeForm.get('themePreferences').valueChanges.subscribe((theme: Theme) => {
       this.themeService.setTheme(theme.name);
     });
-
-    this.denominationForm = this.formBuilder.group({
-      'additionalDenomination': []
+    
+    this.denominationChangeSubscription = this.denominationForm.get('additionalDenomination').valueChanges.subscribe((denomination) => {
+      this.userPreferences['additionalDenomination'] = denomination;
+      userPreferencesService.setPreferences(this.userPreferences);
     });
 
     this.dataShareService.recentTransactions.subscribe((value: any) => {

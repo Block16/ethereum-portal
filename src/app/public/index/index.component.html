@@ -94,13 +94,47 @@
 			<section class="section-content">
 				<div class="caption ">Address</div>
 				<p class="lining-proportional">0x{{ ethereumAddress }}</p>
-				<div class="tokens bottom-margin">
-					<div class="token"
-							 *ngFor="let token of assets; let i = index">
-						<div class="caption">{{ token.name }}</div>
-						<p class="lining-proportional">{{ token.calculatedAmount }}</p>
+				
+				<div class="token eth">
+					<div class="token-icon">
+						<div class="icon-container op3"
+								 [ngStyle]="theme.accentBackgroundStyle"></div>
 					</div>
+					<div class="token-symbol caption">
+						ETH
+					</div>
+					<p class="token-amount lining-proportional">
+						5,002
+					</p>
+					<p class="token-denomination lining-proportional op4"
+						 [ngStyle]="theme.primaryTextStyle"
+						 *ngIf="userPreferences['additionalDenomination'] != 'None'">
+						$35,000 USD
+					</p>
 				</div>
+				<app-toggle-section [title]="'Tokens'"
+														[open]="true">
+					<div class="tokens">
+						<div class="token"
+								 *ngFor="let token of assets">
+							<div class="token-icon">
+								<div class="icon-container op3"
+										 [ngStyle]="theme.accentBackgroundStyle"></div>
+							</div>
+							<div class="token-symbol caption">
+								{{ token.name }}
+							</div>
+							<p class="token-amount lining-proportional">
+								{{ token.amount }}
+							</p>
+							<p class="token-denomination lining-proportional op4"
+								 [ngStyle]="theme.primaryTextStyle"
+								 *ngIf="userPreferences['additionalDenomination'] != 'None'">
+								$35,000 USD
+							</p>
+						</div>
+					</div>
+				</app-toggle-section>
 				<app-toggle-section [title]="'QR'">
 					<ngx-kjua
 					    [text]="'0x' + ethereumAddress"

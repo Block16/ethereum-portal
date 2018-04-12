@@ -70,7 +70,7 @@ $maxButtonMargin: ($inputHeight - $maxButtonHeight) / 2;
 	$color: hsla(0,0,0,.3);
 	position: absolute;
 	z-index: 3;
-	opacity: .5;
+	opacity: $op3;
 	height: $maxButtonHeight;
 	bottom: $maxButtonMargin;
 	right: $maxButtonMargin;
@@ -80,7 +80,7 @@ $maxButtonMargin: ($inputHeight - $maxButtonHeight) / 2;
 	text-transform: uppercase;
 	border-radius: 4px;
 	color: hsla(0,0,0,.4);
-	padding: 0 .5em;
+	padding: 0 1em;
 	@include flex-center;
 	@include no-select-pointer;
 	&:hover {

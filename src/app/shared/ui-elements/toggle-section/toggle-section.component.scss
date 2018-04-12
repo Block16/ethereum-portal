@@ -32,11 +32,12 @@ $lineSideGap: 4px;
 	// background: blue;
 	height: $lineLength;
 	width: $lineLength;
-	left: 0; 
-	top: 0;
+	left: 0 - $lineLength / 2; 
+	top: 0 - $lineLength / 2;
 	.line-1, .line-2 {
 		content: '';
 		position: absolute;
+		top: $lineLength / 2;
 		height: $lineWidth;
 		width: $lineLength;
 		background: black;
@@ -50,15 +51,15 @@ $lineSideGap: 4px;
 }
 
 h3 {
-	margin-left: $lineLength + $lineSideGap;
+	position: relative;
+	opacity: $op3;
+	margin-left: $lineLength / 2 + $lineSideGap;
+	margin-bottom: $defaultMargin * .9;
 }
 
 
 .section-toggle {
 	// $color: hsla(0,0,0,.25);
-	position: relative;
-	opacity: $op4;
-	margin-bottom: $defaultMargin * .9;
 	// color: $color;
 	// border-top: $lineWidth solid $color;
 	&:hover {
@@ -69,5 +70,5 @@ h3 {
 }
 
 .section-content {
-	padding-left: $lineLength + $lineSideGap;
+	padding-left: $lineLength / 2 + $lineSideGap;
 }

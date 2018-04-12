@@ -78,7 +78,6 @@ export class IndexComponent implements OnInit, OnDestroy {
     private trezorService: TrezorConnectService,
     private privateKeyService: PrivateKeyService,
     private assetService: EthereumAssetService,
-
     private coreKeyManagerService: CoreKeyManagerService
   ) {
     this.currentAuth = AuthState.none;
@@ -101,6 +100,7 @@ export class IndexComponent implements OnInit, OnDestroy {
     // Assets
     this.assetSubscription = this.assetService.ethereumAssets.subscribe(assets => {
       this.assets = assets;
+      this.randomAssets()
     });
 
     // TODO: pull this out
@@ -117,8 +117,32 @@ export class IndexComponent implements OnInit, OnDestroy {
     });
   }
 
-  test() {
-    console.log('test');
+  randomAssets() {
+    let possibleAssets = ['BAT',
+                          'ICX',
+                          'SPANK',
+                          'SPHTX',
+                          'THETA',
+                          'TRX',
+                          'UKG',
+                          'ZRX'];
+    let numberOfAssets = Math.round(Math.random() * possibleAssets.length);
+    
+    for (let i = 0; i <= numberOfAssets; i++) {
+      debugger;
+      let chosenAssetIndex: number = Math.round(Math.random() * (possibleAssets.length - 1));
+      
+      let chosenAsset: string = possibleAssets[chosenAssetIndex];
+      
+      possibleAssets.splice(chosenAssetIndex, 1);
+      
+      let assetAmount: number = Math.round(Math.random() * 1000000) + 1;
+      assetAmount += Math.random().toFixed(4);
+      
+      let newAsset = new EthereumAsset(chosenAsset, assetAmount, 18, 'ok');
+      this.assets.push(newAsset);
+    }
+    console.log(this.assets);
   }
 
   ngOnInit(): void {

@@ -1,6 +1,8 @@
-
 export class EthereumAsset {
-  constructor (readonly name: string, public amount: number, readonly decimalPlaces: number) {
+  constructor (readonly name: string, 
+  						 public amount: number,
+  						 readonly decimalPlaces: number,
+  						 readonly address: string) {
 
   }
 

@@ -15,6 +15,7 @@ import {Theme} from "../../model/theme/theme";
 export class ToggleSectionComponent implements OnInit {
 	
 	@Input() title: string;
+	@Input() open: boolean = false;
 	@HostListener('mouseover') onMouseOver() {
 	   this.hover = true;
 	}

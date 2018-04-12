@@ -2,7 +2,7 @@
 		 [ngStyle]="theme.accentBorderStyle"></div>
 		 
 <div class="select-overlay"
-		 [ngStyle]="theme.textStyle">
+		 [ngStyle]="theme.primaryTextStyle">
 	<span *ngIf="control.value">{{ optionProperty ? control.value[optionProperty] : control.value }}</span>
 	<span *ngIf="placeholder && !control.value">{{ optionProperty ? control.value[optionProperty] : control.value }}</span>
 	<div class="select-arrow"

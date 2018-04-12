@@ -17,7 +17,7 @@
 		</a>
 	</div>
 	<div class="h2Border menu-title"
-			 [ngStyle]="theme.textStyle">
+			 [ngStyle]="theme.primaryTextStyle">
 		<h2>Recent</h2>
 		<span class="caption section-caption all-small-caps">past hour</span>
 	</div>
@@ -26,14 +26,14 @@
 														[transaction]="tx"
 														[theme]="theme"></app-recent-transaction>
 	</div>
-	<div class="h2Border menu-title bottom-margin" [ngStyle]="theme.textStyle">
+	<div class="h2Border menu-title bottom-margin" [ngStyle]="theme.primaryTextStyle">
 		<h2>Auth</h2>
 		<span class="caption all-small-caps">Current auth</span>
 	</div>
 	<section class="section-content">
 		<app-button [ngStyle]="theme.buttonStyle">Un-auth</app-button>
 	</section>
-	<div class="h2Border menu-title" [ngStyle]="theme.textStyle">
+	<div class="h2Border menu-title" [ngStyle]="theme.primaryTextStyle">
 		<h2>Preferences</h2>
 	</div>
 	
@@ -59,22 +59,6 @@
     						  [optionProperty]="'name'"
     						  small>
       </app-select>
-<!-- 		<div class="custom-select small" [ngStyle]="theme.selectStyle">
-			<div class="select-overlay" [ngStyle]="theme.textStyle">
-				<span>{{ theme['name'] }}</span>
-			</div>
-			<select name="theme-preferences-switch"
-							id="theme-preferences-switch"
-							[formControl]="themeForm.controls['themePreferences']">
-        <option *ngFor="let t of themes"
-				        [ngValue]="t.name">{{ t.name }}</option>
-			</select>
-		</div> -->
-		<!-- <input id="dark-mode"
-					 class="toggle-switch"
-					 [ngModel]="darkMode"
-					 type="checkbox">
-		<label for="dark-mode"></label> -->
     </form>
 	</div>
 	<div class="preference">
