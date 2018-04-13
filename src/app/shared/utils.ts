@@ -1,12 +1,11 @@
 import * as ethutils from 'ethereumjs-util';
-declare var buffer;
+import {Buffer} from "buffer";
 
 export function privateKeyToAddress(privateKey: string): string {
-  // Sitewide we don't deal with 0x prefix
   if (privateKey.length !== 64) {
     throw new Error("Private key was not length 64, was length: " + privateKey.length);
   }
-  return ethutils.privateToAddress(parseInt(privateKey, 16)).toString('hex');
+  return ethutils.privateToAddress(ethutils.toBuffer(ethutils.addHexPrefix(privateKey))).toString('hex');
 }
 
 export function webSafe64(base64): string {
@@ -18,7 +17,7 @@ export function normal64(base64): string {
 }
 
 export function  wrapApdu(apdu, key) {
-  const result = new buffer.Buffer(apdu.length);
+  const result = new Buffer(apdu.length);
   for (let i = 0; i < apdu.length; i++) {
     result[i] = apdu[i] ^ key[i % key.length];
   }

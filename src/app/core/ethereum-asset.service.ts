@@ -11,7 +11,11 @@ export class EthereumAssetService {
   constructor(
     private httpClient: HttpClient,
   ) {
-    this.ethereumAssets = new BehaviorSubject<EthereumAsset[]>([new EthereumAsset('Ethereum', 'ETH', new BigNumber(0), 18, 21000)]);
+    this.ethereumAssets = new BehaviorSubject<EthereumAsset[]>(
+      [
+        new EthereumAsset('Ethereum', 'ETH', new BigNumber(0), 18, 21000)
+      ]
+    );
   }
 
 }

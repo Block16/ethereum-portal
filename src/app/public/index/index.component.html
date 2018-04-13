@@ -13,7 +13,7 @@
 											  (click)="metaMaskAuthState()"
 											  accent>
 							<!-- <img src="/assets/img/icons/metamask icon light.svg" alt=""> -->
-							
+
 							<div [hidden]="theme.isDark">
 								<div class="svg-wrapper secondary-svg"
 										 [inlineSVG]="'/assets/img/icons/inline-svg/metamask icon light.svg'"></div>
@@ -70,7 +70,7 @@
 				</div>
 				<br>
 			</section>
-			
+
 			<app-toggle-section [title]="'Non-recommended'">
         <app-private-key-form (privateKey)="privateKeyAuthState($event)"></app-private-key-form>
 				<button class="button"
@@ -117,7 +117,7 @@
 			</section>
 		</div>
 		<div class="grid-cell">
-      <app-send-form [theme]="theme"></app-send-form>
+      <app-send-form [theme]="theme" (ethereumTransaction)="onTransactionGenerated($event)"></app-send-form>
 		</div>
 		<div class="grid-cell">
 			<h2 class="top-border head2 type2">History</h2>

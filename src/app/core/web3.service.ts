@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
 import Web3 from "web3";
 import {Observable} from 'rxjs/Observable';
+import { fromPromise } from 'rxjs/observable/fromPromise';
 import {KeyManagerService} from './key-manager-services/key.manager.interface';
 import {EthereumTransaction} from '../shared/model/ethereum-transaction';
 import {isArray, isNullOrUndefined} from "util";
+import * as ethutils from 'ethereumjs-util';
 
 declare var web3;
 declare const keythereum;
@@ -23,10 +25,11 @@ export class Web3Service implements KeyManagerService {
       console.log("Using metamask/mist provider");
     } else {
       // Not using metamask
-      this.web3js = new Web3(new Web3.providers.HttpProvider(this.infuraLocation));
+
       this.providerDetected = false;
       console.log("Using infura provider");
     }
+    this.web3js = new Web3(new Web3.providers.HttpProvider(this.infuraLocation));
   }
 
   public getWebInstance(): any {
@@ -42,13 +45,16 @@ export class Web3Service implements KeyManagerService {
     });
   }
 
-  public getTransactionCount(account: string): Observable<number> {
-    return this.web3js.eth.getTransactionCount(account);
+  public getTransactionCount(account: string): Observable<any> {
+    const a = ethutils.addHexPrefix(account);
+    return fromPromise(this.web3js.eth.getTransactionCount(a, 'latest'));
   }
 
   public sendRawTransaction(transaction: EthereumTransaction): Observable<any> {
+    if (isNullOrUndefined(transaction.signature)) {
+      throw new Error('Transaction signature was missing from transaction');
+    }
     return Observable.create((observer) => {
-
       observer.next();
       observer.complete();
     });

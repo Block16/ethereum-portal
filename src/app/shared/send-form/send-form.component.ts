@@ -1,4 +1,4 @@
-import {Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Web3Service} from "../../core/web3.service";
 import {EthereumAsset} from "../model/ethereum-asset";
@@ -9,7 +9,7 @@ import {UserPreferencesService} from "../../core/user-preferences.service";
 import {CoreKeyManagerService} from "../../core/key-manager-services/core-key-manager.service";
 import {EthereumTransaction} from "../model/ethereum-transaction";
 import {isNullOrUndefined} from "util";
-import * as Web3 from "web3";
+import * as ethutils from 'ethereumjs-util';
 
 @Component({
   selector: 'app-send-form',
@@ -18,6 +18,7 @@ import * as Web3 from "web3";
 })
 export class SendFormComponent implements OnInit, OnDestroy {
   @Input() theme;
+  @Output() ethereumTransaction: EventEmitter<EthereumTransaction> = new EventEmitter<EthereumTransaction>();
 
   private userPrefSub: Subscription;
   public userPreferences: UserPreferences;
@@ -88,28 +89,41 @@ export class SendFormComponent implements OnInit, OnDestroy {
     return this.web3Service.getWebInstance().utils.keccak256(preKeccak);
   }
 
-  erc20Transfer(fromAddress: string, toAddress: string, value: number|string): string {
-    return this.keccak('Transfer(' + fromAddress + ',' + toAddress + ',' + value.toString() + ')');
+  erc20Transfer(toAddress: string, value: string): string {
+    return this.web3Service.getWebInstance().eth.abi.encodeFunctionCall({
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_to",
+          "type": "address"
+        },
+        {
+          "name": "_value",
+          "type": "uint256"
+        }
+      ],
+      "name": "transfer",
+      "outputs": [
+        {
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }, [toAddress, value]);
   }
 
-  sendTransaction() {
-    const fromAddress = '0x' + this.coreKeyManagerService.currentAddress.value;
+  generateTransaction() {
     const sendAsset = <EthereumAsset>this.sendForm.controls['sendAsset'].value;
     let rawAmount = this.toHex(sendAsset.amountToRaw(this.sendForm.controls['sendAmount'].value)); // parameter or hex
-    let data = ''; // hex prefix if actual data
-    let toAddress = this.sendForm.controls['sendAddress'].value;
-
-    // has to have hex prefix to be used with web3
-    if (!toAddress.startsWith('0x')) {
-      toAddress = '0x' + toAddress;
-    }
+    let data = '0x'; // hex prefix if actual data
+    let toAddress = ethutils.addHexPrefix(this.sendForm.controls['sendAddress'].value);
 
     // TODO: Manual gas
     const gasPrice = this.toHex(8);
     const gasLimit = this.toHex(sendAsset.gasLimit);
-
-    // TODO: Get nonce for transaction
-    const nonce = this.toHex(0); // hex
 
     // If we are not sending eth, we need to use the contract's address
     if (sendAsset.symbol !== 'ETH') {
@@ -118,22 +132,15 @@ export class SendFormComponent implements OnInit, OnDestroy {
       }
       // TODO: Assumption you have to send 0 value to transfer erc20 tokens always
       rawAmount = this.toHex(0);
-      data = this.erc20Transfer(fromAddress, toAddress, sendAsset.amountToRaw(this.sendForm.controls['sendAmount'].value).toString());
+      data = this.erc20Transfer(toAddress, sendAsset.amountToRaw(this.sendForm.controls['sendAmount'].value).toString());
       toAddress = sendAsset.contractAddress;
     }
 
-    const transaction = new EthereumTransaction(gasLimit, gasPrice, toAddress, rawAmount, nonce, data);
-
-    console.log(transaction);
-
-    this.coreKeyManagerService.signTransaction(transaction).subscribe((t: EthereumTransaction) => {
-      console.log(t);
-      // TODO: Build transaction, use core key manager, make sure the provider is correct here - might need another
-      // web3 instance
-      this.web3Service.sendRawTransaction(t).subscribe((result: string) => {
-        console.log('ok');
-      });
+    this.web3Service.getTransactionCount(this.coreKeyManagerService.currentAddress.value).subscribe((count: number) => {
+      debugger;
+      const nonce = this.toHex(count);
+      const transaction = new EthereumTransaction(gasLimit, gasPrice, toAddress, rawAmount, nonce, data);
+      this.ethereumTransaction.emit(transaction);
     });
   }
-
 }

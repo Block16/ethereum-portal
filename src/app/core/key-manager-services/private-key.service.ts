@@ -5,6 +5,7 @@ import {isNullOrUndefined} from 'util';
 import {EthereumTransaction} from '../../shared/model/ethereum-transaction';
 import * as buffer from 'buffer';
 import {privateKeyToAddress} from "../../shared/utils";
+import * as ethutils from 'ethereumjs-util';
 
 @Injectable()
 export class PrivateKeyService implements KeyManagerService {
@@ -47,7 +48,7 @@ export class PrivateKeyService implements KeyManagerService {
     return Observable.create(observer => {
       const tx = transaction.getUnsignedTx();
       tx.sign(new buffer.Buffer(this.privateKey, 'hex'));
-      const signature = '0x' + tx.serialize().toString('hex');
+      const signature = ethutils.addHexPrefix(tx.serialize().toString('hex'));
       const signedTransaction = Object.assign({}, transaction);
       signedTransaction.signature = signature;
       observer.next(signedTransaction);

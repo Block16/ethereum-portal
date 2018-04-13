@@ -15,6 +15,7 @@ import {UserPreferencesService} from "../../core/user-preferences.service";
 import {UserPreferences} from "../../shared/model/user-preferences";
 import {AuthState} from '../../shared/model/auth-state';
 import {CoreKeyManagerService} from "../../core/key-manager-services/core-key-manager.service";
+import {EthereumTransaction} from "../../shared/model/ethereum-transaction";
 
 @Component({
   selector: 'app-index',
@@ -139,6 +140,11 @@ export class IndexComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.themeSubscription.unsubscribe();
+  }
+
+  onTransactionGenerated(transaction: EthereumTransaction) {
+    console.log(transaction);
+    debugger;
   }
 
   setShowSidebar(bool) {
