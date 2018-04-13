@@ -135,22 +135,20 @@
 		 <div class="circle-fill"
 				  [ngStyle]="theme.processingBackgroundStyle"></div>
 </div>
-<div class="new-transaction"
-		 [ngStyle]="newTransactionStyle">
+<div class="new-transaction" [ngStyle]="newTransactionStyle" *ngIf="showApproveTransaction">
 	<div class="content">
-		<h1 class="top-border"
-				[ngStyle]="theme.newTransactionTextStyle">Approve transaction</h1>
+		<h1 class="top-border" [ngStyle]="theme.newTransactionTextStyle">Approve transaction</h1>
 		<section class="section-content"
 						 [ngStyle]="theme.newTransactionTextStyle">
-			<h3 class="type2">Transaction will send immediately after approval on your [auth method]</h3>
+			<h3 class="type2">Transaction will send immediately after approval on your {{ currentAuth }}</h3>
 			<span class="caption">To</span><br>
-			<p class="lining-proportional">{{newTransaction.toAddress}}</p>
+			<p class="lining-proportional">{{ newTransaction.toAddress }}</p>
 			<span class="caption">From</span><br>
-			<p class="lining-proportional">{{newTransaction.fromAddress}}</p>
+			<p class="lining-proportional">0x{{ ethereumAddress }}</p>
 			<span class="caption">Amount</span><br>
-			<p class="lining-proportional">{{newTransaction.amount}} {{newTransaction.token}}</p>
+			<p class="lining-proportional">{{ newTransaction.value }} {{ newTransaction.asset.symbol }}</p>
 			<span class="caption">Estimated transaction fees</span><br>
-			<p class="lining-proportional">.0008 ETH</p>
+			<p class="lining-proportional">.008 ETH</p>
 		</section>
 	</div>
 </div>

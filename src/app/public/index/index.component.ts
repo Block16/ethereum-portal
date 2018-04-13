@@ -38,6 +38,7 @@ export class IndexComponent implements OnInit, OnDestroy {
   public showNonRecommended = false;
   public showSidebar: boolean;
   public detectedInjectedProvider: boolean;
+  public showApproveTransaction = false;
 
   // User preferences
   private userPreferencesSubscription: Subscription;
@@ -59,7 +60,7 @@ export class IndexComponent implements OnInit, OnDestroy {
   private assetSubscription: Subscription;
   public assets: EthereumAsset[];
   public recentTransactions = [];
-  public newTransaction = {};
+  public newTransaction: EthereumTransaction;
 
   // Styles
   public newTransactionStyle = {};
@@ -143,8 +144,9 @@ export class IndexComponent implements OnInit, OnDestroy {
   }
 
   onTransactionGenerated(transaction: EthereumTransaction) {
-    console.log(transaction);
-    debugger;
+    this.newTransaction = transaction;
+    this.showApproveTransaction = true;
+    this.setNewTransactionViewFullscreen();
   }
 
   setShowSidebar(bool) {
@@ -195,7 +197,7 @@ export class IndexComponent implements OnInit, OnDestroy {
   }
 
   generateTransaction() {
-    this.newTransaction = this.randomTransaction();
+    // this.newTransaction = this.randomTransaction();
   }
 
   randomTransaction() {
@@ -213,7 +215,7 @@ export class IndexComponent implements OnInit, OnDestroy {
     const statuses = ['processing', 'confirmed', 'failed'];
     const status = statuses[Math.floor(Math.random() * statuses.length)];
     let confirmations = 0;
-    if (status == 'confirmed') {
+    if (status === 'confirmed') {
       confirmations = Math.floor(Math.random() * 20);
     }
     const tokens = ['ETH', 'SPHTX', 'WETH', 'UKG', 'THETA', 'ZRX', 'CS', 'MAN', 'REM'];
@@ -231,7 +233,7 @@ export class IndexComponent implements OnInit, OnDestroy {
   }
 
   showApproveNewTransaction() {
-    this.newTransaction = this.randomTransaction();
+    // this.newTransaction = this.randomTransaction();
     // size and positionnew transaction element
     this.setNewTransactionViewFullscreen();
     // this.setNewTransactionStyle();

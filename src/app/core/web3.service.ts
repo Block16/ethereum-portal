@@ -46,8 +46,7 @@ export class Web3Service implements KeyManagerService {
   }
 
   public getTransactionCount(account: string): Observable<any> {
-    const a = ethutils.addHexPrefix(account);
-    return fromPromise(this.web3js.eth.getTransactionCount(a, 'latest'));
+    return fromPromise(this.web3js.eth.getTransactionCount(ethutils.addHexPrefix(account), 'latest'));
   }
 
   public sendRawTransaction(transaction: EthereumTransaction): Observable<any> {

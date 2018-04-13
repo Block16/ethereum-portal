@@ -85,10 +85,6 @@ export class SendFormComponent implements OnInit, OnDestroy {
     return this.web3Service.getWebInstance().utils.toHex(n);
   }
 
-  keccak(preKeccak: string): string {
-    return this.web3Service.getWebInstance().utils.keccak256(preKeccak);
-  }
-
   erc20Transfer(toAddress: string, value: string): string {
     return this.web3Service.getWebInstance().eth.abi.encodeFunctionCall({
       "constant": false,
@@ -120,6 +116,7 @@ export class SendFormComponent implements OnInit, OnDestroy {
     let rawAmount = this.toHex(sendAsset.amountToRaw(this.sendForm.controls['sendAmount'].value)); // parameter or hex
     let data = '0x'; // hex prefix if actual data
     let toAddress = ethutils.addHexPrefix(this.sendForm.controls['sendAddress'].value);
+    let tokenToAddress = ''; // only if we are doing a token TX
 
     // TODO: Manual gas
     const gasPrice = this.toHex(8);
@@ -132,14 +129,17 @@ export class SendFormComponent implements OnInit, OnDestroy {
       }
       // TODO: Assumption you have to send 0 value to transfer erc20 tokens always
       rawAmount = this.toHex(0);
+      tokenToAddress = toAddress;
       data = this.erc20Transfer(toAddress, sendAsset.amountToRaw(this.sendForm.controls['sendAmount'].value).toString());
       toAddress = sendAsset.contractAddress;
     }
 
     this.web3Service.getTransactionCount(this.coreKeyManagerService.currentAddress.value).subscribe((count: number) => {
-      debugger;
       const nonce = this.toHex(count);
       const transaction = new EthereumTransaction(gasLimit, gasPrice, toAddress, rawAmount, nonce, data);
+      transaction.tokenToAddress = tokenToAddress;
+      transaction.asset = sendAsset;
+
       this.ethereumTransaction.emit(transaction);
     });
   }

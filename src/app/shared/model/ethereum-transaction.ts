@@ -1,9 +1,13 @@
 import {isNullOrUndefined} from 'util';
 import * as EthTx from 'ethereumjs-tx';
+import * as ethutils from 'ethereumjs-util';
+import {EthereumAsset} from "./ethereum-asset";
 
 export class EthereumTransaction {
 
   public signature: string;
+  public tokenToAddress;    // Used when we want to store the toAddress in a token TX
+  public asset: EthereumAsset;
 
   constructor(
     readonly gasLimit: string,
@@ -13,11 +17,7 @@ export class EthereumTransaction {
     readonly nonce: string,
     readonly data?: string
   ) {
-    if (!toAddress.startsWith('0x')) {
-      this.toAddress = '0x' + toAddress;
-    } else {
-      this.toAddress = toAddress;
-    }
+    this.toAddress = ethutils.addHexPrefix(toAddress);
   }
 
   public getUnsignedTx() {
