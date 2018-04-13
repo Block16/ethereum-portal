@@ -19,7 +19,7 @@ export class EthereumAsset {
    * Helper function to get the calculated number of decimal places
    * @returns {BigNumber}
    */
-  private places(): BigNumber {
+  public places(): BigNumber {
     return new BigNumber(10).pow(this.decimalPlaces);
   }
 

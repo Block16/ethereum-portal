@@ -9,6 +9,7 @@ import {UserPreferencesService} from "../../core/user-preferences.service";
 import {CoreKeyManagerService} from "../../core/key-manager-services/core-key-manager.service";
 import {EthereumTransaction} from "../model/ethereum-transaction";
 import {isNullOrUndefined} from "util";
+import {BigNumber} from 'bignumber.js';
 import * as ethutils from 'ethereumjs-util';
 
 @Component({
@@ -85,6 +86,10 @@ export class SendFormComponent implements OnInit, OnDestroy {
     return this.web3Service.getWebInstance().utils.toHex(n);
   }
 
+  toGwei(n: string): string {
+    return this.toHex(this.web3Service.getWebInstance().utils.toWei(n, 'gwei'));
+  }
+
   erc20Transfer(toAddress: string, value: string): string {
     return this.web3Service.getWebInstance().eth.abi.encodeFunctionCall({
       "constant": false,
@@ -119,7 +124,7 @@ export class SendFormComponent implements OnInit, OnDestroy {
     let tokenToAddress = ''; // only if we are doing a token TX
 
     // TODO: Manual gas
-    const gasPrice = this.toHex(8);
+    const gasPrice = this.toGwei('8');
     const gasLimit = this.toHex(sendAsset.gasLimit);
 
     // If we are not sending eth, we need to use the contract's address

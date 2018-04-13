@@ -146,9 +146,9 @@
 			<span class="caption">From</span><br>
 			<p class="lining-proportional">0x{{ ethereumAddress }}</p>
 			<span class="caption">Amount</span><br>
-			<p class="lining-proportional">{{ newTransaction.value }} {{ newTransaction.asset.symbol }}</p>
+			<p class="lining-proportional">{{ newTransaction.valueToBN().toString(10) }} {{ newTransaction.asset.symbol }}</p>
 			<span class="caption">Estimated transaction fees</span><br>
-			<p class="lining-proportional">.008 ETH</p>
+			<p class="lining-proportional">{{ newTransaction.transactionFeesGwei().toString(10) }} Gwei, ({{ newTransaction.transactionFees().toString(10) }} ETH)</p>
 		</section>
 	</div>
 </div>
