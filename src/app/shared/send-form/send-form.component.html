@@ -1,6 +1,6 @@
 <h2 class="top-border head2 type2">Send</h2>
 <section class="section-content">
-  <form [formGroup]="sendForm" (submit)="sendTransaction()">
+  <form [formGroup]="sendForm" (submit)="generateTransaction()">
 <!--     <label for="text-to-address" class="caption form-label">To <span class="fade">Ethereum address</span></label> -->
 <!--     <input type="text"
            id="text-to-address"
@@ -8,8 +8,8 @@
            [formControl]="sendForm.controls['sendAddress']"
            class="wide"
            (blur)="sendAddressFocus = false" (focus)="sendAddressFocus = true"
-           [ngStyle]="sendAddressFocus ? 
-                      theme.textInputFocusStyle : 
+           [ngStyle]="sendAddressFocus ?
+                      theme.textInputFocusStyle :
                       theme.textInputBlurStyle"> -->
     <app-input [control]="sendForm.controls['sendAddress']"
                [inputID]="'text-to-address'"
@@ -17,11 +17,11 @@
                [inputPlaceholder]="'0x…'"
                [type]="'text'">To <span class="fade">Ethereum address</span></app-input>
     <br><br>
-    
+
     <div class="text-input-plus">
 
       <div class="input-and-max">
-        
+
         <app-input [control]="sendForm.controls['sendAmount']"
                    [inputID]="'text-amount'"
                    [inputName]="'text-amount'"
@@ -40,7 +40,7 @@
           <option *ngFor="let token of assets; let i = index" value="{{ token.name }}">{{ token.name }}</option>
         </select>
       </div> -->
-      
+
       <app-select [control]="sendForm.controls['sendAsset']"
                   [options]="assets"
                   [initialValue]="currentAsset"
@@ -60,9 +60,7 @@
       <label for="gas-limit" class="caption form-label">Gas limit</label>
       <input id="gas-limit" type="number" class="no-arrow-buttons">
     </div>
-    <app-button [disabled]="!sendForm.valid"
-                submit>Generate transaction</app-button>
-    <!-- <button class="button" type="submit" [ngClass]="{ 'disabled': !sendForm.valid }">Generate transaction</button> -->
+    <app-button [disabled]="!sendForm.valid" submit>Generate transaction</app-button>
     <br>
   </form>
 </section>

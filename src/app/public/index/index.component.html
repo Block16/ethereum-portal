@@ -13,7 +13,7 @@
 											  (click)="metaMaskAuthState()"
 											  accent>
 							<!-- <img src="/assets/img/icons/metamask icon light.svg" alt=""> -->
-							
+
 							<div [hidden]="theme.isDark">
 								<div class="svg-wrapper secondary-svg"
 										 [inlineSVG]="'/assets/img/icons/inline-svg/metamask icon light.svg'"></div>
@@ -70,7 +70,7 @@
 				</div>
 				<br>
 			</section>
-			
+
 			<app-toggle-section [title]="'Non-recommended'">
         <app-private-key-form (privateKey)="privateKeyAuthState($event)"></app-private-key-form>
 				<button class="button"
@@ -117,7 +117,7 @@
 			</section>
 		</div>
 		<div class="grid-cell">
-      <app-send-form [theme]="theme"></app-send-form>
+      <app-send-form [theme]="theme" (ethereumTransaction)="onTransactionGenerated($event)"></app-send-form>
 		</div>
 		<div class="grid-cell">
 			<h2 class="top-border head2 type2">History</h2>
@@ -135,22 +135,20 @@
 		 <div class="circle-fill"
 				  [ngStyle]="theme.processingBackgroundStyle"></div>
 </div>
-<div class="new-transaction"
-		 [ngStyle]="newTransactionStyle">
+<div class="new-transaction" [ngStyle]="newTransactionStyle" *ngIf="showApproveTransaction">
 	<div class="content">
-		<h1 class="top-border"
-				[ngStyle]="theme.newTransactionTextStyle">Approve transaction</h1>
+		<h1 class="top-border" [ngStyle]="theme.newTransactionTextStyle">Approve transaction</h1>
 		<section class="section-content"
 						 [ngStyle]="theme.newTransactionTextStyle">
-			<h3 class="type2">Transaction will send immediately after approval on your [auth method]</h3>
+			<h3 class="type2">Transaction will send immediately after approval on your {{ currentAuth }}</h3>
 			<span class="caption">To</span><br>
-			<p class="lining-proportional">{{newTransaction.toAddress}}</p>
+			<p class="lining-proportional">{{ newTransaction.toAddress }}</p>
 			<span class="caption">From</span><br>
-			<p class="lining-proportional">{{newTransaction.fromAddress}}</p>
+			<p class="lining-proportional">0x{{ ethereumAddress }}</p>
 			<span class="caption">Amount</span><br>
-			<p class="lining-proportional">{{newTransaction.amount}} {{newTransaction.token}}</p>
+			<p class="lining-proportional">{{ newTransaction.valueToBN().toString(10) }} {{ newTransaction.asset.symbol }}</p>
 			<span class="caption">Estimated transaction fees</span><br>
-			<p class="lining-proportional">.0008 ETH</p>
+			<p class="lining-proportional">{{ newTransaction.transactionFeesGwei().toString(10) }} Gwei, ({{ newTransaction.transactionFees().toString(10) }} ETH)</p>
 		</section>
 	</div>
 </div>
