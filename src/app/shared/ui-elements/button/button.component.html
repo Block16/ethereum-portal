@@ -1,8 +1,9 @@
-<div class="outline"
+<div class="ui-outline"
 		 [ngStyle]="theme.accentBorderStyle"></div>
 <ng-content></ng-content>
 <button *ngIf="submit"
 				type="submit"
 				class="submit-button"
 				(blur)="onBlur()"
-				(focus)="onFocus()"></button>
+				(focus)="onFocus()"
+				[disabled]="disabled"></button>

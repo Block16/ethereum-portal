@@ -8,9 +8,13 @@ import {PrivateKeyService} from "./private-key.service";
 import {TrezorConnectService} from "./trezor-connect.service";
 import {AuthState} from "../../shared/model/auth-state";
 import {isNullOrUndefined} from "util";
+import {BehaviorSubject} from "rxjs/BehaviorSubject";
 
 @Injectable()
 export class CoreKeyManagerService implements KeyManagerService {
+  public currentAddress: BehaviorSubject<string>;
+  // TODO: Should we keep the list of addresses here?
+  private addresses: string[];
 
   private currentKeyManager: KeyManagerService;
   private currentAuth: AuthState;
@@ -22,10 +26,14 @@ export class CoreKeyManagerService implements KeyManagerService {
     private trezorConnectService: TrezorConnectService
   ) {
     this.currentAuth = AuthState.none;
+    this.currentAddress = new BehaviorSubject<string>('');
   }
 
-  setCurrentAuth(currentAuth: AuthState, privateKey?: string) {
+  setCurrentAuth(currentAuth: AuthState, address: string, privateKey?: string) {
     this.currentAuth = currentAuth;
+    // set the current address
+    this.currentAddress.next(address);
+
     switch (this.currentAuth) {
       case AuthState.privateKey: {
         this.currentKeyManager = this.privateKeyService;
@@ -73,7 +81,7 @@ export class CoreKeyManagerService implements KeyManagerService {
   }
 
   resetState() {
-    this.setCurrentAuth(AuthState.none);
+    this.setCurrentAuth(AuthState.none, '');
     this.privateKeyService.resetState();
   }
 }

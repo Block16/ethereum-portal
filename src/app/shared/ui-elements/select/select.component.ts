@@ -9,18 +9,16 @@ import {isNullOrUndefined} from "util";
   selector: 'app-select',
   templateUrl: './select.component.html',
   styleUrls: ['./select.component.scss'],
-  host: {'[class.small]': "this.small", 
-				 '[class.hover]': "this.hover",
-         '[style.background]': `this.hover ? 'rgba('+
-                this.theme.primaryColorRgb.r+','+
-                this.theme.primaryColorRgb.g+','+
-                this.theme.primaryColorRgb.b+','+
-                this.theme.op3+')' :
-                'rgba('+
-                this.theme.primaryColorRgb.r+','+
-                this.theme.primaryColorRgb.g+','+
-                this.theme.primaryColorRgb.b+','+
-                this.theme.op2+')'`}
+  host: {
+    '[class.small]': "this.small", 
+		'[class.hover]': "this.hover",
+    '[class.focus]': "this.focus",
+    '[style.background]': `'rgba('+
+           this.theme.primaryColorRgb.r+','+
+           this.theme.primaryColorRgb.g+','+
+           this.theme.primaryColorRgb.b+','+
+           this.theme.op2+')'`
+  }
 })
 export class SelectComponent implements OnInit  {
   @Input() control: FormControl;
@@ -36,9 +34,9 @@ export class SelectComponent implements OnInit  {
   }
 
   private hover: boolean = false;
+  private focus: boolean = false;
 	public theme: Theme;
 	private themeSubscription: Subscription;
-	private focus: boolean = false;
 
 
 	constructor(@Attribute('small') private small: boolean|null,

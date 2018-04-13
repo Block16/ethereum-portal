@@ -61,20 +61,6 @@ export class ThemeService {
     'op5': this.op5
   },
   {
-    'name': 'Leet',
-    'primaryColor': '#F5007E',
-    'secondaryColor': '#FFFFFF',
-    'accentColor': '#F5007E',
-    'processingColor': '#FFDD18',
-    'failedBackground': '#F5007E',
-    'confirmedBackground': '#12FF8B', 
-    'op1': this.op1,
-    'op2': this.op2,
-    'op3': this.op3,
-    'op4': this.op4 * 2,
-    'op5': this.op5 * 1.3
-  },
-  {
     'name': 'Brown',
     'primaryColor': '#6E2C00',
     'secondaryColor': '#DBC39C',
@@ -96,6 +82,20 @@ export class ThemeService {
     'processingColor': '#FFED82',
     'failedBackground': '#F77562',
     'confirmedBackground': '#38F5A7', 
+    'op1': this.op1,
+    'op2': this.op2,
+    'op3': this.op3,
+    'op4': this.op4,
+    'op5': this.op5
+  },
+  {
+    'name': 'Clay',
+    'primaryColor': '#47463E',
+    'secondaryColor': '#F2F1EF',
+    'accentColor': '#BA350B',
+    'processingColor': '#E8D47B',
+    'failedBackground': 'icon',
+    'confirmedBackground': 'icon',
     'op1': this.op1,
     'op2': this.op2,
     'op3': this.op3,
@@ -129,6 +129,20 @@ export class ThemeService {
     'op3': this.op3,
     'op4': this.op4,
     'op5': this.op5
+  },
+  {
+    'name': 'Leet',
+    'primaryColor': '#F5007E',
+    'secondaryColor': '#FFFFFF',
+    'accentColor': '#F5007E',
+    'processingColor': '#FFDD18',
+    'failedBackground': '#F5007E',
+    'confirmedBackground': '#12FF8B', 
+    'op1': this.op1,
+    'op2': this.op2,
+    'op3': this.op3,
+    'op4': this.op4 * 2,
+    'op5': this.op5 * 1.3
   },
   {
     'name': 'Neon',
@@ -185,7 +199,7 @@ export class ThemeService {
     'op3': this.op3,
     'op4': this.op4,
     'op5': this.op5
-  }
+  }  
   ];
 
   public themes: Theme[];
@@ -382,7 +396,8 @@ export class ThemeService {
       theme.primaryColorRgb.g + ',' +
       theme.primaryColorRgb.b + ',' +
       theme.op1 + ')',
-      'border-left': '4px solid ' + themeSource.accentColor
+      'border-left': '4px solid ' + themeSource.accentColor,
+      'color': theme.primaryColor
     };
 
     theme.textInputBlurStyle = {
@@ -395,7 +410,8 @@ export class ThemeService {
       theme.accentColorRgb.r + ',' +
       theme.accentColorRgb.g + ',' +
       theme.accentColorRgb.b + ',' +
-      theme.op4 + ')'
+      theme.op4 + ')',
+      'color': theme.primaryColor
     };
 
     theme.selectOverlayStyle = {

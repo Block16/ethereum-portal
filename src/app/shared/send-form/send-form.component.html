@@ -1,23 +1,31 @@
 <h2 class="top-border head2 type2">Send</h2>
 <section class="section-content">
   <form [formGroup]="sendForm" (submit)="sendTransaction()">
-    <label class="caption form-label">To <span class="fade">Ethereum address</span></label>
-    <app-input [control]="sendForm.controls['sendAddress']" [type]="'text'"></app-input>
+<!--     <label for="text-to-address" class="caption form-label">To <span class="fade">Ethereum address</span></label> -->
+<!--     <input type="text"
+           id="text-to-address"
+           placeholder="0xAfDB9..."
+           [formControl]="sendForm.controls['sendAddress']"
+           class="wide"
+           (blur)="sendAddressFocus = false" (focus)="sendAddressFocus = true"
+           [ngStyle]="sendAddressFocus ?
+                      theme.textInputFocusStyle :
+                      theme.textInputBlurStyle"> -->
+    <app-input [control]="sendForm.controls['sendAddress']"
+               [inputID]="'text-to-address'"
+               [inputName]="'text-to-address'"
+               [inputPlaceholder]="'0x…'"
+               [type]="'text'">To <span class="fade">Ethereum address</span></app-input>
     <br><br>
 
-    <label for="text-amount" class="caption form-label">Amount</label>
     <div class="text-input-plus">
 
       <div class="input-and-max">
-        <input type="number"
-               id="text-amount"
-               placeholder="0"
-               [formControl]="sendForm.controls['sendAmount']"
-               class="wide no-arrow-buttons"
-               (blur)="sendAmountFocus = false"
-               (focus)="sendAmountFocus =  true"
-               [ngStyle]="sendAmountFocus ? theme.textInputFocusStyle : theme.textInputBlurStyle">
 
+        <app-input [control]="sendForm.controls['sendAmount']"
+                   [inputID]="'text-amount'"
+                   [inputName]="'text-amount'"
+                   [type]="'text'">Amount</app-input>
         <div class="max-button"
              [ngClass]="{ 'on': sendMax }"
              [ngStyle]="sendMax ? theme.maxButtonOnStyle : theme.maxButtonOffStyle"

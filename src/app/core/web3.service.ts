@@ -29,6 +29,10 @@ export class Web3Service implements KeyManagerService {
     }
   }
 
+  public getWebInstance(): any {
+    return this.web3js;
+  }
+
   public getBalance(address: string): Observable<number> {
     return Observable.create((observer) => {
       this.web3js.eth.getBalance(address).then((balance) => {
@@ -38,8 +42,8 @@ export class Web3Service implements KeyManagerService {
     });
   }
 
-  public getTransactions(address: string) {
-
+  public getTransactionCount(account: string): Observable<number> {
+    return this.web3js.eth.getTransactionCount(account);
   }
 
   public sendRawTransaction(transaction: EthereumTransaction): Observable<any> {

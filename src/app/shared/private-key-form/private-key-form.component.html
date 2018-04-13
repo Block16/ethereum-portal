@@ -1,12 +1,14 @@
 <form [formGroup]="privateKeyForm" (submit)="onSubmit()">
-  <label for="private-key" class="caption form-label">Raw private key</label>
+<!--   <label for="private-key" class="caption form-label">Raw private key</label> -->
   <div class="text-input-plus">
-    <input type="text"
-           id="private-key"
-           name="private-key"
-           [formControl]="privateKeyForm.controls['privateKey']">
-    <button type="submit" class="button" [ngClass]="{ 'disabled': !privateKeyForm.valid }">
+    <app-input [control]="privateKeyForm.controls['privateKey']"
+               [inputPlaceholder]="'0x…'"
+               [inputID]="'private-key'"
+               [inputName]="'private-key'"
+               [type]="'text'">Raw private key</app-input>
+    <app-button [disabled]="!privateKeyForm.valid"
+                submit>
       Submit
-    </button>
+    </app-button>
   </div>
 </form>

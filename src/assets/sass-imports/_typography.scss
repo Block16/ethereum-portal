@@ -1,5 +1,7 @@
 // basic styles
 
+$h1PaddingTop: 4px;
+$h2PaddingTop: 3px;
 
 h1, h2, h3, h4, h5 {
 	border-color: inherit;
@@ -12,14 +14,19 @@ h1, h2, h3, h4, h5 {
 h1, .head1 {
 	font: normal 48px $FEB;
 	&.top-border {
+		padding-top: $h1PaddingTop;
 		border-top: $h1BarThickness solid black;
 		border-color: inherit;
+	}
+	&.main-head {
+		margin-bottom: 14px;
 	}
 }
 
 h2, .head2 {
 	font: normal 26px $FEB;
 	&.top-border {
+		padding-top: $h2PaddingTop;
 		border-top: $h2BarThickness solid black;
 		border-color: inherit;
 	}
@@ -94,7 +101,7 @@ p, .paragraph-text {
 .menu-title {
 	display: flex;
 	justify-content: space-between;
-	// padding-top: .15em;
+	padding-top: $h2PaddingTop;
 	font-family: $S;
 	font-weight: bold;
 	h2 {
@@ -105,44 +112,6 @@ p, .paragraph-text {
 		opacity: .4;
 		font-family: "Scala";
 		font-style: italic;
-	}
-}
-
-.section-toggle {
-	// $color: hsla(0,0,0,.25);
-	$lineWidth: 2px;
-	$lineLength: $lineWidth * 8;
-	$lineSideGap: 4px;
-	position: relative;
-	opacity: .25;
-	// color: $color;
-	// border-top: $lineWidth solid $color;
-	@include no-select-pointer;
-	&:hover {
-		// $color: hsla(0,0,0,.4);
-		// color: $color;
-		// border-color: $color;
-	}
-	&::before, &::after {
-		content: '';
-		position: absolute;
-		left: -$lineLength - $lineSideGap; 
-		top: -$lineWidth;
-		height: $lineWidth;
-		width: $lineLength;
-		background: black;
-	}
-	&::after {
-		transform: rotate(90deg);
-	}
-	&.open {
-		opacity: 1;
-		// $color: hsla(0,0,0,1);
-		// color: $color;
-		// border-color: $color;
-		&::after {
-			transform: rotate(0deg);
-		}
 	}
 }
 

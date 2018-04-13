@@ -1,17 +1,17 @@
-<!-- <div class="toggle-switch"
-		 (click)="click()"
-		 [ngClass]="{'on': value }"
-		 [ngStyle]="value ? theme.toggleSwitchOnStyle : theme.toggleSwitchOffStyle">
-		 <div class="knob"
-		 			[ngStyle]="theme.primaryBackgroundStyle"></div>
-</div> -->
+<div class="ui-outline"
+		 [ngStyle]="theme.accentBorderStyle"></div>
+		 
 <input type="checkbox"
 			 id="{{ name }}"
-			 [checked]="value">
+			 [checked]="value"
+			 (blur)="focus = false"
+			 (focus)="focus = true">
 <label for="{{ name }}"
 			 class="toggle-switch"
 			 [ngClass]="{ 'non-clickable': !clickable }"
-			 [ngStyle]="value ? theme.toggleSwitchOnStyle : theme.toggleSwitchOffStyle">
+			 [ngStyle]="value ? theme.toggleSwitchOnStyle : theme.toggleSwitchOffStyle"
+				(blur)="focus = false"
+				(focus)="focus = true">
 			 	<div class="knob"
 			 			 [ngStyle]="theme.primaryBackgroundStyle"></div>
 </label>

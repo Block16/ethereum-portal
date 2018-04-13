@@ -69,16 +69,13 @@ export class IndexComponent implements OnInit, OnDestroy {
   public ethereumBalance: number;
 
   constructor (
-    private formBuilder: FormBuilder,
     private themeService: ThemeService,
     private userPreferencesService: UserPreferencesService,
     private dataShareService: DataShareService,
     private web3Service: Web3Service,
     private ledgerService: LedgerService,
     private trezorService: TrezorConnectService,
-    private privateKeyService: PrivateKeyService,
     private assetService: EthereumAssetService,
-
     private coreKeyManagerService: CoreKeyManagerService
   ) {
     this.currentAuth = AuthState.none;
@@ -115,6 +112,16 @@ export class IndexComponent implements OnInit, OnDestroy {
     this.dataShareService.showSidebar.subscribe((value: any) => {
       this.showSidebar = value;
     });
+
+    this.coreKeyManagerService.currentAddress.subscribe((address: string) => {
+      this.ethereumAddress = address;
+      this.ethereumAddressChange.emit(address);
+      // TODO: Refactor this section
+      // Go fetch the balance of the address immediately, TODO: refactor this into the assets call
+      /*this.web3Service.getBalance(address).subscribe((balance) => {
+        this.ethereumBalance = balance;
+      }); */
+    });
   }
 
   test() {
@@ -140,40 +147,39 @@ export class IndexComponent implements OnInit, OnDestroy {
 
   utcAuthState(event) {
     this.currentAuth = AuthState.utcFile;
-    this.coreKeyManagerService.setCurrentAuth(this.currentAuth, event);
-    this.updatePrivateKey(event);
+    this.coreKeyManagerService.setCurrentAuth(this.currentAuth, privateKeyToAddress(event), event);
   }
 
   privateKeyAuthState(event) {
     this.currentAuth = AuthState.privateKey;
-    this.coreKeyManagerService.setCurrentAuth(this.currentAuth, event.privateKey);
-    this.updatePrivateKey(event.privateKey);
+    this.coreKeyManagerService.setCurrentAuth(this.currentAuth, privateKeyToAddress(event.privateKey), event.privateKey);
   }
 
   metaMaskAuthState() {
     this.web3Service.getEthereumAddresses().subscribe((addresses: string[]) => {
       this.currentAuth = AuthState.metamask;
-      this.coreKeyManagerService.setCurrentAuth(this.currentAuth);
-      this.updateAddress(addresses[0]);
+      this.coreKeyManagerService.setCurrentAuth(this.currentAuth, addresses[0]);
+
     });
   }
 
   trezorAuthState() {
     this.trezorService.getEthereumAddresses().subscribe((addresses: string[]) => {
       this.currentAuth = AuthState.trezor;
-      this.coreKeyManagerService.setCurrentAuth(this.currentAuth);
-      this.updateAddress(addresses[0]);
+      this.coreKeyManagerService.setCurrentAuth(this.currentAuth, addresses[0]);
     });
   }
 
   ledgerAuthState() {
-    this.currentAuth = AuthState.ledger;
-    this.coreKeyManagerService.setCurrentAuth(this.currentAuth);
+
 
     this.ledgerService.displayOnLedger().subscribe((r) => {
       this.ledgerService.getEthereumAddress().subscribe((address: string) => {
+        this.currentAuth = AuthState.ledger;
+        this.coreKeyManagerService.setCurrentAuth(this.currentAuth, address);
+
         this.ethereumAddress = address;
-        this.updateAddress(address);
+        // this.updateAddress(address);
       });
     });
     /* this.ledgerService.getEthereumAddress().subscribe((address: string) => {
@@ -238,23 +244,6 @@ export class IndexComponent implements OnInit, OnDestroy {
 
   toggleAuthState(authState: AuthState) {
     this.currentAuth = authState;
-  }
-
-  private updatePrivateKey(privateKey: string) {
-    this.updateAddress(privateKeyToAddress(privateKey));
-  }
-
-  private updateAddress(address: string) {
-    this.ethereumAddress = address;
-    this.ethereumAddressChange.emit(address);
-
-    // Go fetch the balance of the address immediately, TODO: refactor this into the assets call
-    this.web3Service.getBalance(address).subscribe((balance) => {
-      this.ethereumBalance = balance;
-    });
-
-    // Go fetch the assets for the new address
-    this.assetService.updateAddress(address);
   }
 
   fullTransactionViewCircleRadius() {

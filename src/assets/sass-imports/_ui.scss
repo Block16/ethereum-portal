@@ -49,39 +49,17 @@
 
 label.form-label {
 	display: block;
-	padding-bottom: .2em;
+	padding-bottom: .4em;
 }
-input[type="text"], input[type="number"], input[type="password"] {
-	height: $inputHeight;
-	font: normal 1em $S;
-	outline: none;
-	border: none;
-	border-left: 4px solid black;
-	border-radius: 0;
-	font-weight: bold;
-	background: hsla(0,0,0,.07);
-	padding: .3em 0 .3em .5em;
-	box-sizing: border-box;
-	font-feature-settings: "lnum", "pnum";
-	-webkit-appearance: none;
-	&.no-arrow-buttons {
-		&::-webkit-outer-spin-button,
-		&::-webkit-inner-spin-button {
-		    -webkit-appearance: none;
-		    margin: 0;
-		}
-	}
-	&.wide {
-		width: 100%;
-	}
-}
+
 
 .text-input-plus {
 	position: relative;
 	display: flex;
 	justify-content: space-between;
+  align-items: flex-end;
 	margin-bottom: $defaultMargin;
-	input[type="text"], input[type="number"], input[type="password"] {
+	input[type="text"], input[type="number"], input[type="password"], app-input {
 		flex: 1;
 	}
 }
@@ -91,9 +69,10 @@ $maxButtonMargin: ($inputHeight - $maxButtonHeight) / 2;
 .max-button {
 	$color: hsla(0,0,0,.3);
 	position: absolute;
+	z-index: 3;
 	opacity: .5;
 	height: $maxButtonHeight;
-	top: $maxButtonMargin;
+	bottom: $maxButtonMargin;
 	right: $maxButtonMargin;
 	border: 1px solid $color;
 	box-sizing: border-box;

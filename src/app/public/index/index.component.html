@@ -1,5 +1,5 @@
 <main>
-	<h1 class="top-border head1 type2"
+	<h1 class="top-border head1 type2 main-head"
 			[ngStyle]="theme.textStyle">Ethereum Portal</h1>
 	<div *ngIf="currentAuth == AuthState.none"
 			 class="grid">
@@ -71,7 +71,7 @@
 				<br>
 			</section>
 			
-			<app-toggle-section [title]="'Non-recommended methods'">
+			<app-toggle-section [title]="'Non-recommended'">
         <app-private-key-form (privateKey)="privateKeyAuthState($event)"></app-private-key-form>
 				<button class="button"
 								(click)="currentAuth = AuthState.metamask">FAKE AUTH</button>
@@ -79,8 +79,8 @@
 				<button class="button"
 								(click)="showTestModal = !showTestModal">show test modal</button>
 			</app-toggle-section>
-			<app-button>button</app-button>
-			<app-button accent small>accent button</app-button>
+			<!-- <app-button>button</app-button>
+			<app-button accent small>accent button</app-button> -->
 		</div>
 		<div class="grid-cell">
 			<h2 class="top-border"

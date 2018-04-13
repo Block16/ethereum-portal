@@ -9,7 +9,7 @@ import {UserPreferencesService} from "../../core/user-preferences.service";
 import {CoreKeyManagerService} from "../../core/key-manager-services/core-key-manager.service";
 import {EthereumTransaction} from "../model/ethereum-transaction";
 import {isNullOrUndefined} from "util";
-import Web3 from "web3";
+import * as Web3 from "web3";
 
 @Component({
   selector: 'app-send-form',
@@ -31,9 +31,6 @@ export class SendFormComponent implements OnInit, OnDestroy {
   public assets: EthereumAsset[];
 
   private previousAmount: any;
-
-  // input states
-  public sendAmountFocus = false;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -75,6 +72,7 @@ export class SendFormComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+
   }
 
 
@@ -82,39 +80,59 @@ export class SendFormComponent implements OnInit, OnDestroy {
     this.userPrefSub.unsubscribe();
   }
 
-  sendTransaction() {
-    const sendAsset = <EthereumAsset>this.sendForm.controls['sendAsset'].value;
-    const premodifiedAmount = this.sendForm.controls['sendAmount'].value;
+  toHex(n: number|string|BigNumber): string {
+    return this.web3Service.getWebInstance().utils.toHex(n);
+  }
 
-    let toAddress = this.sendForm.controls['sendAddress'].value; // has to be hex
-    const rawAmount = Web3.sendAsset.amountToRaw(premodifiedAmount); // parameter or hex
-    const nonce = 0; // hex
-    let data = ''; // hex
+  keccak(preKeccak: string): string {
+    return this.web3Service.getWebInstance().utils.keccak256(preKeccak);
+  }
+
+  erc20Transfer(fromAddress: string, toAddress: string, value: number|string): string {
+    return this.keccak('Transfer(' + fromAddress + ',' + toAddress + ',' + value.toString() + ')');
+  }
+
+  sendTransaction() {
+    const fromAddress = '0x' + this.coreKeyManagerService.currentAddress.value;
+    const sendAsset = <EthereumAsset>this.sendForm.controls['sendAsset'].value;
+    let rawAmount = this.toHex(sendAsset.amountToRaw(this.sendForm.controls['sendAmount'].value)); // parameter or hex
+    let data = ''; // hex prefix if actual data
+    let toAddress = this.sendForm.controls['sendAddress'].value;
+
+    // has to have hex prefix to be used with web3
+    if (!toAddress.startsWith('0x')) {
+      toAddress = '0x' + toAddress;
+    }
 
     // TODO: Manual gas
+    const gasPrice = this.toHex(8);
+    const gasLimit = this.toHex(sendAsset.gasLimit);
+
+    // TODO: Get nonce for transaction
+    const nonce = this.toHex(0); // hex
 
     // If we are not sending eth, we need to use the contract's address
     if (sendAsset.symbol !== 'ETH') {
-      // take the target address and hold
-      const tempAddress = toAddress;
       if (isNullOrUndefined(sendAsset.contractAddress)) {
         throw new Error('Couldn\'t find address for contract, cannot send tokens');
       }
+      // TODO: Assumption you have to send 0 value to transfer erc20 tokens always
+      rawAmount = this.toHex(0);
+      data = this.erc20Transfer(fromAddress, toAddress, sendAsset.amountToRaw(this.sendForm.controls['sendAmount'].value).toString());
       toAddress = sendAsset.contractAddress;
-      // TODO: From address, transfer etc
-      data = tempAddress;
     }
 
-    console.log(sendAsset);
-    console.log(premodifiedAmount);
-    console.log(toAddress);
-    console.log(rawAmount);
+    const transaction = new EthereumTransaction(gasLimit, gasPrice, toAddress, rawAmount, nonce, data);
 
-    debugger;
+    console.log(transaction);
 
-    // TODO: Build transaction, use core key manager
-    this.coreKeyManagerService.signTransaction(<EthereumTransaction>{}).subscribe((transaction: EthereumTransaction) => {
-      this.web3Service.sendRawTransaction(transaction);
+    this.coreKeyManagerService.signTransaction(transaction).subscribe((t: EthereumTransaction) => {
+      console.log(t);
+      // TODO: Build transaction, use core key manager, make sure the provider is correct here - might need another
+      // web3 instance
+      this.web3Service.sendRawTransaction(t).subscribe((result: string) => {
+        console.log('ok');
+      });
     });
   }
 

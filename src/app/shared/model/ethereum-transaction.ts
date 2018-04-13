@@ -4,16 +4,16 @@ import * as EthTx from 'ethereumjs-tx';
 export class EthereumTransaction {
 
   public signature: string;
-  public nonce: number;
 
   constructor(
     readonly gasLimit: string,
     readonly gasPrice: string,
     readonly toAddress: string,
     readonly value: string,
+    readonly nonce: string,
     readonly data?: string
   ) {
-    if (!toAddress.startsWith("0x")) {
+    if (!toAddress.startsWith('0x')) {
       this.toAddress = '0x' + toAddress;
     } else {
       this.toAddress = toAddress;
