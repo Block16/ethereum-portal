@@ -61,6 +61,20 @@ export class ThemeService {
     'op5': this.op5
   },
   {
+    'name': 'Blueprint #2',
+    'primaryColor': '#0048FF',
+    'secondaryColor': '#FFFFFF',
+    'accentColor': '#0048FF',
+    'processingColor': '#0048FF',
+    'failedBackground': 'icon',
+    'confirmedBackground': 'icon',
+    'op1': this.op1,
+    'op2': this.op2,
+    'op3': this.op3,
+    'op4': this.op4,
+    'op5': this.op5
+  },
+  {
     'name': 'Brown',
     'primaryColor': '#6E2C00',
     'secondaryColor': '#DBC39C',
@@ -243,7 +257,7 @@ export class ThemeService {
     'op5': this.op5
   },
   {
-    'name': 'ORANGE',
+    'name': 'Orange #2',
     'primaryColor': '#FFFFFF',
     'secondaryColor': '#fc7033',
     'accentColor': '#FFFFFF',

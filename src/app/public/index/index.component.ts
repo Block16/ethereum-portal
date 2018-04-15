@@ -119,7 +119,9 @@ export class IndexComponent implements OnInit, OnDestroy {
       this.showSidebar = value;
     });
     
+    console.log('******');
     console.log(this.tokenSymbolService.checkTokenSymbol('0xe41d2489571d322189246dafa5ebde1f4699f498'));
+    console.log('******');
   }
   
   private denominate(asset, amount, denomination) {

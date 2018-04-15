@@ -10,10 +10,10 @@ export class TokenSymbolService {
   }
 
   public checkTokenSymbol(address) {
-  	// let result = EthereumTokens.filter(function( obj ) {
-  	//   return obj.contract_address == address;
-  	// });
-  	return 'hi';
+  	let result = tokendata.filter(function( obj ) {
+  	  return obj.contract_address == address;
+  	});
+  	return result[0];
   }
 
 }
