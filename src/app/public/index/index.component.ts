@@ -15,6 +15,8 @@ import {UserPreferencesService} from "../../core/user-preferences.service";
 import {UserPreferences} from "../../shared/model/user-preferences";
 import {AuthState} from '../../shared/model/auth-state';
 import {CoreKeyManagerService} from "../../core/key-manager-services/core-key-manager.service";
+import {DenominationService} from "../../core/denomination.service";
+import {TokenSymbolService} from "../../core/token-symbol.service";
 
 @Component({
   selector: 'app-index',
@@ -78,7 +80,9 @@ export class IndexComponent implements OnInit, OnDestroy {
     private trezorService: TrezorConnectService,
     private privateKeyService: PrivateKeyService,
     private assetService: EthereumAssetService,
-    private coreKeyManagerService: CoreKeyManagerService
+    private coreKeyManagerService: CoreKeyManagerService,
+    private denominationService: DenominationService,
+    private tokenSymbolService: TokenSymbolService
   ) {
     this.currentAuth = AuthState.none;
 
@@ -95,7 +99,6 @@ export class IndexComponent implements OnInit, OnDestroy {
       this.themeService.updateSVGs(theme);
       // this.updateSVGs('blue');
     });
-
 
     // Assets
     this.assetSubscription = this.assetService.ethereumAssets.subscribe(assets => {
@@ -115,6 +118,12 @@ export class IndexComponent implements OnInit, OnDestroy {
     this.dataShareService.showSidebar.subscribe((value: any) => {
       this.showSidebar = value;
     });
+    
+    console.log(this.tokenSymbolService.checkTokenSymbol('0xe41d2489571d322189246dafa5ebde1f4699f498'));
+  }
+  
+  private denominate(asset, amount, denomination) {
+    return this.denominationService.denominate(asset, amount, denomination);
   }
 
   randomAssets() {
@@ -135,12 +144,11 @@ export class IndexComponent implements OnInit, OnDestroy {
       possibleAssets.splice(chosenAssetIndex, 1);
       
       let assetAmount: number = Math.round(Math.random() * 1000000) + 1;
-      assetAmount += Math.random().toFixed(4);
+      assetAmount += parseFloat(Math.random().toFixed(4));
       
       let newAsset = new EthereumAsset(chosenAsset, assetAmount, 18, 'ok');
       this.assets.push(newAsset);
     }
-    console.log(this.assets);
   }
 
   ngOnInit(): void {

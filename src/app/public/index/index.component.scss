@@ -27,29 +27,34 @@ main {
 }
 
 .wallets {
-		display: grid;
-	  grid-template-columns: repeat(auto-fit, minmax(5em, 1fr));
-	  grid-gap: $defaultMargin / 2;
-	  .wallet {
-	  	// overflow: hidden;
-	  	
-	  	.svg-wrapper {
-	  	  display: inline-block;
-	  	  margin: auto;
-  			height: 40%;
-  			&.ledger {
-	  			height: 34%;
-  			}
-  			&.trezor {
-	  			height: 43%;
-  			}
-  			&.digital-bitbox {
-	  			height: 43%;
-  			}
-	  	  @include posa-tblr;
-	  	  @include flex-center;
-	  	}
-	  }
+	display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(5em, 1fr));
+  grid-gap: $defaultMargin / 2;
+  .wallet {
+  	// overflow: hidden;
+  	
+  	.svg-wrapper {
+  	  display: inline-block;
+  	  margin: auto;
+			height: 40%;
+			&.ledger {
+  			height: 34%;
+			}
+			&.trezor {
+  			height: 43%;
+			}
+			&.digital-bitbox {
+  			height: 43%;
+			}
+  	  @include posa-tblr;
+  	  @include flex-center;
+  	}
+  }
+}
+
+.my-address {
+	line-height: 1.1em;
+	margin-top: .3em;
 }
 
 .recent-transactions {

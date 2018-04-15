@@ -12,6 +12,8 @@ import {EthereumAssetService} from "./ethereum-asset.service";
 import {UserPreferencesService} from "./user-preferences.service";
 import {CoreKeyManagerService} from "./key-manager-services/core-key-manager.service";
 import {MetamaskService} from "./key-manager-services/metamask.service";
+import {DenominationService} from "./denomination.service";
+import {TokenSymbolService} from "./token-symbol.service";
 
 @NgModule({
   imports: [
@@ -29,11 +31,11 @@ import {MetamaskService} from "./key-manager-services/metamask.service";
     UserPreferencesService,
     Web3Service,
     MetamaskService,
-    CoreKeyManagerService
+    CoreKeyManagerService,
+    DenominationService,
+    TokenSymbolService
   ],
-  declarations: [
-
-  ]
+  declarations: []
 })
 export class CoreModule {
   constructor (@Optional() @SkipSelf() parentModule: CoreModule) {

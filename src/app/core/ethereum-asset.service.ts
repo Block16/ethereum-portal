@@ -1,3 +1,4 @@
+
 import { Injectable } from '@angular/core';
 import {BehaviorSubject} from "rxjs/BehaviorSubject";
 import {EthereumAsset} from "../shared/model/ethereum-asset";
@@ -13,7 +14,7 @@ export class EthereumAssetService {
     private httpClient: HttpClient
   ) {
     this.address = '';
-    this.ethereumAssets = new BehaviorSubject<EthereumAsset[]>([new EthereumAsset('ETH', 0, 18)]);
+    this.ethereumAssets = new BehaviorSubject<EthereumAsset[]>([new EthereumAsset('ETH', 0, 18, 'address')]);
   }
 
   public updateAddress(address: string) {
