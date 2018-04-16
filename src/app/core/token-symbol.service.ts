@@ -1,15 +1,15 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
-import * as tokendata from './static-models/ethereum-tokens.json';
+import {EthereumTokens} from './static-models/ethereum-tokens';
 
 @Injectable()
 export class TokenSymbolService {
+
   constructor() {
-    console.log(tokendata);
+    console.log(EthereumTokens);
   }
 
   public checkTokenSymbol(address) {
-    return (<any[]>tokendata).find( obj => obj.contract_address === address );
+    return EthereumTokens.find( obj => obj.contractAddress === address );
   }
 
 }
