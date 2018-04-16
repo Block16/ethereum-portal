@@ -3,7 +3,7 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Web3Service} from "../../core/web3.service";
 import {EthereumAsset} from "../model/ethereum-asset";
 import {Subscription} from "rxjs/Subscription";
-import {EthereumAssetService} from "../../core/ethereum-asset.service";
+import {Block16Service} from "../../core/block16.service";
 import {UserPreferences} from "../model/user-preferences";
 import {UserPreferencesService} from "../../core/user-preferences.service";
 import {CoreKeyManagerService} from "../../core/key-manager-services/core-key-manager.service";
@@ -37,7 +37,7 @@ export class SendFormComponent implements OnInit, OnDestroy {
   constructor(
     private formBuilder: FormBuilder,
     private web3Service: Web3Service,
-    private assetService: EthereumAssetService,
+    private assetService: Block16Service,
     private userPrefService: UserPreferencesService,
     private coreKeyManagerService: CoreKeyManagerService
   ) {

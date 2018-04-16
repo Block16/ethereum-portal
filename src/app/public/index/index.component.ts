@@ -9,7 +9,7 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {ThemeService} from "../../core/theme.service";
 import {Subscription} from "rxjs/Subscription";
 import {Theme} from "../../shared/model/theme/theme";
-import {EthereumAssetService} from "../../core/ethereum-asset.service";
+import {Block16Service} from "../../core/block16.service";
 import {EthereumAsset} from "../../shared/model/ethereum-asset";
 import {UserPreferencesService} from "../../core/user-preferences.service";
 import {UserPreferences} from "../../shared/model/user-preferences";
@@ -77,7 +77,7 @@ export class IndexComponent implements OnInit, OnDestroy {
     private web3Service: Web3Service,
     private ledgerService: LedgerService,
     private trezorService: TrezorConnectService,
-    private assetService: EthereumAssetService,
+    private assetService: Block16Service,
     private coreKeyManagerService: CoreKeyManagerService
   ) {
     this.currentAuth = AuthState.none;

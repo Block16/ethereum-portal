@@ -8,7 +8,7 @@ import {DataShareService} from "./data-share.service";
 import {ThemeService} from "./theme.service";
 import {SharedModule} from "../shared/shared.module";
 import {PrivateKeyService} from "./key-manager-services/private-key.service";
-import {EthereumAssetService} from "./ethereum-asset.service";
+import {Block16Service} from "./block16.service";
 import {UserPreferencesService} from "./user-preferences.service";
 import {CoreKeyManagerService} from "./key-manager-services/core-key-manager.service";
 import {MetamaskService} from "./key-manager-services/metamask.service";
@@ -21,7 +21,7 @@ import {MetamaskService} from "./key-manager-services/metamask.service";
   ],
   providers: [
     DataShareService,
-    EthereumAssetService,
+    Block16Service,
     LedgerService,
     PrivateKeyService,
     TrezorConnectService,
