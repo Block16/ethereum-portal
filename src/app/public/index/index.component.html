@@ -118,11 +118,18 @@
 														[open]="true">
 					<div class="tokens">
 						<div class="token"
+								 [ngClass]="{ 'ETH': token.name == 'ETH' }"
 								 *ngFor="let token of assets">
 							<div class="token-icon">
-								<div class="icon-container">
+								<div class="icon-container"
+										 *ngIf="tokenHasIcon(token.address)">
 								 	<div class="svg-wrapper accent-svg"
 										 	 [inlineSVG]="'assets/img/icons/coins/'+token.name.toLowerCase()+'.svg'"></div>
+								 </div>
+								<div class="icon-container no-icon"
+										 [ngStyle]="theme.secondaryMainStyle"
+										 *ngIf="!tokenHasIcon(token.address)">
+										 <span>{{ getTokenAbbreviation(token.name) }}</span>
 								 </div>
 							</div>
 							<div class="token-symbol caption no-wrap">

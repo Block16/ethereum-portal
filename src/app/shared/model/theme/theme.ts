@@ -18,6 +18,8 @@ export interface Theme {
   isDark: boolean;
   
   mainStyle: any;
+  secondaryMainStyle: any;
+  
   primaryBackgroundStyle: any;
   secondaryBackgroundStyle: any;
   accentBackgroundStyle: any;

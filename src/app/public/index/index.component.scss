@@ -81,6 +81,9 @@ main {
 											 'icon amount'
 											 'icon denomination';
 	margin-bottom: $defaultMargin;
+	&.ETH {
+		display: none;
+	}
 	.token-icon {
 		grid-area: icon;
 		.icon-container {
@@ -88,6 +91,17 @@ main {
 			height: $iconSize;
 			border-radius: 99em;
 			box-sizing: border-box;
+			@include flex-center;
+			&.no-icon {
+				span {
+					font: $captionFontSize $FB2;
+					padding-top: 0.25em;
+					@include no-select;
+					@-moz-document url-prefix() {
+						padding-top: 0;
+					}
+				}
+			}
 		}
 	}
 	.token-symbol {

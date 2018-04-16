@@ -2,14 +2,16 @@ import {Injectable} from '@angular/core';
 import {EthereumTokens} from './static-models/ethereum-tokens';
 
 @Injectable()
-export class TokenSymbolService {
+export class TokenTickerService {
 
   constructor() {
-    console.log(EthereumTokens);
   }
 
   public checkTokenSymbol(address) {
-    return EthereumTokens.find( obj => obj.contractAddress === address );
+  	let object = EthereumTokens.find(
+  		obj => obj.contractAddress === address
+		);
+  	return object;
   }
 
 }

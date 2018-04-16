@@ -14,7 +14,7 @@ export class EthereumAssetService {
     private httpClient: HttpClient
   ) {
     this.address = '';
-    this.ethereumAssets = new BehaviorSubject<EthereumAsset[]>([new EthereumAsset('ETH', 0, 18, 'address')]);
+    this.ethereumAssets = new BehaviorSubject<EthereumAsset[]>([new EthereumAsset('ETH', 0, 18, undefined)]);
   }
 
   public updateAddress(address: string) {

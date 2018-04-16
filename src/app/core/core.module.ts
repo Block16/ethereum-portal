@@ -13,7 +13,7 @@ import {UserPreferencesService} from "./user-preferences.service";
 import {CoreKeyManagerService} from "./key-manager-services/core-key-manager.service";
 import {MetamaskService} from "./key-manager-services/metamask.service";
 import {DenominationService} from "./denomination.service";
-import {TokenSymbolService} from "./token-symbol.service";
+import {TokenTickerService} from "./token-ticker.service";
 
 @NgModule({
   imports: [
@@ -33,7 +33,7 @@ import {TokenSymbolService} from "./token-symbol.service";
     MetamaskService,
     CoreKeyManagerService,
     DenominationService,
-    TokenSymbolService
+    TokenTickerService
   ],
   declarations: []
 })

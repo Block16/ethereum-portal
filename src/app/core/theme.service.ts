@@ -483,6 +483,11 @@ export class ThemeService {
       'color': themeSource.primaryColor,
       'border-color': themeSource.primaryColor
     };
+    theme.secondaryMainStyle = {
+      'background-color': themeSource.primaryColor,
+      'color': themeSource.secondaryColor,
+      'border-color': themeSource.primaryColor
+    };
 
 
     theme.primaryBackgroundStyle = {
@@ -515,7 +520,6 @@ export class ThemeService {
       'color': themeSource.primaryColor,
       'border-color': themeSource.primaryColor
     };
-
     theme.secondaryTextStyle = {
       'color': themeSource.secondaryColor,
       'border-color': themeSource.secondaryColor
