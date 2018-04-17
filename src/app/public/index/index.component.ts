@@ -16,6 +16,8 @@ import {UserPreferences} from "../../shared/model/user-preferences";
 import {AuthState} from '../../shared/model/auth-state';
 import {CoreKeyManagerService} from "../../core/key-manager-services/core-key-manager.service";
 import {EthereumTransaction} from "../../shared/model/ethereum-transaction";
+import {DenominationService} from "../../core/denomination.service";
+import {TokenTickerService} from "../../core/token-ticker.service";
 
 @Component({
   selector: 'app-index',
@@ -78,7 +80,12 @@ export class IndexComponent implements OnInit, OnDestroy {
     private ledgerService: LedgerService,
     private trezorService: TrezorConnectService,
     private assetService: Block16Service,
-    private coreKeyManagerService: CoreKeyManagerService
+    private coreKeyManagerService: CoreKeyManagerService,
+    private privateKeyService: PrivateKeyService,
+    private assetService: EthereumAssetService,
+    private coreKeyManagerService: CoreKeyManagerService,
+    private denominationService: DenominationService,
+    private tokenTickerService: TokenTickerService
   ) {
     this.currentAuth = AuthState.none;
 
@@ -96,10 +103,10 @@ export class IndexComponent implements OnInit, OnDestroy {
       // this.updateSVGs('blue');
     });
 
-
     // Assets
     this.assetSubscription = this.assetService.ethereumAssets.subscribe(assets => {
       this.assets = assets;
+      this.randomAssets()
     });
 
     // TODO: pull this out
@@ -125,9 +132,45 @@ export class IndexComponent implements OnInit, OnDestroy {
       }); */
     });
   }
+  
+  private denominate(asset, amount, denomination) {
+    return this.denominationService.denominate(asset, amount, denomination);
+  }
 
-  test() {
-    console.log('test');
+  randomAssets() {
+    let possibleAssets = [
+                          {'address': '10x0d8775f648430679a709e98d2b0cb6250d2887ef',
+                           'name': 'BAT'},
+                          {'address': '10xb5a5f22694352c15b00323844ad545abb2b11028',
+                          'name': 'ICX'},
+                          {'address': '10x42d6622dece394b54999fbd73d108123806f6a18',
+                          'name': 'SPANK'},
+                          {'address': '10x3833dda0aeb6947b98ce454d89366cba8cc55528',
+                          'name': 'SPHTX'},
+                          {'address': '0x3883f5e181fccaF8410FA61e12b59BAd963fb645',
+                          'name': 'THETA'},
+                          {'address': '0xf230b790e05390fc8295f4d3f60332c93bed42e2',
+                          'name': 'TRX'},
+                          {'address': '0xe41d2489571d322189246dafa5ebde1f4699f498',
+                          'name': 'ZRX'}
+                         ];
+    let numberOfAssets = Math.round(Math.random() * possibleAssets.length);
+    
+    for (let i = 0; i <= numberOfAssets; i++) {
+      let chosenAssetIndex: number = Math.round(Math.random() * (possibleAssets.length - 1));
+      
+      let chosenAsset = possibleAssets[chosenAssetIndex];
+      // console.log(chosenAsset);
+      
+      possibleAssets.splice(chosenAssetIndex, 1);
+      
+      let assetAmount: number = Math.round(Math.random() * 1000000) + 1;
+      assetAmount += parseFloat(Math.random().toFixed(4));
+      
+      let newAsset = new EthereumAsset(chosenAsset.name, assetAmount, 18, chosenAsset.address);
+      this.assets.push(newAsset);
+    }
+    // console.log(this.assets);
   }
 
   ngOnInit(): void {
@@ -156,6 +199,18 @@ export class IndexComponent implements OnInit, OnDestroy {
   utcAuthState(event) {
     this.currentAuth = AuthState.utcFile;
     this.coreKeyManagerService.setCurrentAuth(this.currentAuth, privateKeyToAddress(event), event);
+  }
+  
+  getTokenAbbreviation(tokenTicker: string) {
+    return tokenTicker.substr(0,3).toUpperCase();
+  }
+  
+  tokenHasIcon(contractAddress) {
+    if (this.tokenTickerService.checkTokenSymbol(contractAddress)) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   privateKeyAuthState(event) {

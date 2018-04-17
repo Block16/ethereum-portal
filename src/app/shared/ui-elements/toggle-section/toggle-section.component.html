@@ -1,20 +1,19 @@
-
 <div class="top"
-		 [ngClass]="{ 'open': show }"
-		 (click)="show = !show">
+		 [ngClass]="{ 'open': open }"
+		 (click)="open = !open">
 	<b class="toggle-indicator">
 		<b class="line-1"
-			 [ngStyle]="theme.primaryBackgroundStyle"></b>
+			 [ngStyle]="theme.accentBackgroundStyle"></b>
 		<b class="line-2"
-			 [ngStyle]="theme.primaryBackgroundStyle"></b>
+			 [ngStyle]="theme.accentBackgroundStyle"></b>
 	</b>
-	<h3 class="section-toggle top-border no-bottom-margin"
+	<h3 class="top-border no-bottom-margin"
 			[ngStyle]="theme.textStyle">
 		{{ title }}
 	</h3>
 </div>
 
 <section class="section-content"
-				 [hidden]="!show">
+				 [hidden]="!open">
 	<ng-content></ng-content>
 </section>

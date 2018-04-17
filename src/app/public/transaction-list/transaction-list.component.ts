@@ -59,7 +59,6 @@ export class TransactionListComponent implements OnInit {
   	for (var i = 0; i < 12; i++) {
   		this.transactions.push(this.randomTransaction());
   	}
-  	console.log(this.transactions[0]);
   }
 
 }

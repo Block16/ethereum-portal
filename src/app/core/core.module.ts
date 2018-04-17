@@ -12,6 +12,8 @@ import {Block16Service} from "./block16.service";
 import {UserPreferencesService} from "./user-preferences.service";
 import {CoreKeyManagerService} from "./key-manager-services/core-key-manager.service";
 import {MetamaskService} from "./key-manager-services/metamask.service";
+import {DenominationService} from "./denomination.service";
+import {TokenTickerService} from "./token-ticker.service";
 
 @NgModule({
   imports: [
@@ -29,11 +31,11 @@ import {MetamaskService} from "./key-manager-services/metamask.service";
     UserPreferencesService,
     Web3Service,
     MetamaskService,
-    CoreKeyManagerService
+    CoreKeyManagerService,
+    DenominationService,
+    TokenTickerService
   ],
-  declarations: [
-
-  ]
+  declarations: []
 })
 export class CoreModule {
   constructor (@Optional() @SkipSelf() parentModule: CoreModule) {

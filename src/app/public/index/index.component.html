@@ -93,14 +93,62 @@
 			<h2 class="top-border head2 type2">View</h2>
 			<section class="section-content">
 				<div class="caption ">Address</div>
-				<p class="lining-proportional">0x{{ ethereumAddress }}</p>
-				<div class="tokens bottom-margin">
-					<div class="token"
-							 *ngFor="let token of assets; let i = index">
-						<div class="caption">{{ token.name }}</div>
-						<p class="lining-proportional">{{ token.calculatedAmount }}</p>
+				<p class="lining-proportional break-all my-address">0x{{ ethereumAddress }}</p>
+				
+				<div class="token eth">
+					<div class="token-icon">
+						<div class="icon-container op3"
+								 [ngStyle]="theme.accentBackgroundStyle"></div>
 					</div>
+					<div class="token-symbol caption no-wrap">
+						ETH
+					</div>
+					<p class="token-amount lining-proportional no-wrap">
+						5,000
+					</p>
+					<p class="token-denomination lining-proportional op4 no-wrap"
+						 [ngStyle]="theme.primaryTextStyle"
+						 *ngIf="userPreferences['additionalDenomination'] != 'None'">
+						{{ denominate('0x684654351',
+													50,
+													userPreferences['additionalDenomination']) }}
+					</p>
 				</div>
+				<app-toggle-section [title]="'Tokens'"
+														[open]="true">
+					<div class="tokens">
+						<div class="token"
+								 [ngClass]="{ 'ETH': token.name == 'ETH' }"
+								 *ngFor="let token of assets">
+							<div class="token-icon">
+								<div class="icon-container"
+										 *ngIf="tokenHasIcon(token.address)">
+								 	<div class="svg-wrapper accent-svg"
+										 	 [inlineSVG]="'assets/img/icons/coins/'+token.name.toLowerCase()+'.svg'"></div>
+								 </div>
+								<div class="icon-container no-icon"
+										 [ngStyle]="theme.secondaryMainStyle"
+										 *ngIf="!tokenHasIcon(token.address)">
+										 <span>{{ getTokenAbbreviation(token.name) }}</span>
+								 </div>
+							</div>
+							<div class="token-symbol caption no-wrap">
+								{{ token.name }}
+							</div>
+							<p class="token-amount lining-proportional no-wrap">
+								{{ token.amount }}
+							</p>
+							<p class="token-denomination lining-proportional op4 no-wrap"
+								 [ngStyle]="theme.primaryTextStyle"
+								 *ngIf="userPreferences['additionalDenomination'] != 'None'">
+								
+								{{ denominate('0x684654351',
+															50,
+															userPreferences['additionalDenomination']) }}
+							</p>
+						</div>
+					</div>
+				</app-toggle-section>
 				<app-toggle-section [title]="'QR'">
 					<ngx-kjua
 					    [text]="'0x' + ethereumAddress"
@@ -113,7 +161,6 @@
 					  ></ngx-kjua>
 				</app-toggle-section>
 
-        <loading-icon></loading-icon>
 			</section>
 		</div>
 		<div class="grid-cell">

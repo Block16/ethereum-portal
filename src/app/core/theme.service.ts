@@ -61,6 +61,20 @@ export class ThemeService {
     'op5': this.op5
   },
   {
+    'name': 'Blueprint #2',
+    'primaryColor': '#0048FF',
+    'secondaryColor': '#FFFFFF',
+    'accentColor': '#0048FF',
+    'processingColor': '#0048FF',
+    'failedBackground': 'icon',
+    'confirmedBackground': 'icon',
+    'op1': this.op1,
+    'op2': this.op2,
+    'op3': this.op3,
+    'op4': this.op4,
+    'op5': this.op5
+  },
+  {
     'name': 'Brown',
     'primaryColor': '#6E2C00',
     'secondaryColor': '#DBC39C',
@@ -174,11 +188,11 @@ export class ThemeService {
   },
   {
     'name': 'Peach',
-    'primaryColor': '#FF835E',
-    'secondaryColor': '#FFF9D3',
+    'primaryColor': '#F3754F',
+    'secondaryColor': '#FFECD3',
     'accentColor': '#FF9EA0',
     'processingColor': '#FFEA8C',
-    'failedBackground': '#FF835E',
+    'failedBackground': '#F3754F',
     'confirmedBackground': '#BBED79',
     'op1': this.op1,
     'op2': this.op2,
@@ -188,18 +202,130 @@ export class ThemeService {
   },
   {
     'name': 'Lavender',
-    'primaryColor': '#BD79A5',
-    'secondaryColor': '#DBC3D6',
-    'accentColor': '#766287',
+    'primaryColor': '#B15D93',
+    'secondaryColor': '#FBE2F3',
+    'accentColor': '#766285',
     'processingColor': '#FFF2F7',
-    'failedBackground': '#BD79A5',
-    'confirmedBackground': '#9DAD8E',
+    'failedBackground': '#B15D93',
+    'confirmedBackground': '#9dad90',
     'op1': this.op1,
     'op2': this.op2,
     'op3': this.op3,
     'op4': this.op4,
     'op5': this.op5
-  }  
+  },
+  {
+    'name': 'Nu',
+    'primaryColor': '#60635b',
+    'secondaryColor': '#fcfff2',
+    'accentColor': '#6597EB',
+    'processingColor': '#f0f06a',
+    'failedBackground': '#e15895',
+    'confirmedBackground': '#33dc71',
+    'op1': this.op1,
+    'op2': this.op2,
+    'op3': this.op3,
+    'op4': this.op4,
+    'op5': this.op5
+  },
+  {
+    'name': 'B & W',
+    'primaryColor': '#000000',
+    'secondaryColor': '#FFFFFF',
+    'accentColor': '#000000',
+    'processingColor': '#000000',
+    'failedBackground': '#000000',
+    'confirmedBackground': '#000000',
+    'op1': this.op1,
+    'op2': this.op2,
+    'op3': this.op3,
+    'op4': this.op4,
+    'op5': this.op5
+  },
+  {
+    'name': 'Orange',
+    'primaryColor': '#fc7033',
+    'secondaryColor': '#FFFFFF',
+    'accentColor': '#fc7033',
+    'processingColor': '#fc7033',
+    'failedBackground': '#eb6dcc',
+    'confirmedBackground': '#63de95',
+    'op1': this.op1,
+    'op2': this.op2,
+    'op3': this.op3,
+    'op4': this.op4,
+    'op5': this.op5
+  },
+  {
+    'name': 'Orange #2',
+    'primaryColor': '#FFFFFF',
+    'secondaryColor': '#fc7033',
+    'accentColor': '#FFFFFF',
+    'processingColor': '#FFFFFF',
+    'failedBackground': '#fda43a',
+    'confirmedBackground': '#b5e646',
+    'op1': this.op1,
+    'op2': this.op2,
+    'op3': this.op3,
+    'op4': this.op4,
+    'op5': this.op5
+  },
+  {
+    'name': 'Seal',
+    'primaryColor': '#363636',
+    'secondaryColor': '#fcfff2',
+    'accentColor': '#cf4d53',
+    'processingColor': '#fdcf8c',
+    'failedBackground': '#cf4d53',
+    'confirmedBackground': '#9fbd5e',
+    'op1': this.op1,
+    'op2': this.op2,
+    'op3': this.op3,
+    'op4': this.op4,
+    'op5': this.op5
+  },
+  {
+    'name': 'Crimson',
+    'primaryColor': '#e8d9c5',
+    'secondaryColor': '#6e2428',
+    'accentColor': '#e8d9c5',
+    'processingColor': '#7b3035',
+    'failedBackground': '#4d1718',
+    'confirmedBackground': '#87ca8c',
+    'op1': this.op1,
+    'op2': this.op2,
+    'op3': this.op3,
+    'op4': this.op4,
+    'op5': this.op5
+  },
+  {
+    'name': 'Navy',
+    'primaryColor': '#e8e1cc',
+    'secondaryColor': '#242f4d',
+    'accentColor': '#e8e1cc',
+    'processingColor': '#e8e1cc',
+    'failedBackground': '#0e0e29',
+    'confirmedBackground': '#5e8771',
+    'op1': this.op1,
+    'op2': this.op2,
+    'op3': this.op3,
+    'op4': this.op4,
+    'op5': this.op5
+  },
+  {
+    'name': 'Bumblebee',
+    'primaryColor': '#eff2dc',
+    'secondaryColor': '#272b30',
+    'accentColor': '#fee65d',
+    'processingColor': '#fee65d',
+    'failedBackground': '#e98235',
+    'confirmedBackground': '#A6FD56',
+    'op1': this.op1,
+    'op2': this.op2,
+    'op3': this.op3,
+    'op4': this.op4,
+    'op5': this.op5
+  }
   ];
 
   public themes: Theme[];
@@ -330,8 +456,9 @@ export class ThemeService {
     const theme: Theme = <Theme>{};
 
     const primaryColorRgb = ThemeService.hexToRgb(themeSource.primaryColor);
-    const bgColorRGB = ThemeService.hexToRgb(themeSource.secondaryColor);
+    const secondaryColorRgb = ThemeService.hexToRgb(themeSource.secondaryColor);
     const accentColorRgb = this.hexToRgb(themeSource.accentColor);
+    const bgColorRGB = ThemeService.hexToRgb(themeSource.secondaryColor);
 
     theme.name = themeSource.name;
 
@@ -356,19 +483,32 @@ export class ThemeService {
       'color': themeSource.primaryColor,
       'border-color': themeSource.primaryColor
     };
-
-    theme.backgroundStyle = {
-      'background-color': themeSource.secondaryColor
+    theme.secondaryMainStyle = {
+      'background-color': themeSource.primaryColor,
+      'color': themeSource.secondaryColor,
+      'border-color': themeSource.primaryColor
     };
+
 
     theme.primaryBackgroundStyle = {
       'background-color': themeSource.primaryColor
+    };
+    theme.secondaryBackgroundStyle = {
+      'background-color': themeSource.secondaryColor
     };
     theme.accentBackgroundStyle = {
       'background-color': themeSource.accentColor
     };
 
-    theme.overlayStyle = {
+    theme.overlayStyle = this.luma(theme.accentColor) > this.luma(theme.secondaryColor) && theme.accentColor == theme.primaryColor ? 
+    {
+      'background': 'rgba('+
+                    (secondaryColorRgb.r - 30)+','+
+                    (secondaryColorRgb.g - 30)+','+
+                    (secondaryColorRgb.b - 30)+','+
+                    theme.op5+')',
+    } :
+    {
       'background': 'rgba('+
                     accentColorRgb.r+','+
                     accentColorRgb.g+','+
@@ -376,11 +516,10 @@ export class ThemeService {
                     theme.op5+')',
     }
 
-    theme.textStyle = {
+    theme.primaryTextStyle = {
       'color': themeSource.primaryColor,
       'border-color': themeSource.primaryColor
     };
-
     theme.secondaryTextStyle = {
       'color': themeSource.secondaryColor,
       'border-color': themeSource.secondaryColor

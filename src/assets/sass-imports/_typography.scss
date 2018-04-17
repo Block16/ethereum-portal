@@ -1,7 +1,8 @@
 // basic styles
 
 $h1PaddingTop: 4px;
-$h2PaddingTop: 3px;
+$h2PaddingTop: 4px;
+$h3PaddingTop: 2px;
 
 h1, h2, h3, h4, h5 {
 	border-color: inherit;
@@ -35,6 +36,7 @@ h2, .head2 {
 h3, .head3 {
 	font: normal 17px $FB;
 	&.top-border {
+		padding-top: $h3PaddingTop;
 		border-top: $h3BarThickness solid black;
 		border-color: inherit;
 	}
@@ -79,6 +81,14 @@ p, .paragraph-text {
 	border-top: $h4BarThickness solid black;
 }
 
+// text options
+.break-all {
+	word-break: break-all;
+}
+.no-wrap {
+	white-space: nowrap;
+}
+
 // opentype features
 .small-caps {
 	font-variant: small-caps;
@@ -121,10 +131,4 @@ h1, h2, h3 {
 }
 h4, p {
 	margin: 0 0 $defaultMargin 0;
-}
-.no-top-margin {
-	margin-top: 0;
-}
-.no-bottom-margin {
-	margin-bottom: 0;
 }

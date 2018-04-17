@@ -18,13 +18,15 @@ export interface Theme {
   isDark: boolean;
   
   mainStyle: any;
-  backgroundStyle: any;
+  secondaryMainStyle: any;
+  
   primaryBackgroundStyle: any;
+  secondaryBackgroundStyle: any;
   accentBackgroundStyle: any;
   
   overlayStyle: any;
   
-  textStyle: any;
+  primaryTextStyle: any;
   secondaryTextStyle: any;
   accentTextStyle: any;
   

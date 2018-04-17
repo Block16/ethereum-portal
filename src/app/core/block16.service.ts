@@ -30,18 +30,18 @@ export class Block16Service {
         );
       } else {
 
-        this.getTransactionsForAddress(address).subscribe((transactions) => {
-          console.log("Transactoins");
-          console.log(transactions);
-        });
+        // this.getTransactionsForAddress(address).subscribe((transactions) => {
+        //   console.log("Transactoins");
+        //   console.log(transactions);
+        // });
 
-        this.getAssetsForAddress(address).subscribe((assets) => {
-          // TODO: Ask infura about the assests that we just got back
+        // this.getAssetsForAddress(address).subscribe((assets) => {
+        //   // TODO: Ask infura about the assests that we just got back
 
-          assets = assets.filter((a) => a.isContract === true).map;
-          console.log("assets");
-          console.log(assets);
-        });
+        //   assets = assets.filter((a) => a.isContract === true).map;
+        //   console.log("assets");
+        //   console.log(assets);
+        // });
       }
     });
   }

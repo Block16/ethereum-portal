@@ -36,8 +36,13 @@ $transactionDotSize: .8em;
 $modalMaxWidth: 30em;
 
 // type
+$h1FontSize: 48px;
+$h2FontSize: 26px;
+$h3FontSize: 17px;
+$h4FontSize: 16px;
 $pFontSize: 16px;
 $captionFontSize: 13px;
+$smallCaptionFontSize: 12px;
 
 $h1BarThickness: 6px;
 $h2BarThickness: 4px;
@@ -55,3 +60,4 @@ $sidebarOverlayZ: 7;
 $newTransactionZ: 6;
 $newTransactionCircleZ: 5;
 $sideDockZ: 4;
+$baseZ: 1;
