@@ -130,10 +130,7 @@ main {
 }
 
 .qr {
-	max-width: 14em;
-	width: 100%;
-	margin-top: $defaultMargin;
-	mix-blend-mode: multiply;
+	margin: -7px 0 0 -7px;
 }
 
 $newTransactionTransformTime: .25s;

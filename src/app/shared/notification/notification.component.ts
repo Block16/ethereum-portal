@@ -29,10 +29,7 @@ export class NotificationComponent implements OnInit {
   }
 
   ngOnInit() {
-  	this.notificationService.message('Message with NO title supplied');
-  	this.notificationService.message('Message with title supplied', 'Title');
-  	this.notificationService.error('Error with NO title supplied');
-  	this.notificationService.error('Error with title supplied', 'Title');
+  	this.notificationService.error('Error with NO title supplied');;
   }
 
 }
