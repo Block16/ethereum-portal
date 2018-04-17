@@ -22,6 +22,7 @@ export class EthereumAsset {
   public places(): BigNumber {
     return new BigNumber(10).pow(this.decimalPlaces);
   }
+
   /**
    * Get calculated amount of tokens with regard to decimal places
    * @returns {BigNumber}

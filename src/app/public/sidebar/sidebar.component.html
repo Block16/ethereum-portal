@@ -73,4 +73,18 @@
       </app-select>
     </form>
 	</div>
+	<div class="preference">
+		<span>Provider</span>
+
+    <form [formGroup]="denominationForm">
+      <app-select [control]="providerForm.controls['provider']"
+    						  [options]="['Block 16', 'Infura', 'Etherscan']"
+                  [initialValue]="'Block 16'"
+    						  small>
+
+      </app-select>
+    </form>
+	</div>
+	<br>
+	<app-button>Save preferences to blockchain</app-button>
 </div>

@@ -87,12 +87,13 @@ main {
 	.token-icon {
 		grid-area: icon;
 		.icon-container {
+			display: block;
 			width: $iconSize;
 			height: $iconSize;
 			border-radius: 99em;
 			box-sizing: border-box;
-			@include flex-center;
 			&.no-icon {
+				@include flex-center;
 				span {
 					font: $captionFontSize $FB2;
 					padding-top: 0.25em;

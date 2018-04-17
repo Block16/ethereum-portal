@@ -483,10 +483,11 @@ export class ThemeService {
       'color': themeSource.primaryColor,
       'border-color': themeSource.primaryColor
     };
-    theme.secondaryMainStyle = {
-      'background-color': themeSource.primaryColor,
+    
+    theme.tokenIconStyle = {
+      'background-color': themeSource.accentColor,
       'color': themeSource.secondaryColor,
-      'border-color': themeSource.primaryColor
+      'border-color': themeSource.accentColor
     };
 
 

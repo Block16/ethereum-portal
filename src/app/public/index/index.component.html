@@ -118,22 +118,22 @@
 														[open]="true">
 					<div class="tokens">
 						<div class="token"
-								 [ngClass]="{ 'ETH': token.name == 'ETH' }"
+								 [ngClass]="{ 'ETH': token.symbol == 'ETH' }"
 								 *ngFor="let token of assets">
 							<div class="token-icon">
 								<div class="icon-container"
-										 *ngIf="tokenHasIcon(token.address)">
+										 *ngIf="tokenHasIcon(token.contractAddress)">
 								 	<div class="svg-wrapper accent-svg"
-										 	 [inlineSVG]="'assets/img/icons/coins/'+token.name.toLowerCase()+'.svg'"></div>
+										 	 [inlineSVG]="'assets/img/icons/coins/'+token.symbol.toLowerCase()+'.svg'"></div>
 								 </div>
 								<div class="icon-container no-icon"
-										 [ngStyle]="theme.secondaryMainStyle"
-										 *ngIf="!tokenHasIcon(token.address)">
-										 <span>{{ getTokenAbbreviation(token.name) }}</span>
+										 [ngStyle]="theme.tokenIconStyle"
+										 *ngIf="!tokenHasIcon(token.contractAddress)">
+										 <span>{{ getTokenAbbreviation(token.symbol) }}</span>
 								 </div>
 							</div>
 							<div class="token-symbol caption no-wrap">
-								{{ token.name }}
+								{{ token.symbol }}
 							</div>
 							<p class="token-amount lining-proportional no-wrap">
 								{{ token.amount }}
@@ -196,6 +196,7 @@
 			<p class="lining-proportional">{{ newTransaction.valueToBN().toString(10) }} {{ newTransaction.asset.symbol }}</p>
 			<span class="caption">Estimated transaction fees</span><br>
 			<p class="lining-proportional">{{ newTransaction.transactionFeesGwei().toString(10) }} Gwei, ({{ newTransaction.transactionFees().toString(10) }} ETH)</p>
+			<app-button>Send</app-button>
 		</section>
 	</div>
 </div>

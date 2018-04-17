@@ -82,8 +82,6 @@ export class IndexComponent implements OnInit, OnDestroy {
     private assetService: Block16Service,
     private coreKeyManagerService: CoreKeyManagerService,
     private privateKeyService: PrivateKeyService,
-    private assetService: EthereumAssetService,
-    private coreKeyManagerService: CoreKeyManagerService,
     private denominationService: DenominationService,
     private tokenTickerService: TokenTickerService
   ) {
@@ -140,19 +138,19 @@ export class IndexComponent implements OnInit, OnDestroy {
   randomAssets() {
     let possibleAssets = [
                           {'address': '10x0d8775f648430679a709e98d2b0cb6250d2887ef',
-                           'name': 'BAT'},
+                          'symbol': 'BAT'},
                           {'address': '10xb5a5f22694352c15b00323844ad545abb2b11028',
-                          'name': 'ICX'},
-                          {'address': '10x42d6622dece394b54999fbd73d108123806f6a18',
-                          'name': 'SPANK'},
-                          {'address': '10x3833dda0aeb6947b98ce454d89366cba8cc55528',
-                          'name': 'SPHTX'},
+                          'symbol': 'ICX'},
+                          {'address': '10x42d6622dece394b54999fbd73d108123806f6a18',  
+                          'symbol': 'SPANK'},
+                          {'address': '0x3833dda0aeb6947b98ce454d89366cba8cc55528',
+                          'symbol': 'SPHTX'},
                           {'address': '0x3883f5e181fccaF8410FA61e12b59BAd963fb645',
-                          'name': 'THETA'},
+                          'symbol': 'THETA'},
                           {'address': '0xf230b790e05390fc8295f4d3f60332c93bed42e2',
-                          'name': 'TRX'},
+                          'symbol': 'TRX'},
                           {'address': '0xe41d2489571d322189246dafa5ebde1f4699f498',
-                          'name': 'ZRX'}
+                          'symbol': 'ZRX'}
                          ];
     let numberOfAssets = Math.round(Math.random() * possibleAssets.length);
     
@@ -167,7 +165,7 @@ export class IndexComponent implements OnInit, OnDestroy {
       let assetAmount: number = Math.round(Math.random() * 1000000) + 1;
       assetAmount += parseFloat(Math.random().toFixed(4));
       
-      let newAsset = new EthereumAsset(chosenAsset.name, assetAmount, 18, chosenAsset.address);
+      let newAsset = new EthereumAsset(chosenAsset.symbol, chosenAsset.symbol, assetAmount, 18, null, chosenAsset.address);
       this.assets.push(newAsset);
     }
     // console.log(this.assets);
