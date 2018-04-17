@@ -483,11 +483,15 @@ export class ThemeService {
       'color': themeSource.primaryColor,
       'border-color': themeSource.primaryColor
     };
-    
     theme.inverseMainStyle = {
       'background-color': themeSource.primaryColor,
       'color': themeSource.secondaryColor,
       'border-color': themeSource.primaryColor
+    };
+    theme.accentMainStyle = {
+      'background-color': themeSource.accentColor,
+      'color': themeSource.secondaryColor,
+      'border-color': themeSource.accentColor
     };
 
 

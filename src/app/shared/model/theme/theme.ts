@@ -19,6 +19,7 @@ export interface Theme {
   
   mainStyle: any;
   inverseMainStyle: any;
+  accentMainStyle: any;
   
   primaryBackgroundStyle: any;
   secondaryBackgroundStyle: any;

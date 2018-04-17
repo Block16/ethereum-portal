@@ -127,7 +127,7 @@
 										 	 [inlineSVG]="'assets/img/icons/coins/'+token.symbol.toLowerCase()+'.svg'"></div>
 								 </div>
 								<div class="icon-container no-icon"
-										 [ngStyle]="theme.inverseMainStyle"
+										 [ngStyle]="theme.accentMainStyle"
 										 *ngIf="!tokenHasIcon(token.contractAddress)">
 										 <span>{{ getTokenAbbreviation(token.symbol) }}</span>
 								 </div>
