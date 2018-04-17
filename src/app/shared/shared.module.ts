@@ -16,6 +16,7 @@ import { ToggleSectionComponent } from './ui-elements/toggle-section/toggle-sect
 import { NgxKjuaModule } from 'ngx-kjua';
 import { SelectComponent } from './ui-elements/select/select.component';
 import { HoverStyleComponent } from './ui-elements/hover-style/hover-style.component';
+import { NotificationComponent } from './notification/notification.component';
 
 
 @NgModule({
@@ -40,7 +41,8 @@ import { HoverStyleComponent } from './ui-elements/hover-style/hover-style.compo
     ToggleSectionComponent,
     NgxKjuaModule,
     SelectComponent,
-    HoverStyleComponent
+    HoverStyleComponent,
+    NotificationComponent
   ],
   declarations: [
     ModalComponent,
@@ -55,7 +57,8 @@ import { HoverStyleComponent } from './ui-elements/hover-style/hover-style.compo
     InputComponent,
     ToggleSectionComponent,
     SelectComponent,
-    HoverStyleComponent
+    HoverStyleComponent,
+    NotificationComponent
   ]
 })
 export class SharedModule { }

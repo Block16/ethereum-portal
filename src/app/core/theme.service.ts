@@ -173,7 +173,7 @@ export class ThemeService {
     'op5': this.op5
   },
   {
-    'name': 'Electric Blue',
+    'name': 'Zap! Electric shock!',
     'primaryColor': '#FFFFFF',
     'secondaryColor': '#0095FF',
     'accentColor': '#FF13AC',
@@ -484,10 +484,10 @@ export class ThemeService {
       'border-color': themeSource.primaryColor
     };
     
-    theme.tokenIconStyle = {
-      'background-color': themeSource.accentColor,
+    theme.inverseMainStyle = {
+      'background-color': themeSource.primaryColor,
       'color': themeSource.secondaryColor,
-      'border-color': themeSource.accentColor
+      'border-color': themeSource.primaryColor
     };
 
 

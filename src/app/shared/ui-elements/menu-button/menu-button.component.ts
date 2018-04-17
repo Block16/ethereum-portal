@@ -11,6 +11,7 @@ import {Theme} from "../../model/theme/theme";
 export class MenuButtonComponent implements OnDestroy {
   @Input() static = false;
   @Input() value = false;
+  @Input() inverse = false;
   @Output() valueChange: EventEmitter<boolean> = new EventEmitter<boolean>();
   public theme: Theme;
   private themeSubscription: Subscription;

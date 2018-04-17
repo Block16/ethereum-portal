@@ -3,11 +3,17 @@
 	<div class="symbol-box x"
 				  [ngClass]="{ 'x': this.value || this.static }">
 		<div class="symbol"
-				 [ngStyle]="theme.primaryBackgroundStyle">
+				 [ngStyle]="inverse ? 
+				 						theme.secondaryBackgroundStyle : 
+				 						theme.primaryBackgroundStyle">
 			<div class="bar1"
-					 [ngStyle]="theme.primaryBackgroundStyle"></div>
+					 [ngStyle]="inverse ? 
+					 						theme.secondaryBackgroundStyle : 
+					 						theme.primaryBackgroundStyle"></div>
 			<div class="bar2"
-					 [ngStyle]="theme.primaryBackgroundStyle"></div>
+					 [ngStyle]="inverse ? 
+					 						theme.secondaryBackgroundStyle : 
+					 						theme.primaryBackgroundStyle"></div>
 		</div>
 	</div>
 </div>

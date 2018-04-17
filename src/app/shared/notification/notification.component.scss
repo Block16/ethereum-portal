@@ -1,0 +1,70 @@
+@import '../../../assets/sass-imports/_variables.scss';
+@import '../../../assets/sass-imports/_mixins.scss';
+@import '../../../assets/sass-imports/_typography.scss';
+
+$notificationWidth: 20em;
+$notificationMargin: $defaultMargin / 3;
+
+:host {
+	position: fixed;
+	z-index: 99;
+	@include tblr;
+	@include pass-through;
+}
+
+.notifications {
+	position: fixed;
+	display: flex;
+	flex-flow: column-reverse;
+	padding: $notificationMargin * 3;
+	right: 0;
+	bottom: 0;
+	width: $notificationWidth;
+	@media (max-width: $desktopBreakPoint) {
+		left: 0;
+		width: unset;
+		// bottom: unset;
+	}
+}
+
+.notification {
+	position: relative;
+	background: black;
+	min-height: $menuButtonHeight + $defaultMargin * 2;
+	padding-left: $menuButtonWidth + $defaultMargin * 2;
+	padding-top: 15px;
+	margin-top: $notificationMargin;
+	color: white;
+	animation: notification-in-desktop .2s cubic-bezier(0,1.4,.5,1);
+	@include no-pass-through;
+	@keyframes notification-in-desktop {
+		from {
+			opacity: 0;
+			transform: translateX($notificationWidth);
+		}
+	}
+	@keyframes notification-in-mobile {
+		from {
+			opacity: 0;
+			transform: translateX(100vw);
+		}
+	}
+	.x {
+		position: absolute;
+    left: 0;
+    top: 0;
+		@include no-select-pointer;
+	}
+	h2 {
+		margin-bottom: 8px;
+	}
+	.text {
+		padding: 0 $defaultMargin $defaultMargin 0;
+	}
+	@media (max-width: $desktopBreakPoint) {
+		margin-bottom: $notificationMargin;
+		margin-top: 0;
+		width: unset;
+		animation: notification-in-mobile .2s cubic-bezier(0,1.2,.5,1);
+	}
+}

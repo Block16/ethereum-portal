@@ -14,6 +14,7 @@ import {CoreKeyManagerService} from "./key-manager-services/core-key-manager.ser
 import {MetamaskService} from "./key-manager-services/metamask.service";
 import {DenominationService} from "./denomination.service";
 import {TokenTickerService} from "./token-ticker.service";
+import {NotificationService} from "./notification.service";
 
 @NgModule({
   imports: [
@@ -33,7 +34,8 @@ import {TokenTickerService} from "./token-ticker.service";
     MetamaskService,
     CoreKeyManagerService,
     DenominationService,
-    TokenTickerService
+    TokenTickerService,
+    NotificationService
   ],
   declarations: []
 })

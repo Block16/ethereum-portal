@@ -127,7 +127,7 @@
 										 	 [inlineSVG]="'assets/img/icons/coins/'+token.symbol.toLowerCase()+'.svg'"></div>
 								 </div>
 								<div class="icon-container no-icon"
-										 [ngStyle]="theme.tokenIconStyle"
+										 [ngStyle]="theme.inverseMainStyle"
 										 *ngIf="!tokenHasIcon(token.contractAddress)">
 										 <span>{{ getTokenAbbreviation(token.symbol) }}</span>
 								 </div>
@@ -223,4 +223,7 @@
 	<app-button class="dev-button"
 			 [ngStyle]="theme.buttonStyle"
 		 	 (click)="transactionSigned()">Sign transaction</app-button>
+	<app-button class="dev-button"
+			 [ngStyle]="theme.buttonStyle"
+		 	 (click)="notificationService.message('hello ')">Add notification</app-button>
 </div>

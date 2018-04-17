@@ -7,8 +7,8 @@ import {privateKeyToAddress} from "../../shared/utils";
 import {PrivateKeyService} from "../../core/key-manager-services/private-key.service";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {ThemeService} from "../../core/theme.service";
-import {Subscription} from "rxjs/Subscription";
 import {Theme} from "../../shared/model/theme/theme";
+import {Subscription} from "rxjs/Subscription";
 import {Block16Service} from "../../core/block16.service";
 import {EthereumAsset} from "../../shared/model/ethereum-asset";
 import {UserPreferencesService} from "../../core/user-preferences.service";
@@ -18,6 +18,7 @@ import {CoreKeyManagerService} from "../../core/key-manager-services/core-key-ma
 import {EthereumTransaction} from "../../shared/model/ethereum-transaction";
 import {DenominationService} from "../../core/denomination.service";
 import {TokenTickerService} from "../../core/token-ticker.service";
+import { NotificationService } from '../../core/notification.service';
 
 @Component({
   selector: 'app-index',
@@ -83,7 +84,8 @@ export class IndexComponent implements OnInit, OnDestroy {
     private coreKeyManagerService: CoreKeyManagerService,
     private privateKeyService: PrivateKeyService,
     private denominationService: DenominationService,
-    private tokenTickerService: TokenTickerService
+    private tokenTickerService: TokenTickerService,
+    private notificationService: NotificationService
   ) {
     this.currentAuth = AuthState.none;
 
