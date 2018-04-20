@@ -18,7 +18,7 @@ import {CoreKeyManagerService} from "../../core/key-manager-services/core-key-ma
 import {EthereumTransaction} from "../../shared/model/ethereum-transaction";
 import {DenominationService} from "../../core/denomination.service";
 import {TokenTickerService} from "../../core/token-ticker.service";
-import { NotificationService } from '../../core/notification.service';
+import {NotificationService} from '../../core/notification.service';
 
 @Component({
   selector: 'app-index',
@@ -73,20 +73,18 @@ export class IndexComponent implements OnInit, OnDestroy {
   public ethereumAddress: string;
   public ethereumBalance: number;
 
-  constructor (
-    private themeService: ThemeService,
-    private userPreferencesService: UserPreferencesService,
-    private dataShareService: DataShareService,
-    private web3Service: Web3Service,
-    private ledgerService: LedgerService,
-    private trezorService: TrezorConnectService,
-    private assetService: Block16Service,
-    private coreKeyManagerService: CoreKeyManagerService,
-    private privateKeyService: PrivateKeyService,
-    private denominationService: DenominationService,
-    private tokenTickerService: TokenTickerService,
-    private notificationService: NotificationService
-  ) {
+  constructor(private themeService: ThemeService,
+              private userPreferencesService: UserPreferencesService,
+              private dataShareService: DataShareService,
+              private web3Service: Web3Service,
+              private ledgerService: LedgerService,
+              private trezorService: TrezorConnectService,
+              private assetService: Block16Service,
+              private coreKeyManagerService: CoreKeyManagerService,
+              private privateKeyService: PrivateKeyService,
+              private denominationService: DenominationService,
+              private tokenTickerService: TokenTickerService,
+              private notificationService: NotificationService) {
     this.currentAuth = AuthState.none;
 
     // TODO: Update this off the bat if their MetaMask is unlocked
@@ -106,7 +104,7 @@ export class IndexComponent implements OnInit, OnDestroy {
     // Assets
     this.assetSubscription = this.assetService.ethereumAssets.subscribe(assets => {
       this.assets = assets;
-      this.randomAssets()
+      this.randomAssets();
     });
 
     // TODO: pull this out
@@ -132,42 +130,57 @@ export class IndexComponent implements OnInit, OnDestroy {
       }); */
     });
   }
-  
+
   private denominate(asset, amount, denomination) {
     return this.denominationService.denominate(asset, amount, denomination);
   }
 
   randomAssets() {
-    let possibleAssets = [
-                          {'address': '10x0d8775f648430679a709e98d2b0cb6250d2887ef',
-                          'symbol': 'BAT'},
-                          {'address': '10xb5a5f22694352c15b00323844ad545abb2b11028',
-                          'symbol': 'ICX'},
-                          {'address': '10x42d6622dece394b54999fbd73d108123806f6a18',  
-                          'symbol': 'SPANK'},
-                          {'address': '0x3833dda0aeb6947b98ce454d89366cba8cc55528',
-                          'symbol': 'SPHTX'},
-                          {'address': '0x3883f5e181fccaF8410FA61e12b59BAd963fb645',
-                          'symbol': 'THETA'},
-                          {'address': '0xf230b790e05390fc8295f4d3f60332c93bed42e2',
-                          'symbol': 'TRX'},
-                          {'address': '0xe41d2489571d322189246dafa5ebde1f4699f498',
-                          'symbol': 'ZRX'}
-                         ];
-    let numberOfAssets = Math.round(Math.random() * possibleAssets.length);
-    
+    const possibleAssets = [
+      {
+        'address': '10x0d8775f648430679a709e98d2b0cb6250d2887ef',
+        'symbol': 'BAT'
+      },
+      {
+        'address': '10xb5a5f22694352c15b00323844ad545abb2b11028',
+        'symbol': 'ICX'
+      },
+      {
+        'address': '10x42d6622dece394b54999fbd73d108123806f6a18',
+        'symbol': 'SPANK'
+      },
+      {
+        'address': '0x3833dda0aeb6947b98ce454d89366cba8cc55528',
+        'symbol': 'SPHTX'
+      },
+      {
+        'address': '0x3883f5e181fccaF8410FA61e12b59BAd963fb645',
+        'symbol': 'THETA'
+      },
+      {
+        'address': '0xf230b790e05390fc8295f4d3f60332c93bed42e2',
+        'symbol': 'TRX'
+      },
+      {
+        'address': '0xe41d2489571d322189246dafa5ebde1f4699f498',
+        'symbol': 'ZRX'
+      }
+    ];
+    const numberOfAssets = Math.round(Math.random() * possibleAssets.length);
+
     for (let i = 0; i <= numberOfAssets; i++) {
-      let chosenAssetIndex: number = Math.round(Math.random() * (possibleAssets.length - 1));
-      
-      let chosenAsset = possibleAssets[chosenAssetIndex];
+      const chosenAssetIndex: number = Math.round(Math.random() * (possibleAssets.length - 1));
+
+      const chosenAsset = possibleAssets[chosenAssetIndex];
       // console.log(chosenAsset);
-      
+
       possibleAssets.splice(chosenAssetIndex, 1);
-      
+
       let assetAmount: number = Math.round(Math.random() * 1000000) + 1;
       assetAmount += parseFloat(Math.random().toFixed(4));
-      
-      let newAsset = new EthereumAsset(chosenAsset.symbol, chosenAsset.symbol, assetAmount, 18, null, chosenAsset.address);
+
+      const newAsset = new EthereumAsset(chosenAsset.symbol, chosenAsset.symbol, new BigNumber(assetAmount.toString(), 10), 18, null, chosenAsset.address);
+
       this.assets.push(newAsset);
     }
     // console.log(this.assets);
@@ -200,11 +213,11 @@ export class IndexComponent implements OnInit, OnDestroy {
     this.currentAuth = AuthState.utcFile;
     this.coreKeyManagerService.setCurrentAuth(this.currentAuth, privateKeyToAddress(event), event);
   }
-  
+
   getTokenAbbreviation(tokenTicker: string) {
-    return tokenTicker.substr(0,3).toUpperCase();
+    return tokenTicker.substr(0, 3).toUpperCase();
   }
-  
+
   tokenHasIcon(contractAddress) {
     if (this.tokenTickerService.checkTokenSymbol(contractAddress)) {
       return true;
