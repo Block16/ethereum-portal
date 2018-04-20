@@ -19,6 +19,7 @@ import {EthereumTransaction} from "../../shared/model/ethereum-transaction";
 import {DenominationService} from "../../core/denomination.service";
 import {TokenTickerService} from "../../core/token-ticker.service";
 import {NotificationService} from '../../core/notification.service';
+import {BigNumber} from "bignumber.js";
 
 @Component({
   selector: 'app-index',
