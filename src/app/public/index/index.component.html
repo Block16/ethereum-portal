@@ -72,11 +72,6 @@
 				<br>
 				<app-toggle-section [title]="'Non-recommended'">
 	        <app-private-key-form (privateKey)="privateKeyAuthState($event)"></app-private-key-form>
-					<button class="button"
-									(click)="currentAuth = AuthState.metamask">FAKE AUTH</button>
-					<br><br>
-					<button class="button"
-									(click)="showTestModal = !showTestModal">show test modal</button>
 				</app-toggle-section>
 			</section>
 
