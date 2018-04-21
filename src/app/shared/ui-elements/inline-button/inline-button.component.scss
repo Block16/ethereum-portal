@@ -1,0 +1,32 @@
+@import '../../../../assets/sass-imports/_variables.scss';
+@import '../../../../assets/sass-imports/_mixins.scss';
+@import '../../../../assets/sass-imports/_typography.scss';
+
+:host {
+	display: inline-block;
+}
+
+a {
+	text-decoration: none;
+	font: 15px $FB2;
+	color: black;
+	padding: .3em 0;
+	display: flex;
+	.chevron {
+		display: inline-block;
+		width: .4em;
+		margin-left: .3em;
+		transform: translateY(.1em);
+		transition: .1s;
+	}
+	&:hover {
+		.chevron {
+			margin-left: .5em;
+		}
+	}
+	&:active {
+		.chevron {
+			margin-left: .3em;
+		}
+	}
+}

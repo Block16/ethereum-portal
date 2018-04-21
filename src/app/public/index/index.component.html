@@ -69,22 +69,84 @@
 					</div>
 				</div>
 				<br>
+				<br>
+				<app-toggle-section [title]="'Non-recommended'">
+	        <app-private-key-form (privateKey)="privateKeyAuthState($event)"></app-private-key-form>
+					<button class="button"
+									(click)="currentAuth = AuthState.metamask">FAKE AUTH</button>
+					<br><br>
+					<button class="button"
+									(click)="showTestModal = !showTestModal">show test modal</button>
+				</app-toggle-section>
 			</section>
 
-			<app-toggle-section [title]="'Non-recommended'">
-        <app-private-key-form (privateKey)="privateKeyAuthState($event)"></app-private-key-form>
-				<button class="button"
-								(click)="currentAuth = AuthState.metamask">FAKE AUTH</button>
-				<br><br>
-				<button class="button"
-								(click)="showTestModal = !showTestModal">show test modal</button>
-			</app-toggle-section>
 			<!-- <app-button>button</app-button>
 			<app-button accent small>accent button</app-button> -->
 		</div>
 		<div class="grid-cell">
 			<h2 class="top-border"
 					[ngStyle]="theme.textStyle">Don't have a wallet?</h2>
+			<section class="section-content">
+				<div class="wallet-info-entry">
+					<div class="wallet-icon">
+						<div [hidden]="!theme.isDark">
+							<div class="svg-wrapper primary-svg"
+									 [inlineSVG]="'/assets/img/icons/inline-svg/metamask icon light.svg'"></div>
+						</div>
+						<div [hidden]="theme.isDark">
+							<div class="svg-wrapper primary-svg"
+									 [inlineSVG]="'/assets/img/icons/inline-svg/metamask icon.svg'"></div>
+						</div>
+					</div>
+					<h3 class="wallet-name no-bottom-margin">MetaMask</h3>
+					<p class="wallet-info no-bottom-margin">
+						MetaMask is a free and convenient browser extension for Chrome, Firefox, and Opera. MetaMask is also available for Firefox on Android.
+					</p>
+					<app-inline-button class="wallet-link"
+														 href="https://metamask.io/">
+						Install MetaMask
+					</app-inline-button>
+				</div>
+				<div class="wallet-info-entry">
+					<div class="wallet-icon">
+							<div class="svg-wrapper primary-svg utc" [inlineSVG]="'/assets/img/icons/inline-svg/utc icon.svg'"></div>
+					</div>
+					<h3 class="wallet-name no-bottom-margin">.UTC file</h3>
+					<p class="wallet-info no-bottom-margin">
+						A .UTC file is a passworded file that you save to your computer and can use to access your Ethereum wallet.
+					</p>
+					<app-inline-button class="wallet-link"
+														 href="https://www.ledgerwallet.com/">
+						Generate .UTC file
+					</app-inline-button>
+				</div>
+				<div class="wallet-info-entry">
+					<div class="wallet-icon">
+							<div class="svg-wrapper primary-svg ledger" [inlineSVG]="'/assets/img/icons/inline-svg/ledger icon.svg'"></div>
+					</div>
+					<h3 class="wallet-name no-bottom-margin">Ledger</h3>
+					<p class="wallet-info no-bottom-margin">
+						Ledger is a hardware wallet designed for secure long-term cryptocurrency storage.
+					</p>
+					<app-inline-button class="wallet-link"
+														 href="https://www.ledgerwallet.com/">
+						View product page
+					</app-inline-button>
+				</div>
+				<div class="wallet-info-entry">
+					<div class="wallet-icon">
+							<div class="svg-wrapper primary-svg trezor" [inlineSVG]="'/assets/img/icons/inline-svg/trezor icon.svg'"></div>
+					</div>
+					<h3 class="wallet-name no-bottom-margin">Trezor</h3>
+					<p class="wallet-info no-bottom-margin">
+						Trezor is a hardware wallet designed for secure long-term cryptocurrency storage.
+					</p>
+					<app-inline-button class="wallet-link"
+														 href="https://trezor.io/">
+						View product page
+					</app-inline-button>
+				</div>
+			</section>
 		</div>
 	</div>
 
@@ -214,7 +276,7 @@
 <modal [(visible)]="showTestModal"
 			 [title]="'Title'">hello</modal>
 
-<div class="dev-buttons">
+<!-- <div class="dev-buttons">
 	<app-button class="dev-button"
 			 [ngStyle]="theme.buttonStyle"
 			 (click)="showTestModal = !showTestModal">Show test modal</app-button>
@@ -228,3 +290,4 @@
 			 [ngStyle]="theme.buttonStyle"
 		 	 (click)="notificationService.message('hello ')">Add notification</app-button>
 </div>
+ -->

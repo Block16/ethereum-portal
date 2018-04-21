@@ -167,14 +167,14 @@ export class IndexComponent implements OnInit, OnDestroy {
         'symbol': 'ZRX'
       }
     ];
-    const numberOfAssets = Math.round(Math.random() * possibleAssets.length);
+    const numberOfAssets = Math.round(Math.random() * possibleAssets.length - 1);
 
     for (let i = 0; i <= numberOfAssets; i++) {
       const chosenAssetIndex: number = Math.round(Math.random() * (possibleAssets.length - 1));
 
       const chosenAsset = possibleAssets[chosenAssetIndex];
-      // console.log(chosenAsset);
-
+      console.log(chosenAsset);
+      
       possibleAssets.splice(chosenAssetIndex, 1);
 
       let assetAmount: number = Math.round(Math.random() * 1000000) + 1;
@@ -184,7 +184,7 @@ export class IndexComponent implements OnInit, OnDestroy {
 
       this.assets.push(newAsset);
     }
-    // console.log(this.assets);
+    console.log(this.assets);
   }
 
   ngOnInit(): void {

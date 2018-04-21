@@ -52,6 +52,44 @@ main {
   }
 }
 
+.wallet-info-entry {
+	$iconWidth: 3em;
+	display: grid;
+	max-width: 30em;
+	grid-template: "icon name"
+								 "icon info"
+								 "icon link" / $iconWidth 1fr;
+	grid-gap: 0 1em;
+	margin-bottom: $defaultMargin;
+	.wallet-icon {
+		grid-area: icon;
+		text-align: center;
+		.svg-wrapper {
+			display: inline-block;
+			&.utc {
+				width: 80%;
+				margin-top: .2em;
+			}
+			&.ledger {
+				width: 80%;
+				margin-top: .2em;
+			}
+			&.trezor {
+				width: 65%;
+			}
+		}
+	}
+	.wallet-name {
+		grid-area: name;
+	}
+	.wallet-info {
+		grid-area: info;
+	}
+	.wallet-link {
+		grid-area: link;
+	}
+}
+
 .my-address {
 	line-height: 1.1em;
 	margin-top: .3em;

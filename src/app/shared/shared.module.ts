@@ -17,6 +17,7 @@ import { NgxKjuaModule } from 'ngx-kjua';
 import { SelectComponent } from './ui-elements/select/select.component';
 import { HoverStyleComponent } from './ui-elements/hover-style/hover-style.component';
 import { NotificationComponent } from './notification/notification.component';
+import { InlineButtonComponent } from './ui-elements/inline-button/inline-button.component';
 
 
 @NgModule({
@@ -42,7 +43,8 @@ import { NotificationComponent } from './notification/notification.component';
     NgxKjuaModule,
     SelectComponent,
     HoverStyleComponent,
-    NotificationComponent
+    NotificationComponent,
+    InlineButtonComponent
   ],
   declarations: [
     ModalComponent,
@@ -58,7 +60,8 @@ import { NotificationComponent } from './notification/notification.component';
     ToggleSectionComponent,
     SelectComponent,
     HoverStyleComponent,
-    NotificationComponent
+    NotificationComponent,
+    InlineButtonComponent
   ]
 })
 export class SharedModule { }
