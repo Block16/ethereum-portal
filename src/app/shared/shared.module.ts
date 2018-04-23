@@ -19,6 +19,7 @@ import { HoverStyleComponent } from './ui-elements/hover-style/hover-style.compo
 import { NotificationComponent } from './notification/notification.component';
 import { InlineButtonComponent } from './ui-elements/inline-button/inline-button.component';
 import { FadeDigitsPipe } from './pipes/fade-digits.pipe';
+import { BigNumberToNumberPipe } from './pipes/big-number-to-number.pipe';
 
 @NgModule({
   imports: [
@@ -45,7 +46,8 @@ import { FadeDigitsPipe } from './pipes/fade-digits.pipe';
     HoverStyleComponent,
     NotificationComponent,
     InlineButtonComponent,
-    FadeDigitsPipe
+    FadeDigitsPipe,
+    BigNumberToNumberPipe
   ],
   declarations: [
     ModalComponent,
@@ -63,7 +65,8 @@ import { FadeDigitsPipe } from './pipes/fade-digits.pipe';
     HoverStyleComponent,
     NotificationComponent,
     InlineButtonComponent,
-    FadeDigitsPipe
+    FadeDigitsPipe,
+    BigNumberToNumberPipe
   ]
 })
 export class SharedModule { }

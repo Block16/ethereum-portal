@@ -157,7 +157,7 @@
 						ETH															
 					</div>
 					<p class="token-amount lining-proportional no-wrap"
-						 [innerHTML]="5000.123456789 | fadeDigits">
+						 [innerHTML]="5000.123456789 | number:'0.0-18' | fadeDigits">
 					</p>
 					<p class="token-denomination lining-proportional op4 no-wrap"
 						 [ngStyle]="theme.primaryTextStyle"
@@ -183,13 +183,13 @@
 										 [ngStyle]="theme.accentMainStyle"
 										 *ngIf="!tokenHasIcon(token.contractAddress)">
 										 <span>{{ getTokenAbbreviation(token.symbol) }}</span>
-								 </div>
+								</div>
 							</div>
 							<div class="token-symbol caption no-wrap">
 								{{ token.symbol }}
 							</div>
 							<p class="token-amount lining-proportional no-wrap"
-								 [innerHTML]="token.amount | fadeDigits:2">
+								 [innerHTML]="token.amount | bigNumberToNumber | number:'0.0-18' | fadeDigits:2">
 							</p>
 							<p class="token-denomination lining-proportional op4 no-wrap"
 								 [ngStyle]="theme.primaryTextStyle"
