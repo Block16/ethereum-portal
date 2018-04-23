@@ -20,6 +20,7 @@ import {DenominationService} from "../../core/denomination.service";
 import {TokenTickerService} from "../../core/token-ticker.service";
 import {NotificationService} from '../../core/notification.service';
 import {BigNumber} from "bignumber.js";
+import {MetamaskService} from "../../core/key-manager-services/metamask.service";
 
 @Component({
   selector: 'app-index',
@@ -41,7 +42,6 @@ export class IndexComponent implements OnInit, OnDestroy {
   public showQR = false;
   public showNonRecommended = false;
   public showSidebar: boolean;
-  public detectedInjectedProvider: boolean;
   public showApproveTransaction = false;
 
   // User preferences
@@ -74,26 +74,26 @@ export class IndexComponent implements OnInit, OnDestroy {
   public ethereumAddress: string;
   public ethereumBalance: number;
 
-  constructor(private themeService: ThemeService,
-              private userPreferencesService: UserPreferencesService,
-              private dataShareService: DataShareService,
-              private web3Service: Web3Service,
-              private ledgerService: LedgerService,
-              private trezorService: TrezorConnectService,
-              private assetService: Block16Service,
-              private coreKeyManagerService: CoreKeyManagerService,
-              private privateKeyService: PrivateKeyService,
-              private denominationService: DenominationService,
-              private tokenTickerService: TokenTickerService,
-              private notificationService: NotificationService) {
+  constructor(
+    private themeService: ThemeService,
+    private userPreferencesService: UserPreferencesService,
+    private dataShareService: DataShareService,
+    private web3Service: Web3Service,
+    private ledgerService: LedgerService,
+    private trezorService: TrezorConnectService,
+    private metaMaskService: MetamaskService,
+    private assetService: Block16Service,
+    private coreKeyManagerService: CoreKeyManagerService,
+    private privateKeyService: PrivateKeyService,
+    private denominationService: DenominationService,
+    private tokenTickerService: TokenTickerService,
+    private notificationService: NotificationService
+  ) {
     this.currentAuth = AuthState.none;
 
     // TODO: Update this off the bat if their MetaMask is unlocked
     this.ethereumAddress = '';
     this.ethereumBalance = 0;
-
-    // If we detected metamask or mist
-    this.detectedInjectedProvider = this.web3Service.providerDetected;
 
     // Theme
     this.themeSubscription = this.themeService.theme.subscribe(theme => {
@@ -174,7 +174,7 @@ export class IndexComponent implements OnInit, OnDestroy {
 
       const chosenAsset = possibleAssets[chosenAssetIndex];
       console.log(chosenAsset);
-      
+
       possibleAssets.splice(chosenAssetIndex, 1);
 
       let assetAmount: number = Math.round(Math.random() * 1000000) + 1;
@@ -233,7 +233,7 @@ export class IndexComponent implements OnInit, OnDestroy {
   }
 
   metaMaskAuthState() {
-    this.web3Service.getEthereumAddresses().subscribe((addresses: string[]) => {
+    this.metaMaskService.getEthereumAddresses().subscribe((addresses: string[]) => {
       this.currentAuth = AuthState.metamask;
       this.coreKeyManagerService.setCurrentAuth(this.currentAuth, addresses[0]);
 
@@ -299,6 +299,13 @@ export class IndexComponent implements OnInit, OnDestroy {
       'amount': amount,
       'created': new Date()
     };
+  }
+
+  sendTransaction() {
+    this.web3Service.sendRawTransaction(this.newTransaction).subscribe(n => {
+      // TODO: make sure we clear the current tx here
+      // TODO: make sure we subscribe to the finish of this TX
+    });
   }
 
   showApproveNewTransaction() {

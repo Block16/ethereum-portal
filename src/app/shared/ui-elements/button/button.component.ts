@@ -12,48 +12,50 @@ import {Theme} from "../../model/theme/theme";
     'role': 'button',
     '[class.accent]': 'this.accent',
     '[class.disabled]': 'this.disabled',
-    '[style.background]': `this.accent ? 
-                           this.theme.accentColor :
-                           this.theme.primaryColor`,
+    '[style.background]': `this.accent ?
+      this.theme.accentColor :
+      this.theme.primaryColor`,
     '[style.color]': `this.theme.secondaryColor`
   }
 })
-
 export class ButtonComponent implements OnInit {
-
-  @HostListener('mouseover') onMouseOver() {
-     this.hover = true;
-  }
-  @HostListener('mouseleave') onMouseLeave() {
-     this.hover = false;
-  }
-	@Input() kind: string;
+  @Input() kind: string;
   @Input('disabled') disabled = false;
 
   public theme: Theme;
-  private hover: boolean = false;
+  private hover = false;
   private themeSubscription: Subscription;
 
-	constructor(
+  constructor(
     @Attribute('size') private size: string = 'normal',
-    @Attribute('accent') private accent: boolean|null,
-    @Attribute('small') private small: boolean|null,
-    @Attribute('submit') private submit: boolean|null,
+    @Attribute('accent') private accent: boolean | null,
+    @Attribute('small') private small: boolean | null,
+    @Attribute('submit') private submit: boolean | null,
     private themeService: ThemeService
-    ) {
+  ) {
     this.accent = (accent != null);
     this.small = (small != null);
     this.submit = (submit != null);
-	  this.themeSubscription = this.themeService.theme.subscribe(theme => {
-	    this.theme = theme;
-	  });
-	}
+    this.themeSubscription = this.themeService.theme.subscribe(theme => {
+      this.theme = theme;
+    });
+  }
 
   spacebar() {
-  	console.log('pressed space on focused element');
+    console.log('pressed space on focused element');
   }
 
   ngOnInit() {
+  }
+
+  @HostListener('mouseover')
+  onMouseOver() {
+    this.hover = true;
+  }
+
+  @HostListener('mouseleave')
+  onMouseLeave() {
+    this.hover = false;
   }
 
 }

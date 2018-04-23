@@ -13,6 +13,7 @@ import {BehaviorSubject} from "rxjs/BehaviorSubject";
 @Injectable()
 export class CoreKeyManagerService implements KeyManagerService {
   public currentAddress: BehaviorSubject<string>;
+
   // TODO: Should we keep the list of addresses here?
   private addresses: string[];
 

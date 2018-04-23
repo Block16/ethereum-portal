@@ -2,34 +2,25 @@ import { Injectable } from '@angular/core';
 import Web3 from "web3";
 import {Observable} from 'rxjs/Observable';
 import { fromPromise } from 'rxjs/observable/fromPromise';
-import {KeyManagerService} from './key-manager-services/key.manager.interface';
 import {EthereumTransaction} from '../shared/model/ethereum-transaction';
-import {isArray, isNullOrUndefined} from "util";
+import {isNullOrUndefined} from "util";
 import * as ethutils from 'ethereumjs-util';
-
-declare var web3;
-declare const keythereum;
+import {Provider} from "../shared/model/providers";
+import {BehaviorSubject} from "rxjs/BehaviorSubject";
 
 @Injectable()
-export class Web3Service implements KeyManagerService {
-  public providerDetected: boolean;
+export class Web3Service {
+
+  private providers = [
+    new Provider("Infura", "https://mainnet.infura.io"),
+  ];
+  public currentProvider: BehaviorSubject<Provider>;
 
   public web3js: any;
-  public infuraLocation = "https://mainnet.infura.io";
 
   constructor() {
-    if (typeof web3 !== 'undefined') {
-      // Use Mist/MetaMask's provider
-      this.web3js = new Web3(web3.currentProvider);
-      this.providerDetected = true;
-      console.log("Using metamask/mist provider");
-    } else {
-      // Not using metamask
-
-      this.providerDetected = false;
-      console.log("Using infura provider");
-    }
-    this.web3js = new Web3(new Web3.providers.HttpProvider(this.infuraLocation));
+    this.currentProvider = new BehaviorSubject(this.providers[0]);
+    this.web3js = new Web3(new Web3.providers.HttpProvider(this.providers[0].location));
   }
 
   public getWebInstance(): any {
@@ -43,6 +34,10 @@ export class Web3Service implements KeyManagerService {
         observer.complete();
       });
     });
+  }
+
+  public getProviders(): Provider[] {
+    return this.providers;
   }
 
   public getTransactionCount(account: string): Observable<any> {
@@ -59,39 +54,8 @@ export class Web3Service implements KeyManagerService {
     });
   }
 
-  ////////
-  //// Key Mgmt Functions
-  ////////
-
-  public getEthereumAddresses(): Observable<string[]> {
-    return Observable.create((observer) => {
-      this.web3js.eth.getAccounts().then((accounts) => {
-        if (isArray(accounts) && accounts.length > 0) {
-          observer.next(accounts);
-        } else if (!isArray(accounts) && !isNullOrUndefined(accounts)) {
-          observer.next(accounts);
-        } else {
-          // TODO: not logged in.
-          observer.error(new Error("Could not get accounts from provider"));
-        }
-        observer.complete();
-      }, err => {
-        observer.error(err);
-        observer.complete();
-      });
-
-    });
+  public setCurrentProvider(p: Provider) {
+    this.currentProvider.next(p);
+    this.web3js = new Web3(new Web3.providers.HttpProvider(p.location));
   }
-
-  signTransaction(transaction: EthereumTransaction): Observable<EthereumTransaction> {
-    return Observable.create(observer => {
-      observer.next(transaction);
-      observer.complete();
-    });
-  }
-
-  /**
-   * Not necessary here since we don't keep any state
-   */
-  resetState() { }
 }

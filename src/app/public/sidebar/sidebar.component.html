@@ -36,7 +36,7 @@
 	<div class="h2Border menu-title" [ngStyle]="theme.primaryTextStyle">
 		<h2>Preferences</h2>
 	</div>
-	
+
 	<app-hover-style class="preference" (click)="setUserPreference('manualGas', !userPreferences['manualGas'])">
 		<span>Set gas price manually</span>
 		<toggle-switch [clickable]="false"
@@ -78,9 +78,10 @@
 
     <form [formGroup]="denominationForm">
       <app-select [control]="providerForm.controls['provider']"
-    						  [options]="['Block 16', 'Infura', 'Etherscan']"
-                  [initialValue]="'Block 16'"
-    						  small>
+    						  [options]="providers"
+                  [initialValue]="currentProvider"
+                  [optionProperty]="'name'"
+    						  small >
 
       </app-select>
     </form>
