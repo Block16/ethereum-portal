@@ -24,6 +24,7 @@ export class SendFormComponent implements OnInit, OnDestroy {
   private userPrefSub: Subscription;
   public userPreferences: UserPreferences;
 
+  public currentAddress: string;
   public currentAsset: EthereumAsset;
   public sendForm: FormGroup;
   public sendAmount: number;
@@ -41,12 +42,18 @@ export class SendFormComponent implements OnInit, OnDestroy {
     private userPrefService: UserPreferencesService,
     private coreKeyManagerService: CoreKeyManagerService
   ) {
+    this.currentAddress = "";
+
     this.userPrefSub = this.userPrefService.userPreferences.subscribe(userPref => {
       this.userPreferences = userPref;
     });
 
     this.assetSubscription = this.assetService.ethereumAssets.subscribe(assets => {
       this.assets = assets;
+    });
+
+    this.coreKeyManagerService.currentAddress.subscribe((address: string) => {
+      this.currentAddress = address;
     });
 
     this.sendMax = false;
@@ -73,10 +80,7 @@ export class SendFormComponent implements OnInit, OnDestroy {
     }
   }
 
-  ngOnInit() {
-
-  }
-
+  ngOnInit() { }
 
   ngOnDestroy(): void {
     this.userPrefSub.unsubscribe();
@@ -141,10 +145,9 @@ export class SendFormComponent implements OnInit, OnDestroy {
 
     this.web3Service.getTransactionCount(this.coreKeyManagerService.currentAddress.value).subscribe((count: number) => {
       const nonce = this.toHex(count);
-      const transaction = new EthereumTransaction(gasLimit, gasPrice, toAddress, rawAmount, nonce, data);
+      const transaction = new EthereumTransaction(gasLimit, gasPrice, this.currentAddress, toAddress, rawAmount, nonce, data);
       transaction.tokenToAddress = tokenToAddress;
       transaction.asset = sendAsset;
-
       this.ethereumTransaction.emit(transaction);
     });
   }

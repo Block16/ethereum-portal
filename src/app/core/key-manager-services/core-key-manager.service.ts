@@ -74,6 +74,10 @@ export class CoreKeyManagerService implements KeyManagerService {
     return this.currentKeyManager.getEthereumAddresses();
   }
 
+  approveAndSend(transaction: EthereumTransaction): Observable<string> {
+    return this.currentKeyManager.approveAndSend(transaction);
+  }
+
   signTransaction(transaction: EthereumTransaction): Observable<EthereumTransaction> {
     if (isNullOrUndefined(this.currentKeyManager)) {
       throw new Error('currentKeyManager is not defined, cannot call service methods without a privatekey manager');

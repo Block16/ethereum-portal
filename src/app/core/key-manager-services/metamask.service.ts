@@ -41,15 +41,38 @@ export class MetamaskService implements KeyManagerService {
         });
       });
     } else {
-      // TODO: Make sure we show a notification to sign in with metamask
       this.notificationService.error("MetaMask", "Please install metamask before using this option.");
     }
   }
 
+  /**
+   * Identity sign TX function as it will have to be approved
+   * @param {EthereumTransaction} transaction
+   * @returns {Observable<EthereumTransaction>}
+   */
   signTransaction(transaction: EthereumTransaction): Observable<EthereumTransaction> {
     return Observable.create(observer => {
       observer.next(transaction);
       observer.complete();
+    });
+  }
+
+  /**
+   *
+   * @param {EthereumTransaction} transaction
+   * @returns {Observable<string>}
+   */
+  approveAndSend(transaction: EthereumTransaction): Observable<string> {
+    return Observable.create(observer => {
+      const unsigned = transaction.getUnsignedObject();
+      this.web3js.eth.sendTransaction(unsigned, (err, txHash) => {
+        if (!err) {
+          observer.next(txHash);
+        } else {
+          observer.error(err);
+        }
+        observer.complete();
+      });
     });
   }
 

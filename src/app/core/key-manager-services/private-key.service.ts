@@ -61,6 +61,10 @@ export class PrivateKeyService implements KeyManagerService {
     this.ethereumAddress = '';
   }
 
+  approveAndSend(transaction: EthereumTransaction): Observable<string> {
+    return null;
+  }
+
   @HostListener('window:beforeunload', ['$event'])
   onUnload($event) {
     // make sure we unload the privatekey before unloading the application

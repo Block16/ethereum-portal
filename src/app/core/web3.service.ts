@@ -44,13 +44,19 @@ export class Web3Service {
     return fromPromise(this.web3js.eth.getTransactionCount(ethutils.addHexPrefix(account), 'latest'));
   }
 
-  public sendRawTransaction(transaction: EthereumTransaction): Observable<any> {
+  public sendRawTransaction(transaction: EthereumTransaction): Observable<string> {
     if (isNullOrUndefined(transaction.signature)) {
       throw new Error('Transaction signature was missing from transaction');
     }
     return Observable.create((observer) => {
-      observer.next();
-      observer.complete();
+      this.web3js.eth.sendRawTransaction(transaction.signature, (err, txHash) => {
+        if (!isNullOrUndefined(err)) {
+          observer.error(err);
+        } else {
+          observer.next(txHash);
+        }
+        observer.complete();
+      });
     });
   }
 

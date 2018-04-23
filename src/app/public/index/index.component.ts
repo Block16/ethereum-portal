@@ -123,6 +123,7 @@ export class IndexComponent implements OnInit, OnDestroy {
 
     this.coreKeyManagerService.currentAddress.subscribe((address: string) => {
       this.ethereumAddress = address;
+      // TODO: refactor this, just use the subscription in the other component
       this.ethereumAddressChange.emit(address);
       // TODO: Refactor this section
       // Go fetch the balance of the address immediately, TODO: refactor this into the assets call
@@ -200,10 +201,33 @@ export class IndexComponent implements OnInit, OnDestroy {
     this.themeSubscription.unsubscribe();
   }
 
+  /**
+   * When the send-form emits a generated transaction
+   * @param {EthereumTransaction} transaction that was generated
+   */
   onTransactionGenerated(transaction: EthereumTransaction) {
     this.newTransaction = transaction;
     this.showApproveTransaction = true;
     this.setNewTransactionViewFullscreen();
+    // Want single approve step, for non-privateKey this will open on their device
+    // TODO: I don't like this control flow (AJD)
+    if (this.currentAuth !== AuthState.privateKey && this.currentAuth !== AuthState.utcFile) {
+      this.coreKeyManagerService.approveAndSend(this.newTransaction).subscribe((txHash) => {
+        console.log(txHash);
+        // TODO: make sure we clear the current tx here
+        // TODO: make sure we subscribe to the finish of this TX
+      });
+    }
+  }
+
+  sendTransaction() {
+    // TODO: I don't like this control flow (AJD)
+    this.web3Service.sendRawTransaction(this.newTransaction).subscribe(txHash => {
+      console.log(txHash);
+      debugger;
+      // TODO: make sure we clear the current tx here
+      // TODO: make sure we subscribe to the finish of this TX
+    });
   }
 
   setShowSidebar(bool) {
@@ -220,11 +244,7 @@ export class IndexComponent implements OnInit, OnDestroy {
   }
 
   tokenHasIcon(contractAddress) {
-    if (this.tokenTickerService.checkTokenSymbol(contractAddress)) {
-      return true;
-    } else {
-      return false;
-    }
+    return !!this.tokenTickerService.checkTokenSymbol(contractAddress);
   }
 
   privateKeyAuthState(event) {
@@ -248,8 +268,6 @@ export class IndexComponent implements OnInit, OnDestroy {
   }
 
   ledgerAuthState() {
-
-
     this.ledgerService.displayOnLedger().subscribe((r) => {
       this.ledgerService.getEthereumAddress().subscribe((address: string) => {
         this.currentAuth = AuthState.ledger;
@@ -299,13 +317,6 @@ export class IndexComponent implements OnInit, OnDestroy {
       'amount': amount,
       'created': new Date()
     };
-  }
-
-  sendTransaction() {
-    this.web3Service.sendRawTransaction(this.newTransaction).subscribe(n => {
-      // TODO: make sure we clear the current tx here
-      // TODO: make sure we subscribe to the finish of this TX
-    });
   }
 
   showApproveNewTransaction() {
