@@ -7,6 +7,7 @@ import {ThemeService} from "../../core/theme.service";
 import {Theme} from "../../shared/model/theme/theme";
 import {UserPreferencesService} from "../../core/user-preferences.service";
 import {UserPreferences} from "../../shared/model/user-preferences";
+import {Provider} from "../../shared/model/providers";
 
 @Component({
   selector: 'app-sidebar',
@@ -15,7 +16,10 @@ import {UserPreferences} from "../../shared/model/user-preferences";
 })
 export class SidebarComponent implements OnDestroy {
   public address: string;
+  public providers: Provider[];
+  public currentProvider: Provider;
 
+  private providerSubscription: Subscription;
   private themeSubscription: Subscription;
   private themeChangeSubscription: Subscription;
   public themes: Theme[];
@@ -40,7 +44,7 @@ export class SidebarComponent implements OnDestroy {
   private providerChangeSubscription: Subscription;
   public denominations = [
     'None', 'USD', 'EUR'
-  ]
+  ];
 
   @Input()
   set account(address: string) {
@@ -50,9 +54,11 @@ export class SidebarComponent implements OnDestroy {
   constructor(
     private formBuilder: FormBuilder,
     private dataShareService: DataShareService,
+    private web3Service: Web3Service,
     private userPreferencesService: UserPreferencesService,
     private themeService: ThemeService
   ) {
+    this.providers = this.web3Service.getProviders();
     this.themes = this.themeService.themes;
     this.themeSubscription = this.themeService.theme.subscribe(theme => {
       this.theme = theme;
@@ -63,11 +69,11 @@ export class SidebarComponent implements OnDestroy {
     this.themeForm = this.formBuilder.group({
       'themePreferences': []
     });
-    
+
     this.denominationForm = this.formBuilder.group({
       'additionalDenomination': []
     });
-    
+
     this.providerForm = this.formBuilder.group({
       'provider': []
     });
@@ -75,18 +81,24 @@ export class SidebarComponent implements OnDestroy {
     // Set the default to the theme we get back from the service
     // this.themeForm.controls['themePreferences'].setValue(theme.name, {onlySelf: true});
 
+    this.providerSubscription = this.web3Service.currentProvider.subscribe((provider: Provider) => {
+      this.currentProvider = provider;
+    });
+
     this.themeChangeSubscription = this.themeForm.get('themePreferences').valueChanges.subscribe((theme: Theme) => {
       this.themeService.setTheme(theme.name);
     });
-    
+
     this.denominationChangeSubscription = this.denominationForm.get('additionalDenomination').valueChanges.subscribe((denomination) => {
       this.userPreferences['additionalDenomination'] = denomination;
-      userPreferencesService.setPreferences(this.userPreferences);
+      this.userPreferencesService.setPreferences(this.userPreferences);
     });
-    
-    this.providerChangeSubscription = this.providerForm.get('provider').valueChanges.subscribe((provider) => {
-      this.userPreferences['provider'] = provider;
-      userPreferencesService.setPreferences(this.userPreferences);
+
+    this.providerChangeSubscription = this.providerForm.get('provider').valueChanges.subscribe((provider: Provider) => {
+      this.web3Service.setCurrentProvider(provider);
+      this.userPreferences['provider'] = provider.name;
+      // TODO: Where do we want to centralize this logic?
+      this.userPreferencesService.setPreferences(this.userPreferences);
     });
 
     this.dataShareService.recentTransactions.subscribe((value: any) => {
@@ -104,11 +116,12 @@ export class SidebarComponent implements OnDestroy {
     this.address = "";
   }
 
-
   ngOnDestroy(): void {
     this.themeSubscription.unsubscribe();
     this.themeChangeSubscription.unsubscribe();
     this.userPrefSubscription.unsubscribe();
+    this.providerChangeSubscription.unsubscribe();
+    this.providerSubscription.unsubscribe();
   }
 
   setUserPreference(preference, setting) {

@@ -162,6 +162,10 @@ export class TrezorConnectService implements KeyManagerService {
     return null;
   }
 
+  approveAndSend(transaction: EthereumTransaction): Observable<string> {
+    return null;
+  }
+
   resetState() { }
 
   /**

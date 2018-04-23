@@ -13,15 +13,17 @@ export class EthereumTransaction {
   constructor(
     readonly gasLimit: string,
     readonly gasPrice: string,
+    readonly fromAddress: string,
     readonly toAddress: string,
     readonly value: string,
     readonly nonce: string,
     readonly data?: string
   ) {
+    this.fromAddress = ethutils.addHexPrefix(fromAddress);
     this.toAddress = ethutils.addHexPrefix(toAddress);
   }
 
-  public getUnsignedTx() {
+  public getUnsignedTx(): EthTx {
     if (isNullOrUndefined(this.nonce)) {
       throw new Error("Nonce is not set");
     }
@@ -29,10 +31,26 @@ export class EthereumTransaction {
       nonce: this.nonce,
       gasPrice: this.gasPrice,
       gasLimit: this.gasLimit,
+      from: this.fromAddress,
       to: this.toAddress,
       value: this.value,
       data: this.data
     });
+  }
+
+  public getUnsignedObject(): any {
+    if (isNullOrUndefined(this.nonce)) {
+      throw new Error("Nonce is not set");
+    }
+    return {
+      nonce: this.nonce,
+      gasPrice: this.gasPrice,
+      gasLimit: this.gasLimit,
+      from: this.fromAddress,
+      to: this.toAddress,
+      value: this.value,
+      data: this.data
+    };
   }
 
   public valueToBN(): BigNumber {

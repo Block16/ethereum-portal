@@ -13,6 +13,7 @@ import {BehaviorSubject} from "rxjs/BehaviorSubject";
 @Injectable()
 export class CoreKeyManagerService implements KeyManagerService {
   public currentAddress: BehaviorSubject<string>;
+
   // TODO: Should we keep the list of addresses here?
   private addresses: string[];
 
@@ -71,6 +72,10 @@ export class CoreKeyManagerService implements KeyManagerService {
       throw new Error('currentKeyManager is not defined, cannot call service methods without a privatekey manager');
     }
     return this.currentKeyManager.getEthereumAddresses();
+  }
+
+  approveAndSend(transaction: EthereumTransaction): Observable<string> {
+    return this.currentKeyManager.approveAndSend(transaction);
   }
 
   signTransaction(transaction: EthereumTransaction): Observable<EthereumTransaction> {
