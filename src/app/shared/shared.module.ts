@@ -18,7 +18,7 @@ import { SelectComponent } from './ui-elements/select/select.component';
 import { HoverStyleComponent } from './ui-elements/hover-style/hover-style.component';
 import { NotificationComponent } from './notification/notification.component';
 import { InlineButtonComponent } from './ui-elements/inline-button/inline-button.component';
-
+import { FadeDigitsPipe } from './pipes/fade-digits.pipe';
 
 @NgModule({
   imports: [
@@ -30,7 +30,7 @@ import { InlineButtonComponent } from './ui-elements/inline-button/inline-button
   exports: [
     ButtonComponent,
     ModalComponent,
-    LoadingIconComponent,
+    LoadingIconComponent,    
     ToggleSwitchComponent,
     PrivateKeyFormComponent,
     UtcFileFormComponent,
@@ -44,7 +44,8 @@ import { InlineButtonComponent } from './ui-elements/inline-button/inline-button
     SelectComponent,
     HoverStyleComponent,
     NotificationComponent,
-    InlineButtonComponent
+    InlineButtonComponent,
+    FadeDigitsPipe
   ],
   declarations: [
     ModalComponent,
@@ -61,7 +62,8 @@ import { InlineButtonComponent } from './ui-elements/inline-button/inline-button
     SelectComponent,
     HoverStyleComponent,
     NotificationComponent,
-    InlineButtonComponent
+    InlineButtonComponent,
+    FadeDigitsPipe
   ]
 })
 export class SharedModule { }

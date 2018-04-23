@@ -153,15 +153,11 @@
 				<p class="lining-proportional break-all my-address">0x{{ ethereumAddress }}</p>
 				
 				<div class="token eth">
-					<div class="token-icon">
-						<div class="icon-container op3"
-								 [ngStyle]="theme.accentBackgroundStyle"></div>
-					</div>
 					<div class="token-symbol caption no-wrap">
-						ETH
+						ETH															
 					</div>
-					<p class="token-amount lining-proportional no-wrap">
-						5,000
+					<p class="token-amount lining-proportional no-wrap"
+						 [innerHTML]="5000.123456789 | fadeDigits">
 					</p>
 					<p class="token-denomination lining-proportional op4 no-wrap"
 						 [ngStyle]="theme.primaryTextStyle"
@@ -192,8 +188,8 @@
 							<div class="token-symbol caption no-wrap">
 								{{ token.symbol }}
 							</div>
-							<p class="token-amount lining-proportional no-wrap">
-								{{ token.amount }}
+							<p class="token-amount lining-proportional no-wrap"
+								 [innerHTML]="token.amount | fadeDigits:2">
 							</p>
 							<p class="token-denomination lining-proportional op4 no-wrap"
 								 [ngStyle]="theme.primaryTextStyle"
