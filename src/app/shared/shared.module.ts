@@ -18,7 +18,7 @@ import { SelectComponent } from './ui-elements/select/select.component';
 import { HoverStyleComponent } from './ui-elements/hover-style/hover-style.component';
 import { NotificationComponent } from './notification/notification.component';
 import { InlineButtonComponent } from './ui-elements/inline-button/inline-button.component';
-import { FadeDigitsPipe } from './pipes/fade-digits.pipe';
+import { SplitDecimalPipe } from './pipes/split-decimal.pipe';
 import { BigNumberToNumberPipe } from './pipes/big-number-to-number.pipe';
 
 @NgModule({
@@ -46,7 +46,7 @@ import { BigNumberToNumberPipe } from './pipes/big-number-to-number.pipe';
     HoverStyleComponent,
     NotificationComponent,
     InlineButtonComponent,
-    FadeDigitsPipe,
+    SplitDecimalPipe,
     BigNumberToNumberPipe
   ],
   declarations: [
@@ -65,7 +65,7 @@ import { BigNumberToNumberPipe } from './pipes/big-number-to-number.pipe';
     HoverStyleComponent,
     NotificationComponent,
     InlineButtonComponent,
-    FadeDigitsPipe,
+    SplitDecimalPipe,
     BigNumberToNumberPipe
   ]
 })

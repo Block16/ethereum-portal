@@ -156,8 +156,8 @@
 					<div class="token-symbol caption no-wrap">
 						ETH															
 					</div>
-					<p class="token-amount lining-proportional no-wrap"
-						 [innerHTML]="5000.123456789 | number:'0.0-18' | fadeDigits">
+					<p class="token-amount lining-proportional no-wrap">
+						 <span>{{ 5000.123456789 | number:'0.0-18' | splitDecimal:1:3 }}</span><span>{{ 5000.123456789 | number:'0.0-18' | splitDecimal:2:3 }}</span>
 					</p>
 					<p class="token-denomination lining-proportional op4 no-wrap"
 						 [ngStyle]="theme.primaryTextStyle"
@@ -188,8 +188,8 @@
 							<div class="token-symbol caption no-wrap">
 								{{ token.symbol }}
 							</div>
-							<p class="token-amount lining-proportional no-wrap"
-								 [innerHTML]="token.amount | fadeDigits:2">
+							<p class="token-amount lining-proportional no-wrap">
+								 <span>{{ token.amount | bigNumberToNumber | number:'0.0-18' | splitDecimal:1:2 }}</span><span>{{ token.amount | bigNumberToNumber | number:'0.0-18' | splitDecimal:2:2 }}</span>
 							</p>
 							<p class="token-denomination lining-proportional op4 no-wrap"
 								 [ngStyle]="theme.primaryTextStyle"

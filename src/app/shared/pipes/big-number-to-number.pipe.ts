@@ -7,6 +7,7 @@ import {BigNumber} from "bignumber.js";
 export class BigNumberToNumberPipe implements PipeTransform {
 
   transform(value: BigNumber, args?: any): any {
+  	// debugger;
     return value.Value;
   }
 
