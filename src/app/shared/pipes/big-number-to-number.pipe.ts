@@ -1,4 +1,4 @@
-import { Pipe, PipeTransform } from '@angular/core';
+import {Pipe, PipeTransform} from '@angular/core';
 import {BigNumber} from "bignumber.js";
 
 @Pipe({
@@ -7,8 +7,7 @@ import {BigNumber} from "bignumber.js";
 export class BigNumberToNumberPipe implements PipeTransform {
 
   transform(value: BigNumber, args?: any): any {
-  	// debugger;
-    return value.Value;
+    return value.toString();
   }
 
 }

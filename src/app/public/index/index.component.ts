@@ -70,6 +70,9 @@ export class IndexComponent implements OnInit, OnDestroy {
   public newTransactionStyle = {};
   public newTransactionCircleStyle = {};
 
+  // Test Var
+  public testAsset = new EthereumAsset("ZRX", "ZRX", new BigNumber('10304433223444'), 5, 65000, "0x0d8775f648430679a709e98d2b0cb6250d2887ef");
+
   @Output() ethereumAddressChange: EventEmitter<string> = new EventEmitter<string>();
   public ethereumAddress: string;
   public ethereumBalance: number;
@@ -140,15 +143,15 @@ export class IndexComponent implements OnInit, OnDestroy {
   randomAssets() {
     const possibleAssets = [
       {
-        'address': '10x0d8775f648430679a709e98d2b0cb6250d2887ef',
+        'address': '0x0d8775f648430679a709e98d2b0cb6250d2887ef',
         'symbol': 'BAT'
       },
       {
-        'address': '10xb5a5f22694352c15b00323844ad545abb2b11028',
+        'address': '0xb5a5f22694352c15b00323844ad545abb2b11028',
         'symbol': 'ICX'
       },
       {
-        'address': '10x42d6622dece394b54999fbd73d108123806f6a18',
+        'address': '0x42d6622dece394b54999fbd73d108123806f6a18',
         'symbol': 'SPANK'
       },
       {
@@ -214,6 +217,7 @@ export class IndexComponent implements OnInit, OnDestroy {
     if (this.currentAuth !== AuthState.privateKey && this.currentAuth !== AuthState.utcFile) {
       this.coreKeyManagerService.approveAndSend(this.newTransaction).subscribe((txHash) => {
         console.log(txHash);
+        this.setNewTransactionViewToDock();
         // TODO: make sure we clear the current tx here
         // TODO: make sure we subscribe to the finish of this TX
       });
@@ -224,7 +228,7 @@ export class IndexComponent implements OnInit, OnDestroy {
     // TODO: I don't like this control flow (AJD)
     this.web3Service.sendRawTransaction(this.newTransaction).subscribe(txHash => {
       console.log(txHash);
-      debugger;
+      this.setNewTransactionViewToDock();
       // TODO: make sure we clear the current tx here
       // TODO: make sure we subscribe to the finish of this TX
     });

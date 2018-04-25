@@ -27,9 +27,9 @@ export class MetamaskService implements KeyManagerService {
       return Observable.create((observer) => {
         this.web3js.eth.getAccounts().then((accounts) => {
           if (isArray(accounts) && accounts.length > 0) {
-            observer.next(accounts);
+            observer.next(accounts.map(a => a.substring(2)));
           } else if (!isArray(accounts) && !isNullOrUndefined(accounts)) {
-            observer.next(accounts);
+            observer.next([accounts].map(a => a.substring(2)));
           } else {
             this.notificationService.error("Please unlock metamask and select this option again.", "MetaMask");
             observer.error(new Error("Could not get accounts from provider"));

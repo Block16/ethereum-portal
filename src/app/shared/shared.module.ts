@@ -20,6 +20,7 @@ import { NotificationComponent } from './notification/notification.component';
 import { InlineButtonComponent } from './ui-elements/inline-button/inline-button.component';
 import { SplitDecimalPipe } from './pipes/split-decimal.pipe';
 import { BigNumberToNumberPipe } from './pipes/big-number-to-number.pipe';
+import { AssetDisplayComponent } from './asset-display/asset-display.component';
 
 @NgModule({
   imports: [
@@ -31,7 +32,7 @@ import { BigNumberToNumberPipe } from './pipes/big-number-to-number.pipe';
   exports: [
     ButtonComponent,
     ModalComponent,
-    LoadingIconComponent,    
+    LoadingIconComponent,
     ToggleSwitchComponent,
     PrivateKeyFormComponent,
     UtcFileFormComponent,
@@ -47,7 +48,8 @@ import { BigNumberToNumberPipe } from './pipes/big-number-to-number.pipe';
     NotificationComponent,
     InlineButtonComponent,
     SplitDecimalPipe,
-    BigNumberToNumberPipe
+    BigNumberToNumberPipe,
+    AssetDisplayComponent
   ],
   declarations: [
     ModalComponent,
@@ -66,7 +68,8 @@ import { BigNumberToNumberPipe } from './pipes/big-number-to-number.pipe';
     NotificationComponent,
     InlineButtonComponent,
     SplitDecimalPipe,
-    BigNumberToNumberPipe
+    BigNumberToNumberPipe,
+    AssetDisplayComponent
   ]
 })
 export class SharedModule { }
