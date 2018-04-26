@@ -119,7 +119,8 @@ main {
 											 'icon amount'
 											 'icon denomination';
 	margin-bottom: $defaultMargin;
-	&.ETH {
+	&.eth-token {
+		// this hides ETH in the Tokens list
 		display: none;
 	}
 	.token-icon {

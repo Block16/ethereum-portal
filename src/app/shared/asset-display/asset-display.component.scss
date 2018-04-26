@@ -1,0 +1,13 @@
+@import '../../../assets/sass-imports/_variables.scss';
+@import '../../../assets/sass-imports/_mixins.scss';
+@import '../../../assets/sass-imports/_typography.scss';
+
+:host {
+	// "normal" proportionally-spaced numerals (not oldstyle)
+  font-feature-settings: "lnum", "pnum";
+	white-space: nowrap;
+}
+
+.gray {
+	opacity: $op4;
+}
