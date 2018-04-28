@@ -16,11 +16,12 @@ import { ToggleSectionComponent } from './ui-elements/toggle-section/toggle-sect
 import { NgxKjuaModule } from 'ngx-kjua';
 import { SelectComponent } from './ui-elements/select/select.component';
 import { HoverStyleComponent } from './ui-elements/hover-style/hover-style.component';
-import { NotificationComponent } from './notification/notification.component';
+import { NotificationListComponent } from './notification-list/notification-list.component';
 import { InlineButtonComponent } from './ui-elements/inline-button/inline-button.component';
 import { SplitDecimalPipe } from './pipes/split-decimal.pipe';
 import { BigNumberToNumberPipe } from './pipes/big-number-to-number.pipe';
 import { AssetDisplayComponent } from './asset-display/asset-display.component';
+import { NotificationComponent } from './notification-list/notification/notification.component';
 
 @NgModule({
   imports: [
@@ -45,6 +46,7 @@ import { AssetDisplayComponent } from './asset-display/asset-display.component';
     NgxKjuaModule,
     SelectComponent,
     HoverStyleComponent,
+    NotificationListComponent,
     NotificationComponent,
     InlineButtonComponent,
     SplitDecimalPipe,
@@ -65,6 +67,7 @@ import { AssetDisplayComponent } from './asset-display/asset-display.component';
     ToggleSectionComponent,
     SelectComponent,
     HoverStyleComponent,
+    NotificationListComponent,
     NotificationComponent,
     InlineButtonComponent,
     SplitDecimalPipe,

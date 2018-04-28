@@ -275,7 +275,7 @@
 
 <modal [(visible)]="showTestModal" [title]="'Title'">hello</modal>
 
-<!-- <div class="dev-buttons">
+<div class="dev-buttons">
 	<app-button class="dev-button"
 			 [ngStyle]="theme.buttonStyle"
 			 (click)="showTestModal = !showTestModal">Show test modal</app-button>
@@ -288,5 +288,8 @@
 	<app-button class="dev-button"
 			 [ngStyle]="theme.buttonStyle"
 		 	 (click)="notificationService.message('hello ')">Add notification</app-button>
+	<app-button class="dev-button"
+			 [ngStyle]="theme.buttonStyle"
+		 	 (click)="notificationService.message('it worx ', null, 0)">Add INFINITE notification</app-button>
 </div>
- -->
+

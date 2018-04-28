@@ -479,17 +479,17 @@ export class ThemeService {
       false;
 
     theme.mainStyle = {
-      'background-color': themeSource.secondaryColor,
+      'background': themeSource.secondaryColor,
       'color': themeSource.primaryColor,
       'border-color': themeSource.primaryColor
     };
     theme.inverseMainStyle = {
-      'background-color': themeSource.primaryColor,
+      'background': themeSource.primaryColor,
       'color': themeSource.secondaryColor,
       'border-color': themeSource.primaryColor
     };
     theme.accentMainStyle = {
-      'background-color': themeSource.accentColor,
+      'background': themeSource.accentColor,
       'color': themeSource.secondaryColor,
       'border-color': themeSource.accentColor
     };

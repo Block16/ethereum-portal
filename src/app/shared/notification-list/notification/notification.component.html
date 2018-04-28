@@ -1,0 +1,12 @@
+<div class="x"
+		 (click)="close()"
+		 [ngStyle]="duration != 0 ?
+		 						{'animation': 'fade ' + duration + 's cubic-bezier(.49,0,.5,.6) forwards'} : 
+		 						{}">
+	<menu-button [static]="true"
+							 [inverse]="true"></menu-button>
+</div>
+	<h2>{{ title }}</h2>
+	<div class="text">
+	{{ text }}
+</div>

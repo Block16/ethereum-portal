@@ -5,11 +5,11 @@ import {ThemeService} from "../../core/theme.service";
 import {Theme} from "../../shared/model/theme/theme";
 
 @Component({
-  selector: 'app-notification',
-  templateUrl: './notification.component.html',
-  styleUrls: ['./notification.component.scss']
+  selector: 'app-notification-list',
+  templateUrl: './notification-list.component.html',
+  styleUrls: ['./notification-list.component.scss']
 })
-export class NotificationComponent implements OnInit {
+export class NotificationListComponent implements OnInit {
   private notificationSubscription: Subscription;
   private notifications = [];
   private themeSubscription: Subscription;

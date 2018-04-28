@@ -10,7 +10,7 @@ export class NotificationService {
 
   constructor() { }
 
-  public message(text, title?) {
+  public message(text, title?, duration?) {
     if (isNullOrUndefined(title)) {
       title = 'Message';
     }
@@ -18,13 +18,13 @@ export class NotificationService {
     // this.notifications.push(text);
     this.notifications.next(
       this.notifications.getValue().concat(
-        new Notification(text, title)
+        new Notification(text, title, duration)
       )
     );
     console.log(this.notifications);
   }
 
-  public error(text, title?) {
+  public error(text, title?, duration?) {
     if (isNullOrUndefined(title)) {
       title = 'Error';
     }
@@ -32,7 +32,7 @@ export class NotificationService {
     // this.notifications.push(text);
     this.notifications.next(
       this.notifications.getValue().concat(
-        new Notification(text, title)
+        new Notification(text, title, duration)
       )
     );
     console.log(this.notifications);

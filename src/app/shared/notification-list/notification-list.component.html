@@ -1,0 +1,23 @@
+<div class="notifications">
+	<app-notification *ngFor="let notification of notifications; let i = index"
+			 							[title]="notification.title"
+										[text]="notification.text"
+										[duration]="notification.duration"
+										[index]="i"></app-notification>
+<!-- 	<div class="notification"
+			 [ngStyle]="theme.inverseMainStyle"
+			 *ngFor="let notification of notifications; let i = index">
+		<div class="x"
+				 (click)="notificationService.close(i)"
+				 [ngStyle]="notification.duration != 0 ?
+				 						{'animation': 'fade ' + notification.duration + 's ease-in forwards'} : 
+				 						{}">
+			<menu-button [static]="true"
+									 [inverse]="true"></menu-button>
+	  </div>
+ 		<h2>{{ notification.title }}</h2>
+	 	<div class="text">
+	 	{{ notification.text }}
+	 </div>
+	</div> -->
+</div>

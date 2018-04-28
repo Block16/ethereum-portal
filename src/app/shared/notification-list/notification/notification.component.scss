@@ -1,33 +1,11 @@
-@import '../../../assets/sass-imports/_variables.scss';
-@import '../../../assets/sass-imports/_mixins.scss';
-@import '../../../assets/sass-imports/_typography.scss';
+@import '../../../../assets/sass-imports/_variables.scss';
+@import '../../../../assets/sass-imports/_mixins.scss';
+@import '../../../../assets/sass-imports/_typography.scss';
 
 $notificationWidth: 20em;
 $notificationMargin: $defaultMargin / 3;
 
 :host {
-	position: fixed;
-	z-index: 99;
-	@include tblr;
-	@include pass-through;
-}
-
-.notifications {
-	position: fixed;
-	display: flex;
-	flex-flow: column-reverse;
-	padding: $notificationMargin * 3;
-	right: 0;
-	bottom: 0;
-	width: $notificationWidth;
-	@media (max-width: $desktopBreakPoint) {
-		left: 0;
-		width: unset;
-		// bottom: unset;
-	}
-}
-
-.notification {
 	position: relative;
 	background: black;
 	min-height: $menuButtonHeight + $defaultMargin * 2;
@@ -53,7 +31,13 @@ $notificationMargin: $defaultMargin / 3;
 		position: absolute;
     left: 0;
     top: 0;
+    opacity: 1;
 		@include no-select-pointer;
+		@keyframes fade {
+			to {
+				opacity: 0;
+			}
+		}
 	}
 	h2 {
 		margin-bottom: 8px;

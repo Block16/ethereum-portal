@@ -1,0 +1,28 @@
+@import '../../../assets/sass-imports/_variables.scss';
+@import '../../../assets/sass-imports/_mixins.scss';
+@import '../../../assets/sass-imports/_typography.scss';
+
+$notificationWidth: 20em;
+$notificationMargin: $defaultMargin / 3;
+
+:host {
+	display: block;
+	position: fixed;
+	z-index: 99;
+	@include tblr;
+	@include pass-through;
+}
+
+.notifications {
+	position: fixed;
+	display: flex;
+	flex-flow: column-reverse;
+	padding: $notificationMargin * 3;
+	right: 0;
+	bottom: 0;
+	width: $notificationWidth;
+	@media (max-width: $desktopBreakPoint) {
+		left: 0;
+		width: unset;
+	}
+}
