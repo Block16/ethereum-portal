@@ -22,6 +22,7 @@
         "styles.scss"
       ],
       "scripts": [
+        "assets/javascript/web3.min.js",
         "assets/javascript/keythereum.min.js",
         "assets/javascript/connect.js",
         "assets/javascript/buffer.js",

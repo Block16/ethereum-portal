@@ -11,8 +11,9 @@ import {Theme} from "../../shared/model/theme/theme";
 })
 export class NotificationListComponent implements OnInit {
   private notificationSubscription: Subscription;
-  private notifications = [];
   private themeSubscription: Subscription;
+
+  public notifications = [];
   public theme: Theme;
 
   constructor(

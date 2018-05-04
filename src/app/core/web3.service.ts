@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import Web3 from "web3";
 import {Observable} from 'rxjs/Observable';
 import { fromPromise } from 'rxjs/observable/fromPromise';
 import {EthereumTransaction} from '../shared/model/ethereum-transaction';
@@ -7,6 +6,8 @@ import {isNullOrUndefined} from "util";
 import * as ethutils from 'ethereumjs-util';
 import {Provider} from "../shared/model/providers";
 import {BehaviorSubject} from "rxjs/BehaviorSubject";
+
+declare var Web3;
 
 @Injectable()
 export class Web3Service {
