@@ -9,9 +9,9 @@ import { Component, Input, OnInit } from '@angular/core';
 export class RecentTransactionComponent implements OnInit {
 	@Input() transaction;
 	@Input() theme;
-	
-	private hover: boolean = false;
-	
+
+	public hover = false;
+
 	constructor() { }
 
   ngOnInit() {

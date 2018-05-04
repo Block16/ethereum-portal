@@ -14,7 +14,10 @@ export class ToggleSwitchComponent implements OnDestroy {
   @Input() clickable = true;
   @Input() value: boolean;
   @Output() valueChange: EventEmitter<boolean> = new EventEmitter<boolean>();
+
   public theme: Theme;
+  public focus = false;
+
   private themeSubscription: Subscription;
 
   constructor(private themeService: ThemeService) {

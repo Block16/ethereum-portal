@@ -44,6 +44,8 @@ export class IndexComponent implements OnInit, OnDestroy {
   public showSidebar: boolean;
   public showApproveTransaction = false;
 
+  public newTransactionToDock = false;
+
   // User preferences
   private userPreferencesSubscription: Subscription;
   public userPreferences: UserPreferences;
@@ -90,7 +92,7 @@ export class IndexComponent implements OnInit, OnDestroy {
     private privateKeyService: PrivateKeyService,
     private denominationService: DenominationService,
     private tokenTickerService: TokenTickerService,
-    private notificationService: NotificationService
+    public notificationService: NotificationService
   ) {
     this.currentAuth = AuthState.none;
 
