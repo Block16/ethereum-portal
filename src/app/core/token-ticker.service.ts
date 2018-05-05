@@ -8,7 +8,7 @@ export class TokenTickerService {
   }
 
   public checkTokenSymbol(address) {
-  	let object = EthereumTokens.find(
+  	const object = EthereumTokens.find(
   		obj => obj.contractAddress === address
 		);
   	return object;

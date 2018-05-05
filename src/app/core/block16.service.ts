@@ -7,6 +7,8 @@ import {Observable} from "rxjs/Observable";
 import {CoreKeyManagerService} from "./key-manager-services/core-key-manager.service";
 import {isNullOrUndefined} from "util";
 import {EthereumTransaction} from "../shared/model/ethereum-transaction";
+import {Web3Service} from "./web3.service";
+import {TokenTickerService} from "./token-ticker.service";
 
 @Injectable()
 export class Block16Service {
@@ -15,7 +17,9 @@ export class Block16Service {
 
   constructor(
     private httpClient: HttpClient,
-    private coreKeyManager: CoreKeyManagerService
+    private coreKeyManager: CoreKeyManagerService,
+    private web3Service: Web3Service,
+    private tokenTickerService: TokenTickerService
   ) {
     this.initBehaviorSubjects();
 
@@ -29,19 +33,25 @@ export class Block16Service {
           ]
         );
       } else {
+        // When the address changes and it's not null or empty
+        this.getAssetsForAddress(address).subscribe((assets) => {
+          console.log(assets);
+          const assetList = [];
+          for (let i = 0; i < assets.length; i++) {
+            const token = this.tokenTickerService.checkTokenSymbol("0x" + assets[i]);
+            debugger;
+          }
+          this.ethereumAssets.next(assetList);
+        });
 
-        // this.getTransactionsForAddress(address).subscribe((transactions) => {
-        //   console.log("Transactoins");
-        //   console.log(transactions);
-        // });
+        this.getTransactionsForAddress(address).subscribe(transactions => {
+          console.log(transactions);
+          const txList = [];
+          for (let i = 0; i < transactions.length; i++) {
 
-        // this.getAssetsForAddress(address).subscribe((assets) => {
-        //   // TODO: Ask infura about the assests that we just got back
-
-        //   assets = assets.filter((a) => a.isContract === true).map;
-        //   console.log("assets");
-        //   console.log(assets);
-        // });
+          }
+          this.recentTransactions.next(txList);
+        });
       }
     });
   }

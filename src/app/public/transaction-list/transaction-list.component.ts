@@ -9,18 +9,20 @@ import {Theme} from "../../shared/model/theme/theme";
   styleUrls: ['./transaction-list.component.scss']
 })
 export class TransactionListComponent implements OnInit {
-	
+
 	public transactions = [];
   public theme: Theme;
   private themeSubscription: Subscription;
-	
-  constructor(private themeService: ThemeService) {
+
+  constructor(
+    private themeService: ThemeService
+  ) {
     this.themeSubscription = this.themeService.theme.subscribe(theme => {
       this.theme = theme;
     });
   }
 
-  
+
   randomTransaction() {
     const addresses = [
       '0x2a65Aca4D5fC5B5C859090a6c34d164135398226',
@@ -54,7 +56,7 @@ export class TransactionListComponent implements OnInit {
       'created': new Date()
     };
   }
-  
+
   ngOnInit() {
   	for (var i = 0; i < 12; i++) {
   		this.transactions.push(this.randomTransaction());

@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import {UserPreferencesService} from "./core/user-preferences.service";
+import {Block16Service} from "./core/block16.service";
 
 @Component({
   selector: 'app-root',
@@ -8,7 +9,8 @@ import {UserPreferencesService} from "./core/user-preferences.service";
 })
 export class AppComponent {
   constructor(
-    private userPreferencesService: UserPreferencesService
+    private userPreferencesService: UserPreferencesService,
+    private block16Service: Block16Service
   ) {
 
   }

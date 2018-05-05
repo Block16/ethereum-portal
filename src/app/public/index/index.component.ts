@@ -21,6 +21,7 @@ import {TokenTickerService} from "../../core/token-ticker.service";
 import {NotificationService} from '../../core/notification.service';
 import {BigNumber} from "bignumber.js";
 import {MetamaskService} from "../../core/key-manager-services/metamask.service";
+import {isNullOrUndefined} from "util";
 
 @Component({
   selector: 'app-index',
@@ -80,6 +81,7 @@ export class IndexComponent implements OnInit, OnDestroy {
   public ethereumBalance: number;
 
   constructor(
+    private block16Api: Block16Service,
     private themeService: ThemeService,
     private userPreferencesService: UserPreferencesService,
     private dataShareService: DataShareService,
