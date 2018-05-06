@@ -74,7 +74,7 @@ export class IndexComponent implements OnInit, OnDestroy {
   public newTransactionCircleStyle = {};
 
   // Test Var
-  public testAsset = new EthereumAsset("ZRX", "ZRX", new BigNumber('10304433223444'), 5, 65000, "0x0d8775f648430679a709e98d2b0cb6250d2887ef");
+  public testAsset = new EthereumAsset("ZRX", "ZRX", new BigNumber('10304433223444'), 5, "0x0d8775f648430679a709e98d2b0cb6250d2887ef", 65000);
 
   @Output() ethereumAddressChange: EventEmitter<string> = new EventEmitter<string>();
   public ethereumAddress: string;
@@ -112,7 +112,6 @@ export class IndexComponent implements OnInit, OnDestroy {
     // Assets
     this.assetSubscription = this.assetService.ethereumAssets.subscribe(assets => {
       this.assets = assets;
-      this.randomAssets();
     });
 
     // TODO: pull this out
@@ -142,57 +141,6 @@ export class IndexComponent implements OnInit, OnDestroy {
 
   private denominate(asset, amount, denomination) {
     return this.denominationService.denominate(asset, amount, denomination);
-  }
-
-  randomAssets() {
-    const possibleAssets = [
-      {
-        'address': '0x0d8775f648430679a709e98d2b0cb6250d2887ef',
-        'symbol': 'BAT'
-      },
-      {
-        'address': '0xb5a5f22694352c15b00323844ad545abb2b11028',
-        'symbol': 'ICX'
-      },
-      {
-        'address': '0x42d6622dece394b54999fbd73d108123806f6a18',
-        'symbol': 'SPANK'
-      },
-      {
-        'address': '0x3833dda0aeb6947b98ce454d89366cba8cc55528',
-        'symbol': 'SPHTX'
-      },
-      {
-        'address': '0x3883f5e181fccaF8410FA61e12b59BAd963fb645',
-        'symbol': 'THETA'
-      },
-      {
-        'address': '0xf230b790e05390fc8295f4d3f60332c93bed42e2',
-        'symbol': 'TRX'
-      },
-      {
-        'address': '0xe41d2489571d322189246dafa5ebde1f4699f498',
-        'symbol': 'ZRX'
-      }
-    ];
-    const numberOfAssets = Math.round(Math.random() * possibleAssets.length - 1);
-
-    for (let i = 0; i <= numberOfAssets; i++) {
-      const chosenAssetIndex: number = Math.round(Math.random() * (possibleAssets.length - 1));
-
-      const chosenAsset = possibleAssets[chosenAssetIndex];
-      console.log(chosenAsset);
-
-      possibleAssets.splice(chosenAssetIndex, 1);
-
-      let assetAmount: number = Math.round(Math.random() * 1000000) + 1;
-      assetAmount += parseFloat(Math.random().toFixed(4));
-
-      const newAsset = new EthereumAsset(chosenAsset.symbol, chosenAsset.symbol, new BigNumber(assetAmount.toString(), 10), 18, null, chosenAsset.address);
-
-      this.assets.push(newAsset);
-    }
-    console.log(this.assets);
   }
 
   ngOnInit(): void {

@@ -9,6 +9,7 @@ import {isNullOrUndefined} from "util";
 import {EthereumTransaction} from "../shared/model/ethereum-transaction";
 import {Web3Service} from "./web3.service";
 import {TokenTickerService} from "./token-ticker.service";
+import {forkJoin} from 'rxjs/observable/forkJoin';
 import {TransactionInformation} from "../shared/model/transaction-information";
 
 @Injectable()
@@ -30,72 +31,91 @@ export class Block16Service {
         // set the default 0 assets for address, TODO: actual Ethereum balance
         this.ethereumAssets = new BehaviorSubject<EthereumAsset[]>(
           [
-            new EthereumAsset('Ethereum', 'ETH', new BigNumber(0), 18, 21000)
-          ]
-        );
+            new EthereumAsset('Ethereum', 'ETH', new BigNumber(0), 18, "", 21000)
+          ]);
       } else {
+
         // When the address changes and it's not null or empty
         this.getAssetsForAddress(address).subscribe((assets) => {
           const assetList = [];
+
+          const decimalsObservables = [];
+          const symbolObservables = [];
+          const nameObservables = [];
+          const balanceObservables = [];
+
           for (let i = 0; i < assets.data.length; i++) {
-            const token = this.tokenTickerService.checkTokenSymbol("0x" + assets.data[i]);
+            // const token = this.tokenTickerService.checkTokenSymbol("0x" + assets.data[i]);
+            decimalsObservables.push(this.web3Service.getDecimals(assets.data[i]));
+            symbolObservables.push(this.web3Service.getTokenSymbol(assets.data[i]));
+            nameObservables.push(this.web3Service.getTokenName(assets.data[i]));
+            balanceObservables.push(this.web3Service.getTokenBalance(assets.data[i], address));
           }
 
-          this.ethereumAssets.next(assetList);
+          const decimalForked = forkJoin(decimalsObservables);
+          const symbolForked = forkJoin(symbolObservables);
+          const nameForked = forkJoin(nameObservables);
+          const balanceForked = forkJoin(balanceObservables);
 
-          this.getTransactionsForAddress(address).subscribe(transactions => {
+          forkJoin(
+            this.getTransactionsForAddress(address),
+            this.web3Service.getBalance(address),
+            decimalForked,
+            symbolForked,
+            nameForked,
+            balanceForked
+          ).subscribe(([transactions, ethBalance, decimals, symbols, names, balances]) => {
+
+            // Build the list of assets first
+            assetList.push(new EthereumAsset('Ethereum', 'ETH', new BigNumber(ethBalance), 18, "", 21000));
+            for (let i = 0; i < decimals.length; i++) {
+              assetList.push(
+                new EthereumAsset(
+                  <string>names[i],
+                  <string>symbols[i],
+                  <BigNumber>balances[i],
+                  <number>decimals[i],
+                  <string>assets.data[i],
+                  65000
+                )
+              );
+            }
+
+            this.ethereumAssets.next(assetList);
+
+            // Transactions //
             const txList = [];
+
             for (let i = 0; i < transactions.data.length; i++) {
+              let symbol = "";
+              if (transactions.data[i].transactionType === "token_transaction") {
+                symbol = this.findInAssetListByContract(transactions.data[i].ethereumContract).symbol;
+              }
+
+              // TODO: Calculate the token transaction value
               const transaction = new TransactionInformation(
                 transactions.data[i].toAddress,
                 transactions.data[i].fromAddress,
                 "confirmed",
                 transactions.data[i].blockNumber,
                 transactions.data[i].toAddress === transactions.data[i].key.address ? "to" : "from",
-                new EthereumAsset("Chicken", "CKN", transactions.data[i].value, 18),
+                symbol,
                 transactions.data[i].value,
                 transactions.data[i].created
               );
 
               txList.push(transaction);
-              /*
-
-              {
-                'toAddress': toAddress,
-                'fromAddress': fromAddress,
-                'status': status,
-                'kind': kind,
-                'confirmations': confirmations,
-                'asset': asset,
-                'amount': amount,
-                'created': new Date()
-                };
-
-               */
-
-              /*
-
-              "key": {
-                "address": "3c4a4f32615c04aa178926137745f5b005f37eaa",
-                  "transactionDate": "2018-01-07T05:43:36.000+0000",
-                  "txIndexKey": 88,
-                  "txLogIndex": 83
-              },
-              "value": "10000000000000000000000",
-                "toAddress": "3c4a4f32615c04aa178926137745f5b005f37eaa",
-                "fromAddress": "f1c4f0ccd9cd1e3b7dee7c13705fdddc6c7f291f",
-                "ethereumContract": "541ed2600fac28e7ab5d22c3bd3ad4361aa82591",
-                "transactionHash": "54c56c184fd885271ffacd5e36fc6c423f1cd1b16a1643211a7d3034f28fc80b",
-                "blockNumber": 4867416,
-                "transactionType": "token_transaction",
-                "fee": "1032120000000000"
-            },
-
-            */
-
             }
+
             this.recentTransactions.next(txList);
+
           });
+
+          // TODO: Get all the asset decimal places
+          // TODO: Get asset balance from the blockchain as well
+          // TODO: Find asset, calculate amount
+          // TODO: Fix the date on the api end
+
         });
       }
     });
@@ -104,11 +124,20 @@ export class Block16Service {
   private initBehaviorSubjects() {
     this.ethereumAssets = new BehaviorSubject<EthereumAsset[]>(
       [
-        new EthereumAsset('Ethereum', 'ETH', new BigNumber(0), 18, 21000)
+        new EthereumAsset('Ethereum', 'ETH', new BigNumber(0), 18, "", 21000)
       ]
     );
-
     this.recentTransactions = new BehaviorSubject([]);
+  }
+
+  private findInAssetListByContract(a: string, assetList?: EthereumAsset[]): EthereumAsset {
+    const list = isNullOrUndefined(assetList) ? this.ethereumAssets.value : assetList;
+    return list.find(asset => {
+      if (isNullOrUndefined(asset.contractAddress) || asset.contractAddress === "") {
+        return false;
+      }
+      return asset.contractAddress.toLowerCase() === a.toLowerCase();
+    });
   }
 
   /**

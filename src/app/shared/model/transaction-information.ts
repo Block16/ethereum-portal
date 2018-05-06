@@ -1,5 +1,4 @@
-
-import {EthereumAsset} from "./ethereum-asset";
+import {BigNumber} from "bignumber.js";
 
 export class TransactionInformation {
 
@@ -13,7 +12,7 @@ export class TransactionInformation {
     readonly status: string,
     readonly blockNumber: number,
     readonly kind: string,
-    readonly asset: EthereumAsset,
+    readonly assetName: string,
     amount: string,
     created: string
     )

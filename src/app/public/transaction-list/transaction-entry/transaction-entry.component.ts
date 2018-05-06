@@ -14,6 +14,7 @@ export class TransactionEntryComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit() { }
+  ngOnInit() {
+  }
 
 }
