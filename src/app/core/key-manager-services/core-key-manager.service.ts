@@ -33,7 +33,6 @@ export class CoreKeyManagerService implements KeyManagerService {
   setCurrentAuth(currentAuth: AuthState, address: string, privateKey?: string) {
     this.currentAuth = currentAuth;
     // set the current address
-    debugger;
     this.currentAddress.next(address);
 
     switch (this.currentAuth) {

@@ -9,6 +9,7 @@ import {isNullOrUndefined} from "util";
 import {EthereumTransaction} from "../shared/model/ethereum-transaction";
 import {Web3Service} from "./web3.service";
 import {TokenTickerService} from "./token-ticker.service";
+import {TransactionInformation} from "../shared/model/transaction-information";
 
 @Injectable()
 export class Block16Service {
@@ -35,22 +36,66 @@ export class Block16Service {
       } else {
         // When the address changes and it's not null or empty
         this.getAssetsForAddress(address).subscribe((assets) => {
-          console.log(assets);
           const assetList = [];
-          for (let i = 0; i < assets.length; i++) {
-            const token = this.tokenTickerService.checkTokenSymbol("0x" + assets[i]);
-            debugger;
+          for (let i = 0; i < assets.data.length; i++) {
+            const token = this.tokenTickerService.checkTokenSymbol("0x" + assets.data[i]);
           }
+
           this.ethereumAssets.next(assetList);
-        });
 
-        this.getTransactionsForAddress(address).subscribe(transactions => {
-          console.log(transactions);
-          const txList = [];
-          for (let i = 0; i < transactions.length; i++) {
+          this.getTransactionsForAddress(address).subscribe(transactions => {
+            const txList = [];
+            for (let i = 0; i < transactions.data.length; i++) {
+              const transaction = new TransactionInformation(
+                transactions.data[i].toAddress,
+                transactions.data[i].fromAddress,
+                "confirmed",
+                transactions.data[i].blockNumber,
+                transactions.data[i].toAddress === transactions.data[i].key.address ? "to" : "from",
+                new EthereumAsset("Chicken", "CKN", transactions.data[i].value, 18),
+                transactions.data[i].value,
+                transactions.data[i].created
+              );
 
-          }
-          this.recentTransactions.next(txList);
+              txList.push(transaction);
+              /*
+
+              {
+                'toAddress': toAddress,
+                'fromAddress': fromAddress,
+                'status': status,
+                'kind': kind,
+                'confirmations': confirmations,
+                'asset': asset,
+                'amount': amount,
+                'created': new Date()
+                };
+
+               */
+
+              /*
+
+              "key": {
+                "address": "3c4a4f32615c04aa178926137745f5b005f37eaa",
+                  "transactionDate": "2018-01-07T05:43:36.000+0000",
+                  "txIndexKey": 88,
+                  "txLogIndex": 83
+              },
+              "value": "10000000000000000000000",
+                "toAddress": "3c4a4f32615c04aa178926137745f5b005f37eaa",
+                "fromAddress": "f1c4f0ccd9cd1e3b7dee7c13705fdddc6c7f291f",
+                "ethereumContract": "541ed2600fac28e7ab5d22c3bd3ad4361aa82591",
+                "transactionHash": "54c56c184fd885271ffacd5e36fc6c423f1cd1b16a1643211a7d3034f28fc80b",
+                "blockNumber": 4867416,
+                "transactionType": "token_transaction",
+                "fee": "1032120000000000"
+            },
+
+            */
+
+            }
+            this.recentTransactions.next(txList);
+          });
         });
       }
     });
