@@ -10,6 +10,11 @@ export class TransactionEntryComponent implements OnInit {
 	@Input() transaction;
   @Input() theme;
 
+  public monthNames = [
+    "January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December"
+  ];
+
 	public hover = false;
 
   constructor() { }

@@ -101,7 +101,7 @@ export class Block16Service {
                 transactions.data[i].toAddress === transactions.data[i].key.address ? "to" : "from",
                 symbol,
                 transactions.data[i].value,
-                transactions.data[i].created
+                transactions.data[i].key.transactionDate
               );
 
               txList.push(transaction);

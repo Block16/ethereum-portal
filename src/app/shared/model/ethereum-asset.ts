@@ -31,6 +31,10 @@ export class EthereumAsset {
     return this.amount.div(this.places());
   }
 
+  public calculateAmount(value: BigNumber): BigNumber {
+    return value.div(this.places());
+  }
+
   /**
    * Raw number of tokens, i.e. - without decimal places
    * @param {number} amount
