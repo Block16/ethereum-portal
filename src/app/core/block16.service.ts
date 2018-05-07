@@ -11,6 +11,7 @@ import {Web3Service} from "./web3.service";
 import {TokenTickerService} from "./token-ticker.service";
 import {forkJoin} from 'rxjs/observable/forkJoin';
 import {TransactionInformation} from "../shared/model/transaction-information";
+import {BigNumber} from "bignumber.js";
 
 @Injectable()
 export class Block16Service {
@@ -66,8 +67,11 @@ export class Block16Service {
             balanceForked
           ).subscribe(([transactions, ethBalance, decimals, symbols, names, balances]) => {
 
+            const ethAsset = new EthereumAsset('Ethereum', 'ETH', new BigNumber(ethBalance), 18, "", 21000);
+
             // Build the list of assets first
-            assetList.push(new EthereumAsset('Ethereum', 'ETH', new BigNumber(ethBalance), 18, "", 21000));
+            assetList.push(ethAsset);
+
             for (let i = 0; i < decimals.length; i++) {
               assetList.push(
                 new EthereumAsset(
@@ -87,9 +91,14 @@ export class Block16Service {
             const txList = [];
 
             for (let i = 0; i < transactions.data.length; i++) {
-              let symbol = "";
+              let asset: EthereumAsset;
+              let symbol = "ETH";
+              let value: BigNumber = ethAsset.calculateAmount(new BigNumber(transactions.data[i].value));
+
               if (transactions.data[i].transactionType === "token_transaction") {
-                symbol = this.findInAssetListByContract(transactions.data[i].ethereumContract).symbol;
+                asset = this.findInAssetListByContract(transactions.data[i].ethereumContract);
+                value = asset.calculateAmount(new BigNumber(transactions.data[i].value));
+                symbol = asset.symbol;
               }
 
               // TODO: Calculate the token transaction value
@@ -100,8 +109,9 @@ export class Block16Service {
                 transactions.data[i].blockNumber,
                 transactions.data[i].toAddress === transactions.data[i].key.address ? "to" : "from",
                 symbol,
-                transactions.data[i].value,
-                transactions.data[i].key.transactionDate
+                value.toFixed(),
+                transactions.data[i].key.transactionDate,
+                transactions.data[i].transactionHash
               );
 
               txList.push(transaction);

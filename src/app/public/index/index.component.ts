@@ -21,7 +21,6 @@ import {TokenTickerService} from "../../core/token-ticker.service";
 import {NotificationService} from '../../core/notification.service';
 import {BigNumber} from "bignumber.js";
 import {MetamaskService} from "../../core/key-manager-services/metamask.service";
-import {isNullOrUndefined} from "util";
 
 @Component({
   selector: 'app-index',
@@ -67,14 +66,12 @@ export class IndexComponent implements OnInit, OnDestroy {
   private assetSubscription: Subscription;
   public assets: EthereumAsset[];
   public recentTransactions = [];
+  
   public newTransaction: EthereumTransaction;
 
   // Styles
   public newTransactionStyle = {};
   public newTransactionCircleStyle = {};
-
-  // Test Var
-  public testAsset = new EthereumAsset("ZRX", "ZRX", new BigNumber('10304433223444'), 5, "0x0d8775f648430679a709e98d2b0cb6250d2887ef", 65000);
 
   @Output() ethereumAddressChange: EventEmitter<string> = new EventEmitter<string>();
   public ethereumAddress: string;
@@ -97,6 +94,7 @@ export class IndexComponent implements OnInit, OnDestroy {
     public notificationService: NotificationService
   ) {
     this.currentAuth = AuthState.none;
+    this.assets = [];
 
     // TODO: Update this off the bat if their MetaMask is unlocked
     this.ethereumAddress = '';
@@ -144,10 +142,6 @@ export class IndexComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.recentTransactions.push(this.randomTransaction());
-    this.recentTransactions.push(this.randomTransaction());
-    this.recentTransactions.push(this.randomTransaction());
-    this.dataShareService.recentTransactions.next(this.recentTransactions);
     this.calibratePage();
     this.resetNewTransactionView();
   }
@@ -179,7 +173,6 @@ export class IndexComponent implements OnInit, OnDestroy {
   sendTransaction() {
     // TODO: I don't like this control flow (AJD)
     this.web3Service.sendRawTransaction(this.newTransaction).subscribe(txHash => {
-      console.log(txHash);
       this.setNewTransactionViewToDock();
       // TODO: make sure we clear the current tx here
       // TODO: make sure we subscribe to the finish of this TX
@@ -237,42 +230,6 @@ export class IndexComponent implements OnInit, OnDestroy {
       this.ethereumAddress = address;
       this.updateAddress(address);
     }); */
-  }
-
-  generateTransaction() {
-    // this.newTransaction = this.randomTransaction();
-  }
-
-  randomTransaction() {
-    const addresses = [
-      '0x2a65Aca4D5fC5B5C859090a6c34d164135398226',
-      '0x9034C5691E4CF92507E79a5A29D8e162b9506cD9',
-      '0x4Cd988AfBad37289BAAf53C13e98E2BD46aAEa8c',
-      '0xf73C3c65bde10BF26c2E1763104e609A41702EFE',
-      '0x8d12A197cB00D4747a1fe03395095ce2A5CC6819',
-      '0x4781BEe730C9056414D86cE9411a8fb7FF02219f',
-      '0x2ddb2555c3C7Ad23991125CAa4775E19b93204b9'
-    ];
-    const toAddress = addresses[Math.floor(Math.random() * addresses.length)];
-    const fromAddress = addresses[Math.floor(Math.random() * addresses.length)];
-    const statuses = ['processing', 'confirmed', 'failed'];
-    const status = statuses[Math.floor(Math.random() * statuses.length)];
-    let confirmations = 0;
-    if (status === 'confirmed') {
-      confirmations = Math.floor(Math.random() * 20);
-    }
-    const tokens = ['ETH', 'SPHTX', 'WETH', 'UKG', 'THETA', 'ZRX', 'CS', 'MAN', 'REM'];
-    const token = tokens[Math.floor(Math.random() * tokens.length)];
-    const amount = Math.floor(Math.random() * 1000000);
-    return {
-      'toAddress': toAddress,
-      'fromAddress': fromAddress,
-      'status': status,
-      'confirmations': confirmations,
-      'token': token,
-      'amount': amount,
-      'created': new Date()
-    };
   }
 
   showApproveNewTransaction() {

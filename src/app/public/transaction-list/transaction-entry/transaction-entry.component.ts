@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import {TransactionInformation} from "../../../shared/model/transaction-information";
 
 @Component({
   selector: 'app-transaction-entry',
@@ -7,7 +8,7 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class TransactionEntryComponent implements OnInit {
 
-	@Input() transaction;
+	@Input() transaction: TransactionInformation;
   @Input() theme;
 
   public monthNames = [
@@ -20,6 +21,11 @@ export class TransactionEntryComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+  }
+
+  onClick() {
+    const win = window.open("https://etherscan.io/tx/0x" + this.transaction.hash, '_blank');
+    win.focus();
   }
 
 }

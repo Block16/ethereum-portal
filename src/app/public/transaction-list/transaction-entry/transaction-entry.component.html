@@ -2,6 +2,7 @@
 		 [ngClass]="{ 'hover': hover }"
 		 (mouseover)="hover = true"
 		 (mouseout)="hover = false"
+     (click)="onClick()"
 		 [ngStyle]="{ 'background': hover ? 'rgba('+
 							  theme.primaryColorRgb.r+','+
 							  theme.primaryColorRgb.g+','+
@@ -18,7 +19,7 @@
 		<span *ngIf="transaction.kind == 'to'">Sent</span>
 		<span *ngIf="transaction.kind == 'from'">Received</span>
 	</div>
-	<div class="amount lining-proportional">{{ transaction.amount.toPrecision(6) }} {{ transaction.asset }}</div>
+	<div class="amount lining-proportional">{{ transaction.amount }} {{ transaction.assetName }}</div>
 	<div class="date caption" *ngIf="!!transaction">{{ monthNames[transaction.created.getMonth()] }} {{ transaction.created.getDate() }}, {{ transaction.created.getFullYear() }}</div>
 	<div class="time">{{ transaction.getClockTime() }} <span class="all-small-caps">{{ transaction.getAmOrPm() }}</span></div>
 	<div class="to-from all-small-caps">

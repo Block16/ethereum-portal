@@ -13,7 +13,8 @@ export class TransactionInformation {
     readonly kind: string,
     readonly assetName: string,
     amount: string,
-    created: number
+    created: number,
+    readonly hash: string
     )
   {
     this.created = new Date(created);
