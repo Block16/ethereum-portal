@@ -101,7 +101,6 @@ export class Block16Service {
                 symbol = asset.symbol;
               }
 
-              // TODO: Calculate the token transaction value
               const transaction = new TransactionInformation(
                 transactions.data[i].toAddress,
                 transactions.data[i].fromAddress,
@@ -120,11 +119,6 @@ export class Block16Service {
             this.recentTransactions.next(txList);
 
           });
-
-          // TODO: Get all the asset decimal places
-          // TODO: Get asset balance from the blockchain as well
-          // TODO: Find asset, calculate amount
-          // TODO: Fix the date on the api end
 
         });
       }

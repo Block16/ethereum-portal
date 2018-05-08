@@ -66,7 +66,7 @@ export class IndexComponent implements OnInit, OnDestroy {
   private assetSubscription: Subscription;
   public assets: EthereumAsset[];
   public recentTransactions = [];
-  
+
   public newTransaction: EthereumTransaction;
 
   // Styles
@@ -130,10 +130,6 @@ export class IndexComponent implements OnInit, OnDestroy {
       // TODO: refactor this, just use the subscription in the other component
       this.ethereumAddressChange.emit(address);
       // TODO: Refactor this section
-      // Go fetch the balance of the address immediately, TODO: refactor this into the assets call
-      /*this.web3Service.getBalance(address).subscribe((balance) => {
-        this.ethereumBalance = balance;
-      }); */
     });
   }
 
