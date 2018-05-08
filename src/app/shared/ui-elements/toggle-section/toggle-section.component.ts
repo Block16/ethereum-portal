@@ -27,11 +27,11 @@ export class ToggleSectionComponent {
     this.hover = false;
   }
 
-  private hover = false;
-  private focus = false;
-  private theme: Theme;
-  private themeSubscription: Subscription;
+  public hover = false;
+  public focus = false;
+  public theme: Theme;
 
+  private themeSubscription: Subscription;
 
   constructor(private themeService: ThemeService) {
     this.themeSubscription = this.themeService.theme.subscribe(theme => {

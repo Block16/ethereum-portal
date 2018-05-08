@@ -1,6 +1,5 @@
 <div class="layout"
-		 [ngStyle]="theme.backgroundStyle"
-		 (window:resize)="onResize($event)">
+		 [ngStyle]="theme.primaryBackgroundStyle">
 	<app-sidebar [account]="ethereumAddress"></app-sidebar>
 	<app-navbar></app-navbar>
 	<app-index (ethereumAddressChange)="onAddressChange($event)"

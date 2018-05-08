@@ -7,6 +7,10 @@ import {Observable} from "rxjs/Observable";
 import {CoreKeyManagerService} from "./key-manager-services/core-key-manager.service";
 import {isNullOrUndefined} from "util";
 import {EthereumTransaction} from "../shared/model/ethereum-transaction";
+import {Web3Service} from "./web3.service";
+import {TokenTickerService} from "./token-ticker.service";
+import {forkJoin} from 'rxjs/observable/forkJoin';
+import {TransactionInformation} from "../shared/model/transaction-information";
 
 @Injectable()
 export class Block16Service {
@@ -15,7 +19,9 @@ export class Block16Service {
 
   constructor(
     private httpClient: HttpClient,
-    private coreKeyManager: CoreKeyManagerService
+    private coreKeyManager: CoreKeyManagerService,
+    private web3Service: Web3Service,
+    private tokenTickerService: TokenTickerService
   ) {
     this.initBehaviorSubjects();
 
@@ -25,23 +31,101 @@ export class Block16Service {
         // set the default 0 assets for address, TODO: actual Ethereum balance
         this.ethereumAssets = new BehaviorSubject<EthereumAsset[]>(
           [
-            new EthereumAsset('Ethereum', 'ETH', new BigNumber(0), 18, 21000)
-          ]
-        );
+            new EthereumAsset('Ethereum', 'ETH', new BigNumber(0), 18, "", 21000)
+          ]);
       } else {
 
-        // this.getTransactionsForAddress(address).subscribe((transactions) => {
-        //   console.log("Transactoins");
-        //   console.log(transactions);
-        // });
+        // When the address changes and it's not null or empty
+        this.getAssetsForAddress(address).subscribe((assets) => {
+          const assetList = [];
 
-        // this.getAssetsForAddress(address).subscribe((assets) => {
-        //   // TODO: Ask infura about the assests that we just got back
+          const decimalsObservables = [];
+          const symbolObservables = [];
+          const nameObservables = [];
+          const balanceObservables = [];
 
-        //   assets = assets.filter((a) => a.isContract === true).map;
-        //   console.log("assets");
-        //   console.log(assets);
-        // });
+          for (let i = 0; i < assets.data.length; i++) {
+            // const token = this.tokenTickerService.checkTokenSymbol("0x" + assets.data[i]);
+            decimalsObservables.push(this.web3Service.getDecimals(assets.data[i]));
+            symbolObservables.push(this.web3Service.getTokenSymbol(assets.data[i]));
+            nameObservables.push(this.web3Service.getTokenName(assets.data[i]));
+            balanceObservables.push(this.web3Service.getTokenBalance(assets.data[i], address));
+          }
+
+          const decimalForked = forkJoin(decimalsObservables);
+          const symbolForked = forkJoin(symbolObservables);
+          const nameForked = forkJoin(nameObservables);
+          const balanceForked = forkJoin(balanceObservables);
+
+          forkJoin(
+            this.getTransactionsForAddress(address),
+            this.web3Service.getBalance(address),
+            decimalForked,
+            symbolForked,
+            nameForked,
+            balanceForked
+          ).subscribe(([transactions, ethBalance, decimals, symbols, names, balances]) => {
+
+            const ethAsset = new EthereumAsset('Ethereum', 'ETH', new BigNumber(ethBalance), 18, "", 21000);
+
+            // Build the list of assets first
+            assetList.push(ethAsset);
+
+            for (let i = 0; i < decimals.length; i++) {
+              assetList.push(
+                new EthereumAsset(
+                  <string>names[i],
+                  <string>symbols[i],
+                  <BigNumber>balances[i],
+                  <number>decimals[i],
+                  <string>assets.data[i],
+                  65000
+                )
+              );
+            }
+
+            this.ethereumAssets.next(assetList);
+
+            // Transactions //
+            const txList = [];
+
+            for (let i = 0; i < transactions.data.length; i++) {
+              let asset: EthereumAsset;
+              let symbol = "ETH";
+              let value: BigNumber = ethAsset.calculateAmount(new BigNumber(transactions.data[i].value));
+
+              if (transactions.data[i].transactionType === "token_transaction") {
+                asset = this.findInAssetListByContract(transactions.data[i].ethereumContract);
+                value = asset.calculateAmount(new BigNumber(transactions.data[i].value));
+                symbol = asset.symbol;
+              }
+
+              // TODO: Calculate the token transaction value
+              const transaction = new TransactionInformation(
+                transactions.data[i].toAddress,
+                transactions.data[i].fromAddress,
+                "confirmed",
+                transactions.data[i].blockNumber,
+                transactions.data[i].toAddress === transactions.data[i].key.address ? "to" : "from",
+                symbol,
+                value.toFixed(),
+                transactions.data[i].key.transactionDate,
+                transactions.data[i].transactionHash
+              );
+
+              txList.push(transaction);
+            }
+
+            this.recentTransactions.next(txList);
+
+          });
+
+          // TODO: Get all the asset decimal places
+          // TODO: Get asset balance from the blockchain as well
+          // TODO: Find asset, calculate amount
+          // TODO: Fix the date on the api end
+
+        });
       }
     });
   }
@@ -49,11 +133,20 @@ export class Block16Service {
   private initBehaviorSubjects() {
     this.ethereumAssets = new BehaviorSubject<EthereumAsset[]>(
       [
-        new EthereumAsset('Ethereum', 'ETH', new BigNumber(0), 18, 21000)
+        new EthereumAsset('Ethereum', 'ETH', new BigNumber(0), 18, "", 21000)
       ]
     );
-
     this.recentTransactions = new BehaviorSubject([]);
+  }
+
+  private findInAssetListByContract(a: string, assetList?: EthereumAsset[]): EthereumAsset {
+    const list = isNullOrUndefined(assetList) ? this.ethereumAssets.value : assetList;
+    return list.find(asset => {
+      if (isNullOrUndefined(asset.contractAddress) || asset.contractAddress === "") {
+        return false;
+      }
+      return asset.contractAddress.toLowerCase() === a.toLowerCase();
+    });
   }
 
   /**

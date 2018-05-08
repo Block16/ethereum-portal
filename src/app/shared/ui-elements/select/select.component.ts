@@ -27,9 +27,10 @@ export class SelectComponent implements OnInit, OnDestroy {
   @Input() placeholder: string;
   @Input() initialValue: any;
 
-  private hover = false;
-  private focus = false;
+  public hover = false;
+  public focus = false;
   public theme: Theme;
+
   private themeSubscription: Subscription;
 
   constructor(

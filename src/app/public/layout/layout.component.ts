@@ -13,11 +13,13 @@ import {UserPreferences} from "../../shared/model/user-preferences";
   styleUrls: ['./layout.component.scss']
 })
 export class LayoutComponent implements OnDestroy {
+  
   public theme: Theme;
-  private themeSubscription: Subscription;
   public ethereumAddress: string;
   public userPreferences: UserPreferences;
   public userPrefSubscription: Subscription;
+
+  private themeSubscription: Subscription;
 
   constructor(
     private userPreferencesService: UserPreferencesService,

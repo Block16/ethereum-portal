@@ -26,7 +26,7 @@ export class SidebarComponent implements OnDestroy {
 
   // preferences
   public manualGas = false;
-  public viewGenerated = false;
+  public showGenerated = false;
   public darkMode = false;
 
   // ui-elements

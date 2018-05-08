@@ -17,26 +17,27 @@ export class InputComponent implements OnInit {
   @Input() inputName: string;
   @Input() inputPlaceholder: string;
   @Input() type: string;
-  
+
   public theme: Theme;
+  public focus = false;
+  public showLabel = false;
+
   private themeSubscription: Subscription;
-  private focus: boolean = false;
-  private showLabel: boolean = false;
-  
+
   constructor(private themeService: ThemeService,
               private cdRef: ChangeDetectorRef) {
     this.themeSubscription = this.themeService.theme.subscribe(theme => {
       this.theme = theme;
     });
   }
-  
+
   ngAfterViewInit() {
     this.showLabel = this._label.nativeElement && this._label.nativeElement.children.length > 0;
     this.cdRef.detectChanges();
   }
 
   ngOnInit() {
-  	
+
   }
 
 }

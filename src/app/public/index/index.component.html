@@ -5,12 +5,12 @@
 
 <!-- <main>
 	<h1 class="top-border head1 type2 main-head"
-			[ngStyle]="theme.textStyle">Ethereum Portal</h1>
+			[ngStyle]="theme.primaryTextStyle">Ethereum Portal</h1>
 	<div *ngIf="currentAuth == AuthState.none"
 			 class="grid">
 		<div class="grid-cell">
 			<h2 class="top-border"
-					[ngStyle]="theme.textStyle">Select wallet</h2>
+					[ngStyle]="theme.primaryTextStyle">Select wallet</h2>
 			<section class="section-content">
 				<div class="wallets">
 					<div class="wallet">
@@ -155,8 +155,8 @@
 						ETH
 					</div>
 
-          <p class="token-amount">
-          	<app-asset-display [ethereumAsset]="testAsset"></app-asset-display>
+          <p class="token-amount" *ngIf="assets.length > 0">
+          	<app-asset-display [ethereumAsset]="assets[0]"></app-asset-display>
           </p>
 
 					<p class="token-denomination lining-proportional op4 no-wrap"
@@ -177,7 +177,7 @@
 								<div class="icon-container"
 										 *ngIf="tokenHasIcon(token.contractAddress)">
 								 	<div class="svg-wrapper accent-svg"
-										 	 [inlineSVG]="'assets/img/icons/coins/'+token.symbol.toLowerCase()+'.svg'"></div>
+										 	 [inlineSVG]="'/assets/img/icons/coins/'+token.symbol.toLowerCase()+'.svg'"></div>
 								 </div>
 								<div class="icon-container no-icon"
 										 [ngStyle]="theme.accentMainStyle"
@@ -188,9 +188,9 @@
 							<div class="token-symbol caption no-wrap">
 								{{ token.symbol }}
 							</div>
-							
+
 							<p class="token-amount">
-								<app-asset-display [ethereumAsset]="testAsset"></app-asset-display>
+								<app-asset-display [ethereumAsset]="token"></app-asset-display>
 							</p>
 
 							<p class="token-denomination lining-proportional op4 no-wrap"

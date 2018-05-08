@@ -44,6 +44,8 @@ export class IndexComponent implements OnInit, OnDestroy {
   public showSidebar: boolean;
   public showApproveTransaction = false;
 
+  public newTransactionToDock = false;
+
   // User preferences
   private userPreferencesSubscription: Subscription;
   public userPreferences: UserPreferences;
@@ -64,20 +66,19 @@ export class IndexComponent implements OnInit, OnDestroy {
   private assetSubscription: Subscription;
   public assets: EthereumAsset[];
   public recentTransactions = [];
+  
   public newTransaction: EthereumTransaction;
 
   // Styles
   public newTransactionStyle = {};
   public newTransactionCircleStyle = {};
 
-  // Test Var
-  public testAsset = new EthereumAsset("ZRX", "ZRX", new BigNumber('10304433223444'), 5, 65000, "0x0d8775f648430679a709e98d2b0cb6250d2887ef");
-
   @Output() ethereumAddressChange: EventEmitter<string> = new EventEmitter<string>();
   public ethereumAddress: string;
   public ethereumBalance: number;
 
   constructor(
+    private block16Api: Block16Service,
     private themeService: ThemeService,
     private userPreferencesService: UserPreferencesService,
     private dataShareService: DataShareService,
@@ -93,6 +94,7 @@ export class IndexComponent implements OnInit, OnDestroy {
     private notificationService: NotificationService,
   ) {
     this.currentAuth = AuthState.none;
+    this.assets = [];
 
     // TODO: Update this off the bat if their MetaMask is unlocked
     this.ethereumAddress = '';
@@ -108,7 +110,6 @@ export class IndexComponent implements OnInit, OnDestroy {
     // Assets
     this.assetSubscription = this.assetService.ethereumAssets.subscribe(assets => {
       this.assets = assets;
-      this.randomAssets();
     });
 
     // TODO: pull this out
@@ -140,62 +141,7 @@ export class IndexComponent implements OnInit, OnDestroy {
     return this.denominationService.denominate(asset, amount, denomination);
   }
 
-  randomAssets() {
-    const possibleAssets = [
-      {
-        'address': '0x0d8775f648430679a709e98d2b0cb6250d2887ef',
-        'symbol': 'BAT'
-      },
-      {
-        'address': '0xb5a5f22694352c15b00323844ad545abb2b11028',
-        'symbol': 'ICX'
-      },
-      {
-        'address': '0x42d6622dece394b54999fbd73d108123806f6a18',
-        'symbol': 'SPANK'
-      },
-      {
-        'address': '0x3833dda0aeb6947b98ce454d89366cba8cc55528',
-        'symbol': 'SPHTX'
-      },
-      {
-        'address': '0x3883f5e181fccaF8410FA61e12b59BAd963fb645',
-        'symbol': 'THETA'
-      },
-      {
-        'address': '0xf230b790e05390fc8295f4d3f60332c93bed42e2',
-        'symbol': 'TRX'
-      },
-      {
-        'address': '0xe41d2489571d322189246dafa5ebde1f4699f498',
-        'symbol': 'ZRX'
-      }
-    ];
-    const numberOfAssets = Math.round(Math.random() * possibleAssets.length - 1);
-
-    for (let i = 0; i <= numberOfAssets; i++) {
-      const chosenAssetIndex: number = Math.round(Math.random() * (possibleAssets.length - 1));
-
-      const chosenAsset = possibleAssets[chosenAssetIndex];
-      console.log(chosenAsset);
-
-      possibleAssets.splice(chosenAssetIndex, 1);
-
-      let assetAmount: number = Math.round(Math.random() * 1000000) + 1;
-      assetAmount += parseFloat(Math.random().toFixed(4));
-
-      const newAsset = new EthereumAsset(chosenAsset.symbol, chosenAsset.symbol, new BigNumber(assetAmount.toString(), 10), 18, null, chosenAsset.address);
-
-      this.assets.push(newAsset);
-    }
-    console.log(this.assets);
-  }
-
   ngOnInit(): void {
-    this.recentTransactions.push(this.randomTransaction());
-    this.recentTransactions.push(this.randomTransaction());
-    this.recentTransactions.push(this.randomTransaction());
-    this.dataShareService.recentTransactions.next(this.recentTransactions);
     this.calibratePage();
     this.resetNewTransactionView();
   }
@@ -227,7 +173,6 @@ export class IndexComponent implements OnInit, OnDestroy {
   sendTransaction() {
     // TODO: I don't like this control flow (AJD)
     this.web3Service.sendRawTransaction(this.newTransaction).subscribe(txHash => {
-      console.log(txHash);
       this.setNewTransactionViewToDock();
       // TODO: make sure we clear the current tx here
       // TODO: make sure we subscribe to the finish of this TX
@@ -285,42 +230,6 @@ export class IndexComponent implements OnInit, OnDestroy {
       this.ethereumAddress = address;
       this.updateAddress(address);
     }); */
-  }
-
-  generateTransaction() {
-    // this.newTransaction = this.randomTransaction();
-  }
-
-  randomTransaction() {
-    const addresses = [
-      '0x2a65Aca4D5fC5B5C859090a6c34d164135398226',
-      '0x9034C5691E4CF92507E79a5A29D8e162b9506cD9',
-      '0x4Cd988AfBad37289BAAf53C13e98E2BD46aAEa8c',
-      '0xf73C3c65bde10BF26c2E1763104e609A41702EFE',
-      '0x8d12A197cB00D4747a1fe03395095ce2A5CC6819',
-      '0x4781BEe730C9056414D86cE9411a8fb7FF02219f',
-      '0x2ddb2555c3C7Ad23991125CAa4775E19b93204b9'
-    ];
-    const toAddress = addresses[Math.floor(Math.random() * addresses.length)];
-    const fromAddress = addresses[Math.floor(Math.random() * addresses.length)];
-    const statuses = ['processing', 'confirmed', 'failed'];
-    const status = statuses[Math.floor(Math.random() * statuses.length)];
-    let confirmations = 0;
-    if (status === 'confirmed') {
-      confirmations = Math.floor(Math.random() * 20);
-    }
-    const tokens = ['ETH', 'SPHTX', 'WETH', 'UKG', 'THETA', 'ZRX', 'CS', 'MAN', 'REM'];
-    const token = tokens[Math.floor(Math.random() * tokens.length)];
-    const amount = Math.floor(Math.random() * 1000000);
-    return {
-      'toAddress': toAddress,
-      'fromAddress': fromAddress,
-      'status': status,
-      'confirmations': confirmations,
-      'token': token,
-      'amount': amount,
-      'created': new Date()
-    };
   }
 
   showApproveNewTransaction() {

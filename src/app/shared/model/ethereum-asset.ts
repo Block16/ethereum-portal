@@ -7,8 +7,8 @@ export class EthereumAsset {
     readonly symbol: string,
     public amount: BigNumber,
     readonly decimalPlaces: number,
-    readonly gasLimit?: number,
-    readonly contractAddress?: string) {
+    readonly contractAddress: string,
+    readonly gasLimit?: number) {
     // Token txs are usually 30000 - 60000 gas
     if (isNullOrUndefined(gasLimit)) {
       this.gasLimit = 65000;
@@ -29,6 +29,10 @@ export class EthereumAsset {
    */
   get calculatedAmount(): BigNumber {
     return this.amount.div(this.places());
+  }
+
+  public calculateAmount(value: BigNumber): BigNumber {
+    return value.div(this.places());
   }
 
   /**

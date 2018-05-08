@@ -23,14 +23,15 @@ export class ButtonComponent implements OnInit {
   @Input('disabled') disabled = false;
 
   public theme: Theme;
-  private hover = false;
+  public hover = false;
+
   private themeSubscription: Subscription;
 
   constructor(
-    @Attribute('size') private size: string = 'normal',
-    @Attribute('accent') private accent: boolean | null,
-    @Attribute('small') private small: boolean | null,
-    @Attribute('submit') private submit: boolean | null,
+    @Attribute('size') public size: string = 'normal',
+    @Attribute('accent') public accent: boolean | null,
+    @Attribute('small') public small: boolean | null,
+    @Attribute('submit') public submit: boolean | null,
     private themeService: ThemeService
   ) {
     this.accent = (accent != null);

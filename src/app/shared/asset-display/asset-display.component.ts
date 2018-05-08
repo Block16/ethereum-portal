@@ -16,13 +16,13 @@ export class AssetDisplayComponent {
   public nonGrayValue: string;
   public nonGrayValueNumber: number;
   public grayValue: string;
-  
+
   public theme: Theme;
   private themeSubscription: Subscription;
 
   @Input()
   set ethereumAsset(a: EthereumAsset) {
-    const amount = a.calculatedAmount.toString(10);
+    const amount = a.calculatedAmount.toFixed();
     const index = amount.indexOf(".");
     this.grayValue = "";
 
@@ -34,11 +34,11 @@ export class AssetDisplayComponent {
     }
   }
   constructor(private themeService: ThemeService) {
-    
+
     this.themeSubscription = this.themeService.theme.subscribe(theme => {
       this.theme = theme;
     });
-    
+
     this.grayValue = "";
     this.nonGrayValue = "";
   }

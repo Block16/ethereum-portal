@@ -43,6 +43,7 @@
 									 [(value)]="userPreferences['manualGas']"
 									 [name]="manualGas"></toggle-switch>
 	</app-hover-style>
+
 	<app-hover-style class="preference" (click)="setUserPreference('showGenerated', !userPreferences['showGenerated'])">
 		<span>View generated transaction</span>
 		<toggle-switch [clickable]="false"
@@ -50,7 +51,8 @@
 									 [name]="showGenerated"
 		></toggle-switch>
 	</app-hover-style>
-	<div class="preference">
+
+  <div class="preference">
 		<span>Theme</span>
     <form [formGroup]="themeForm">
       <app-select [control]="themeForm.controls['themePreferences']"
@@ -61,7 +63,8 @@
       </app-select>
     </form>
 	</div>
-	<div class="preference">
+
+  <div class="preference">
 		<span>Additional denomination</span>
 
     <form [formGroup]="denominationForm">

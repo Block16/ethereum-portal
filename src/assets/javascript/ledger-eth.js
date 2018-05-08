@@ -142,6 +142,4 @@ var LedgerEth = function (comm) {
   };
 };
 
-LedgerEth.
-
 

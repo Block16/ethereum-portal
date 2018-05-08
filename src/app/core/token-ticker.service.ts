@@ -4,14 +4,10 @@ import {EthereumTokens} from './static-models/ethereum-tokens';
 @Injectable()
 export class TokenTickerService {
 
-  constructor() {
-  }
+  constructor() { }
 
   public checkTokenSymbol(address) {
-  	let object = EthereumTokens.find(
-  		obj => obj.contractAddress === address
-		);
-  	return object;
+  	return EthereumTokens.find(obj => obj.contractAddress === address);
   }
 
 }
