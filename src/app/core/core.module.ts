@@ -35,7 +35,7 @@ import {NotificationService} from "./notification.service";
     CoreKeyManagerService,
     DenominationService,
     TokenTickerService,
-    NotificationService
+    NotificationService,
   ],
   declarations: []
 })

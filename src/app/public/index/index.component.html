@@ -1,4 +1,9 @@
 <main>
+	<div class="balance"></div>
+	<div class="content"></div>
+</main>
+
+<!-- <main>
 	<h1 class="top-border head1 type2 main-head"
 			[ngStyle]="theme.textStyle">Ethereum Portal</h1>
 	<div *ngIf="currentAuth == AuthState.none"
@@ -12,8 +17,6 @@
 						<app-button class="wallet-icon"
 											  (click)="metaMaskAuthState()"
 											  accent>
-							<!-- <img src="/assets/img/icons/metamask icon light.svg" alt=""> -->
-
 							<div [hidden]="theme.isDark">
 								<div class="svg-wrapper secondary-svg"
 										 [inlineSVG]="'/assets/img/icons/inline-svg/metamask icon light.svg'"></div>
@@ -30,7 +33,6 @@
 						<app-button class="wallet-icon"
 								 				(click)="toggleAuthState(AuthState.ledger)"
 								 				accent>
-							<!-- <img src="/assets/img/icons/ledger icon light.svg" alt=""> -->
 							<div class="svg-wrapper secondary-svg ledger" [inlineSVG]="'/assets/img/icons/inline-svg/ledger icon light.svg'"></div>
 						</app-button>
 						<span class="head3"
@@ -40,7 +42,6 @@
 						<app-button class="wallet-icon"
 								 				(click)="trezorAuthState()"
 								 				accent>
-							<!-- <img src="/assets/img/icons/trezor icon light.svg" alt=""> -->
 							<div class="svg-wrapper secondary-svg trezor" [inlineSVG]="'/assets/img/icons/inline-svg/trezor icon light.svg'"></div>
 						</app-button>
 						<span class="head3"
@@ -50,7 +51,6 @@
 						<app-button class="wallet-icon"
 								 				(click)="toggleAuthState(AuthState.bitbox)"
 								 				accent>
-							<!-- <img src="/assets/img/icons/digital bitbox icon light.svg" alt=""> -->
 							<div class="svg-wrapper secondary-svg digital-bitbox" [inlineSVG]="'/assets/img/icons/inline-svg/digital bitbox icon light.svg'"></div>
 						</app-button>
 						<span class="head3"
@@ -61,7 +61,6 @@
 						<app-button class="wallet-icon"
 						accent>
 							<app-utc-file-form (privateKey)="utcAuthState($event)"></app-utc-file-form>
-						  <!-- <img src="/assets/img/icons/utc icon light.svg" alt=""> -->
 							<div class="svg-wrapper secondary-svg utc" [inlineSVG]="'/assets/img/icons/inline-svg/utc icon light.svg'"></div>
 						</app-button>
 						<span class="head3"
@@ -74,9 +73,6 @@
 	        <app-private-key-form (privateKey)="privateKeyAuthState($event)"></app-private-key-form>
 				</app-toggle-section>
 			</section>
-
-			<!-- <app-button>button</app-button>
-			<app-button accent small>accent button</app-button> -->
 		</div>
 		<div class="grid-cell">
 			<h2 class="top-border"
@@ -272,7 +268,7 @@
 		<transaction-dot [status]="tx.status"></transaction-dot>
 	</div>
 </div>
-
+ -->
 <modal [(visible)]="showTestModal" [title]="'Title'">hello</modal>
 
 <div class="dev-buttons">

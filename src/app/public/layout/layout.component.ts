@@ -1,6 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import { DataShareService } from "../../core/data-share.service";
 import {Theme} from "../../shared/model/theme/theme";
+import {BehaviorSubject} from "rxjs/BehaviorSubject";
 import {Subscription} from "rxjs/Subscription";
 import {ThemeService} from "../../core/theme.service";
 import {UserPreferencesService} from "../../core/user-preferences.service";
@@ -21,7 +22,7 @@ export class LayoutComponent implements OnDestroy {
   constructor(
     private userPreferencesService: UserPreferencesService,
     private dataShareService: DataShareService,
-    private themeService: ThemeService
+    private themeService: ThemeService,
   ) {
     this.ethereumAddress = "";
 
@@ -32,6 +33,7 @@ export class LayoutComponent implements OnDestroy {
     this.themeSubscription = this.themeService.theme.subscribe(theme => {
       this.theme = theme;
     });
+    
   }
 
   public ngOnDestroy(): void {
@@ -41,5 +43,9 @@ export class LayoutComponent implements OnDestroy {
 
   public onAddressChange(event) {
     this.ethereumAddress = event;
+  }
+  
+  public onResize() {
+    
   }
 }

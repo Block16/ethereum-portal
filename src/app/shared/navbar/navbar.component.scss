@@ -2,11 +2,11 @@
 @import '../../../assets/sass-imports/_mixins.scss';
 
 :host {
-	display: block;
-	min-height: 100vh;
-	background: $backgroundColor;
-}
-
-.layout {
-	// min-height: 100vh;
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	height: $navBarHeight;
+	background: lime;
+	z-index: 2;
 }

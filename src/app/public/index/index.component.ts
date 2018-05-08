@@ -90,14 +90,14 @@ export class IndexComponent implements OnInit, OnDestroy {
     private privateKeyService: PrivateKeyService,
     private denominationService: DenominationService,
     private tokenTickerService: TokenTickerService,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
   ) {
     this.currentAuth = AuthState.none;
 
     // TODO: Update this off the bat if their MetaMask is unlocked
     this.ethereumAddress = '';
     this.ethereumBalance = 0;
-
+    
     // Theme
     this.themeSubscription = this.themeService.theme.subscribe(theme => {
       this.theme = theme;

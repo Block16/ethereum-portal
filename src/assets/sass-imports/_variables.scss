@@ -31,6 +31,7 @@ $inputHeight: 2.25em;
 $sidebarWidth: 24em;
 $menuButtonHeight: 26px;
 $menuButtonWidth: $menuButtonHeight / 1.35;
+$navBarHeight: $menuButtonHeight + $defaultMargin * 2;
 $sideDockWidth: $defaultMargin * 2 + $menuButtonWidth;
 $transactionDotSize: .8em;
 $modalMaxWidth: 30em;
