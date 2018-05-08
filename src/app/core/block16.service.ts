@@ -11,7 +11,6 @@ import {Web3Service} from "./web3.service";
 import {TokenTickerService} from "./token-ticker.service";
 import {forkJoin} from 'rxjs/observable/forkJoin';
 import {TransactionInformation} from "../shared/model/transaction-information";
-import {BigNumber} from "bignumber.js";
 
 @Injectable()
 export class Block16Service {
