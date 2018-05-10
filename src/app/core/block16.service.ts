@@ -106,6 +106,7 @@ export class Block16Service {
                 asset = this.findInAssetListByContract(transactions.data[i].ethereumContract);
                 value = asset.calculateAmount(new BigNumber(transactions.data[i].value));
                 symbol = asset.symbol;
+
               }
 
               const transaction = new TransactionInformation(
@@ -113,7 +114,7 @@ export class Block16Service {
                 transactions.data[i].fromAddress,
                 "confirmed",
                 transactions.data[i].blockNumber,
-                transactions.data[i].toAddress === transactions.data[i].key.address ? "to" : "from",
+                transactions.data[i].fromAddress.toLowerCase() === transactions.data[i].key.address.toLowerCase() ? "to" : "from",
                 symbol,
                 value.toFixed(),
                 transactions.data[i].key.transactionDate,
