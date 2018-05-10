@@ -27,13 +27,14 @@ export class SendFormComponent implements OnInit, OnDestroy {
   public currentAddress: string;
   public currentAsset: EthereumAsset;
   public sendForm: FormGroup;
-  public sendAmount: number;
+
+  public sendAmount: BigNumber;
+  public previousAmount: BigNumber;
+
   public sendMax: boolean;
 
   private assetSubscription: Subscription;
   public assets: EthereumAsset[];
-
-  private previousAmount: any;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -59,8 +60,8 @@ export class SendFormComponent implements OnInit, OnDestroy {
     this.sendMax = false;
 
     // TODO: Fix this to use the forms
-    this.sendAmount = 0;
-    this.previousAmount = 0;
+    this.sendAmount = new BigNumber('0');
+    this.previousAmount = new BigNumber('0');
     this.currentAsset = this.assets[0];
 
     this.sendForm = this.formBuilder.group({
@@ -73,11 +74,16 @@ export class SendFormComponent implements OnInit, OnDestroy {
   clickMaxButton() {
     this.sendMax = !this.sendMax;
     if (this.sendMax) {
-      this.previousAmount = this.sendAmount;
-      // this.sendAmount = this.currentAsset.calculatedAmount().toString();
+      const val = this.sendForm.controls['sendAmount'].value;
+      // TODO: if this was a bad value just set it to 0
+      this.previousAmount = isNullOrUndefined(val) || val === "" ? new BigNumber('0') : new BigNumber(val);
+      this.sendAmount = this.currentAsset.calculatedAmount;
     } else {
       this.sendAmount = this.previousAmount;
+      this.previousAmount = this.previousAmount = this.sendForm.controls['sendAmount'].value;
     }
+    console.log(this.sendAmount.toString());
+    this.sendForm.controls['sendAmount'].setValue(this.currentAsset.calculatedAmount.toString());
   }
 
   ngOnInit() { }
