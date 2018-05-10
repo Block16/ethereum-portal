@@ -52,10 +52,18 @@ export class Block16Service {
             balanceObservables.push(this.web3Service.getTokenBalance(assets.data[i], address));
           }
 
-          const decimalForked = forkJoin(decimalsObservables);
-          const symbolForked = forkJoin(symbolObservables);
-          const nameForked = forkJoin(nameObservables);
-          const balanceForked = forkJoin(balanceObservables);
+          let decimalForked = forkJoin(decimalsObservables);
+          let symbolForked = forkJoin(symbolObservables);
+          let nameForked = forkJoin(nameObservables);
+          let balanceForked = forkJoin(balanceObservables);
+
+          // This is for when the user has no detected assets - non ERC20 Transfer Event
+          if (assets.data.length === 0) {
+            decimalForked = Observable.of([]);
+            symbolForked = Observable.of([]);
+            nameForked = Observable.of([]);
+            balanceForked = Observable.of([]);
+          }
 
           forkJoin(
             this.getTransactionsForAddress(address),
@@ -117,8 +125,9 @@ export class Block16Service {
 
             this.recentTransactions.next(txList);
 
+          }, (err) => {
+            console.log(err);
           });
-
         });
       }
     });
