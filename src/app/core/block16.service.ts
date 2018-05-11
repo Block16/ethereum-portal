@@ -52,10 +52,18 @@ export class Block16Service {
             balanceObservables.push(this.web3Service.getTokenBalance(assets.data[i], address));
           }
 
-          const decimalForked = forkJoin(decimalsObservables);
-          const symbolForked = forkJoin(symbolObservables);
-          const nameForked = forkJoin(nameObservables);
-          const balanceForked = forkJoin(balanceObservables);
+          let decimalForked = forkJoin(decimalsObservables);
+          let symbolForked = forkJoin(symbolObservables);
+          let nameForked = forkJoin(nameObservables);
+          let balanceForked = forkJoin(balanceObservables);
+
+          // This is for when the user has no detected assets - non ERC20 Transfer Event
+          if (assets.data.length === 0) {
+            decimalForked = Observable.of([]);
+            symbolForked = Observable.of([]);
+            nameForked = Observable.of([]);
+            balanceForked = Observable.of([]);
+          }
 
           forkJoin(
             this.getTransactionsForAddress(address),
@@ -98,15 +106,15 @@ export class Block16Service {
                 asset = this.findInAssetListByContract(transactions.data[i].ethereumContract);
                 value = asset.calculateAmount(new BigNumber(transactions.data[i].value));
                 symbol = asset.symbol;
+
               }
 
-              // TODO: Calculate the token transaction value
               const transaction = new TransactionInformation(
                 transactions.data[i].toAddress,
                 transactions.data[i].fromAddress,
                 "confirmed",
                 transactions.data[i].blockNumber,
-                transactions.data[i].toAddress === transactions.data[i].key.address ? "to" : "from",
+                transactions.data[i].fromAddress.toLowerCase() === transactions.data[i].key.address.toLowerCase() ? "to" : "from",
                 symbol,
                 value.toFixed(),
                 transactions.data[i].key.transactionDate,
@@ -118,13 +126,9 @@ export class Block16Service {
 
             this.recentTransactions.next(txList);
 
+          }, (err) => {
+            console.log(err);
           });
-
-          // TODO: Get all the asset decimal places
-          // TODO: Get asset balance from the blockchain as well
-          // TODO: Find asset, calculate amount
-          // TODO: Fix the date on the api end
-
         });
       }
     });

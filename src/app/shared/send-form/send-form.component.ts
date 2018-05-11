@@ -27,13 +27,14 @@ export class SendFormComponent implements OnInit, OnDestroy {
   public currentAddress: string;
   public currentAsset: EthereumAsset;
   public sendForm: FormGroup;
-  public sendAmount: number;
+
+  public sendAmount: BigNumber;
+  public previousAmount: BigNumber;
+
   public sendMax: boolean;
 
   private assetSubscription: Subscription;
   public assets: EthereumAsset[];
-
-  private previousAmount: any;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -59,8 +60,8 @@ export class SendFormComponent implements OnInit, OnDestroy {
     this.sendMax = false;
 
     // TODO: Fix this to use the forms
-    this.sendAmount = 0;
-    this.previousAmount = 0;
+    this.sendAmount = new BigNumber('0');
+    this.previousAmount = new BigNumber('0');
     this.currentAsset = this.assets[0];
 
     this.sendForm = this.formBuilder.group({
@@ -73,11 +74,16 @@ export class SendFormComponent implements OnInit, OnDestroy {
   clickMaxButton() {
     this.sendMax = !this.sendMax;
     if (this.sendMax) {
-      this.previousAmount = this.sendAmount;
-      // this.sendAmount = this.currentAsset.calculatedAmount().toString();
+      const val = this.sendForm.controls['sendAmount'].value;
+      // TODO: if this was a bad value just set it to 0
+      this.previousAmount = isNullOrUndefined(val) || val === "" ? new BigNumber('0') : new BigNumber(val);
+      this.sendAmount = this.currentAsset.calculatedAmount;
     } else {
       this.sendAmount = this.previousAmount;
+      this.previousAmount = this.previousAmount = this.sendForm.controls['sendAmount'].value;
     }
+    console.log(this.sendAmount.toString());
+    this.sendForm.controls['sendAmount'].setValue(this.currentAsset.calculatedAmount.toString());
   }
 
   ngOnInit() { }
@@ -94,7 +100,7 @@ export class SendFormComponent implements OnInit, OnDestroy {
     return this.toHex(this.web3Service.getWebInstance().utils.toWei(n, 'gwei'));
   }
 
-  erc20Transfer(toAddress: string, value: string): string {
+  erc20Transfer(toAddress: string, value: BigNumber): string {
     return this.web3Service.getWebInstance().eth.abi.encodeFunctionCall({
       "constant": false,
       "inputs": [
@@ -126,6 +132,7 @@ export class SendFormComponent implements OnInit, OnDestroy {
     let data = '0x'; // hex prefix if actual data
     let toAddress = ethutils.addHexPrefix(this.sendForm.controls['sendAddress'].value);
     let tokenToAddress = ''; // only if we are doing a token TX
+    let tokenValue = new BigNumber('0');
 
     // TODO: Manual gas
     const gasPrice = this.toGwei('8');
@@ -139,7 +146,8 @@ export class SendFormComponent implements OnInit, OnDestroy {
       // TODO: Assumption you have to send 0 value to transfer erc20 tokens always
       rawAmount = this.toHex(0);
       tokenToAddress = toAddress;
-      data = this.erc20Transfer(toAddress, sendAsset.amountToRaw(this.sendForm.controls['sendAmount'].value).toString());
+      data = this.erc20Transfer(toAddress, sendAsset.amountToRaw(this.sendForm.controls['sendAmount'].value));
+      tokenValue = sendAsset.amountToRaw(this.sendForm.controls['sendAmount'].value);
       toAddress = sendAsset.contractAddress;
     }
 
@@ -148,6 +156,7 @@ export class SendFormComponent implements OnInit, OnDestroy {
       const transaction = new EthereumTransaction(gasLimit, gasPrice, this.currentAddress, toAddress, rawAmount, nonce, data);
       transaction.tokenToAddress = tokenToAddress;
       transaction.asset = sendAsset;
+      transaction.tokenValue = tokenValue;
       this.ethereumTransaction.emit(transaction);
     });
   }
