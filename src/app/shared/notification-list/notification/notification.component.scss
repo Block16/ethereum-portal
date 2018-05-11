@@ -45,7 +45,7 @@ $notificationMargin: $defaultMargin / 3;
 	.text {
 		padding: 0 $defaultMargin $defaultMargin 0;
 	}
-	@media (max-width: $desktopBreakPoint) {
+	@media (max-width: $mobileMaxBreakPoint) {
 		margin-bottom: $notificationMargin;
 		margin-top: 0;
 		width: unset;

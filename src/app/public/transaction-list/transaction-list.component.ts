@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewChecked, Component, ElementRef, OnInit, Self, ViewChildren } from '@angular/core';
 import {Subscription} from "rxjs/Subscription";
 import {ThemeService} from "../../core/theme.service";
 import {Theme} from "../../shared/model/theme/theme";
@@ -15,8 +15,12 @@ export class TransactionListComponent implements OnInit {
   public theme: Theme;
   private themeSubscription: Subscription;
   private transactionSubscription: Subscription;
+  // @ViewChildren(TransactionEntry) transactionEntries;
 
+  ngAfterViewInit() { // or some event handler
+  }
   constructor(
+    @Self() private host: ElementRef,
     private themeService: ThemeService,
     private block16Service: Block16Service
   ) {
@@ -28,6 +32,12 @@ export class TransactionListComponent implements OnInit {
       this.transactions = txs;
     });
 
+  }
+  
+  ngAfterViewChecked() {
+    // transactionEntries.toArray()[0].nativeElement.classList.add('isActive');
+    // console.log(this.host.nativeElement.offsetWidth);
+    // console.log(this.host.nativeElement.outerWidth);
   }
 
   ngOnInit() {

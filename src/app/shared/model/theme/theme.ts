@@ -4,8 +4,18 @@ export interface Theme {
   
   primaryColor: string;
   primaryColorRgb: any;
+  primaryColorOp1: any;
+  primaryColorOp2: any;
+  primaryColorOp3: any;
+  primaryColorOp4: any;
+  
   secondaryColor: string;
   secondaryColorRgb: any;
+  secondaryColorOp1: any;
+  secondaryColorOp2: any;
+  secondaryColorOp3: any;
+  secondaryColorOp4: any;
+  
   accentColor: string;
   accentColorRgb: any;
   

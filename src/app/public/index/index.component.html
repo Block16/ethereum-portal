@@ -1,7 +1,252 @@
-<main>
-	<div class="balance"></div>
-	<div class="content"></div>
+<main *ngIf="currentAuth == AuthState.none">
+	<div class="grid">
+		<div class="grid-cell">
+			<h2 class="top-border"
+					[ngStyle]="theme.primaryTextStyle">Select wallet</h2>
+			<section class="section-content">
+				<div class="wallets">
+					<div class="wallet">
+						<app-button class="wallet-icon"
+											  (click)="metaMaskAuthState()"
+											  accent>
+							<div [hidden]="theme.isDark">
+								<div class="svg-wrapper secondary-svg"
+										 [inlineSVG]="'/assets/img/icons/inline-svg/metamask icon light.svg'"></div>
+							</div>
+							<div [hidden]="!theme.isDark">
+								<div class="svg-wrapper secondary-svg"
+										 [inlineSVG]="'/assets/img/icons/inline-svg/metamask icon.svg'"></div>
+							</div>
+						</app-button>
+						<span class="head3"
+									[ngStyle]="theme.accentTextStyle">Metamask</span>
+					</div>
+					<div class="wallet">
+						<app-button class="wallet-icon"
+								 				(click)="toggleAuthState(AuthState.ledger)"
+								 				accent>
+							<div class="svg-wrapper secondary-svg ledger" [inlineSVG]="'/assets/img/icons/inline-svg/ledger icon light.svg'"></div>
+						</app-button>
+						<span class="head3"
+									[ngStyle]="theme.accentTextStyle">Ledger</span>
+					</div>
+					<div class="wallet">
+						<app-button class="wallet-icon"
+								 				(click)="trezorAuthState()"
+								 				accent>
+							<div class="svg-wrapper secondary-svg trezor" [inlineSVG]="'/assets/img/icons/inline-svg/trezor icon light.svg'"></div>
+						</app-button>
+						<span class="head3"
+									[ngStyle]="theme.accentTextStyle">Trezor</span>
+					</div>
+					<div class="wallet">
+						<app-button class="wallet-icon"
+								 				(click)="toggleAuthState(AuthState.bitbox)"
+								 				accent>
+							<div class="svg-wrapper secondary-svg digital-bitbox" [inlineSVG]="'/assets/img/icons/inline-svg/digital bitbox icon light.svg'"></div>
+						</app-button>
+						<span class="head3"
+									[ngStyle]="theme.accentTextStyle">Digital Bitbox</span>
+					</div>
+
+					<div class="wallet">
+						<app-button class="wallet-icon"
+						accent>
+							<app-utc-file-form (privateKey)="utcAuthState($event)"></app-utc-file-form>
+							<div class="svg-wrapper secondary-svg utc" [inlineSVG]="'/assets/img/icons/inline-svg/utc icon light.svg'"></div>
+						</app-button>
+						<span class="head3"
+									[ngStyle]="theme.accentTextStyle">.UTC file</span>
+					</div>
+				</div>
+				<br>
+				<br>
+				<app-toggle-section [title]="'Non-recommended'">
+	        <app-private-key-form (privateKey)="privateKeyAuthState($event)"></app-private-key-form>
+				</app-toggle-section>
+			</section>
+		</div>
+		<div class="grid-cell">
+			<h2 class="top-border"
+					[ngStyle]="theme.textStyle">Don't have a wallet?</h2>
+			<section class="section-content">
+				<div class="wallet-info-entry">
+					<div class="wallet-icon">
+						<div [hidden]="!theme.isDark">
+							<div class="svg-wrapper primary-svg"
+									 [inlineSVG]="'/assets/img/icons/inline-svg/metamask icon light.svg'"></div>
+						</div>
+						<div [hidden]="theme.isDark">
+							<div class="svg-wrapper primary-svg"
+									 [inlineSVG]="'/assets/img/icons/inline-svg/metamask icon.svg'"></div>
+						</div>
+					</div>
+					<h3 class="wallet-name no-bottom-margin">MetaMask</h3>
+					<p class="wallet-info no-bottom-margin">
+						MetaMask is a free and convenient browser extension for Chrome, Firefox, and Opera. MetaMask is also available for Firefox on Android.
+					</p>
+					<app-inline-button class="wallet-link"
+														 href="https://metamask.io/">
+						Install MetaMask
+					</app-inline-button>
+				</div>
+				<div class="wallet-info-entry">
+					<div class="wallet-icon">
+							<div class="svg-wrapper primary-svg utc" [inlineSVG]="'/assets/img/icons/inline-svg/utc icon.svg'"></div>
+					</div>
+					<h3 class="wallet-name no-bottom-margin">.UTC file</h3>
+					<p class="wallet-info no-bottom-margin">
+						A .UTC file is a passworded file that you save to your computer and can use to access your Ethereum wallet.
+					</p>
+					<app-inline-button class="wallet-link"
+														 href="https://www.ledgerwallet.com/">
+						Generate .UTC file
+					</app-inline-button>
+				</div>
+				<div class="wallet-info-entry">
+					<div class="wallet-icon">
+							<div class="svg-wrapper primary-svg ledger" [inlineSVG]="'/assets/img/icons/inline-svg/ledger icon.svg'"></div>
+					</div>
+					<h3 class="wallet-name no-bottom-margin">Ledger</h3>
+					<p class="wallet-info no-bottom-margin">
+						Ledger is a hardware wallet designed for secure long-term cryptocurrency storage.
+					</p>
+					<app-inline-button class="wallet-link"
+														 href="https://www.ledgerwallet.com/">
+						View product page
+					</app-inline-button>
+				</div>
+				<div class="wallet-info-entry">
+					<div class="wallet-icon">
+							<div class="svg-wrapper primary-svg trezor" [inlineSVG]="'/assets/img/icons/inline-svg/trezor icon.svg'"></div>
+					</div>
+					<h3 class="wallet-name no-bottom-margin">Trezor</h3>
+					<p class="wallet-info no-bottom-margin">
+						Trezor is a hardware wallet designed for secure long-term cryptocurrency storage.
+					</p>
+					<app-inline-button class="wallet-link"
+														 href="https://trezor.io/">
+						View product page
+					</app-inline-button>
+				</div>
+			</section>
+		</div>
+	</div>
 </main>
+
+<main *ngIf="currentAuth != AuthState.none">
+	<div class="balance">
+		<div class="token eth">
+			<div class="token-symbol caption no-wrap">
+				ETH
+			</div>
+
+      <p class="token-amount" *ngIf="assets.length > 0">
+      	<app-asset-display [ethereumAsset]="assets[0]"></app-asset-display>
+      </p>
+
+			<p class="token-denomination lining-proportional op4 no-wrap"
+				 [ngStyle]="theme.primaryTextStyle"
+				 *ngIf="userPreferences['additionalDenomination'] != 'None'">
+				{{ denominate('0x684654351',
+											50,
+											userPreferences['additionalDenomination']) }}
+			</p>
+		</div>
+<!-- 		<div class="token eth">
+			<div class="token-symbol caption no-wrap">
+				ETH
+			</div>
+
+      <p class="token-amount lining-proportional" *ngIf="assets.length > 0">
+      	3,654,557.298165005
+      </p>
+
+			<p class="token-denomination lining-proportional op4 no-wrap"
+				 [ngStyle]="theme.primaryTextStyle"
+				 *ngIf="userPreferences['additionalDenomination'] != 'None'">
+				{{ denominate('0x684654351',
+											50,
+											userPreferences['additionalDenomination']) }}
+			</p>
+		</div> -->
+		
+		<div class="token-tray"
+				 [ngStyle]="{ 'background': showTokenTray ? theme.primaryColorOp2 : 'transparent' }"
+				 (click)="showTokenTray = !showTokenTray">
+				 
+			<div class="caption small-caps">5 tokens</div>
+			<div class="caption">~$34,742.23 USD</div>
+			<div class="token-toggle">
+				<span [hidden]="showTokenTray">SHOW</span>
+				<span [hidden]="!showTokenTray">HIDE</span>
+			</div>
+			
+			<div class="tokens">
+				<div class="token"
+						 [ngClass]="{ 'eth-token': token.symbol == 'ETH' }"
+						 *ngFor="let token of assets">
+					<div class="token-icon">
+						<div class="icon-container"
+								 *ngIf="tokenHasIcon(token.contractAddress)">
+						 	<div class="svg-wrapper accent-svg"
+								 	 [inlineSVG]="'/assets/img/icons/coins/'+token.symbol.toLowerCase()+'.svg'"></div>
+						 </div>
+						<div class="icon-container no-icon"
+								 [ngStyle]="theme.accentMainStyle"
+								 *ngIf="!tokenHasIcon(token.contractAddress)">
+								 <span>{{ getTokenAbbreviation(token.symbol) }}</span>
+						</div>
+					</div>
+					<div class="token-symbol caption no-wrap">
+						{{ token.symbol }}
+					</div>
+
+					<p class="token-amount">
+						<app-asset-display [ethereumAsset]="token"></app-asset-display>
+					</p>
+
+					<p class="token-denomination lining-proportional op4 no-wrap"
+						 [ngStyle]="theme.primaryTextStyle"
+						 *ngIf="userPreferences['additionalDenomination'] != 'None'">
+
+						{{ denominate('0x684654351',
+													50,
+													userPreferences['additionalDenomination']) }}
+					</p>
+				</div>
+			</div>
+			
+		</div>
+	</div>
+	
+	<div class="content">
+		<div *ngIf="navLocation == 'history'">
+			<app-transaction-list></app-transaction-list>
+		</div>
+		
+		<div *ngIf="navLocation == 'send'">
+			<app-send-form [theme]="theme" (ethereumTransaction)="onTransactionGenerated($event)"></app-send-form>
+		</div>
+		
+		<div *ngIf="navLocation == 'receive'">
+			<div class="caption ">Address</div>
+			<p class="lining-proportional break-all my-address">0x{{ ethereumAddress }}</p>
+			<ngx-kjua
+					class="qr"
+			    [text]="'0x' + ethereumAddress"
+			    [renderAsync]="false"
+			    [crisp]="true"
+			    [ecLevel]="'L'"
+			    [size]="'250'"
+			    [fill]="theme.primaryColor"
+			    [back]="'transparent'"
+			  ></ngx-kjua>
+		</div>
+	</div>
+</main>
+
+
 
 <!-- <main>
 	<h1 class="top-border head1 type2 main-head"
@@ -276,7 +521,7 @@
  -->
 <modal [(visible)]="showTestModal" [title]="'Title'">hello</modal>
 
-<div class="dev-buttons">
+<!-- <div class="dev-buttons">
 	<app-button class="dev-button"
 			 [ngStyle]="theme.buttonStyle"
 			 (click)="showTestModal = !showTestModal">Show test modal</app-button>
@@ -294,3 +539,4 @@
 		 	 (click)="notificationService.message('it worx ', null, 0)">Add INFINITE notification</app-button>
 </div>
 
+ -->

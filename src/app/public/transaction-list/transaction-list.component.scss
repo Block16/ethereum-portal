@@ -1,8 +1,53 @@
 @import '../../../assets/sass-imports/_variables.scss';
 @import '../../../assets/sass-imports/_mixins.scss';
 
+:host {
+	display: block;
+}
+
 .transactions {
 	list-style-type: none;
 	padding: 0;
 }
 
+.new-transactions {
+	
+}
+
+.new-transaction {
+	display: flex;
+	justify-content: space-between;
+	div {
+		display: table-cell;
+		white-space: nowrap;
+		padding: .5em .5em;
+	}
+	.asset {
+		flex: 12em 0 0;
+		text-align: right;
+	}
+	.address {
+		
+	}
+	.tx-hash {
+		flex: 1;
+		text-overflow: ellipsis;
+		overflow: hidden;
+		width: 0;
+	}
+	.fee {
+		
+	}
+	.block {
+		
+	}
+	.time {
+		
+	}
+	@media (max-width: $tabletMaxBreakPoint) {
+		
+	}
+	@media (max-width: $mobileMaxBreakPoint) {
+		
+	}
+}

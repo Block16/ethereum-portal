@@ -1,5 +1,4 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import { DataShareService } from "../../core/data-share.service";
 import {Theme} from "../../shared/model/theme/theme";
 import {BehaviorSubject} from "rxjs/BehaviorSubject";
 import {Subscription} from "rxjs/Subscription";
@@ -10,7 +9,10 @@ import {UserPreferences} from "../../shared/model/user-preferences";
 @Component({
   selector: 'app-layout',
   templateUrl: './layout.component.html',
-  styleUrls: ['./layout.component.scss']
+  styleUrls: ['./layout.component.scss'],
+  host: {
+    '[style.background]': `this.theme.secondaryColor`
+  }
 })
 export class LayoutComponent implements OnDestroy {
   
@@ -23,7 +25,6 @@ export class LayoutComponent implements OnDestroy {
 
   constructor(
     private userPreferencesService: UserPreferencesService,
-    private dataShareService: DataShareService,
     private themeService: ThemeService,
   ) {
     this.ethereumAddress = "";

@@ -25,8 +25,11 @@ $SB: 'ScalaBold';
 // spacing
 $defaultMargin: 20px;
 
+// break points
+$mobileMaxBreakPoint: 500px;
+$tabletMaxBreakPoint: 1000px;
+
 // sizing
-$desktopBreakPoint: 800px;
 $inputHeight: 2.25em;
 $sidebarWidth: 24em;
 $menuButtonHeight: 26px;

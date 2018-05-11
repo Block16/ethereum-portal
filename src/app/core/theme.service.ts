@@ -438,7 +438,6 @@ export class ThemeService {
 
     const colorInHSL = 'hsl(' + h + ', ' + s + '%, ' + l + '%)';
 
-    console.log(hsl);
     return hsl;
   }
 
@@ -449,6 +448,16 @@ export class ThemeService {
       g: parseInt(result[2], 16),
       b: parseInt(result[3], 16)
     } : null;
+  }
+  
+  static hexToRgba(hex, opacity) {
+    let result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    result = 'rgba(' +
+            parseInt(result[1], 16) + 
+            ',' + parseInt(result[2], 16) +
+            ',' + parseInt(result[3], 16) +
+            ',' + opacity + ')';
+    return result;
   }
 
   static constructTheme(themeSource: ThemeSource): Theme {
@@ -464,8 +473,18 @@ export class ThemeService {
 
     theme.primaryColor = themeSource.primaryColor;
     theme.primaryColorRgb = this.hexToRgb(themeSource.primaryColor);
+    theme.primaryColorOp1 = this.hexToRgba(themeSource.primaryColor, themeSource.op1);
+    theme.primaryColorOp2 = this.hexToRgba(themeSource.primaryColor, themeSource.op2);
+    theme.primaryColorOp3 = this.hexToRgba(themeSource.primaryColor, themeSource.op3);
+    theme.primaryColorOp4 = this.hexToRgba(themeSource.primaryColor, themeSource.op4);
+    
     theme.secondaryColor = themeSource.secondaryColor;
     theme.secondaryColorRgb = this.hexToRgb(themeSource.secondaryColor);
+    theme.secondaryColorOp1 = this.hexToRgba(themeSource.secondaryColor, themeSource.op1);
+    theme.secondaryColorOp2 = this.hexToRgba(themeSource.secondaryColor, themeSource.op2);
+    theme.secondaryColorOp3 = this.hexToRgba(themeSource.secondaryColor, themeSource.op3);
+    theme.secondaryColorOp4 = this.hexToRgba(themeSource.secondaryColor, themeSource.op4);
+    
     theme.accentColor = themeSource.accentColor;
     theme.accentColorRgb = this.hexToRgb(themeSource.accentColor);
     theme.op1 = themeSource.op1;

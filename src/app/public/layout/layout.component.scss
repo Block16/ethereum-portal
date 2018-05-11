@@ -3,10 +3,23 @@
 
 :host {
 	display: block;
+	// padding-top: $navBarHeight;
 	min-height: 100vh;
-	background: $backgroundColor;
+	@media(max-width: $tabletMaxBreakPoint) {
+		
+	}
+	@media (max-width: $mobileMaxBreakPoint) {
+		padding-top: 0;
+		padding-bottom: $navBarHeight;
+	}
 }
 
 .layout {
-	// min-height: 100vh;
+	box-sizing: border-box;
+	background: blue;
+	margin-top: $navBarHeight;
+	@include posa-tblr;
+	@media(max-width: $tabletMaxBreakPoint) {
+		position: relative;
+	}
 }

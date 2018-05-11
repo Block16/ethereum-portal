@@ -39,12 +39,13 @@ export class IndexComponent implements OnInit, OnDestroy {
   private windowMax: number;
 
   // UI states
+  public navLocation: string = 'history';
   public showQR = false;
   public showNonRecommended = false;
-  public showSidebar: boolean;
   public showApproveTransaction = false;
 
   public newTransactionToDock = false;
+  public showTokenTray: boolean = true;
 
   // User preferences
   private userPreferencesSubscription: Subscription;
@@ -116,13 +117,13 @@ export class IndexComponent implements OnInit, OnDestroy {
     this.dataShareService.recentTransactions.subscribe((value: any) => {
       this.recentTransactions = value;
     });
+    
+    this.dataShareService.navLocation.subscribe((value: any) => {
+      this.navLocation = value;
+    });
 
     this.userPreferencesService.userPreferences.subscribe(preferences => {
       this.userPreferences = preferences;
-    });
-
-    this.dataShareService.showSidebar.subscribe((value: any) => {
-      this.showSidebar = value;
     });
 
     this.coreKeyManagerService.currentAddress.subscribe((address: string) => {
@@ -140,6 +141,7 @@ export class IndexComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.calibratePage();
     this.resetNewTransactionView();
+    this.metaMaskAuthState();
   }
 
   ngOnDestroy(): void {
@@ -175,20 +177,19 @@ export class IndexComponent implements OnInit, OnDestroy {
     });
   }
 
-  setShowSidebar(bool) {
-    this.dataShareService.showSidebar.next(bool);
-  }
-
   utcAuthState(event) {
     this.currentAuth = AuthState.utcFile;
     this.coreKeyManagerService.setCurrentAuth(this.currentAuth, privateKeyToAddress(event), event);
   }
 
   getTokenAbbreviation(tokenTicker: string) {
+    console.log(tokenTicker);
+    console.log(tokenTicker.substr(0, 3));
     return tokenTicker.substr(0, 3).toUpperCase();
   }
 
   tokenHasIcon(contractAddress) {
+    // debugger;
     return !!this.tokenTickerService.checkTokenSymbol(contractAddress);
   }
 

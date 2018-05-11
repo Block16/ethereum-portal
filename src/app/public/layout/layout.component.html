@@ -1,7 +1,6 @@
-<div class="layout"
-		 [ngStyle]="theme.primaryBackgroundStyle">
+<app-navbar></app-navbar>
+<div class="layout">
 	<app-sidebar [account]="ethereumAddress"></app-sidebar>
-	<app-navbar></app-navbar>
 	<app-index (ethereumAddressChange)="onAddressChange($event)"
 						 [ngStyle]="theme.mainStyle"></app-index>
 	<app-notification-list></app-notification-list>

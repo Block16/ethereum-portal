@@ -3,10 +3,49 @@
 
 :host {
 	position: fixed;
+	display: flex;
+	align-items: stretch;
 	top: 0;
 	left: 0;
 	right: 0;
 	height: $navBarHeight;
-	background: lime;
 	z-index: 2;
+	@media (max-width: $mobileMaxBreakPoint) {
+		top: unset;
+		bottom: 0;
+	}
+}
+
+.nav-menu {
+	// position: relative;
+	display: flex;
+	margin-left: $menuButtonWidth + $defaultMargin * 2;
+	.nav-indicator {
+		position: absolute;
+		background: black;
+		left: 0px;
+		width: 10px;
+		height: 4px;
+		transition: .1s;
+	}
+	.nav-menu-item {
+		display: inline-flex;
+		font: 30px $FB2;
+		justify-content: center;
+		align-items: center;
+		padding: 5px 20px 0;
+		@include no-select-pointer;
+	}
+	@media (max-width: $mobileMaxBreakPoint) {
+		flex: 1;
+		margin-left: 0;
+		justify-content: space-between;
+		.nav-indicator {
+			bottom: 0;
+		}
+		.nav-menu-item {
+			flex: 1;
+			padding-top: 0;
+		}
+	}
 }

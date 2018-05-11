@@ -7,6 +7,7 @@ export class TokenTickerService {
   constructor() { }
 
   public checkTokenSymbol(address) {
+  	// debugger;
   	return EthereumTokens.find(obj => obj.contractAddress === address);
   }
 

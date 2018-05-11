@@ -21,7 +21,7 @@ $notificationMargin: $defaultMargin / 3;
 	right: 0;
 	bottom: 0;
 	width: $notificationWidth;
-	@media (max-width: $desktopBreakPoint) {
+	@media (max-width: $mobileMaxBreakPoint) {
 		left: 0;
 		width: unset;
 	}
