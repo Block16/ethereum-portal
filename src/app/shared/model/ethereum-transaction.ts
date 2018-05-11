@@ -7,7 +7,8 @@ import {BigNumber} from 'bignumber.js';
 export class EthereumTransaction {
 
   public signature: string;
-  public tokenToAddress;    // Used when we want to store the toAddress in a token TX
+  public tokenToAddress;        // Used to display to address when there is a token being sent
+  public tokenValue: BigNumber; // Used to display when there is a token value being sent
   public asset: EthereumAsset;
 
   constructor(
@@ -38,6 +39,18 @@ export class EthereumTransaction {
     });
   }
 
+  public txToString(): string {
+    return JSON.stringify({
+      nonce: this.nonce,
+      gasPrice: this.gasPrice,
+      gasLimit: this.gasLimit,
+      from: this.fromAddress,
+      to: this.toAddress,
+      value: this.value,
+      data: this.data
+    });
+  }
+
   public getUnsignedObject(): any {
     if (isNullOrUndefined(this.nonce)) {
       throw new Error("Nonce is not set");
@@ -54,7 +67,11 @@ export class EthereumTransaction {
   }
 
   public valueToBN(): BigNumber {
-    return new BigNumber(this.value.substring(2), 16).div(this.asset.places());
+    if (this.asset.symbol === 'ETH') {
+      return new BigNumber(this.value.substring(2), 16).div(this.asset.places());
+    } else {
+      return this.tokenValue.div(this.asset.places());
+    }
   }
 
   public transactionFees(): BigNumber {
@@ -63,6 +80,7 @@ export class EthereumTransaction {
       .div(new BigNumber(10).pow(18));
   }
 
+  // TODO: is this right, this might need to be divided?
   public transactionFeesGwei(): BigNumber {
     return this.transactionFees().times('1000000000');
   }

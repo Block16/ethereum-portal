@@ -251,13 +251,18 @@
       <span class="caption">From</span><br>
       <p class="lining-proportional">0x{{ ethereumAddress }}</p>
 			<span class="caption">To</span><br>
-			<p class="lining-proportional">{{ newTransaction.toAddress }}</p>
+			<p class="lining-proportional" *ngIf="newTransaction.asset.symbol === 'ETH'">{{ newTransaction.toAddress }}</p>
+			<p class="lining-proportional" *ngIf="newTransaction.asset.symbol !== 'ETH'">{{ newTransaction.tokenToAddress }}</p>
 			<span class="caption">Value</span><br>
 			<p class="lining-proportional">{{ newTransaction.valueToBN().toString(10) }} {{ newTransaction.asset.symbol }}</p>
 			<span class="caption">Estimated transaction fees</span><br>
 			<p class="lining-proportional">{{ newTransaction.transactionFeesGwei().toString(10) }} Gwei, ({{ newTransaction.transactionFees().toString(10) }} ETH)</p>
       <span class="caption">Estimated total transaction (value + tx fees)</span><br>
-      <p class="lining-proportional">{{ newTransaction.valueToBN().plus(newTransaction.transactionFees()).toString(10) }} ETH</p>
+      <p class="lining-proportional" *ngIf="newTransaction.asset.symbol === 'ETH'">{{ newTransaction.valueToBN().plus(newTransaction.transactionFees()).toString(10) }} ETH</p>
+      <p class="lining-proportional" *ngIf="newTransaction.asset.symbol !== 'ETH'">{{ newTransaction.transactionFees().toString(10) }} ETH</p>
+
+      <p class="lining-proportional">{{ newTransaction.txToString() }}</p>
+      <p class="lining-proportional" *ngIf="newTransaction.signature != undefined">{{ newTransaction.signature }}</p>
       <app-button (click)="sendTransaction()">Send</app-button>
 		</section>
 	</div>

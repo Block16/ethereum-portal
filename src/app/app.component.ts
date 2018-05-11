@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import {UserPreferencesService} from "./core/user-preferences.service";
-import {Block16Service} from "./core/block16.service";
+import {BigNumber} from 'bignumber.js';
 
 @Component({
   selector: 'app-root',
@@ -10,8 +10,7 @@ import {Block16Service} from "./core/block16.service";
 export class AppComponent {
   constructor(
     private userPreferencesService: UserPreferencesService,
-    private block16Service: Block16Service
   ) {
-
+    BigNumber.config({ EXPONENTIAL_AT: [-21, 40] });
   }
 }

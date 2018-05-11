@@ -14,7 +14,7 @@ import {Theme} from "../model/theme/theme";
 })
 export class AssetDisplayComponent {
   public nonGrayValue: string;
-  public nonGrayValueNumber: number;
+  public nonGrayValueNumber: string;
   public grayValue: string;
 
   public theme: Theme;
@@ -22,13 +22,13 @@ export class AssetDisplayComponent {
 
   @Input()
   set ethereumAsset(a: EthereumAsset) {
-    const amount = a.calculatedAmount.toFixed();
+    const amount = a.calculatedAmount.toString(10);
     const index = amount.indexOf(".");
     this.grayValue = "";
 
     if (index !== -1) {
-      this.nonGrayValueNumber = Number(amount.substring(0, index + 3));
-      this.grayValue = amount.substring(index + 4);
+      this.nonGrayValueNumber = amount.substring(0, index + 3);
+      this.grayValue = amount.substring(index + 3);
     } else {
       this.grayValue = amount;
     }
