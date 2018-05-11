@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import {BehaviorSubject} from "rxjs/BehaviorSubject";
 import {EthereumAsset} from "../shared/model/ethereum-asset";
 import {HttpClient} from "@angular/common/http";
-import {BigNumber} from "bignumber.js";
 import {Observable} from "rxjs/Observable";
 import {CoreKeyManagerService} from "./key-manager-services/core-key-manager.service";
 import {isNullOrUndefined} from "util";
@@ -73,6 +72,9 @@ export class Block16Service {
             assetList.push(ethAsset);
 
             for (let i = 0; i < decimals.length; i++) {
+
+              const tokenData = this.tokenTickerService.checkTokenSymbol(<string>assets.data[i]);
+
               assetList.push(
                 new EthereumAsset(
                   <string>names[i],
@@ -80,7 +82,8 @@ export class Block16Service {
                   <BigNumber>balances[i],
                   <number>decimals[i],
                   <string>assets.data[i],
-                  65000
+                  65000,
+                  !!tokenData
                 )
               );
             }

@@ -66,7 +66,7 @@ export class IndexComponent implements OnInit, OnDestroy {
   private assetSubscription: Subscription;
   public assets: EthereumAsset[];
   public recentTransactions = [];
-  
+
   public newTransaction: EthereumTransaction;
 
   // Styles
@@ -186,14 +186,6 @@ export class IndexComponent implements OnInit, OnDestroy {
   utcAuthState(event) {
     this.currentAuth = AuthState.utcFile;
     this.coreKeyManagerService.setCurrentAuth(this.currentAuth, privateKeyToAddress(event), event);
-  }
-
-  getTokenAbbreviation(tokenTicker: string) {
-    return tokenTicker.substr(0, 3).toUpperCase();
-  }
-
-  tokenHasIcon(contractAddress) {
-    return !!this.tokenTickerService.checkTokenSymbol(contractAddress);
   }
 
   privateKeyAuthState(event) {
