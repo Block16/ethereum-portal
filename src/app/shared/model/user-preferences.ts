@@ -1,7 +1,15 @@
 
-export interface UserPreferences {
-  manualGas: boolean;
-  showGenerated: boolean;
-  additionalDenomination: string;
-  provider: string;
+export class UserPreferences {
+  constructor(
+    public manualGas: boolean,
+    public showGenerated: boolean,
+    public additionalDenomination: string,
+    public provider: string,
+    public themeName: string
+  ) {
+
+  }
+
+
+
 }

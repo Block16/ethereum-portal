@@ -3,6 +3,8 @@ import {isNullOrUndefined} from "util";
 import {ThemeSource} from "../shared/model/theme-source";
 import {BehaviorSubject} from "rxjs/BehaviorSubject";
 import {Theme} from "../shared/model/theme/theme";
+import {UserPreferencesService} from "./user-preferences.service";
+import {UserPreferences} from "../shared/model/user-preferences";
 
 @Injectable()
 export class ThemeService {
@@ -81,7 +83,7 @@ export class ThemeService {
     'accentColor': '#6E2C00',
     'processingColor': '#FFF5BA',
     'failedBackground': '#BF8B41',
-    'confirmedBackground': '#78AB85', 
+    'confirmedBackground': '#78AB85',
     'op1': this.op1,
     'op2': this.op2,
     'op3': this.op3,
@@ -95,7 +97,7 @@ export class ThemeService {
     'accentColor': '#38F5A7',
     'processingColor': '#FFED82',
     'failedBackground': '#F77562',
-    'confirmedBackground': '#38F5A7', 
+    'confirmedBackground': '#38F5A7',
     'op1': this.op1,
     'op2': this.op2,
     'op3': this.op3,
@@ -123,7 +125,7 @@ export class ThemeService {
     'accentColor': '#6FB2B3',
     'processingColor': '#EDE5C9',
     'failedBackground': '#CF9A93',
-    'confirmedBackground': '#8DCCA5', 
+    'confirmedBackground': '#8DCCA5',
     'op1': this.op1,
     'op2': this.op2,
     'op3': this.op3,
@@ -137,7 +139,7 @@ export class ThemeService {
     'accentColor': '#D685BF',
     'processingColor': '#F5DFE9',
     'failedBackground': '#E1A7E8',
-    'confirmedBackground': '#9BEBC2', 
+    'confirmedBackground': '#9BEBC2',
     'op1': this.op1,
     'op2': this.op2,
     'op3': this.op3,
@@ -151,7 +153,7 @@ export class ThemeService {
     'accentColor': '#F5007E',
     'processingColor': '#FFDD18',
     'failedBackground': '#F5007E',
-    'confirmedBackground': '#12FF8B', 
+    'confirmedBackground': '#12FF8B',
     'op1': this.op1,
     'op2': this.op2,
     'op3': this.op3,
@@ -331,69 +333,22 @@ export class ThemeService {
   public themes: Theme[];
   public theme: BehaviorSubject<Theme>;
 
-  constructor() {
+  constructor(
+    private preferencesService: UserPreferencesService
+  ) {
     this.themes = [];
     this.themeSources.forEach((themeSource: ThemeSource) => {
       this.themes.push(ThemeService.constructTheme(themeSource));
     });
-    // Set the default theme initially
+
     this.theme = new BehaviorSubject(this.themes[0]);
 
+    // Set the default theme initially
+    this.preferencesService.userPreferences.subscribe((preferences: UserPreferences) => {
+      const theme = this.findThemeByName(preferences.themeName);
+      this.theme.next(theme);
+    });
   }
-
-  public updateSVGs(theme) {
-    // This is part of a hack-ey (but seemingly necessary) solution to dynamically change the color of SVG images/icons to match the theme. It is used alongside ng-inline-svg, and the .primary-svg or .secondary-svg class must be placed on the element with the [inlineSVG] directive, to indicate its color in relationt o the theme. I also manually edit the .svg files so that their height and width attributes are 100%, so they can be sized by their parent element
-
-    if (theme.primaryColor) {
-      const primaryColorPaths = document.querySelectorAll('.primary-svg svg path');
-      for (let i = 0; i < primaryColorPaths.length; i++) {
-        // console.log(i);
-        // console.log(primaryColorPaths[i]);
-        primaryColorPaths[i].setAttribute('fill', theme.primaryColor);
-        // primaryColorPaths[i].style.fill = primaryColor;
-      }
-      const primaryColorPolygons = document.querySelectorAll('.primary-svg svg polygon');
-      for (let i = 0; i < primaryColorPolygons.length; i++) {
-        // console.log(i);
-        // console.log(primaryColorPolygons[i]);
-        primaryColorPolygons[i].setAttribute('fill', theme.primaryColor);
-        // primaryColorPolygons[i].style.fill = primaryColor;
-      }
-    }
-    if (theme.secondaryColor) {
-      const secondaryColorPaths = document.querySelectorAll('.secondary-svg svg path');
-      for (let i = 0; i < secondaryColorPaths.length; i++) {
-        // console.log(i);
-        // console.log(secondaryColorPaths[i]);
-        secondaryColorPaths[i].setAttribute('fill', theme.secondaryColor);
-        // secondaryColorPaths[i].style.fill = secondaryColor;
-      }
-      const secondaryColorPolygons = document.querySelectorAll('.secondary-svg svg polygon');
-      for (let i = 0; i < secondaryColorPolygons.length; i++) {
-        // console.log(i);
-        // console.log(secondaryColorPolygons[i]);
-        secondaryColorPolygons[i].setAttribute('fill', theme.secondaryColor);
-        // secondaryColorPolygons[i].style.fill = secondaryColor;
-      }
-    }
-    if (theme.accentColor) {
-      const accentColorPaths = document.querySelectorAll('.accent-svg svg path');
-      for (let i = 0; i < accentColorPaths.length; i++) {
-        // console.log(i);
-        // console.log(secondaryColorPaths[i]);
-        accentColorPaths[i].setAttribute('fill', theme.accentColor);
-        // secondaryColorPaths[i].style.fill = secondaryColor;
-      }
-      const accentColorPolygons = document.querySelectorAll('.accent-svg svg polygon');
-      for (let i = 0; i < accentColorPolygons.length; i++) {
-        // console.log(i);
-        // console.log(secondaryColorPolygons[i]);
-        accentColorPolygons[i].setAttribute('fill', theme.accentColor);
-        // secondaryColorPolygons[i].style.fill = secondaryColor;
-      }
-    }
-  }
-
 
   static luma(hex) { // returns a value which represents brightness adjusted for human perception.
     const rgb = this.hexToRgb(hex);
@@ -505,7 +460,7 @@ export class ThemeService {
       'background-color': themeSource.accentColor
     };
 
-    theme.overlayStyle = this.luma(theme.accentColor) > this.luma(theme.secondaryColor) && theme.accentColor == theme.primaryColor ? 
+    theme.overlayStyle = this.luma(theme.accentColor) > this.luma(theme.secondaryColor) && theme.accentColor == theme.primaryColor ?
     {
       'background': 'rgba('+
                     (secondaryColorRgb.r - 30)+','+
@@ -660,8 +615,8 @@ export class ThemeService {
       'background-color': themeSource.processingColor
     };
 
-    theme.confirmedBackgroundStyle = 
-    themeSource.confirmedBackground == 'icon' ? 
+    theme.confirmedBackgroundStyle =
+    themeSource.confirmedBackground == 'icon' ?
     {
       'background': 'url(assets/img/themes/' + themeSource.name + '-confirm.svg) center / contain no-repeat',
       'transform': 'scale(1.15)'
@@ -670,8 +625,8 @@ export class ThemeService {
       'background': themeSource.confirmedBackground
     };
 
-    theme.failedBackgroundStyle = 
-    themeSource.failedBackground == 'icon' ? 
+    theme.failedBackgroundStyle =
+    themeSource.failedBackground == 'icon' ?
     {
       'background': 'url(assets/img/themes/' + themeSource.name + '-fail.svg) center / contain no-repeat',
       'transform': 'scale(1.15)'
@@ -683,11 +638,74 @@ export class ThemeService {
     return theme;
   }
 
-  setTheme(themeName: string) {
+  public updateSVGs(theme) {
+    // This is part of a hack-ey (but seemingly necessary) solution to dynamically change the color of
+    // SVG images/icons to match the theme. It is used alongside ng-inline-svg, and the .primary-svg or .secondary-svg
+    // class must be placed on the element with the [inlineSVG] directive, to indicate its color in relation to the theme.
+    // I also manually edit the .svg files so that their height and width attributes are 100%, so they can be sized
+    // by their parent element.
+    if (theme.primaryColor) {
+      const primaryColorPaths = document.querySelectorAll('.primary-svg svg path');
+      for (let i = 0; i < primaryColorPaths.length; i++) {
+        // console.log(i);
+        // console.log(primaryColorPaths[i]);
+        primaryColorPaths[i].setAttribute('fill', theme.primaryColor);
+        // primaryColorPaths[i].style.fill = primaryColor;
+      }
+      const primaryColorPolygons = document.querySelectorAll('.primary-svg svg polygon');
+      for (let i = 0; i < primaryColorPolygons.length; i++) {
+        // console.log(i);
+        // console.log(primaryColorPolygons[i]);
+        primaryColorPolygons[i].setAttribute('fill', theme.primaryColor);
+        // primaryColorPolygons[i].style.fill = primaryColor;
+      }
+    }
+
+    if (theme.secondaryColor) {
+      const secondaryColorPaths = document.querySelectorAll('.secondary-svg svg path');
+      for (let i = 0; i < secondaryColorPaths.length; i++) {
+        // console.log(i);
+        // console.log(secondaryColorPaths[i]);
+        secondaryColorPaths[i].setAttribute('fill', theme.secondaryColor);
+        // secondaryColorPaths[i].style.fill = secondaryColor;
+      }
+      const secondaryColorPolygons = document.querySelectorAll('.secondary-svg svg polygon');
+      for (let i = 0; i < secondaryColorPolygons.length; i++) {
+        // console.log(i);
+        // console.log(secondaryColorPolygons[i]);
+        secondaryColorPolygons[i].setAttribute('fill', theme.secondaryColor);
+        // secondaryColorPolygons[i].style.fill = secondaryColor;
+      }
+    }
+
+    if (theme.accentColor) {
+      const accentColorPaths = document.querySelectorAll('.accent-svg svg path');
+      for (let i = 0; i < accentColorPaths.length; i++) {
+        // console.log(i);
+        // console.log(secondaryColorPaths[i]);
+        accentColorPaths[i].setAttribute('fill', theme.accentColor);
+        // secondaryColorPaths[i].style.fill = secondaryColor;
+      }
+      const accentColorPolygons = document.querySelectorAll('.accent-svg svg polygon');
+      for (let i = 0; i < accentColorPolygons.length; i++) {
+        // console.log(i);
+        // console.log(secondaryColorPolygons[i]);
+        accentColorPolygons[i].setAttribute('fill', theme.accentColor);
+        // secondaryColorPolygons[i].style.fill = secondaryColor;
+      }
+    }
+  }
+
+  private findThemeByName(themeName: string) {
     const theme = this.themes.find(t => t.name === themeName);
     if (isNullOrUndefined(theme)) {
       throw new Error("Theme with name: " + themeName + " was not found.");
     }
-    this.theme.next(theme);
+    return theme;
+  }
+
+  public setTheme(themeName: string) {
+    const theme = this.findThemeByName(themeName);
+    this.preferencesService.setTheme(theme);
   }
 }

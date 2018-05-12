@@ -37,14 +37,14 @@
 		<h2>Preferences</h2>
 	</div>
 
-	<app-hover-style class="preference" (click)="setUserPreference('manualGas', !userPreferences['manualGas'])">
+	<app-hover-style class="preference" (click)="toggleManualGas()">
 		<span>Set gas price manually</span>
 		<toggle-switch [clickable]="false"
 									 [(value)]="userPreferences['manualGas']"
 									 [name]="manualGas"></toggle-switch>
 	</app-hover-style>
 
-	<app-hover-style class="preference" (click)="setUserPreference('showGenerated', !userPreferences['showGenerated'])">
+	<app-hover-style class="preference" (click)="toggleShowGenerated()">
 		<span>View generated transaction</span>
 		<toggle-switch [clickable]="false"
 									 [(value)]="userPreferences['showGenerated']"
