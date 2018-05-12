@@ -4,8 +4,6 @@ import {LedgerService} from '../../core/key-manager-services/ledger.service';
 import {TrezorConnectService} from '../../core/key-manager-services/trezor-connect.service';
 import {Web3Service} from "../../core/web3.service";
 import {privateKeyToAddress} from "../../shared/utils";
-import {PrivateKeyService} from "../../core/key-manager-services/private-key.service";
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {ThemeService} from "../../core/theme.service";
 import {Theme} from "../../shared/model/theme/theme";
 import {Subscription} from "rxjs/Subscription";
@@ -17,7 +15,6 @@ import {AuthState} from '../../shared/model/auth-state';
 import {CoreKeyManagerService} from "../../core/key-manager-services/core-key-manager.service";
 import {EthereumTransaction} from "../../shared/model/ethereum-transaction";
 import {DenominationService} from "../../core/denomination.service";
-import {TokenTickerService} from "../../core/token-ticker.service";
 import {NotificationService} from '../../core/notification.service';
 import {BigNumber} from "bignumber.js";
 import {MetamaskService} from "../../core/key-manager-services/metamask.service";
@@ -53,11 +50,9 @@ export class IndexComponent implements OnInit, OnDestroy {
   public theme: Theme;
 
   // Form states
-  public sendForm: FormGroup;
   public sendAddress: string;
   public sendAmount: number;
   public sendAsset = -1;
-  public sendMax = false;
 
   // Modal states
   public showTestModal = false;
@@ -78,7 +73,6 @@ export class IndexComponent implements OnInit, OnDestroy {
   public ethereumBalance: number;
 
   constructor(
-    private block16Api: Block16Service,
     private themeService: ThemeService,
     private userPreferencesService: UserPreferencesService,
     private dataShareService: DataShareService,
@@ -88,9 +82,7 @@ export class IndexComponent implements OnInit, OnDestroy {
     private metaMaskService: MetamaskService,
     private assetService: Block16Service,
     private coreKeyManagerService: CoreKeyManagerService,
-    private privateKeyService: PrivateKeyService,
     private denominationService: DenominationService,
-    private tokenTickerService: TokenTickerService,
     public notificationService: NotificationService
   ) {
     this.currentAuth = AuthState.none;
