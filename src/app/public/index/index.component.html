@@ -180,8 +180,8 @@
 							<div class="token-icon">
 								<div class="icon-container" *ngIf="token.hasSymbol">
 								 	<div class="svg-wrapper accent-svg"
-										 	 [inlineSVG]="token.symbolSvg()"></div>
-								 </div>
+										 	 [inlineSVG]="'/assets/img/icons/coins/' + token.symbol.toLowerCase() + '.svg'"></div>
+                </div>
 								<div class="icon-container no-icon"
 										 [ngStyle]="theme.accentMainStyle"
 										 *ngIf="!token.hasSymbol">
@@ -207,6 +207,7 @@
 						</div>
 					</div>
 				</app-toggle-section>
+
 				<app-toggle-section [title]="'QR'">
 					<ngx-kjua
 							class="qr"

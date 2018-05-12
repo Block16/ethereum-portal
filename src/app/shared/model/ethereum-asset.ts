@@ -54,8 +54,4 @@ export class EthereumAsset {
   public symbolAbbreviation(): string {
     return this.symbol.substr(0, 3).toUpperCase();
   }
-
-  public symbolSvg(): string {
-    return '/assets/img/icons/coins/' + this.symbol.toLowerCase() + '.svg';
-  }
 }
