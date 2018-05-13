@@ -62,12 +62,15 @@ export class TransactionEntryComponent implements OnInit {
   constructor(public data: DataShareService,
               public txs: TransactionService) {
     this.widestWidthStylesSubscription = this.txs.widestWidthStyles.subscribe(widestWidthStyles => {
+      console.log(widestWidthStyles)
       this.widestWidthStyles = widestWidthStyles;
+      // setTimeout(() => { // this actually works but looks bad
+      //   this.widestWidthStyles = widestWidthStyles;
+      //  },0);
     });
   }
   
   updateWidths() {
-    console.log('updateWidths!')
     this.itemWidths.asset = this._assetSpan.nativeElement.offsetWidth;
     this.itemWidths.block = this._blockSpan.nativeElement.offsetWidth;
     this.itemWidths.time = this._timeSpan.nativeElement.offsetWidth;
@@ -82,8 +85,10 @@ export class TransactionEntryComponent implements OnInit {
   }
   
   ngAfterViewInit() {
+    
     this.updateWidths();
     this.loaded.emit(this.itemWidths);
+    
   }
   
   ngOnInit() {

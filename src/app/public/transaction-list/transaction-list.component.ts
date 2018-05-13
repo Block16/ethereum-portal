@@ -84,10 +84,8 @@ export class TransactionListComponent implements OnInit {
     this.blockWidths.push(itemWidths.block);
     this.timeWidths.push(itemWidths.time);
     if (this.assetWidths.length == this.timeWidths.length && this.assetWidths.length == this.transactions.length) {
-      console.log('widths loaded!!! :D');
       this.setWidestWidths();
     }
-    this.setWidthStyles(this.widestWidths);
   }
   
   setWidthStyles(widestWidths) {
@@ -104,7 +102,6 @@ export class TransactionListComponent implements OnInit {
       this.widestWidthStyles.blockStyle = null;
       this.widestWidthStyles.assetStyle = null;
       this.widestWidthStyles.timeStyle = null;
-      console.log(this.widestWidthStyles)
     } else if (size == 'mobile') {
       this.widestWidthStyles.entryStyle = null;
       this.widestWidthStyles.assetStyle = null;
@@ -112,7 +109,6 @@ export class TransactionListComponent implements OnInit {
       this.widestWidthStyles.timeStyle = null;
     }
     // console.log(this.widestWidths)
-    console.log('ran setWidthStyles');
     this.txs.widestWidthStyles.next(this.widestWidthStyles);
   }
   
@@ -137,17 +133,16 @@ export class TransactionListComponent implements OnInit {
         widestTime = timeWidth;
       }
     })
-    console.log('widest asset entry: ' + widestAsset)
     this.widestWidths = {
       'asset': widestAsset + 'px',
       'block': widestBlock + 'px',
       'time': widestTime + 'px'
     }
+    this.setWidthStyles(this.widestWidths);
   }
   
   ngAfterViewInit() {
     this.setWidestWidths();
-    this.setWidthStyles(this.widestWidths);
   }
 
   ngOnInit() {
