@@ -1,4 +1,9 @@
-import { AfterViewInit, Component, ElementRef, EventEmitter,  HostListener, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
+import {
+  AfterViewInit, Component, ElementRef, EventEmitter, HostListener, Input, KeyValueDiffer, OnChanges,
+  OnDestroy, OnInit,
+  Output,
+  SimpleChanges, ViewChild
+} from '@angular/core';
 import {Subscription} from "rxjs/Subscription";
 import {TransactionInformation} from "../../../shared/model/transaction-information";
 import {DataShareService} from "../../../core/data-share.service";
@@ -14,10 +19,11 @@ import {TransactionService, ListWidths} from "../transaction.service";
       'transparent'`
   }
 })
-export class TransactionEntryComponent implements OnInit {
+export class TransactionEntryComponent implements OnInit, OnDestroy, OnChanges, AfterViewInit {
 
 	@Input() transaction: TransactionInformation;
   @Input() theme;
+
   @Output() loaded = new EventEmitter();
 
   @ViewChild('asset') _asset: ElementRef;
@@ -40,33 +46,34 @@ export class TransactionEntryComponent implements OnInit {
   public widestWidthsSubscription: Subscription;
   public widestWidthStylesSubscription: Subscription;
 
-  
+
   public widestWidthStyles = {
     'entryStyle': {},
     'assetStyle': {},
     'blockStyle': {},
     'timeStyle': {}
-  }
+  };
 
   public itemWidths = {
     'asset': null,
     'block': null,
     'time': null
-  }
+  };
 
   public monthNames = [
     "January", "February", "March", "April", "May", "June",
     "July", "August", "September", "October", "November", "December"
   ];
 
-  constructor(public data: DataShareService,
-              public txs: TransactionService) {
+  constructor(
+    public data: DataShareService,
+    public txs: TransactionService,
+  ) {
     this.widestWidthStylesSubscription = this.txs.widestWidthStyles.subscribe(widestWidthStyles => {
-      console.log(widestWidthStyles)
       this.widestWidthStyles = widestWidthStyles;
-      // setTimeout(() => { // this actually works but looks bad
-      //   this.widestWidthStyles = widestWidthStyles;
-      //  },0);
+      setTimeout(() => { // this actually works but looks bad
+        this.widestWidthStyles = widestWidthStyles;
+      },0 );
     });
   }
 
@@ -85,19 +92,21 @@ export class TransactionEntryComponent implements OnInit {
   }
 
   ngAfterViewInit() {
-
     this.updateWidths();
     this.loaded.emit(this.itemWidths);
-
+    this.widestWidthStyles = this.txs.widestWidthStyles.value;
   }
 
   ngOnInit() {
 
   }
 
+  ngOnDestroy(): void {
+    this.widestWidthStylesSubscription.unsubscribe();
+  }
+
   onClick() {
     const win = window.open("https://etherscan.io/tx/0x" + this.transaction.hash, '_blank');
     win.focus();
   }
-
 }

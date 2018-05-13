@@ -11,13 +11,13 @@ export class TransactionService {
     'asset': '10em',
     'block': '8em',
     'time': '10em'
-  })
+  });
   public widestWidthStyles = new BehaviorSubject({
     'entryStyle': {},
     'assetStyle': {},
     'blockStyle': {},
     'timeStyle': {}
-  })
+  });
   // public widestAsset = new BehaviorSubject('10em');
   // public widestTime = new BehaviorSubject('10em');
   constructor() { }
