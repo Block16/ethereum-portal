@@ -102,7 +102,7 @@ export class Web3Service {
       data: tokenFn
     })).map((r: string) => {
       // TODO: Find out what happens if the contract doesn't have this value...
-      return this.web3js.utils.hexToUtf8(r).trim();
+      return this.web3js.utils.hexToAscii(r).replace(/[^\x20-\x7F]/g, "").trim();
     });
   }
 
@@ -113,7 +113,7 @@ export class Web3Service {
       data: nameFn
     })).map((r: string) => {
       // TODO: Find out what happens if the contract doesn't have this value...
-      return this.web3js.utils.hexToUtf8(r).trim();
+      return this.web3js.utils.hexToAscii(r).replace(/[^\x20-\x7F]/g, "").trim();
     });
   }
 }

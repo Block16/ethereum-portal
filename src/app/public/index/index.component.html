@@ -426,15 +426,14 @@
 								 [ngClass]="{ 'eth-token': token.symbol == 'ETH' }"
 								 *ngFor="let token of assets">
 							<div class="token-icon">
-								<div class="icon-container"
-										 *ngIf="tokenHasIcon(token.contractAddress)">
+								<div class="icon-container" *ngIf="token.hasSymbol">
 								 	<div class="svg-wrapper accent-svg"
-										 	 [inlineSVG]="'/assets/img/icons/coins/'+token.symbol.toLowerCase()+'.svg'"></div>
-								 </div>
+										 	 [inlineSVG]="'/assets/img/icons/coins/' + token.symbol.toLowerCase() + '.svg'"></div>
+                </div>
 								<div class="icon-container no-icon"
 										 [ngStyle]="theme.accentMainStyle"
-										 *ngIf="!tokenHasIcon(token.contractAddress)">
-										 <span>{{ getTokenAbbreviation(token.symbol) }}</span>
+										 *ngIf="!token.hasSymbol">
+										 <span>{{ token.symbolAbbreviation() }}</span>
 								</div>
 							</div>
 							<div class="token-symbol caption no-wrap">
@@ -456,6 +455,7 @@
 						</div>
 					</div>
 				</app-toggle-section>
+
 				<app-toggle-section [title]="'QR'">
 					<ngx-kjua
 							class="qr"

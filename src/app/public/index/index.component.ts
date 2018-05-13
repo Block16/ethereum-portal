@@ -196,7 +196,6 @@ export class IndexComponent implements OnInit, OnDestroy {
     // debugger;
     return !!this.tokenTickerService.checkTokenSymbol(contractAddress);
   }
-
   privateKeyAuthState(event) {
     this.currentAuth = AuthState.privateKey;
     this.coreKeyManagerService.setCurrentAuth(this.currentAuth, privateKeyToAddress(event.privateKey), event.privateKey);

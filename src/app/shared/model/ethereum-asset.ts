@@ -8,10 +8,17 @@ export class EthereumAsset {
     public amount: BigNumber,
     readonly decimalPlaces: number,
     readonly contractAddress: string,
-    readonly gasLimit?: number) {
+    readonly gasLimit?: number,
+    readonly hasSymbol?: boolean) {
     // Token txs are usually 30000 - 60000 gas
     if (isNullOrUndefined(gasLimit)) {
       this.gasLimit = 65000;
+    }
+
+    if (isNullOrUndefined(hasSymbol)) {
+      this.hasSymbol = false;
+    } else {
+      this.hasSymbol = hasSymbol;
     }
   }
 
@@ -42,5 +49,9 @@ export class EthereumAsset {
    */
   public amountToRaw(amount: string): BigNumber {
     return new BigNumber(amount, 10).times(this.places());
+  }
+
+  public symbolAbbreviation(): string {
+    return this.symbol.substr(0, 3).toUpperCase();
   }
 }

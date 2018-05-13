@@ -47,7 +47,8 @@ main {
 	.content {
 		grid-area: content;
 		padding: 0 $defaultMargin;
-		overflow: auto;
+    overflow-x: hidden;
+    overflow-y: auto;
 	}
 	@media(max-width: $tabletMaxBreakPoint) {
 		position: relative;
