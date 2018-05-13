@@ -12,20 +12,21 @@ import {TransactionService, ListWidths} from "../transaction.service";
     '[style.background]': `this.hover ?
       this.theme.primaryColorOp1 :
       'transparent'`
+  }
 })
 export class TransactionEntryComponent implements OnInit {
 
 	@Input() transaction: TransactionInformation;
   @Input() theme;
   @Output() loaded = new EventEmitter();
-  
+
   @ViewChild('asset') _asset: ElementRef;
   @ViewChild('block') _block: ElementRef;
   @ViewChild('time') _time: ElementRef;
   @ViewChild('assetSpan') _assetSpan: ElementRef;
   @ViewChild('blockSpan') _blockSpan: ElementRef;
   @ViewChild('timeSpan') _timeSpan: ElementRef;
-  
+
   @HostListener('mouseover')
   onMouseOver() {
     this.hover = true;
@@ -38,8 +39,7 @@ export class TransactionEntryComponent implements OnInit {
   public hover = false;
   public widestWidthsSubscription: Subscription;
   public widestWidthStylesSubscription: Subscription;
-  
-  
+
   
   public widestWidthStyles = {
     'entryStyle': {},
@@ -47,7 +47,7 @@ export class TransactionEntryComponent implements OnInit {
     'blockStyle': {},
     'timeStyle': {}
   }
-  
+
   public itemWidths = {
     'asset': null,
     'block': null,
@@ -69,30 +69,30 @@ export class TransactionEntryComponent implements OnInit {
       //  },0);
     });
   }
-  
+
   updateWidths() {
     this.itemWidths.asset = this._assetSpan.nativeElement.offsetWidth;
     this.itemWidths.block = this._blockSpan.nativeElement.offsetWidth;
     this.itemWidths.time = this._timeSpan.nativeElement.offsetWidth;
   }
-  
+
   triggerListCalibration() {
-    
+
   }
-  
+
   ngOnChanges(changes: SimpleChanges) {
     this.updateWidths();
   }
-  
+
   ngAfterViewInit() {
-    
+
     this.updateWidths();
     this.loaded.emit(this.itemWidths);
-    
+
   }
-  
+
   ngOnInit() {
-    
+
   }
 
   onClick() {

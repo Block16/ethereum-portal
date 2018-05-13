@@ -81,7 +81,7 @@ export class ThemeService {
     'accentColor': '#6E2C00',
     'processingColor': '#FFF5BA',
     'sendColor': '#BF8B41',
-    'receiveColor': '#78AB85', 
+    'receiveColor': '#78AB85',
     'op1': this.op1,
     'op2': this.op2,
     'op3': this.op3,
@@ -95,7 +95,7 @@ export class ThemeService {
     'accentColor': '#38F5A7',
     'processingColor': '#FFED82',
     'sendColor': '#F77562',
-    'receiveColor': '#38F5A7', 
+    'receiveColor': '#38F5A7',
     'op1': this.op1,
     'op2': this.op2,
     'op3': this.op3,
@@ -123,7 +123,7 @@ export class ThemeService {
     'accentColor': '#6FB2B3',
     'processingColor': '#EDE5C9',
     'sendColor': '#CF9A93',
-    'receiveColor': '#8DCCA5', 
+    'receiveColor': '#8DCCA5',
     'op1': this.op1,
     'op2': this.op2,
     'op3': this.op3,
@@ -137,7 +137,7 @@ export class ThemeService {
     'accentColor': '#D685BF',
     'processingColor': '#F5DFE9',
     'sendColor': '#E1A7E8',
-    'receiveColor': '#9BEBC2', 
+    'receiveColor': '#9BEBC2',
     'op1': this.op1,
     'op2': this.op2,
     'op3': this.op3,
@@ -151,7 +151,7 @@ export class ThemeService {
     'accentColor': '#F5007E',
     'processingColor': '#FFDD18',
     'sendColor': '#F5007E',
-    'receiveColor': '#12FF8B', 
+    'receiveColor': '#12FF8B',
     'op1': this.op1,
     'op2': this.op2,
     'op3': this.op3,
@@ -449,15 +449,15 @@ export class ThemeService {
       b: parseInt(result[3], 16)
     } : null;
   }
-  
+
   static hexToRgba(hex, opacity) {
-    let result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-    result = 'rgba(' +
-            parseInt(result[1], 16) + 
+    const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    const rgba = 'rgba(' +
+            parseInt(result[1], 16) +
             ',' + parseInt(result[2], 16) +
             ',' + parseInt(result[3], 16) +
             ',' + opacity + ')';
-    return result;
+    return rgba;
   }
 
   static constructTheme(themeSource: ThemeSource): Theme {
@@ -477,14 +477,14 @@ export class ThemeService {
     theme.primaryColorOp2 = this.hexToRgba(themeSource.primaryColor, themeSource.op2);
     theme.primaryColorOp3 = this.hexToRgba(themeSource.primaryColor, themeSource.op3);
     theme.primaryColorOp4 = this.hexToRgba(themeSource.primaryColor, themeSource.op4);
-    
+
     theme.secondaryColor = themeSource.secondaryColor;
     theme.secondaryColorRgb = this.hexToRgb(themeSource.secondaryColor);
     theme.secondaryColorOp1 = this.hexToRgba(themeSource.secondaryColor, themeSource.op1);
     theme.secondaryColorOp2 = this.hexToRgba(themeSource.secondaryColor, themeSource.op2);
     theme.secondaryColorOp3 = this.hexToRgba(themeSource.secondaryColor, themeSource.op3);
     theme.secondaryColorOp4 = this.hexToRgba(themeSource.secondaryColor, themeSource.op4);
-    
+
     theme.accentColor = themeSource.accentColor;
     theme.accentColorRgb = this.hexToRgb(themeSource.accentColor);
     theme.accentColorRgb = this.hexToRgb(themeSource.accentColor);
@@ -492,8 +492,8 @@ export class ThemeService {
     theme.accentColorOp2 = this.hexToRgba(themeSource.accentColor, themeSource.op2);
     theme.accentColorOp3 = this.hexToRgba(themeSource.accentColor, themeSource.op3);
     theme.accentColorOp4 = this.hexToRgba(themeSource.accentColor, themeSource.op4);
-    
-    
+
+
     theme.op1 = themeSource.op1;
     theme.op2 = themeSource.op2;
     theme.op3 = themeSource.op3;
@@ -531,7 +531,7 @@ export class ThemeService {
       'background-color': themeSource.accentColor
     };
 
-    theme.overlayStyle = this.luma(theme.accentColor) > this.luma(theme.secondaryColor) && theme.accentColor == theme.primaryColor ? 
+    theme.overlayStyle = this.luma(theme.accentColor) > this.luma(theme.secondaryColor) && theme.accentColor == theme.primaryColor ?
     {
       'background': 'rgba('+
                     (secondaryColorRgb.r - 30)+','+
@@ -711,7 +711,7 @@ export class ThemeService {
     };
 
     theme.receiveColor = themeSource.receiveColor;
-    
+
     theme.sendColor = themeSource.sendColor;
 
     return theme;
