@@ -1,0 +1,13 @@
+<div class="line"
+		 [ngClass]="{ 'to': direction == 'to',
+		 							'from': direction == 'from' }"
+		 [ngStyle]="{ 'border-color': direction == 'to' ? 
+		 															theme.sendColor :
+		 															theme.receiveColor }">
+	<div class="head"
+			 [ngClass]="{ 'to': direction == 'to',
+			 							'from': direction == 'from' }"
+			 [ngStyle]="{ 'border-left-color': direction == 'to' ? 
+					 															 theme.sendColor :
+					 															 theme.receiveColor }"></div>
+</div>

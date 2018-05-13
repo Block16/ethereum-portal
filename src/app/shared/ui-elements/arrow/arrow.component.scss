@@ -1,0 +1,78 @@
+@import '../../../../assets/sass-imports/_variables.scss';
+@import '../../../../assets/sass-imports/_functions.scss';
+@import '../../../../assets/sass-imports/_mixins.scss';
+@import '../../../../assets/sass-imports/_ui-outline.scss';
+
+$lineLength: 12px;
+$lineThickness: 4px;
+$headWidthNum: 9;
+$headWidth: px($headWidthNum);
+$headLength: $headWidth / 2;
+
+:host {
+	position: relative;
+	display: block;
+	width: $lineLength;
+	&.to {
+		transform: scaleX(1);
+		margin-right: 5px;
+	}
+	&.from {
+		transform: scaleX(-1);
+		margin-left: 5px;
+	}
+	@media (max-width: $mobileMaxBreakPoint) {
+		width: $lineLength * 1.5;
+		&.to {
+			top: -$headWidth;
+		}
+		&.from {
+			transform: scaleX(1);
+			top: -$headLength;
+		}
+	}
+}
+
+.line {
+	border-bottom: $lineThickness solid black;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -$lineThickness / 2;
+  box-sizing: border-box;
+	@media (max-width: $mobileMaxBreakPoint) {
+		border-left: $lineThickness solid black;
+		border-radius: 0 0 0 8px;
+		height: 12px;
+		&.to {
+			border-radius: 0 0 0 8px;
+		}
+		&.from {
+		}
+	}
+}
+
+.head {
+	position: absolute;
+	border-top: $headWidth solid transparent;
+	border-bottom: $headWidth solid transparent;
+	border-left: $headWidth solid black;
+	right: -$headLength;
+	top: -$headWidth + $lineThickness / 2;
+	width: 0;
+	height: 0;
+	@media (max-width: $mobileMaxBreakPoint) {
+		right: unset;
+		&.to {
+			top: unset;
+			right: -$headWidth * .75;
+			bottom: -$headWidth - $lineThickness / 2;
+			transform: rotate(0);
+		}
+		&.from {
+			left: -$headWidth / 2 - $lineThickness / 2;
+			top: -$headWidth * 1.25;
+			transform: rotate(-90deg);
+		}
+	}
+}

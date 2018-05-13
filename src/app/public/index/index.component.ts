@@ -167,6 +167,12 @@ export class IndexComponent implements OnInit, OnDestroy {
       });
     }
   }
+  
+  clickTokenTray() {
+    if (this.windowWidth < this.dataShareService.tabletMaxBreakPoint) {
+      this.showTokenTray = !this.showTokenTray;
+    }
+  }
 
   sendTransaction() {
     // TODO: I don't like this control flow (AJD)
@@ -183,8 +189,6 @@ export class IndexComponent implements OnInit, OnDestroy {
   }
 
   getTokenAbbreviation(tokenTicker: string) {
-    console.log(tokenTicker);
-    console.log(tokenTicker.substr(0, 3));
     return tokenTicker.substr(0, 3).toUpperCase();
   }
 
@@ -303,12 +307,19 @@ export class IndexComponent implements OnInit, OnDestroy {
       this.resetNewTransactionView();
     }, 500);
   }
+  
+  resizeTokenTray() {
+    if (this.windowWidth > this.dataShareService.tabletMaxBreakPoint) {
+      this.showTokenTray = true;
+    }
+  }
 
   calibratePage() {
     this.windowHeight = window.innerHeight;
     this.windowWidth = window.innerWidth;
     this.windowMin = Math.min(this.windowWidth, this.windowHeight);
     this.windowMax = Math.max(this.windowWidth, this.windowHeight);
+    this.resizeTokenTray();
   }
 
   @HostListener('window:resize', ['$event'])

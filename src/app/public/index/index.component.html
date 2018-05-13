@@ -172,48 +172,53 @@
 		</div> -->
 		
 		<div class="token-tray"
-				 [ngStyle]="{ 'background': showTokenTray ? theme.primaryColorOp2 : 'transparent' }"
-				 (click)="showTokenTray = !showTokenTray">
+				 [ngStyle]="{ 'background': showTokenTray && windowWidth <= dataShareService.tabletMaxBreakPoint ? theme.primaryColorOp1 : 'transparent' }"
+				 (click)="clickTokenTray()">
 				 
-			<div class="caption small-caps">5 tokens</div>
-			<div class="caption">~$34,742.23 USD</div>
-			<div class="token-toggle">
-				<span [hidden]="showTokenTray">SHOW</span>
-				<span [hidden]="!showTokenTray">HIDE</span>
+			<div class="token-header">
+				<div class="caption small-caps">5 tokens</div>
+				<div class="caption">~$34,742.23 USD</div>
+				<div class="token-toggle toggle-button"
+						 [ngStyle]="showTokenTray ? theme.toggleButtonOnStyle : theme.toggleButtonOffStyle">
+					<span [hidden]="showTokenTray">SHOW ALL</span>
+					<span [hidden]="!showTokenTray">HIDE</span>
+				</div>
 			</div>
 			
-			<div class="tokens">
-				<div class="token"
-						 [ngClass]="{ 'eth-token': token.symbol == 'ETH' }"
-						 *ngFor="let token of assets">
-					<div class="token-icon">
-						<div class="icon-container"
-								 *ngIf="tokenHasIcon(token.contractAddress)">
-						 	<div class="svg-wrapper accent-svg"
-								 	 [inlineSVG]="'/assets/img/icons/coins/'+token.symbol.toLowerCase()+'.svg'"></div>
-						 </div>
-						<div class="icon-container no-icon"
-								 [ngStyle]="theme.accentMainStyle"
-								 *ngIf="!tokenHasIcon(token.contractAddress)">
-								 <span>{{ getTokenAbbreviation(token.symbol) }}</span>
+			<div [hidden]="!showTokenTray">
+				<div class="tokens">
+					<div class="token"
+							 [ngClass]="{ 'eth-token': token.symbol == 'ETH' }"
+							 *ngFor="let token of assets">
+						<div class="token-icon">
+							<div class="icon-container"
+									 *ngIf="tokenHasIcon(token.contractAddress)">
+							 	<div class="svg-wrapper accent-svg"
+									 	 [inlineSVG]="'/assets/img/icons/coins/'+token.symbol.toLowerCase()+'.svg'"></div>
+							 </div>
+							<div class="icon-container no-icon"
+									 [ngStyle]="theme.accentMainStyle"
+									 *ngIf="!tokenHasIcon(token.contractAddress)">
+									 <span>{{ getTokenAbbreviation(token.symbol) }}</span>
+							</div>
 						</div>
+						<div class="token-symbol caption no-wrap">
+							{{ token.symbol }}
+						</div>
+				
+						<p class="token-amount">
+							<app-asset-display [ethereumAsset]="token"></app-asset-display>
+						</p>
+				
+						<p class="token-denomination lining-proportional op4 no-wrap"
+							 [ngStyle]="theme.primaryTextStyle"
+							 *ngIf="userPreferences['additionalDenomination'] != 'None'">
+				
+							{{ denominate('0x684654351',
+														50,
+														userPreferences['additionalDenomination']) }}
+						</p>
 					</div>
-					<div class="token-symbol caption no-wrap">
-						{{ token.symbol }}
-					</div>
-
-					<p class="token-amount">
-						<app-asset-display [ethereumAsset]="token"></app-asset-display>
-					</p>
-
-					<p class="token-denomination lining-proportional op4 no-wrap"
-						 [ngStyle]="theme.primaryTextStyle"
-						 *ngIf="userPreferences['additionalDenomination'] != 'None'">
-
-						{{ denominate('0x684654351',
-													50,
-													userPreferences['additionalDenomination']) }}
-					</p>
 				</div>
 			</div>
 			

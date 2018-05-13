@@ -18,6 +18,10 @@ export interface Theme {
   
   accentColor: string;
   accentColorRgb: any;
+  accentColorOp1: any;
+  accentColorOp2: any;
+  accentColorOp3: any;
+  accentColorOp4: any;
   
   op1: number;
   op2: number;
@@ -54,6 +58,9 @@ export interface Theme {
   secondaryBorderStyle: any;
   accentBorderStyle: any;
   
+  toggleButtonOffStyle: any;
+  toggleButtonOnStyle: any;
+  
   toggleSwitchOffStyle: any;
   toggleSwitchOnStyle: any;
   
@@ -66,6 +73,6 @@ export interface Theme {
   selectStyle: any;
   
   processingBackgroundStyle: any;
-  confirmedBackgroundStyle: any;
-  failedBackgroundStyle: any;
+  sendColor: any;
+  receiveColor: any;
 }

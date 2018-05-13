@@ -11,6 +11,8 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { TransactionListComponent } from './transaction-list/transaction-list.component';
 import { RecentTransactionComponent } from './sidebar/recent-transaction/recent-transaction.component';
 import { TransactionEntryComponent } from './transaction-list/transaction-entry/transaction-entry.component';
+import { TransactionService } from './transaction-list/transaction.service';
+import { TransactionListLegendComponent } from './transaction-list/transaction-list-legend/transaction-list-legend.component';
 
 
 @NgModule({
@@ -27,10 +29,12 @@ import { TransactionEntryComponent } from './transaction-list/transaction-entry/
     IndexComponent,
     TransactionListComponent,
     RecentTransactionComponent,
-    TransactionEntryComponent
+    TransactionEntryComponent,
+    TransactionListLegendComponent
   ],
   providers: [
-    IndexComponent
+    IndexComponent,
+    TransactionService
   ]
 })
 export class PublicModule { }

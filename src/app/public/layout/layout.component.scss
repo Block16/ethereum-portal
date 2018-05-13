@@ -3,7 +3,6 @@
 
 :host {
 	display: block;
-	// padding-top: $navBarHeight;
 	min-height: 100vh;
 	@media(max-width: $tabletMaxBreakPoint) {
 		
@@ -16,10 +15,13 @@
 
 .layout {
 	box-sizing: border-box;
-	background: blue;
 	margin-top: $navBarHeight;
 	@include posa-tblr;
 	@media(max-width: $tabletMaxBreakPoint) {
 		position: relative;
+	}
+	@media (max-width: $mobileMaxBreakPoint) {
+		margin-top: 0;
+		padding-top: $navBarHeight / 2;
 	}
 }

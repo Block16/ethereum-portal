@@ -1,8 +1,10 @@
 @import '../../../assets/sass-imports/_variables.scss';
 @import '../../../assets/sass-imports/_mixins.scss';
+@import './transaction-entry/transaction-entry.component.scss';
 
 :host {
 	display: block;
+	position: relative;
 }
 
 .transactions {

@@ -1,29 +1,8 @@
-<!-- <ol class="transactions">
+<app-transaction-list-legend [ngStyle]="theme.secondaryBackgroundStyle"></app-transaction-list-legend>
+<ol class="transactions">
 	<li *ngFor="let transaction of transactions" class="transaction">
-		<app-transaction-entry [transaction]="transaction" [theme]="theme"></app-transaction-entry>
+		<app-transaction-entry [transaction]="transaction"
+													 [theme]="theme"
+													 (loaded)="entryLoaded($event)"></app-transaction-entry>
 	</li>
 </ol>
- -->
-<div class="new-transactions">
-	
-	<div class="new-transaction">
-		<div class="asset lining-proportional">2,354,888,2561600 ETH</div>
-		<div class="address lining-proportional">0x343f2EdA84CEAf92ba0408eE6bE290a2d2d295E4</div>
-		<div class="tx-hash lining-proportional">0x7f0639b9e248ad2c34660f9f039442064d6865d6e77f18249d9ccebe31f44305</div>
-		<div class="fee lining-proportional">~5.411 Gwei</div>
-		<div class="block lining-proportional">5582420</div>
-		<div class="time lining-proportional">5:32 pm Jun 29</div>
-	</div>
-	
-	<div class="new-transaction">
-		<div class="asset lining-proportional">1 ETH</div>
-		<div class="address lining-proportional">0x343f2EdA84CEAf92ba0408eE6bE290a2d2d295E4</div>
-		<div class="tx-hash lining-proportional">0x7f0639b9e248ad2c34660f9f039442064d6865d6e77f18249d9ccebe31f44305</div>
-		<div class="fee lining-proportional">~5.411 Gwei</div>
-		<div class="block lining-proportional">5582420</div>
-		<div class="time lining-proportional">5:32 pm Jun 29</div>
-	</div>
-	
-</div>
- 
- 

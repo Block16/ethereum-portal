@@ -1,43 +1,34 @@
-<div class="transaction"
-		 [ngClass]="{ 'hover': hover }"
-		 (mouseover)="hover = true"
-		 (mouseout)="hover = false"
-     (click)="onClick()"
-		 [ngStyle]="{ 'background': hover ? 'rgba('+
-							  theme.primaryColorRgb.r+','+
-							  theme.primaryColorRgb.g+','+
-							  theme.primaryColorRgb.b+','+
-							  theme.op1+')' :
-							  'transparent' }">
-	<div class="type-icon">
-		<img *ngIf="transaction.kind == 'to'" src="/assets/img/icons/sent arrow.svg" alt="">
-		<img *ngIf="transaction.kind == 'from'" src="/assets/img/icons/received arrow.svg" alt="">
-	</div>
-	<div class="type-text all-small-caps"
-			 [ngClass]="{ 'sent': transaction.kind == 'to',
-			 						'received': transaction.kind == 'from'}">
-		<span *ngIf="transaction.kind == 'to'">Sent</span>
-		<span *ngIf="transaction.kind == 'from'">Received</span>
-	</div>
-	<div class="amount lining-proportional">{{ transaction.amount }} {{ transaction.assetName }}</div>
-	<div class="date caption" *ngIf="!!transaction">{{ monthNames[transaction.created.getMonth()] }} {{ transaction.created.getDate() }}, {{ transaction.created.getFullYear() }}</div>
-	<div class="time">{{ transaction.getClockTime() }} <span class="all-small-caps">{{ transaction.getAmOrPm() }}</span></div>
-	<div class="to-from all-small-caps">
-		<span *ngIf="transaction.kind == 'to'">To</span>
-		<span *ngIf="transaction.kind == 'from'">Fr</span>
-	</div>
 
-	<div class="address lining-proportional" *ngIf="transaction.kind == 'from'">
-		{{ transaction.toAddress }}
-		<b class="overflow-fade"
-			 [ngStyle]="{ 'background': 'linear-gradient(to right, transparent 0%, transparent 80%, ' + theme.secondaryColor + ' 95%, ' + theme.secondaryColor + ' 100%)' }"></b>
+<div class="entry"
+		 [ngStyle]="widestWidthStyles.entryStyle">
+	<div #asset class="asset lining-proportional"
+			 [ngStyle]="widestWidthStyles.assetStyle">
+		<span #assetSpan
+					[ngStyle]="{ 'color': transaction.kind == 'to' ? 
+																theme.sendColor :
+																theme.receiveColor }">{{ transaction.amount }} {{ transaction.assetName }}</span>
 	</div>
-  <div class="address lining-proportional" *ngIf="transaction.kind == 'to'">
-    {{ transaction.fromAddress }}
-    <b class="overflow-fade"
-       [ngStyle]="{ 'background': 'linear-gradient(to right, transparent 0%, transparent 80%, ' + theme.secondaryColor + ' 95%, ' + theme.secondaryColor + ' 100%)' }"></b>
-  </div>
-	<div class="chevron svg-wrapper primary-svg"
-			 [inlineSVG]="'/assets/img/icons/inline-svg/chevron right.svg'">
+	<div class="arrow">
+		<div class="arrow-container">
+			<app-arrow [direction]="transaction.kind"></app-arrow>
+			<!-- <span *ngIf="transaction.kind == 'to'">To</span>
+			<span *ngIf="transaction.kind == 'from'">Fr</span> -->
+		</div>
+	</div>
+	<div class="address lining-proportional">
+		<span *ngIf="transaction.kind == 'from'">{{ transaction.toAddress }}</span>
+		<span *ngIf="transaction.kind == 'to'">{{ transaction.fromAddress }}</span>
+	</div>
+	<div class="tx-hash lining-proportional">{{ transaction.hash }}</div>
+	<!-- <div class="fee lining-proportional">~5.411 Gwei</div> -->
+	<div #block class="block lining-proportional"
+			 [ngStyle]="widestWidthStyles.blockStyle">
+		<span #blockSpan>{{ transaction.blockNumber }}</span>
+	</div>
+	<div #time class="time lining-proportional"
+			 [ngStyle]="widestWidthStyles.timeStyle">
+		<span #timeSpan>
+			{{ monthNames[transaction.created.getMonth()] }} {{ transaction.created.getDate() }}, {{ transaction.created.getFullYear() }} {{ transaction.getClockTime() }} <span class="all-small-caps">{{ transaction.getAmOrPm() }}</span>
+		</span>
 	</div>
 </div>

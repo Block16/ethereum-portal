@@ -31,17 +31,18 @@ main {
 	display: grid;
 	grid-template: "balance content" 
 								 / min-content 1fr;
+	
 	@include posa-tblr;
 	.balance {
 		grid-area: balance;
-		background: springgreen;
 		padding: 1em;
 		box-sizing: border-box;
+		overflow: auto;
 	}
 	.content {
 		grid-area: content;
-		background: salmon;
 		padding: 1em;
+		overflow: auto;
 	}
 	@media(max-width: $tabletMaxBreakPoint) {
 		position: relative;
@@ -143,18 +144,30 @@ main {
 	border-radius: 1em;
 	@media(max-width: $tabletMaxBreakPoint) {
 		text-align: center;
+		cursor: pointer;
+	}
+	@media(max-width: $mobileMaxBreakPoint) {
+		
+	}
+}
+
+.token-header {
+	display: none;
+	@media(max-width: $tabletMaxBreakPoint) {
+		display: block;
 	}
 	@media(max-width: $mobileMaxBreakPoint) {
 		
 	}
 }
 .tokens {
-	padding: $defaultMargin;
 	text-align: left;
+	// display: flex;
 	@media(max-width: $tabletMaxBreakPoint) {
-			// display: grid;
-		  grid-template-columns: repeat(auto-fit, minmax(10em, 1fr));
-		  grid-gap: 0 $defaultMargin / 2;
+		display: grid;
+	  grid-template-columns: repeat(auto-fit, minmax(8em, 1fr));
+	  grid-gap: 0 $defaultMargin / 2;
+		padding: $defaultMargin;
 	}
 	@media(max-width: $mobileMaxBreakPoint) {
 		
@@ -169,6 +182,7 @@ main {
 	grid-template-areas: 'icon symbol'
 											 'icon amount'
 											 'icon denomination';
+	flex: 10em;
 	margin-bottom: $defaultMargin;
 	&.eth-token {
 		// this hides ETH in the Tokens list
