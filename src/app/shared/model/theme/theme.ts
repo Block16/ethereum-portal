@@ -45,6 +45,8 @@ export interface Theme {
   secondaryTextStyle: any;
   accentTextStyle: any;
   
+  sectionHeaderStyle: any;
+  
   buttonStyle: any;
   secondaryButtonStyle: any;
   accentButtonStyle: any;

@@ -18,10 +18,12 @@
 	// grid-template: auto / 1fr auto 1fr;
 }
 
-.test {
-	&.hover {
-		background: red;
-	}
+.section-header {
+	position: sticky;
+	z-index: 1;
+	top: 0;
+	font-variant: all-small-caps;
+	padding: $defaultMargin / 3 $defaultMargin / 2 $defaultMargin / 3 0;
 }
 
 main {
@@ -33,15 +35,18 @@ main {
 								 / min-content 1fr;
 	
 	@include posa-tblr;
+	.balance, .content {
+		-webkit-overflow-scrolling: touch;
+	}
 	.balance {
 		grid-area: balance;
-		padding: 1em;
+		padding: 0 0 0 $defaultMargin;
 		box-sizing: border-box;
 		overflow: auto;
 	}
 	.content {
 		grid-area: content;
-		padding: 1em;
+		padding: 0 $defaultMargin;
 		overflow: auto;
 	}
 	@media(max-width: $tabletMaxBreakPoint) {
@@ -49,6 +54,9 @@ main {
 		display: block;
 		.balance {
 			// position: relative;
+			.section-header {
+				display: none;
+			}
 		}
 		.content {
 			// display: block;
@@ -145,6 +153,7 @@ main {
 	@media(max-width: $tabletMaxBreakPoint) {
 		text-align: center;
 		cursor: pointer;
+		padding: $defaultMargin / 2 $defaultMargin $defaultMargin $defaultMargin;
 	}
 	@media(max-width: $mobileMaxBreakPoint) {
 		
@@ -155,6 +164,12 @@ main {
 	display: none;
 	@media(max-width: $tabletMaxBreakPoint) {
 		display: block;
+		.token-count {
+			margin-bottom: .5em;
+		}
+		.token-denomination-total {
+			margin-bottom: .5em;
+		}
 	}
 	@media(max-width: $mobileMaxBreakPoint) {
 		
@@ -162,12 +177,11 @@ main {
 }
 .tokens {
 	text-align: left;
-	// display: flex;
 	@media(max-width: $tabletMaxBreakPoint) {
 		display: grid;
 	  grid-template-columns: repeat(auto-fit, minmax(8em, 1fr));
-	  grid-gap: 0 $defaultMargin / 2;
-		padding: $defaultMargin;
+	  grid-gap: $defaultMargin / 2 $defaultMargin / 2;
+		padding: $defaultMargin 0 0 0;
 	}
 	@media(max-width: $mobileMaxBreakPoint) {
 		
@@ -184,6 +198,13 @@ main {
 											 'icon denomination';
 	flex: 10em;
 	margin-bottom: $defaultMargin;
+	
+	@media(max-width: $tabletMaxBreakPoint) {
+		margin-bottom: 0;
+	}
+	@media(max-width: $mobileMaxBreakPoint) {
+		
+	}
 	&.eth-token {
 		// this hides ETH in the Tokens list
 		display: none;
@@ -224,6 +245,7 @@ main {
 	}
 	&.eth {
 		grid-gap: 0;
+		margin-top: $defaultMargin / 2;
 		.token-icon {
 			display: none;
 		}
@@ -232,6 +254,7 @@ main {
 		}
 		@media(max-width: $tabletMaxBreakPoint) {
 			text-align: center;
+			margin-bottom: $defaultMargin;
 		}
 		@media(max-width: $mobileMaxBreakPoint) {
 			

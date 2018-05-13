@@ -493,7 +493,6 @@ export class ThemeService {
     theme.accentColorOp3 = this.hexToRgba(themeSource.accentColor, themeSource.op3);
     theme.accentColorOp4 = this.hexToRgba(themeSource.accentColor, themeSource.op4);
 
-
     theme.op1 = themeSource.op1;
     theme.op2 = themeSource.op2;
     theme.op3 = themeSource.op3;
@@ -559,6 +558,20 @@ export class ThemeService {
       'color': themeSource.accentColor,
       'border-color': themeSource.accentColor
     };
+    
+    theme.sectionHeaderStyle = {
+      'background': theme.secondaryColor,
+      'color': 'rgba(' +
+               theme.primaryColorRgb.r + ',' +
+               theme.primaryColorRgb.g + ',' +
+               theme.primaryColorRgb.b + ',' +
+               theme.op4 + ')',
+      'border-bottom': '1px solid ' + 'rgba(' +
+                       theme.primaryColorRgb.r + ',' +
+                       theme.primaryColorRgb.g + ',' +
+                       theme.primaryColorRgb.b + ',' +
+                       theme.op2 + ')'
+    }
 
     theme.textInputFocusStyle = {
       'background': 'rgba(' +

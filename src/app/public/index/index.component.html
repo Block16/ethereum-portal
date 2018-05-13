@@ -136,6 +136,8 @@
 
 <main *ngIf="currentAuth != AuthState.none">
 	<div class="balance">
+		<div class="section-header"
+				 [ngStyle]="theme.sectionHeaderStyle">Balance</div>
 		<div class="token eth">
 			<div class="token-symbol caption no-wrap">
 				ETH
@@ -176,8 +178,8 @@
 				 (click)="clickTokenTray()">
 				 
 			<div class="token-header">
-				<div class="caption small-caps">5 tokens</div>
-				<div class="caption">~$34,742.23 USD</div>
+				<div class="token-count caption small-caps">5 tokens</div>
+				<div class="token-denomination-total caption lining-proportional op4">~$34,742.23 USD</div>
 				<div class="token-toggle toggle-button"
 						 [ngStyle]="showTokenTray ? theme.toggleButtonOnStyle : theme.toggleButtonOffStyle">
 					<span [hidden]="showTokenTray">SHOW ALL</span>

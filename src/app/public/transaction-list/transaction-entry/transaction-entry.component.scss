@@ -9,12 +9,14 @@
 .entry {
 	display: flex;
 	justify-content: space-between;
-	padding: .35em 0;
+	padding: $defaultMargin / 3 $defaultMargin / 2;
+	opacity: 1;
 	@media (max-width: $tabletMaxBreakPoint) {
 		display: grid;
 		grid-template: 'asset arrow address time'
 									 '. 		. 		tx-hash block'
 									 /10em  auto   1fr     10em;
+	  grid-gap: 0 .5em;
 	}
 	@media (max-width: $mobileMaxBreakPoint) {
 		grid-template: 'time  time 		block'
@@ -22,20 +24,26 @@
 									 'arrow address address'
 									 /2em   1fr     10em;
 	}
+	animation: fade-in .25s ease-in;
+	@keyframes fade-in {
+		from {
+			opacity: 0;
+		}
+	}
 	&.legend {
-		position: sticky;
-		top: 0;
 		cursor: default;
+		animation: none;
 		@include no-select;
 		.asset, .arrow, .address, .tx-hash, .block, .time {
 			white-space: nowrap;
 			padding-top: 0;
-			padding-bottom: 0;
-			opacity: .4;
+			padding-bottom: 0;		}
+		.time {
+			padding-right: 0;
 		}
 		@media (max-width: $tabletMaxBreakPoint) {
 			.tx-hash, .block {
-				opacity: .25;
+				opacity: .6;
 			}
 		}
 		@media (max-width: $mobileMaxBreakPoint) {
@@ -51,10 +59,12 @@
 .asset, .arrow, .address, .tx-hash, .block, .time {
 	white-space: nowrap;
 	padding: .5em;
+	// transition: .3s;
 }
 .asset {
 	flex: 12em 0 0;
 	text-align: right;
+	padding-left: 0;
 	// background: hsla(0,0,0,.1);
 }
 .arrow {
@@ -96,12 +106,13 @@
 	flex: 10em 0 1;
 	// background: hsla(0,0,0,.1);
 	width: 0;
+	padding-right: 0;
 }
 
 @media (max-width: $tabletMaxBreakPoint) {
 	.asset, .arrow, .address, .tx-hash, .block, .time {
 		width: unset;
-		padding: .2em .5em;
+		padding: .2em 0;
 	}
 	.asset {
 		grid-area: asset;
