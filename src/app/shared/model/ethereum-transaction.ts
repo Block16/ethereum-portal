@@ -10,6 +10,7 @@ export class EthereumTransaction {
   public tokenToAddress;        // Used to display to address when there is a token being sent
   public tokenValue: BigNumber; // Used to display when there is a token value being sent
   public asset: EthereumAsset;
+  public hash: string;
 
   constructor(
     readonly gasLimit: string,

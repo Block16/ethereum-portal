@@ -15,6 +15,8 @@ import {Provider} from "../../shared/model/providers";
   styleUrls: ['./sidebar.component.scss']
 })
 export class SidebarComponent implements OnDestroy {
+  @Input() showSidebar: boolean;
+
   public address: string;
   public providers: Provider[];
   public currentProvider: Provider;
@@ -33,7 +35,6 @@ export class SidebarComponent implements OnDestroy {
   public userPreferences: UserPreferences;
   public userPrefSubscription: Subscription;
   public recentTransactions = [];
-  public showSidebar = false;
   public theme: Theme;
 
   // forms
