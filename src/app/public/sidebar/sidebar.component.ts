@@ -90,15 +90,12 @@ export class SidebarComponent implements OnDestroy {
     });
 
     this.denominationChangeSubscription = this.denominationForm.get('additionalDenomination').valueChanges.subscribe((denomination) => {
-      this.userPreferences['additionalDenomination'] = denomination;
-      this.userPreferencesService.setPreferences(this.userPreferences);
+      this.userPreferencesService.setAdditionalDenomination(denomination);
     });
 
     this.providerChangeSubscription = this.providerForm.get('provider').valueChanges.subscribe((provider: Provider) => {
       this.web3Service.setCurrentProvider(provider);
-      this.userPreferences['provider'] = provider.name;
-      // TODO: Where do we want to centralize this logic?
-      this.userPreferencesService.setPreferences(this.userPreferences);
+      this.userPreferencesService.setProvider(provider.name);
     });
 
     this.dataShareService.recentTransactions.subscribe((value: any) => {
@@ -124,8 +121,11 @@ export class SidebarComponent implements OnDestroy {
     this.providerSubscription.unsubscribe();
   }
 
-  setUserPreference(preference, setting) {
-    this.userPreferences[preference] = setting;
-    this.userPreferencesService.setPreferences(this.userPreferences);
+  toggleManualGas() {
+    this.userPreferencesService.setManualGas(!this.userPreferences.manualGas);
+  }
+
+  toggleShowGenerated() {
+    this.userPreferencesService.setShowGenerated(!this.userPreferences.showGenerated);
   }
 }
