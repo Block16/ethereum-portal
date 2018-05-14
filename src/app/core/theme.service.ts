@@ -429,9 +429,7 @@ export class ThemeService {
     theme.op4 = themeSource.op4;
     theme.op5 = themeSource.op5;
 
-    theme.isDark = this.luma(theme.primaryColor) > this.luma(theme.secondaryColor) ?
-      true :
-      false;
+    theme.isDark = this.luma(theme.primaryColor) > this.luma(theme.secondaryColor);
 
     theme.mainStyle = {
       'background': themeSource.secondaryColor,
@@ -474,7 +472,7 @@ export class ThemeService {
                     accentColorRgb.g+','+
                     accentColorRgb.b+','+
                     theme.op5+')',
-    }
+    };
 
     theme.primaryTextStyle = {
       'color': themeSource.primaryColor,
