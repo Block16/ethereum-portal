@@ -106,7 +106,7 @@ export class SendFormComponent implements OnDestroy {
 
   ngOnDestroy(): void {
     this.userPrefSub.unsubscribe();
-    this.gasLimitSubscription.unsubscribe();
+    this.sendAssetSubscription.unsubscribe();
     this.currentAddressSubscription.unsubscribe();
   }
 
