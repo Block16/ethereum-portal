@@ -22,6 +22,8 @@ import { SplitDecimalPipe } from './pipes/split-decimal.pipe';
 import { BigNumberToNumberPipe } from './pipes/big-number-to-number.pipe';
 import { AssetDisplayComponent } from './asset-display/asset-display.component';
 import { NotificationComponent } from './notification-list/notification/notification.component';
+import {IntegerOnlyDirective} from "./directive/integer-only.directive";
+import {NumberOnlyDirective} from "./directive/number-only.directive";
 
 @NgModule({
   imports: [
@@ -51,7 +53,9 @@ import { NotificationComponent } from './notification-list/notification/notifica
     InlineButtonComponent,
     SplitDecimalPipe,
     BigNumberToNumberPipe,
-    AssetDisplayComponent
+    AssetDisplayComponent,
+    IntegerOnlyDirective,
+    NumberOnlyDirective
   ],
   declarations: [
     ModalComponent,
@@ -72,7 +76,9 @@ import { NotificationComponent } from './notification-list/notification/notifica
     InlineButtonComponent,
     SplitDecimalPipe,
     BigNumberToNumberPipe,
-    AssetDisplayComponent
+    AssetDisplayComponent,
+    IntegerOnlyDirective,
+    NumberOnlyDirective
   ]
 })
 export class SharedModule { }
