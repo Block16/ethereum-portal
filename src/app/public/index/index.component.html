@@ -228,13 +228,11 @@
 	</div>
 	
 	<div class="content">
-		<div *ngIf="navLocation == 'history'">
-			<app-transaction-list></app-transaction-list>
-		</div>
+		<app-transaction-list *ngIf="navLocation == 'history'"></app-transaction-list>
 		
-		<div *ngIf="navLocation == 'send'">
-			<app-send-form [theme]="theme" (ethereumTransaction)="onTransactionGenerated($event)"></app-send-form>
-		</div>
+		<app-send-form [theme]="theme"
+									 (ethereumTransaction)="onTransactionGenerated($event)"
+									 *ngIf="navLocation == 'send'"></app-send-form>
 		
 		<div *ngIf="navLocation == 'receive'">
 			<div class="caption ">Address</div>

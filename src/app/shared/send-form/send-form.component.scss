@@ -1,3 +1,17 @@
+@import '../../../assets/sass-imports/_mixins.scss';
+
+:host {
+	box-sizing: border-box;
+	padding: 5em 0;
+	@include flex-center;
+	@media(max-width: $tabletMaxBreakPoint) {
+		padding: 10em 0;
+	}
+	@media(max-width: $mobileMaxBreakPoint) {
+		
+	}
+}
+
 .input-and-max {
 	position: relative;
 	flex: 1;

@@ -8,20 +8,19 @@
 		
 	}
 	@media (max-width: $mobileMaxBreakPoint) {
-		padding-top: 0;
-		padding-bottom: $navBarHeight;
+		
 	}
 }
 
 .layout {
 	box-sizing: border-box;
 	margin-top: $navBarHeight;
+	min-height: 100vh;
 	@include posa-tblr;
 	@media(max-width: $tabletMaxBreakPoint) {
 		position: relative;
 	}
 	@media (max-width: $mobileMaxBreakPoint) {
 		margin-top: 0;
-		padding-top: $navBarHeight / 2;
 	}
 }

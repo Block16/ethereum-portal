@@ -4,18 +4,18 @@
 
 :host {
 	display: block;
-  position: relative;
   z-index: $baseZ;
-  
   @include posa-tblr;
   @media(max-width: $tabletMaxBreakPoint) {
   	position: relative;
+  	top: unset;
+  	bottom: unset;
+  	left: unset;
+  	right: unset;
   }
   @media(max-width: $mobileMaxBreakPoint) {
   	
   }
-	// display: grid;
-	// grid-template: auto / 1fr auto 1fr;
 }
 
 .section-header {
@@ -33,9 +33,12 @@ main {
 	display: grid;
 	grid-template: "balance content" 
 								 / min-content 1fr;
+	padding-top: $navBarHeight;
+	box-sizing: border-box;
 	
 	@include posa-tblr;
 	.balance, .content {
+		position: relative;
 		-webkit-overflow-scrolling: touch;
 	}
 	.balance {
@@ -45,26 +48,35 @@ main {
 		overflow: auto;
 	}
 	.content {
+		display: grid;
 		grid-area: content;
-		padding: 0 $defaultMargin;
+		padding: 0 $defaultMargin $defaultMargin;
     overflow-x: hidden;
     overflow-y: auto;
 	}
 	@media(max-width: $tabletMaxBreakPoint) {
 		position: relative;
-		display: block;
+		display: grid;
+		grid-template: "balance" min-content
+									 "content" auto
+									 / auto;
+		min-height: 100vh;
 		.balance {
-			// position: relative;
+			padding: 0 $defaultMargin;
 			.section-header {
 				display: none;
 			}
 		}
 		.content {
+			margin: $defaultMargin 0;
+			padding: 0 $defaultMargin;
+			overflow: visible;
 			// display: block;
 		}
 	}
 	@media(max-width: $mobileMaxBreakPoint) {
-		
+		padding-top: $navBarHeight / 2;
+		padding-bottom: $navBarHeight;
 	}
 }
 

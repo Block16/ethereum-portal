@@ -119,6 +119,9 @@ export class IndexComponent implements OnInit, OnDestroy {
     });
     
     this.dataShareService.navLocation.subscribe((value: any) => {
+      if (value == 'send' && this.navLocation !== 'send') {
+        this.setNewTransactionViewCenter();
+      }
       this.navLocation = value;
     });
 
@@ -271,6 +274,10 @@ export class IndexComponent implements OnInit, OnDestroy {
 
     this.newTransactionStyle['transform'] = transactionTransform;
     this.newTransactionCircleStyle['transform'] = circleTransform;
+  }
+  
+  setNewTransactionViewCenter() {
+    console.log('setNewTransactionViewCenter()');
   }
 
   setNewTransactionViewFullscreen() {
