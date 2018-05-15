@@ -15,6 +15,11 @@ import {Provider} from "../../shared/model/providers";
   styleUrls: ['./sidebar.component.scss']
 })
 export class SidebarComponent implements OnDestroy {
+  @Input() showSidebar: boolean;
+  @Input() set account(address: string) {
+    this.address = address;
+  }
+
   public address: string;
   public providers: Provider[];
   public currentProvider: Provider;
@@ -33,7 +38,6 @@ export class SidebarComponent implements OnDestroy {
   public userPreferences: UserPreferences;
   public userPrefSubscription: Subscription;
   public recentTransactions = [];
-  public showSidebar = false;
   public theme: Theme;
 
   // forms
@@ -46,11 +50,6 @@ export class SidebarComponent implements OnDestroy {
     'None', 'USD', 'EUR'
   ];
 
-  @Input()
-  set account(address: string) {
-    this.address = address;
-  }
-
   constructor(
     private formBuilder: FormBuilder,
     private dataShareService: DataShareService,
@@ -60,10 +59,6 @@ export class SidebarComponent implements OnDestroy {
   ) {
     this.providers = this.web3Service.getProviders();
     this.themes = this.themeService.themes;
-    this.themeSubscription = this.themeService.theme.subscribe(theme => {
-      this.theme = theme;
-      this.themeService.updateSVGs(theme);
-    });
 
     // Build the theme changing selector
     this.themeForm = this.formBuilder.group({
@@ -78,8 +73,10 @@ export class SidebarComponent implements OnDestroy {
       'provider': []
     });
 
-    // Set the default to the theme we get back from the service
-    // this.themeForm.controls['themePreferences'].setValue(theme.name, {onlySelf: true});
+    this.themeSubscription = this.themeService.theme.subscribe(theme => {
+      this.theme = theme;
+      this.themeService.updateSVGs(theme);
+    });
 
     this.providerSubscription = this.web3Service.currentProvider.subscribe((provider: Provider) => {
       this.currentProvider = provider;
@@ -104,10 +101,6 @@ export class SidebarComponent implements OnDestroy {
 
     this.userPrefSubscription = this.userPreferencesService.userPreferences.subscribe(value => {
       this.userPreferences = value;
-    });
-
-    this.dataShareService.showSidebar.subscribe((value: any) => {
-      this.showSidebar = value;
     });
 
     this.address = "";

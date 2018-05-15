@@ -46,16 +46,16 @@
 						<span class="head3"
 									[ngStyle]="theme.accentTextStyle">Trezor</span>
 					</div>
-					<div class="wallet">
+					<!-- <div class="wallet">
 						<app-button class="wallet-icon"
 								 				(click)="toggleAuthState(AuthState.bitbox)"
 								 				accent>
-							<!-- <img src="/assets/img/icons/digital bitbox icon light.svg" alt=""> -->
+							<img src="/assets/img/icons/digital bitbox icon light.svg" alt="">
 							<div class="svg-wrapper secondary-svg digital-bitbox" [inlineSVG]="'/assets/img/icons/inline-svg/digital bitbox icon light.svg'"></div>
 						</app-button>
 						<span class="head3"
 									[ngStyle]="theme.accentTextStyle">Digital Bitbox</span>
-					</div>
+					</div> -->
 
 					<div class="wallet">
 						<app-button class="wallet-icon"
@@ -262,9 +262,16 @@
       <p class="lining-proportional" *ngIf="newTransaction.asset.symbol === 'ETH'">{{ newTransaction.valueToBN().plus(newTransaction.transactionFees()).toString(10) }} ETH</p>
       <p class="lining-proportional" *ngIf="newTransaction.asset.symbol !== 'ETH'">{{ newTransaction.transactionFees().toString(10) }} ETH</p>
 
-      <p class="lining-proportional">{{ newTransaction.txToString() }}</p>
-      <p class="lining-proportional" *ngIf="newTransaction.signature != undefined">{{ newTransaction.signature }}</p>
-      <app-button (click)="sendTransaction()">Send</app-button>
+      <p class="lining-proportional" *ngIf="userPreferences.showGenerated">
+        {{ newTransaction.txToString() }}
+      </p>
+      <p class="lining-proportional" *ngIf="userPreferences.showGenerated && newTransaction.signature != undefined">
+        {{ newTransaction.signature }}
+      </p>
+      <app-button (click)="sendTransaction()"
+                  *ngIf="currentAuth == AuthState.utcFile || currentAuth == AuthState.privateKey">
+        Send
+      </app-button>
 		</section>
 	</div>
 </div>

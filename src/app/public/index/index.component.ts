@@ -1,4 +1,7 @@
-import {Component, ElementRef, EventEmitter, HostListener, OnDestroy, OnInit, Output, ViewChild} from '@angular/core';
+import {
+  Component, ElementRef, EventEmitter, HostListener, Input, OnDestroy, OnInit, Output,
+  ViewChild
+} from '@angular/core';
 import {DataShareService} from "../../core/data-share.service";
 import {LedgerService} from '../../core/key-manager-services/ledger.service';
 import {TrezorConnectService} from '../../core/key-manager-services/trezor-connect.service';
@@ -26,6 +29,8 @@ import {MetamaskService} from "../../core/key-manager-services/metamask.service"
 })
 export class IndexComponent implements OnInit, OnDestroy {
   @ViewChild('_recentTransactions') _recentTransactions: ElementRef;
+  @Output() showSidebarChange: EventEmitter<boolean> = new EventEmitter<boolean>();
+
   public AuthState = AuthState;
   public currentAuth: AuthState;
 
@@ -38,9 +43,7 @@ export class IndexComponent implements OnInit, OnDestroy {
   // UI states
   public showQR = false;
   public showNonRecommended = false;
-  public showSidebar: boolean;
   public showApproveTransaction = false;
-
   public newTransactionToDock = false;
 
   // User preferences
@@ -68,9 +71,9 @@ export class IndexComponent implements OnInit, OnDestroy {
   public newTransactionStyle = {};
   public newTransactionCircleStyle = {};
 
-  @Output() ethereumAddressChange: EventEmitter<string> = new EventEmitter<string>();
   public ethereumAddress: string;
   public ethereumBalance: number;
+  private ethereumAddressSubscription: Subscription;
 
   constructor(
     private themeService: ThemeService,
@@ -88,7 +91,6 @@ export class IndexComponent implements OnInit, OnDestroy {
     this.currentAuth = AuthState.none;
     this.assets = [];
 
-    // TODO: Update this off the bat if their MetaMask is unlocked
     this.ethereumAddress = '';
     this.ethereumBalance = 0;
 
@@ -96,7 +98,6 @@ export class IndexComponent implements OnInit, OnDestroy {
     this.themeSubscription = this.themeService.theme.subscribe(theme => {
       this.theme = theme;
       this.themeService.updateSVGs(theme);
-      // this.updateSVGs('blue');
     });
 
     // Assets
@@ -104,24 +105,17 @@ export class IndexComponent implements OnInit, OnDestroy {
       this.assets = assets;
     });
 
-    // TODO: pull this out
+    // TODO: pull this out, process recent transactions in the localstorage
     this.dataShareService.recentTransactions.subscribe((value: any) => {
       this.recentTransactions = value;
     });
 
-    this.userPreferencesService.userPreferences.subscribe(preferences => {
+    this.userPreferencesSubscription = this.userPreferencesService.userPreferences.subscribe(preferences => {
       this.userPreferences = preferences;
     });
 
-    this.dataShareService.showSidebar.subscribe((value: any) => {
-      this.showSidebar = value;
-    });
-
-    this.coreKeyManagerService.currentAddress.subscribe((address: string) => {
+    this.ethereumAddressSubscription = this.coreKeyManagerService.currentAddress.subscribe((address: string) => {
       this.ethereumAddress = address;
-      // TODO: refactor this, just use the subscription in the other component
-      this.ethereumAddressChange.emit(address);
-      // TODO: Refactor this section
     });
   }
 
@@ -136,6 +130,9 @@ export class IndexComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.themeSubscription.unsubscribe();
+    this.assetSubscription.unsubscribe();
+    this.userPreferencesSubscription.unsubscribe();
+    this.ethereumAddressSubscription.unsubscribe();
   }
 
   /**
@@ -150,10 +147,14 @@ export class IndexComponent implements OnInit, OnDestroy {
     // TODO: I don't like this control flow (AJD)
     if (this.currentAuth !== AuthState.privateKey && this.currentAuth !== AuthState.utcFile) {
       this.coreKeyManagerService.approveAndSend(this.newTransaction).subscribe((txHash) => {
-        console.log(txHash);
+        this.newTransaction.hash = txHash;
         this.setNewTransactionViewToDock();
         // TODO: make sure we clear the current tx here
         // TODO: make sure we subscribe to the finish of this TX
+      }, (err) => {
+        console.log(err);
+        this.notificationService.message("Canceled by user.", "Transaction Status");
+        this.resetNewTransactionView();
       });
     }
   }
@@ -161,14 +162,15 @@ export class IndexComponent implements OnInit, OnDestroy {
   sendTransaction() {
     // TODO: I don't like this control flow (AJD)
     this.web3Service.sendRawTransaction(this.newTransaction).subscribe(txHash => {
+      this.newTransaction.hash = txHash;
       this.setNewTransactionViewToDock();
       // TODO: make sure we clear the current tx here
       // TODO: make sure we subscribe to the finish of this TX
     });
   }
 
-  setShowSidebar(bool) {
-    this.dataShareService.showSidebar.next(bool);
+  setShowSidebar(b: boolean) {
+    this.showSidebarChange.emit(b);
   }
 
   utcAuthState(event) {

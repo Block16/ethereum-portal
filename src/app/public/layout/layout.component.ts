@@ -1,5 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import { DataShareService } from "../../core/data-share.service";
+import {Component, OnDestroy} from '@angular/core';
 import {Theme} from "../../shared/model/theme/theme";
 import {Subscription} from "rxjs/Subscription";
 import {ThemeService} from "../../core/theme.service";
@@ -12,20 +11,19 @@ import {UserPreferences} from "../../shared/model/user-preferences";
   styleUrls: ['./layout.component.scss']
 })
 export class LayoutComponent implements OnDestroy {
-  
+
   public theme: Theme;
-  public ethereumAddress: string;
   public userPreferences: UserPreferences;
   public userPrefSubscription: Subscription;
+  public showSidebar: boolean;
 
   private themeSubscription: Subscription;
 
   constructor(
     private userPreferencesService: UserPreferencesService,
-    private dataShareService: DataShareService,
     private themeService: ThemeService
   ) {
-    this.ethereumAddress = "";
+    this.showSidebar = false;
 
     this.userPrefSubscription = this.userPreferencesService.userPreferences.subscribe(value => {
       this.userPreferences = value;
@@ -41,7 +39,7 @@ export class LayoutComponent implements OnDestroy {
     this.userPrefSubscription.unsubscribe();
   }
 
-  public onAddressChange(event) {
-    this.ethereumAddress = event;
+  public showSidebarChange(b: boolean) {
+    this.showSidebar = b;
   }
 }

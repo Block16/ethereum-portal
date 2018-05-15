@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {FormBuilder, FormGroup, ValidationErrors, Validators} from "@angular/forms";
 import {Web3Service} from "../../core/web3.service";
 import {EthereumAsset} from "../model/ethereum-asset";
 import {Subscription} from "rxjs/Subscription";
@@ -17,7 +17,7 @@ import * as ethutils from 'ethereumjs-util';
   templateUrl: './send-form.component.html',
   styleUrls: ['./send-form.component.scss']
 })
-export class SendFormComponent implements OnInit, OnDestroy {
+export class SendFormComponent implements OnDestroy {
   @Input() theme;
   @Output() ethereumTransaction: EventEmitter<EthereumTransaction> = new EventEmitter<EthereumTransaction>();
 
@@ -25,16 +25,18 @@ export class SendFormComponent implements OnInit, OnDestroy {
   public userPreferences: UserPreferences;
 
   public currentAddress: string;
-  public currentAsset: EthereumAsset;
-  public sendForm: FormGroup;
+  private currentAddressSubscription: Subscription;
 
+  public currentAsset: EthereumAsset;
+  private assetSubscription: Subscription;
+  private sendAssetSubscription: Subscription;
+  public assets: EthereumAsset[];
+
+  public sendForm: FormGroup;
   public sendAmount: BigNumber;
   public previousAmount: BigNumber;
 
   public sendMax: boolean;
-
-  private assetSubscription: Subscription;
-  public assets: EthereumAsset[];
 
   constructor(
     private formBuilder: FormBuilder,
@@ -45,15 +47,37 @@ export class SendFormComponent implements OnInit, OnDestroy {
   ) {
     this.currentAddress = "";
 
+    // Create the send form so we can add pragmatic validators
+    this.sendForm = this.formBuilder.group({
+      'sendAddress': ['', [ Validators.required, Validators.pattern("^(0x){0,1}[a-fA-F0-9]{40}$") ] ],
+      'sendAmount': ['', [Validators.required]],
+      'sendAsset': ['', [Validators.required]],
+      'gasPrice': ['', [Validators.required, Validators.max(80), Validators.min(1)]],
+      'gasLimit': ['', [Validators.required, Validators.pattern('^[0-9]+$')]],
+    });
+
     this.userPrefSub = this.userPrefService.userPreferences.subscribe(userPref => {
       this.userPreferences = userPref;
     });
 
-    this.assetSubscription = this.assetService.ethereumAssets.subscribe(assets => {
+    this.sendForm.patchValue({ gasLimit: 21000, gasPrice: 8 });
+    this.sendForm.controls['gasLimit'].updateValueAndValidity();
+
+    this.assetSubscription = this.assetService.ethereumAssets.subscribe((assets: EthereumAsset[]) => {
       this.assets = assets;
     });
 
-    this.coreKeyManagerService.currentAddress.subscribe((address: string) => {
+    this.sendAssetSubscription = this.sendForm.controls['sendAsset'].valueChanges.subscribe((sendAsset: EthereumAsset) => {
+      const currentAssetSymbol = this.currentAsset.symbol;
+      const currentGasLimit = this.sendForm.controls['gasLimit'].value;
+
+      // If they have manual gas, make sure not to change this if it's not ETH and not 21000 gas (because we're sending token)
+      if (!this.userPreferences.manualGas || (currentAssetSymbol === 'ETH' && currentGasLimit === 21000)) {
+        this.sendForm.patchValue({ gasLimit: sendAsset.gasLimit });
+      }
+    });
+
+    this.currentAddressSubscription = this.coreKeyManagerService.currentAddress.subscribe((address: string) => {
       this.currentAddress = address;
     });
 
@@ -63,12 +87,6 @@ export class SendFormComponent implements OnInit, OnDestroy {
     this.sendAmount = new BigNumber('0');
     this.previousAmount = new BigNumber('0');
     this.currentAsset = this.assets[0];
-
-    this.sendForm = this.formBuilder.group({
-      'sendAddress': ['', [ Validators.required, Validators.pattern("(0x){0,1}[a-fA-F0-9]{40}") ] ],
-      'sendAmount': ['', [Validators.required]],
-      'sendAsset': ['', [Validators.required]]
-    });
   }
 
   clickMaxButton() {
@@ -86,10 +104,10 @@ export class SendFormComponent implements OnInit, OnDestroy {
     this.sendForm.controls['sendAmount'].setValue(this.currentAsset.calculatedAmount.toString());
   }
 
-  ngOnInit() { }
-
   ngOnDestroy(): void {
     this.userPrefSub.unsubscribe();
+    this.gasLimitSubscription.unsubscribe();
+    this.currentAddressSubscription.unsubscribe();
   }
 
   toHex(n: number|string|BigNumber): string {
@@ -129,13 +147,13 @@ export class SendFormComponent implements OnInit, OnDestroy {
   generateTransaction() {
     const sendAsset = <EthereumAsset>this.sendForm.controls['sendAsset'].value;
     let rawAmount = this.toHex(sendAsset.amountToRaw(this.sendForm.controls['sendAmount'].value)); // parameter or hex
-    let data = '0x'; // hex prefix if actual data
+    let data = '0x';         // hex prefix if actual data
     let toAddress = ethutils.addHexPrefix(this.sendForm.controls['sendAddress'].value);
     let tokenToAddress = ''; // only if we are doing a token TX
     let tokenValue = new BigNumber('0');
 
     // TODO: Manual gas
-    const gasPrice = this.toGwei('8');
+    const gasPrice = this.toGwei(this.sendForm.controls['gasPrice'].value.toString());
     const gasLimit = this.toHex(sendAsset.gasLimit);
 
     // If we are not sending eth, we need to use the contract's address
