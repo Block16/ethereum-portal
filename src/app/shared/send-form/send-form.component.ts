@@ -154,7 +154,7 @@ export class SendFormComponent implements OnDestroy {
 
     // TODO: Manual gas
     const gasPrice = this.toGwei(this.sendForm.controls['gasPrice'].value.toString());
-    const gasLimit = this.toHex(sendAsset.gasLimit);
+    const gasLimit = this.toHex(this.sendForm.controls['gasLimit'].value);
 
     // If we are not sending eth, we need to use the contract's address
     if (sendAsset.symbol !== 'ETH') {
