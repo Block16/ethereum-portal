@@ -24,6 +24,7 @@ import { AssetDisplayComponent } from './asset-display/asset-display.component';
 import { NotificationComponent } from './notification-list/notification/notification.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { ArrowComponent } from './ui-elements/arrow/arrow.component';
+import { NewTransactionComponent } from './new-transaction/new-transaction.component';
 
 @NgModule({
   imports: [
@@ -55,7 +56,8 @@ import { ArrowComponent } from './ui-elements/arrow/arrow.component';
     BigNumberToNumberPipe,
     AssetDisplayComponent,
     NavbarComponent,
-    ArrowComponent
+    ArrowComponent,
+    NewTransactionComponent
   ],
   declarations: [
     ModalComponent,
@@ -78,7 +80,8 @@ import { ArrowComponent } from './ui-elements/arrow/arrow.component';
     BigNumberToNumberPipe,
     AssetDisplayComponent,
     NavbarComponent,
-    ArrowComponent
+    ArrowComponent,
+    NewTransactionComponent
   ]
 })
 export class SharedModule { }

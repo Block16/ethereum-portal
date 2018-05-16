@@ -2,10 +2,17 @@
 
 :host {
 	box-sizing: border-box;
-	padding: 5em 0;
+	padding: 5em 0 10em;
 	@include flex-center;
+	animation: send-form-in .5s cubic-bezier(0,1.32,.26,1);
+	@keyframes send-form-in {
+		from {
+			opacity: 0;
+			transform: translateY(50vh);
+		}
+	}
 	@media(max-width: $tabletMaxBreakPoint) {
-		padding: 10em 0;
+		padding: 5em 0 10em;
 	}
 	@media(max-width: $mobileMaxBreakPoint) {
 		

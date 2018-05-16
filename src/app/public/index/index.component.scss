@@ -4,7 +4,7 @@
 
 :host {
 	display: block;
-  z-index: $baseZ;
+  // z-index: $baseZ;
   @include posa-tblr;
   @media(max-width: $tabletMaxBreakPoint) {
   	position: relative;
@@ -29,7 +29,6 @@
 main {
 	grid-area: auto / 2;
 	position: relative;
-	z-index: $baseZ;
 	display: grid;
 	grid-template: "balance content" 
 								 / min-content 1fr;
@@ -286,7 +285,6 @@ $newTransactionTransformTime: .25s;
 	overflow: hidden;
 	top: 0;
 	left: 0;
-	z-index: 1;
 	border-radius: 99em;
 	background: $yellow;
 	transform: translate(0, 0);

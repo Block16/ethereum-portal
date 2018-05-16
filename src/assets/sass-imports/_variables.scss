@@ -58,10 +58,11 @@ $defaultTransitionTime: .05s;
 
 //// Z-indexes
 // Index page
-$modalZ: 9;
+$modalZ: 11;
+$newTransactionZ: 10;
+$newTransactionCircleZ: 9;
 $sidebarZ: 8;
 $sidebarOverlayZ: 7;
 $newTransactionZ: 6;
-$newTransactionCircleZ: 5;
 $sideDockZ: 4;
 $baseZ: 1;

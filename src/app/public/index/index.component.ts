@@ -281,6 +281,7 @@ export class IndexComponent implements OnInit, OnDestroy {
   }
 
   setNewTransactionViewFullscreen() {
+    console.log('ok');
     const r = this.fullTransactionViewCircleRadius();
     const leftOffset = (r - this.windowWidth / 2) * -1;
     const topOffset = (r - this.windowHeight / 2) * -1;
