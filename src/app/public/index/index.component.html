@@ -1,8 +1,5 @@
-<main>
-	<h1 class="top-border head1 type2 main-head"
-			[ngStyle]="theme.primaryTextStyle">Ethereum Portal</h1>
-	<div *ngIf="currentAuth == AuthState.none"
-			 class="grid">
+<main *ngIf="currentAuth == AuthState.none">
+	<div class="grid">
 		<div class="grid-cell">
 			<h2 class="top-border"
 					[ngStyle]="theme.primaryTextStyle">Select wallet</h2>
@@ -12,8 +9,6 @@
 						<app-button class="wallet-icon"
 											  (click)="metaMaskAuthState()"
 											  accent>
-							<!-- <img src="/assets/img/icons/metamask icon light.svg" alt=""> -->
-
 							<div [hidden]="theme.isDark">
 								<div class="svg-wrapper secondary-svg"
 										 [inlineSVG]="'/assets/img/icons/inline-svg/metamask icon light.svg'"></div>
@@ -30,7 +25,6 @@
 						<app-button class="wallet-icon"
 								 				(click)="toggleAuthState(AuthState.ledger)"
 								 				accent>
-							<!-- <img src="/assets/img/icons/ledger icon light.svg" alt=""> -->
 							<div class="svg-wrapper secondary-svg ledger" [inlineSVG]="'/assets/img/icons/inline-svg/ledger icon light.svg'"></div>
 						</app-button>
 						<span class="head3"
@@ -40,17 +34,15 @@
 						<app-button class="wallet-icon"
 								 				(click)="trezorAuthState()"
 								 				accent>
-							<!-- <img src="/assets/img/icons/trezor icon light.svg" alt=""> -->
 							<div class="svg-wrapper secondary-svg trezor" [inlineSVG]="'/assets/img/icons/inline-svg/trezor icon light.svg'"></div>
 						</app-button>
 						<span class="head3"
 									[ngStyle]="theme.accentTextStyle">Trezor</span>
 					</div>
-					<!-- <div class="wallet">
+<!-- 					<div class="wallet">
 						<app-button class="wallet-icon"
 								 				(click)="toggleAuthState(AuthState.bitbox)"
 								 				accent>
-							<img src="/assets/img/icons/digital bitbox icon light.svg" alt="">
 							<div class="svg-wrapper secondary-svg digital-bitbox" [inlineSVG]="'/assets/img/icons/inline-svg/digital bitbox icon light.svg'"></div>
 						</app-button>
 						<span class="head3"
@@ -61,7 +53,6 @@
 						<app-button class="wallet-icon"
 						accent>
 							<app-utc-file-form (privateKey)="utcAuthState($event)"></app-utc-file-form>
-						  <!-- <img src="/assets/img/icons/utc icon light.svg" alt=""> -->
 							<div class="svg-wrapper secondary-svg utc" [inlineSVG]="'/assets/img/icons/inline-svg/utc icon light.svg'"></div>
 						</app-button>
 						<span class="head3"
@@ -74,9 +65,6 @@
 	        <app-private-key-form (privateKey)="privateKeyAuthState($event)"></app-private-key-form>
 				</app-toggle-section>
 			</section>
-
-			<!-- <app-button>button</app-button>
-			<app-button accent small>accent button</app-button> -->
 		</div>
 		<div class="grid-cell">
 			<h2 class="top-border"
@@ -144,164 +132,189 @@
 			</section>
 		</div>
 	</div>
-
-	<div *ngIf="currentAuth != AuthState.none" class="grid">
-		<div class="grid-cell">
-
-			<h2 class="top-border head2 type2">View</h2>
-
-			<section class="section-content">
-				<div class="caption ">Address</div>
-				<p class="lining-proportional break-all my-address">0x{{ ethereumAddress }}</p>
-
-				<div class="token eth">
-					<div class="token-symbol caption no-wrap">
-						ETH
-					</div>
-
-          <p class="token-amount" *ngIf="assets.length > 0">
-          	<app-asset-display [ethereumAsset]="assets[0]"></app-asset-display>
-          </p>
-
-					<p class="token-denomination lining-proportional op4 no-wrap"
-						 [ngStyle]="theme.primaryTextStyle"
-						 *ngIf="userPreferences['additionalDenomination'] != 'None'">
-						{{ denominate('0x684654351',
-													50,
-													userPreferences['additionalDenomination']) }}
-					</p>
-				</div>
-
-				<app-toggle-section [title]="'Tokens'" [open]="true">
-					<div class="tokens">
-						<div class="token"
-								 [ngClass]="{ 'eth-token': token.symbol == 'ETH' }"
-								 *ngFor="let token of assets">
-							<div class="token-icon">
-								<div class="icon-container" *ngIf="token.hasSymbol">
-								 	<div class="svg-wrapper accent-svg"
-										 	 [inlineSVG]="'/assets/img/icons/coins/' + token.symbol.toLowerCase() + '.svg'"></div>
-                </div>
-								<div class="icon-container no-icon"
-										 [ngStyle]="theme.accentMainStyle"
-										 *ngIf="!token.hasSymbol">
-										 <span>{{ token.symbolAbbreviation() }}</span>
-								</div>
-							</div>
-							<div class="token-symbol caption no-wrap">
-								{{ token.symbol }}
-							</div>
-
-							<p class="token-amount">
-								<app-asset-display [ethereumAsset]="token"></app-asset-display>
-							</p>
-
-							<p class="token-denomination lining-proportional op4 no-wrap"
-								 [ngStyle]="theme.primaryTextStyle"
-								 *ngIf="userPreferences['additionalDenomination'] != 'None'">
-
-								{{ denominate('0x684654351',
-															50,
-															userPreferences['additionalDenomination']) }}
-							</p>
-						</div>
-					</div>
-				</app-toggle-section>
-
-				<app-toggle-section [title]="'QR'">
-					<ngx-kjua
-							class="qr"
-					    [text]="'0x' + ethereumAddress"
-					    [renderAsync]="false"
-					    [crisp]="true"
-					    [ecLevel]="'L'"
-					    [size]="'250'"
-					    [fill]="theme.primaryColor"
-					    [back]="'transparent'"
-					  ></ngx-kjua>
-				</app-toggle-section>
-			</section>
-		</div>
-
-		<div class="grid-cell">
-      <app-send-form [theme]="theme" (ethereumTransaction)="onTransactionGenerated($event)"></app-send-form>
-		</div>
-		<div class="grid-cell">
-			<h2 class="top-border head2 type2">History</h2>
-			<section class="section-content">
-				<app-transaction-list></app-transaction-list>
-			</section>
-		</div>
-	</div>
-
 </main>
 
-<div class="new-transaction-circle"
-		 [ngClass]="{ 'small': newTransactionToDock }"
-		 [ngStyle]="newTransactionCircleStyle">
-		 <div class="circle-fill"
-				  [ngStyle]="theme.processingBackgroundStyle"></div>
-</div>
+<main *ngIf="currentAuth != AuthState.none">
+	<div class="balance">
+		<div class="section-header"
+				 [ngStyle]="theme.sectionHeaderStyle">Balance</div>
+		<div class="token eth">
+			<div class="token-symbol caption no-wrap">
+				ETH
+			</div>
 
-<div class="new-transaction" [ngStyle]="newTransactionStyle" *ngIf="showApproveTransaction">
+      <p class="token-amount" *ngIf="assets.length > 0">
+      	<app-asset-display [ethereumAsset]="assets[0]"></app-asset-display>
+      </p>
+
+			<p class="token-denomination lining-proportional op4 no-wrap"
+				 [ngStyle]="theme.primaryTextStyle"
+				 *ngIf="userPreferences['additionalDenomination'] != 'None'">
+				{{ denominate('0x684654351',
+											50,
+											userPreferences['additionalDenomination']) }}
+			</p>
+		</div>
+<!-- 		<div class="token eth">
+			<div class="token-symbol caption no-wrap">
+				ETH
+			</div>
+
+      <p class="token-amount lining-proportional" *ngIf="assets.length > 0">
+      	3,654,557.298165005
+      </p>
+
+			<p class="token-denomination lining-proportional op4 no-wrap"
+				 [ngStyle]="theme.primaryTextStyle"
+				 *ngIf="userPreferences['additionalDenomination'] != 'None'">
+				{{ denominate('0x684654351',
+											50,
+											userPreferences['additionalDenomination']) }}
+			</p>
+		</div> -->
+		
+		<div class="token-tray"
+				 [ngStyle]="{ 'background': showTokenTray && windowWidth <= dataShareService.tabletMaxBreakPoint ? theme.primaryColorOp1 : 'transparent' }"
+				 (click)="clickTokenTray()">
+				 
+			<div class="token-header">
+				<div class="token-count caption small-caps">5 tokens</div>
+				<div class="token-denomination-total caption lining-proportional op4">~$34,742.23 USD</div>
+				<div class="token-toggle toggle-button"
+						 [ngStyle]="showTokenTray ? theme.toggleButtonOnStyle : theme.toggleButtonOffStyle">
+					<span [hidden]="showTokenTray">SHOW ALL</span>
+					<span [hidden]="!showTokenTray">HIDE</span>
+				</div>
+			</div>
+			
+			<div [hidden]="!showTokenTray">
+				<div class="tokens">
+					<div class="token"
+							 [ngClass]="{ 'eth-token': token.symbol == 'ETH' }"
+							 *ngFor="let token of assets">
+						<div class="token-icon">
+							<div class="icon-container"
+									 *ngIf="tokenHasIcon(token.contractAddress)">
+							 	<div class="svg-wrapper accent-svg"
+									 	 [inlineSVG]="'/assets/img/icons/coins/'+token.symbol.toLowerCase()+'.svg'"></div>
+							 </div>
+							<div class="icon-container no-icon"
+									 [ngStyle]="theme.accentMainStyle"
+									 *ngIf="!tokenHasIcon(token.contractAddress)">
+									 <span>{{ getTokenAbbreviation(token.symbol) }}</span>
+							</div>
+						</div>
+						<div class="token-symbol caption no-wrap">
+							{{ token.symbol }}
+						</div>
+				
+						<p class="token-amount">
+							<app-asset-display [ethereumAsset]="token"></app-asset-display>
+						</p>
+				
+						<p class="token-denomination lining-proportional op4 no-wrap"
+							 [ngStyle]="theme.primaryTextStyle"
+							 *ngIf="userPreferences['additionalDenomination'] != 'None'">
+				
+							{{ denominate('0x684654351',
+														50,
+														userPreferences['additionalDenomination']) }}
+						</p>
+					</div>
+				</div>
+			</div>
+			
+		</div>
+	</div>
+	
 	<div class="content">
-		<h1 class="top-border" [ngStyle]="theme.newTransactionTextStyle">Approve transaction</h1>
-		<section class="section-content"
-						 [ngStyle]="theme.newTransactionTextStyle">
-			<h3 class="type2">Transaction will send immediately after approval on your {{ currentAuth }}</h3>
-      <span class="caption">From</span><br>
-      <p class="lining-proportional">0x{{ ethereumAddress }}</p>
-			<span class="caption">To</span><br>
-			<p class="lining-proportional" *ngIf="newTransaction.asset.symbol === 'ETH'">{{ newTransaction.toAddress }}</p>
-			<p class="lining-proportional" *ngIf="newTransaction.asset.symbol !== 'ETH'">{{ newTransaction.tokenToAddress }}</p>
-			<span class="caption">Value</span><br>
-			<p class="lining-proportional">{{ newTransaction.valueToBN().toString(10) }} {{ newTransaction.asset.symbol }}</p>
-			<span class="caption">Estimated transaction fees</span><br>
-			<p class="lining-proportional">{{ newTransaction.transactionFeesGwei().toString(10) }} Gwei, ({{ newTransaction.transactionFees().toString(10) }} ETH)</p>
-      <span class="caption">Estimated total transaction (value + tx fees)</span><br>
-      <p class="lining-proportional" *ngIf="newTransaction.asset.symbol === 'ETH'">{{ newTransaction.valueToBN().plus(newTransaction.transactionFees()).toString(10) }} ETH</p>
-      <p class="lining-proportional" *ngIf="newTransaction.asset.symbol !== 'ETH'">{{ newTransaction.transactionFees().toString(10) }} ETH</p>
+		<app-transaction-list *ngIf="navLocation == 'history'"></app-transaction-list>
+		
+		<app-send-form [theme]="theme"
+									 (ethereumTransaction)="onTransactionGenerated($event)"
+									 *ngIf="navLocation == 'send'"></app-send-form>
+		<app-new-transaction [mode]=""
+												 [transaction]="newTransaction"
+												 [newTxStyle]="newTxStyle"
+												 [newTxCircleStyle]="newTxCircleStyle"
+												 [small]="newTransactionToDock"
+												 [currentAuth]="currentAuth"></app-new-transaction>
+		
+		<div class="new-transaction-circle"
+				 [ngClass]="{ 'small': newTransactionToDock }"
+				 [ngStyle]="newTransactionCircleStyle">
+				 <div class="circle-fill"
+						  [ngStyle]="theme.processingBackgroundStyle"></div>
+		</div>
 
-      <p class="lining-proportional" *ngIf="userPreferences.showGenerated">
-        {{ newTransaction.txToString() }}
-      </p>
-      <p class="lining-proportional" *ngIf="userPreferences.showGenerated && newTransaction.signature != undefined">
-        {{ newTransaction.signature }}
-      </p>
-      <app-button (click)="sendTransaction()"
-                  *ngIf="currentAuth == AuthState.utcFile || currentAuth == AuthState.privateKey">
-        Send
-      </app-button>
-		</section>
+		<div class="new-transaction" [ngStyle]="newTransactionStyle" *ngIf="showApproveTransaction">
+			<div class="content">
+				<h1 class="top-border" [ngStyle]="theme.newTransactionTextStyle">Approve transaction</h1>
+				<section class="section-content"
+								 [ngStyle]="theme.newTransactionTextStyle">
+					<h3 class="type2">Transaction will send immediately after approval on your {{ currentAuth }}</h3>
+		      <span class="caption">From</span><br>
+		      <p class="lining-proportional">0x{{ ethereumAddress }}</p>
+					<span class="caption">To</span><br>
+					<p class="lining-proportional" *ngIf="newTransaction.asset.symbol === 'ETH'">{{ newTransaction.toAddress }}</p>
+					<p class="lining-proportional" *ngIf="newTransaction.asset.symbol !== 'ETH'">{{ newTransaction.tokenToAddress }}</p>
+					<span class="caption">Value</span><br>
+					<p class="lining-proportional">{{ newTransaction.valueToBN().toString(10) }} {{ newTransaction.asset.symbol }}</p>
+					<span class="caption">Estimated transaction fees</span><br>
+					<p class="lining-proportional">{{ newTransaction.transactionFeesGwei().toString(10) }} Gwei, ({{ newTransaction.transactionFees().toString(10) }} ETH)</p>
+		      <span class="caption">Estimated total transaction (value + tx fees)</span><br>
+		      <p class="lining-proportional" *ngIf="newTransaction.asset.symbol === 'ETH'">{{ newTransaction.valueToBN().plus(newTransaction.transactionFees()).toString(10) }} ETH</p>
+		      <p class="lining-proportional" *ngIf="newTransaction.asset.symbol !== 'ETH'">{{ newTransaction.transactionFees().toString(10) }} ETH</p>
+		      <p class="lining-proportional" *ngIf="userPreferences.showGenerated">
+		        {{ newTransaction.txToString() }}
+		      </p>
+		      <p class="lining-proportional" *ngIf="userPreferences.showGenerated && newTransaction.signature != undefined">
+		        {{ newTransaction.signature }}
+		      </p>
+		      <app-button (click)="sendTransaction()"
+		                  *ngIf="currentAuth == AuthState.utcFile || currentAuth == AuthState.privateKey">
+		        Send
+		      </app-button>
+				</section>
+			</div>
+		</div>
+		
+		<div *ngIf="navLocation == 'receive'">
+			<div class="caption ">Address</div>
+			<p class="lining-proportional break-all my-address">0x{{ ethereumAddress }}</p>
+			<ngx-kjua
+					class="qr"
+			    [text]="'0x' + ethereumAddress"
+			    [renderAsync]="false"
+			    [crisp]="true"
+			    [ecLevel]="'L'"
+			    [size]="'250'"
+			    [fill]="theme.primaryColor"
+			    [back]="'transparent'"
+			  ></ngx-kjua>
+		</div>
 	</div>
-</div>
+</main>
 
-<div #_recentTransactions
-		 class="recent-transactions"
-		 (click)="setShowSidebar(true)">
-	<div *ngFor="let tx of recentTransactions"
-				class="transaction">
-		<transaction-dot [status]="tx.status"></transaction-dot>
-	</div>
-</div>
+
 
 <modal [(visible)]="showTestModal" [title]="'Title'">hello</modal>
 
 <div class="dev-buttons">
-	<app-button class="dev-button"
+<!-- 	<app-button class="dev-button"
 			 [ngStyle]="theme.buttonStyle"
-			 (click)="showTestModal = !showTestModal">Show test modal</app-button>
+			 (click)="showTestModal = !showTestModal">Show test modal</app-button> -->
 	<app-button class="dev-button"
 			 [ngStyle]="theme.buttonStyle"
 		 	 (click)="showApproveNewTransaction()">Generate transaction</app-button>
 	<app-button class="dev-button"
 			 [ngStyle]="theme.buttonStyle"
 		 	 (click)="transactionSigned()">Sign transaction</app-button>
-	<app-button class="dev-button"
+<!-- 	<app-button class="dev-button"
 			 [ngStyle]="theme.buttonStyle"
 		 	 (click)="notificationService.message('hello ')">Add notification</app-button>
 	<app-button class="dev-button"
 			 [ngStyle]="theme.buttonStyle"
-		 	 (click)="notificationService.message('it worx ', null, 0)">Add INFINITE notification</app-button>
+		 	 (click)="notificationService.message('it worx ', null, 0)">Add INFINITE notification</app-button> -->
 </div>
 

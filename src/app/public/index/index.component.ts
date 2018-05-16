@@ -18,6 +18,7 @@ import {AuthState} from '../../shared/model/auth-state';
 import {CoreKeyManagerService} from "../../core/key-manager-services/core-key-manager.service";
 import {EthereumTransaction} from "../../shared/model/ethereum-transaction";
 import {DenominationService} from "../../core/denomination.service";
+import {TokenTickerService} from "../../core/token-ticker.service";
 import {NotificationService} from '../../core/notification.service';
 import {BigNumber} from "bignumber.js";
 import {MetamaskService} from "../../core/key-manager-services/metamask.service";
@@ -41,10 +42,12 @@ export class IndexComponent implements OnInit, OnDestroy {
   private windowMax: number;
 
   // UI states
+  public navLocation: string = 'history';
   public showQR = false;
   public showNonRecommended = false;
   public showApproveTransaction = false;
   public newTransactionToDock = false;
+  public showTokenTray: boolean = true;
 
   // User preferences
   private userPreferencesSubscription: Subscription;
@@ -86,14 +89,15 @@ export class IndexComponent implements OnInit, OnDestroy {
     private assetService: Block16Service,
     private coreKeyManagerService: CoreKeyManagerService,
     private denominationService: DenominationService,
-    public notificationService: NotificationService
+    private tokenTickerService: TokenTickerService,
+    private notificationService: NotificationService,
   ) {
     this.currentAuth = AuthState.none;
     this.assets = [];
 
     this.ethereumAddress = '';
     this.ethereumBalance = 0;
-
+    
     // Theme
     this.themeSubscription = this.themeService.theme.subscribe(theme => {
       this.theme = theme;
@@ -109,12 +113,23 @@ export class IndexComponent implements OnInit, OnDestroy {
     this.dataShareService.recentTransactions.subscribe((value: any) => {
       this.recentTransactions = value;
     });
+    
+    this.dataShareService.navLocation.subscribe((value: any) => {
+      if (value == 'send' && this.navLocation !== 'send') {
+        this.setNewTransactionViewCenter();
+      }
+      this.navLocation = value;
+    });
 
     this.userPreferencesSubscription = this.userPreferencesService.userPreferences.subscribe(preferences => {
       this.userPreferences = preferences;
     });
 
+// <<<<<<< HEAD
     this.ethereumAddressSubscription = this.coreKeyManagerService.currentAddress.subscribe((address: string) => {
+// =======
+//     this.coreKeyManagerService.currentAddress.subscribe((address: string) => {
+// >>>>>>> feature/new-layout
       this.ethereumAddress = address;
     });
   }
@@ -126,6 +141,7 @@ export class IndexComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.calibratePage();
     this.resetNewTransactionView();
+    this.metaMaskAuthState();
   }
 
   ngOnDestroy(): void {
@@ -158,6 +174,12 @@ export class IndexComponent implements OnInit, OnDestroy {
       });
     }
   }
+  
+  clickTokenTray() {
+    if (this.windowWidth < this.dataShareService.tabletMaxBreakPoint) {
+      this.showTokenTray = !this.showTokenTray;
+    }
+  }
 
   sendTransaction() {
     // TODO: I don't like this control flow (AJD)
@@ -172,12 +194,20 @@ export class IndexComponent implements OnInit, OnDestroy {
   setShowSidebar(b: boolean) {
     this.showSidebarChange.emit(b);
   }
-
+  
   utcAuthState(event) {
     this.currentAuth = AuthState.utcFile;
     this.coreKeyManagerService.setCurrentAuth(this.currentAuth, privateKeyToAddress(event), event);
   }
 
+  getTokenAbbreviation(tokenTicker: string) {
+    return tokenTicker.substr(0, 3).toUpperCase();
+  }
+
+  tokenHasIcon(contractAddress) {
+    // debugger;
+    return !!this.tokenTickerService.checkTokenSymbol(contractAddress);
+  }
   privateKeyAuthState(event) {
     this.currentAuth = AuthState.privateKey;
     this.coreKeyManagerService.setCurrentAuth(this.currentAuth, privateKeyToAddress(event.privateKey), event.privateKey);
@@ -254,8 +284,13 @@ export class IndexComponent implements OnInit, OnDestroy {
     this.newTransactionStyle['transform'] = transactionTransform;
     this.newTransactionCircleStyle['transform'] = circleTransform;
   }
+  
+  setNewTransactionViewCenter() {
+    console.log('setNewTransactionViewCenter()');
+  }
 
   setNewTransactionViewFullscreen() {
+    console.log('ok');
     const r = this.fullTransactionViewCircleRadius();
     const leftOffset = (r - this.windowWidth / 2) * -1;
     const topOffset = (r - this.windowHeight / 2) * -1;
@@ -288,12 +323,19 @@ export class IndexComponent implements OnInit, OnDestroy {
       this.resetNewTransactionView();
     }, 500);
   }
+  
+  resizeTokenTray() {
+    if (this.windowWidth > this.dataShareService.tabletMaxBreakPoint) {
+      this.showTokenTray = true;
+    }
+  }
 
   calibratePage() {
     this.windowHeight = window.innerHeight;
     this.windowWidth = window.innerWidth;
     this.windowMin = Math.min(this.windowWidth, this.windowHeight);
     this.windowMax = Math.max(this.windowWidth, this.windowHeight);
+    this.resizeTokenTray();
   }
 
   @HostListener('window:resize', ['$event'])

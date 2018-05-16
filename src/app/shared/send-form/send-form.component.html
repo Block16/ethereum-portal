@@ -1,16 +1,5 @@
-<h2 class="top-border head2 type2">Send</h2>
-<section class="section-content">
-  <form [formGroup]="sendForm" (submit)="generateTransaction()">
-<!--     <label for="text-to-address" class="caption form-label">To <span class="fade">Ethereum address</span></label> -->
-<!--     <input type="text"
-           id="text-to-address"
-           placeholder="0xAfDB9..."
-           [formControl]="sendForm.controls['sendAddress']"
-           class="wide"
-           (blur)="sendAddressFocus = false" (focus)="sendAddressFocus = true"
-           [ngStyle]="sendAddressFocus ?
-                      theme.textInputFocusStyle :
-                      theme.textInputBlurStyle"> -->
+
+<form [formGroup]="sendForm" (submit)="generateTransaction()">
     <app-input [control]="sendForm.controls['sendAddress']"
                [inputID]="'text-to-address'"
                [inputName]="'text-to-address'"
@@ -65,4 +54,3 @@
     <app-button [disabled]="!sendForm.valid" submit>Generate transaction</app-button>
     <br>
   </form>
-</section>

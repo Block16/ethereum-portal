@@ -4,26 +4,79 @@
 
 :host {
 	display: block;
-	padding: 0 0 0 $sideDockWidth;
-	min-height: 100vh;
-  position: relative;
-  z-index: $baseZ;
-	// display: grid;
-	// grid-template: auto / 1fr auto 1fr;
+  // z-index: $baseZ;
+  @include posa-tblr;
+  @media(max-width: $tabletMaxBreakPoint) {
+  	position: relative;
+  	top: unset;
+  	bottom: unset;
+  	left: unset;
+  	right: unset;
+  }
+  @media(max-width: $mobileMaxBreakPoint) {
+  	
+  }
 }
 
-.test {
-	&.hover {
-		background: red;
-	}
+.section-header {
+	position: sticky;
+	z-index: 1;
+	top: 0;
+	font-variant: all-small-caps;
+	padding: $defaultMargin / 3 $defaultMargin / 2 $defaultMargin / 3 0;
 }
 
 main {
 	grid-area: auto / 2;
 	position: relative;
-	z-index: $baseZ;
-	// display: flex;
-	// justify-content: center;
+	display: grid;
+	grid-template: "balance content" 
+								 / min-content 1fr;
+	padding-top: $navBarHeight;
+	box-sizing: border-box;
+	
+	@include posa-tblr;
+	.balance, .content {
+		position: relative;
+		-webkit-overflow-scrolling: touch;
+	}
+	.balance {
+		grid-area: balance;
+		padding: 0 0 0 $defaultMargin;
+		box-sizing: border-box;
+		overflow: auto;
+	}
+	.content {
+		display: grid;
+		grid-area: content;
+		padding: 0 $defaultMargin $defaultMargin;
+    overflow-x: hidden;
+    overflow-y: auto;
+	}
+	@media(max-width: $tabletMaxBreakPoint) {
+		position: relative;
+		display: grid;
+		grid-template: "balance" min-content
+									 "content" auto
+									 / auto;
+		min-height: 100vh;
+		.balance {
+			padding: 0 $defaultMargin;
+			.section-header {
+				display: none;
+			}
+		}
+		.content {
+			margin: $defaultMargin 0;
+			padding: 0 $defaultMargin;
+			overflow: visible;
+			// display: block;
+		}
+	}
+	@media(max-width: $mobileMaxBreakPoint) {
+		padding-top: $navBarHeight / 2;
+		padding-bottom: $navBarHeight;
+	}
 }
 
 .wallets {
@@ -106,8 +159,45 @@ main {
 	}
 }
 
+
+.token-tray {
+	border-radius: 1em;
+	@media(max-width: $tabletMaxBreakPoint) {
+		text-align: center;
+		cursor: pointer;
+		padding: $defaultMargin / 2 $defaultMargin $defaultMargin $defaultMargin;
+	}
+	@media(max-width: $mobileMaxBreakPoint) {
+		
+	}
+}
+
+.token-header {
+	display: none;
+	@media(max-width: $tabletMaxBreakPoint) {
+		display: block;
+		.token-count {
+			margin-bottom: .5em;
+		}
+		.token-denomination-total {
+			margin-bottom: .5em;
+		}
+	}
+	@media(max-width: $mobileMaxBreakPoint) {
+		
+	}
+}
 .tokens {
-	columns: 8em 2;
+	text-align: left;
+	@media(max-width: $tabletMaxBreakPoint) {
+		display: grid;
+	  grid-template-columns: repeat(auto-fit, minmax(8em, 1fr));
+	  grid-gap: $defaultMargin / 2 $defaultMargin / 2;
+		padding: $defaultMargin 0 0 0;
+	}
+	@media(max-width: $mobileMaxBreakPoint) {
+		
+	}
 }
 .token {
 	$iconSize: 2em;
@@ -118,7 +208,15 @@ main {
 	grid-template-areas: 'icon symbol'
 											 'icon amount'
 											 'icon denomination';
+	flex: 10em;
 	margin-bottom: $defaultMargin;
+	
+	@media(max-width: $tabletMaxBreakPoint) {
+		margin-bottom: 0;
+	}
+	@media(max-width: $mobileMaxBreakPoint) {
+		
+	}
 	&.eth-token {
 		// this hides ETH in the Tokens list
 		display: none;
@@ -159,11 +257,19 @@ main {
 	}
 	&.eth {
 		grid-gap: 0;
+		margin-top: $defaultMargin / 2;
 		.token-icon {
 			display: none;
 		}
 		.token-amount {
 			font-size: $h2FontSize;
+		}
+		@media(max-width: $tabletMaxBreakPoint) {
+			text-align: center;
+			margin-bottom: $defaultMargin;
+		}
+		@media(max-width: $mobileMaxBreakPoint) {
+			
 		}
 	}
 }
@@ -179,7 +285,6 @@ $newTransactionTransformTime: .25s;
 	overflow: hidden;
 	top: 0;
 	left: 0;
-	z-index: 1;
 	border-radius: 99em;
 	background: $yellow;
 	transform: translate(0, 0);

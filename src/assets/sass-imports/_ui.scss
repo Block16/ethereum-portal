@@ -9,6 +9,20 @@
 	}
 }
 
+.toggle-button {
+	display: inline-block;
+	border-radius: 5px;
+	padding: .1em 1em;
+	font-family: $FB2;
+	border: 1px solid black;
+	color: black;
+	@include no-select-pointer;
+	&.on {
+		background: black;
+		color: $backgroundColor
+	}
+}
+
 .button {
 	$defaultButtonWidth: 20em;
 	@include button-unstyle;

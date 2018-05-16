@@ -67,7 +67,7 @@ $overlayZ: 1;
 	}
 	&.open {
 		left: 0;
-		@media (max-width: $desktopBreakPoint) {
+		@media (max-width: $mobileMaxBreakPoint) {
 			width: 100%;
 		}
 	}

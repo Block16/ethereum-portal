@@ -26,8 +26,8 @@ export class ThemeService {
     'secondaryColor': this.backgroundColor,
     'accentColor': this.black,
     'processingColor': this.yellow,
-    'failedBackground': this.red,
-    'confirmedBackground': this.green,
+    'sendColor': this.red,
+    'receiveColor': this.green,
     'op1': this.op1,
     'op2': this.op2,
     'op3': this.op3,
@@ -40,8 +40,8 @@ export class ThemeService {
     'secondaryColor': this.black,
     'accentColor': this.backgroundColor,
     'processingColor': this.yellow,
-    'failedBackground': this.red,
-    'confirmedBackground': this.green,
+    'sendColor': '#DC6466',
+    'receiveColor': '#9EE283',
     'op1': this.op1 * 2.5,
     'op2': this.op1 * 2.5,
     'op3': this.op2 * 2.5,
@@ -54,8 +54,8 @@ export class ThemeService {
     'secondaryColor': '#0048FF',
     'accentColor': '#FFFFFF',
     'processingColor': '#FFFFFF',
-    'failedBackground': 'icon',
-    'confirmedBackground': 'icon',
+    'sendColor': '#83A6FF',
+    'receiveColor': '#FFFFFF',
     'op1': this.op1,
     'op2': this.op2,
     'op3': this.op3,
@@ -68,8 +68,8 @@ export class ThemeService {
     'secondaryColor': '#FFFFFF',
     'accentColor': '#0048FF',
     'processingColor': '#0048FF',
-    'failedBackground': 'icon',
-    'confirmedBackground': 'icon',
+    'sendColor': '#0048FF',
+    'receiveColor': '#0048FF',
     'op1': this.op1,
     'op2': this.op2,
     'op3': this.op3,
@@ -82,8 +82,8 @@ export class ThemeService {
     'secondaryColor': '#DBC39C',
     'accentColor': '#6E2C00',
     'processingColor': '#FFF5BA',
-    'failedBackground': '#BF8B41',
-    'confirmedBackground': '#78AB85',
+    'sendColor': '#BF8B41',
+    'receiveColor': '#78AB85',
     'op1': this.op1,
     'op2': this.op2,
     'op3': this.op3,
@@ -92,12 +92,12 @@ export class ThemeService {
   },
   {
     'name': 'Capsule',
-    'primaryColor': '#E6FAF1',
-    'secondaryColor': '#4F505C',
-    'accentColor': '#38F5A7',
+    'primaryColor': '#cadbd3',
+    'secondaryColor': '#3d3e47',
+    'accentColor': '#22f59e',
     'processingColor': '#FFED82',
-    'failedBackground': '#F77562',
-    'confirmedBackground': '#38F5A7',
+    'sendColor': '#F77562',
+    'receiveColor': '#22f59e',
     'op1': this.op1,
     'op2': this.op2,
     'op3': this.op3,
@@ -110,8 +110,8 @@ export class ThemeService {
     'secondaryColor': '#F2F1EF',
     'accentColor': '#BA350B',
     'processingColor': '#E8D47B',
-    'failedBackground': 'icon',
-    'confirmedBackground': 'icon',
+    'sendColor': '#B83C25', 
+    'receiveColor': '#22b5cb',
     'op1': this.op1,
     'op2': this.op2,
     'op3': this.op3,
@@ -120,12 +120,12 @@ export class ThemeService {
   },
   {
     'name': 'Cloud',
-    'primaryColor': '#7E9191',
+    'primaryColor': '#657474',
     'secondaryColor': '#E6F5F3',
     'accentColor': '#6FB2B3',
     'processingColor': '#EDE5C9',
-    'failedBackground': '#CF9A93',
-    'confirmedBackground': '#8DCCA5',
+    'sendColor': '#CF9A93',
+    'receiveColor': '#8DCCA5',
     'op1': this.op1,
     'op2': this.op2,
     'op3': this.op3,
@@ -134,12 +134,12 @@ export class ThemeService {
   },
   {
     'name': 'Cotton Candy',
-    'primaryColor': '#6A8196',
+    'primaryColor': '#667575',
     'secondaryColor': '#F0F3FA',
     'accentColor': '#D685BF',
     'processingColor': '#F5DFE9',
-    'failedBackground': '#E1A7E8',
-    'confirmedBackground': '#9BEBC2',
+    'sendColor': '#E1A7E8',
+    'receiveColor': '#9BEBC2',
     'op1': this.op1,
     'op2': this.op2,
     'op3': this.op3,
@@ -152,8 +152,8 @@ export class ThemeService {
     'secondaryColor': '#FFFFFF',
     'accentColor': '#F5007E',
     'processingColor': '#FFDD18',
-    'failedBackground': '#F5007E',
-    'confirmedBackground': '#12FF8B',
+    'sendColor': '#F5007E',
+    'receiveColor': '#12FF8B',
     'op1': this.op1,
     'op2': this.op2,
     'op3': this.op3,
@@ -166,8 +166,8 @@ export class ThemeService {
     'secondaryColor': '#FFFFFF',
     'accentColor': '#FF12DB',
     'processingColor': '#F7FF05',
-    'failedBackground': 'icon',
-    'confirmedBackground': 'icon',
+    'sendColor': '#FB2ED9',
+    'receiveColor': '#0095FF',
     'op1': this.op1,
     'op2': this.op2,
     'op3': this.op3,
@@ -180,8 +180,8 @@ export class ThemeService {
     'secondaryColor': '#0095FF',
     'accentColor': '#FF13AC',
     'processingColor': '#FFFFFF',
-    'failedBackground': '#FF12DB',
-    'confirmedBackground': '#08FFAB',
+    'sendColor': '#FF12DB',
+    'receiveColor': '#08FFAB',
     'op1': this.op1,
     'op2': this.op2,
     'op3': this.op3,
@@ -194,8 +194,8 @@ export class ThemeService {
     'secondaryColor': '#FFECD3',
     'accentColor': '#FF9EA0',
     'processingColor': '#FFEA8C',
-    'failedBackground': '#F3754F',
-    'confirmedBackground': '#BBED79',
+    'sendColor': '#F3754F',
+    'receiveColor': '#A2C24C',
     'op1': this.op1,
     'op2': this.op2,
     'op3': this.op3,
@@ -208,8 +208,8 @@ export class ThemeService {
     'secondaryColor': '#FBE2F3',
     'accentColor': '#766285',
     'processingColor': '#FFF2F7',
-    'failedBackground': '#B15D93',
-    'confirmedBackground': '#9dad90',
+    'sendColor': '#B15D93',
+    'receiveColor': '#9dad90',
     'op1': this.op1,
     'op2': this.op2,
     'op3': this.op3,
@@ -222,8 +222,8 @@ export class ThemeService {
     'secondaryColor': '#fcfff2',
     'accentColor': '#6597EB',
     'processingColor': '#f0f06a',
-    'failedBackground': '#e15895',
-    'confirmedBackground': '#33dc71',
+    'sendColor': '#e15895',
+    'receiveColor': '#33dc71',
     'op1': this.op1,
     'op2': this.op2,
     'op3': this.op3,
@@ -236,8 +236,22 @@ export class ThemeService {
     'secondaryColor': '#FFFFFF',
     'accentColor': '#000000',
     'processingColor': '#000000',
-    'failedBackground': '#000000',
-    'confirmedBackground': '#000000',
+    'sendColor': '#000000',
+    'receiveColor': '#000000',
+    'op1': this.op1,
+    'op2': this.op2,
+    'op3': this.op3,
+    'op4': this.op4,
+    'op5': this.op5
+  },
+  {
+    'name': 'B & W #2',
+    'primaryColor': '#FFFFFF',
+    'secondaryColor': '#000000',
+    'accentColor': '#FFFFFF',
+    'processingColor': '#FFFFFF',
+    'sendColor': '#888888',
+    'receiveColor': '#FFFFFF',
     'op1': this.op1,
     'op2': this.op2,
     'op3': this.op3,
@@ -250,8 +264,8 @@ export class ThemeService {
     'secondaryColor': '#FFFFFF',
     'accentColor': '#fc7033',
     'processingColor': '#fc7033',
-    'failedBackground': '#eb6dcc',
-    'confirmedBackground': '#63de95',
+    'sendColor': '#fc7033',
+    'receiveColor': '#58d68a',
     'op1': this.op1,
     'op2': this.op2,
     'op3': this.op3,
@@ -264,8 +278,36 @@ export class ThemeService {
     'secondaryColor': '#fc7033',
     'accentColor': '#FFFFFF',
     'processingColor': '#FFFFFF',
-    'failedBackground': '#fda43a',
-    'confirmedBackground': '#b5e646',
+    'sendColor': '#FCA985',
+    'receiveColor': '#FFFFFF',
+    'op1': this.op1,
+    'op2': this.op2,
+    'op3': this.op3,
+    'op4': this.op4,
+    'op5': this.op5
+  },
+  {
+    'name': 'Red',
+    'primaryColor': '#FF0000',
+    'secondaryColor': '#FFFFFF',
+    'accentColor': '#FF0000',
+    'processingColor': '#FF0000',
+    'sendColor': '#FFA3A5',
+    'receiveColor': '#FF0000',
+    'op1': this.op1,
+    'op2': this.op2,
+    'op3': this.op3,
+    'op4': this.op4,
+    'op5': this.op5
+  },
+  {
+    'name': 'Red #2',
+    'primaryColor': '#FFFFFF',
+    'secondaryColor': '#FF0000',
+    'accentColor': '#FFFFFF',
+    'processingColor': '#FFFFFF',
+    'sendColor': '#FF9698',
+    'receiveColor': '#FFFFFF',
     'op1': this.op1,
     'op2': this.op2,
     'op3': this.op3,
@@ -278,8 +320,8 @@ export class ThemeService {
     'secondaryColor': '#fcfff2',
     'accentColor': '#cf4d53',
     'processingColor': '#fdcf8c',
-    'failedBackground': '#cf4d53',
-    'confirmedBackground': '#9fbd5e',
+    'sendColor': '#cf4d53',
+    'receiveColor': '#9fbd5e',
     'op1': this.op1,
     'op2': this.op2,
     'op3': this.op3,
@@ -292,8 +334,8 @@ export class ThemeService {
     'secondaryColor': '#6e2428',
     'accentColor': '#e8d9c5',
     'processingColor': '#7b3035',
-    'failedBackground': '#4d1718',
-    'confirmedBackground': '#87ca8c',
+    'sendColor': '#C36F71',
+    'receiveColor': '#e8d9c5',
     'op1': this.op1,
     'op2': this.op2,
     'op3': this.op3,
@@ -306,8 +348,8 @@ export class ThemeService {
     'secondaryColor': '#242f4d',
     'accentColor': '#e8e1cc',
     'processingColor': '#e8e1cc',
-    'failedBackground': '#0e0e29',
-    'confirmedBackground': '#5e8771',
+    'sendColor': '#0e0e29',
+    'receiveColor': '#5e8771',
     'op1': this.op1,
     'op2': this.op2,
     'op3': this.op3,
@@ -320,8 +362,8 @@ export class ThemeService {
     'secondaryColor': '#272b30',
     'accentColor': '#fee65d',
     'processingColor': '#fee65d',
-    'failedBackground': '#e98235',
-    'confirmedBackground': '#A6FD56',
+    'sendColor': '#e98235',
+    'receiveColor': '#A6FD56',
     'op1': this.op1,
     'op2': this.op2,
     'op3': this.op3,
@@ -393,7 +435,6 @@ export class ThemeService {
 
     const colorInHSL = 'hsl(' + h + ', ' + s + '%, ' + l + '%)';
 
-    console.log(hsl);
     return hsl;
   }
 
@@ -404,6 +445,16 @@ export class ThemeService {
       g: parseInt(result[2], 16),
       b: parseInt(result[3], 16)
     } : null;
+  }
+
+  static hexToRgba(hex, opacity) {
+    const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    const rgba = 'rgba(' +
+            parseInt(result[1], 16) +
+            ',' + parseInt(result[2], 16) +
+            ',' + parseInt(result[3], 16) +
+            ',' + opacity + ')';
+    return rgba;
   }
 
   static constructTheme(themeSource: ThemeSource): Theme {
@@ -419,10 +470,26 @@ export class ThemeService {
 
     theme.primaryColor = themeSource.primaryColor;
     theme.primaryColorRgb = this.hexToRgb(themeSource.primaryColor);
+    theme.primaryColorOp1 = this.hexToRgba(themeSource.primaryColor, themeSource.op1);
+    theme.primaryColorOp2 = this.hexToRgba(themeSource.primaryColor, themeSource.op2);
+    theme.primaryColorOp3 = this.hexToRgba(themeSource.primaryColor, themeSource.op3);
+    theme.primaryColorOp4 = this.hexToRgba(themeSource.primaryColor, themeSource.op4);
+
     theme.secondaryColor = themeSource.secondaryColor;
     theme.secondaryColorRgb = this.hexToRgb(themeSource.secondaryColor);
+    theme.secondaryColorOp1 = this.hexToRgba(themeSource.secondaryColor, themeSource.op1);
+    theme.secondaryColorOp2 = this.hexToRgba(themeSource.secondaryColor, themeSource.op2);
+    theme.secondaryColorOp3 = this.hexToRgba(themeSource.secondaryColor, themeSource.op3);
+    theme.secondaryColorOp4 = this.hexToRgba(themeSource.secondaryColor, themeSource.op4);
+
     theme.accentColor = themeSource.accentColor;
     theme.accentColorRgb = this.hexToRgb(themeSource.accentColor);
+    theme.accentColorRgb = this.hexToRgb(themeSource.accentColor);
+    theme.accentColorOp1 = this.hexToRgba(themeSource.accentColor, themeSource.op1);
+    theme.accentColorOp2 = this.hexToRgba(themeSource.accentColor, themeSource.op2);
+    theme.accentColorOp3 = this.hexToRgba(themeSource.accentColor, themeSource.op3);
+    theme.accentColorOp4 = this.hexToRgba(themeSource.accentColor, themeSource.op4);
+
     theme.op1 = themeSource.op1;
     theme.op2 = themeSource.op2;
     theme.op3 = themeSource.op3;
@@ -486,6 +553,20 @@ export class ThemeService {
       'color': themeSource.accentColor,
       'border-color': themeSource.accentColor
     };
+    
+    theme.sectionHeaderStyle = {
+      'background': theme.secondaryColor,
+      'color': 'rgba(' +
+               theme.primaryColorRgb.r + ',' +
+               theme.primaryColorRgb.g + ',' +
+               theme.primaryColorRgb.b + ',' +
+               theme.op4 + ')',
+      'border-bottom': '1px solid ' + 'rgba(' +
+                       theme.primaryColorRgb.r + ',' +
+                       theme.primaryColorRgb.g + ',' +
+                       theme.primaryColorRgb.b + ',' +
+                       theme.op2 + ')'
+    }
 
     theme.textInputFocusStyle = {
       'background': 'rgba(' +
@@ -575,6 +656,30 @@ export class ThemeService {
       'border-color': themeSource.accentColor
     };
 
+    theme.toggleButtonOffStyle = {
+      'border': '1px solid ' + 'rgba(' +
+      primaryColorRgb.r + ',' +
+      primaryColorRgb.g + ',' +
+      primaryColorRgb.b + ',' +
+      themeSource.op4 + ')',
+      'background': 'transparent',
+      'color': 'rgba(' +
+               primaryColorRgb.r + ',' +
+               primaryColorRgb.g + ',' +
+               primaryColorRgb.b + ',' +
+               themeSource.op5 + ')'
+    };
+
+    theme.toggleButtonOnStyle = {
+      'border': 'none',
+      'background': 'rgba(' +
+                    primaryColorRgb.r + ',' +
+                    primaryColorRgb.g + ',' +
+                    primaryColorRgb.b + ',' +
+                    themeSource.op5 + ')',
+      'color': theme.secondaryColor
+    };
+
     theme.toggleSwitchOffStyle = {
       'background-color': 'rgba(' +
       primaryColorRgb.r + ',' +
@@ -612,26 +717,9 @@ export class ThemeService {
     theme.processingBackgroundStyle = {
       'background-color': themeSource.processingColor
     };
+    theme.receiveColor = themeSource.receiveColor;
 
-    theme.confirmedBackgroundStyle =
-    themeSource.confirmedBackground == 'icon' ?
-    {
-      'background': 'url(assets/img/themes/' + themeSource.name + '-confirm.svg) center / contain no-repeat',
-      'transform': 'scale(1.15)'
-    } :
-    {
-      'background': themeSource.confirmedBackground
-    };
-
-    theme.failedBackgroundStyle =
-    themeSource.failedBackground == 'icon' ?
-    {
-      'background': 'url(assets/img/themes/' + themeSource.name + '-fail.svg) center / contain no-repeat',
-      'transform': 'scale(1.15)'
-    } :
-    {
-      'background': themeSource.failedBackground
-    };
+    theme.sendColor = themeSource.sendColor;
 
     return theme;
   }

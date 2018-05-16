@@ -24,6 +24,9 @@ import { AssetDisplayComponent } from './asset-display/asset-display.component';
 import { NotificationComponent } from './notification-list/notification/notification.component';
 import {IntegerOnlyDirective} from "./directive/integer-only.directive";
 import {NumberOnlyDirective} from "./directive/number-only.directive";
+import { NavbarComponent } from './navbar/navbar.component';
+import { ArrowComponent } from './ui-elements/arrow/arrow.component';
+import { NewTransactionComponent } from './new-transaction/new-transaction.component';
 
 @NgModule({
   imports: [
@@ -55,7 +58,10 @@ import {NumberOnlyDirective} from "./directive/number-only.directive";
     BigNumberToNumberPipe,
     AssetDisplayComponent,
     IntegerOnlyDirective,
-    NumberOnlyDirective
+    NumberOnlyDirective,
+    NavbarComponent,
+    ArrowComponent,
+    NewTransactionComponent
   ],
   declarations: [
     ModalComponent,
@@ -78,7 +84,10 @@ import {NumberOnlyDirective} from "./directive/number-only.directive";
     BigNumberToNumberPipe,
     AssetDisplayComponent,
     IntegerOnlyDirective,
-    NumberOnlyDirective
+    NumberOnlyDirective,
+    NavbarComponent,
+    ArrowComponent,
+    NewTransactionComponent
   ]
 })
 export class SharedModule { }

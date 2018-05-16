@@ -1,5 +1,6 @@
 import {Component, OnDestroy} from '@angular/core';
 import {Theme} from "../../shared/model/theme/theme";
+import {BehaviorSubject} from "rxjs/BehaviorSubject";
 import {Subscription} from "rxjs/Subscription";
 import {ThemeService} from "../../core/theme.service";
 import {UserPreferencesService} from "../../core/user-preferences.service";
@@ -8,7 +9,10 @@ import {UserPreferences} from "../../shared/model/user-preferences";
 @Component({
   selector: 'app-layout',
   templateUrl: './layout.component.html',
-  styleUrls: ['./layout.component.scss']
+  styleUrls: ['./layout.component.scss'],
+  host: {
+    '[style.background]': `this.theme.secondaryColor`
+  }
 })
 export class LayoutComponent implements OnDestroy {
 
@@ -21,7 +25,7 @@ export class LayoutComponent implements OnDestroy {
 
   constructor(
     private userPreferencesService: UserPreferencesService,
-    private themeService: ThemeService
+    private themeService: ThemeService,
   ) {
     this.showSidebar = false;
 
@@ -32,6 +36,7 @@ export class LayoutComponent implements OnDestroy {
     this.themeSubscription = this.themeService.theme.subscribe(theme => {
       this.theme = theme;
     });
+    
   }
 
   public ngOnDestroy(): void {
@@ -41,5 +46,9 @@ export class LayoutComponent implements OnDestroy {
 
   public showSidebarChange(b: boolean) {
     this.showSidebar = b;
+  }
+  
+  public onResize() {
+    
   }
 }

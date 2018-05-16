@@ -1,5 +1,8 @@
+<app-transaction-list-legend [ngStyle]="theme.secondaryBackgroundStyle"></app-transaction-list-legend>
 <ol class="transactions">
 	<li *ngFor="let transaction of transactions" class="transaction">
-		<app-transaction-entry [transaction]="transaction" [theme]="theme"></app-transaction-entry>
+		<app-transaction-entry [transaction]="transaction"
+													 [theme]="theme"
+													 (loaded)="entryLoaded($event)"></app-transaction-entry>
 	</li>
 </ol>

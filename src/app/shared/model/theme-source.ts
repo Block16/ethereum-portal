@@ -4,8 +4,8 @@ export interface ThemeSource {
   secondaryColor: string; // "background color"
   accentColor: string;
   processingColor: string;
-  confirmedBackground: string;
-  failedBackground: string;
+  sendColor: string;
+  receiveColor: string;
   op1: number;
   op2: number;
   op3: number;

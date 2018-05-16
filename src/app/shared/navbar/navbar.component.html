@@ -1,0 +1,22 @@
+<div class="nav-menu">
+	<div class="nav-indicator"
+			 [ngStyle]="{ 'background': theme.primaryColor,
+			 							'left': navIndicatorLeft + 'px',
+			 							'width': navIndicatorWidth + 'px' }"
+			 #indicator></div>
+	<div class="nav-menu-item"
+			 [ngStyle]="theme.primaryTextStyle"
+			 (click)="setNavLocation('history')">
+			 <span #history>History</span>
+			</div>
+	<div class="nav-menu-item"
+			 [ngStyle]="theme.primaryTextStyle"
+			 (click)="setNavLocation('send')">
+			 <span #send>Send</span>
+			</div>
+	<div class="nav-menu-item"
+			 [ngStyle]="theme.primaryTextStyle"
+			 (click)="setNavLocation('receive')">
+			 <span #receive>Receive</span>
+		</div>
+</div>
