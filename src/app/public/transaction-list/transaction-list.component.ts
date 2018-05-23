@@ -75,7 +75,7 @@ export class TransactionListComponent implements OnInit, AfterViewInit, OnDestro
       this.widestWidths = widestWidths;
     });
 
-    this.transactionSubscription = this.block16Service.recentTransactions.subscribe((txs) => {
+    this.transactionSubscription = this.block16Service.transactions.subscribe((txs) => {
       this.transactions = txs;
       this.setWidestWidths();
     });

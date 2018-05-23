@@ -21,7 +21,6 @@ export class NotificationService {
         new Notification(text, title, duration)
       )
     );
-    console.log(this.notifications);
   }
 
   public error(text, title?, duration?) {
@@ -35,7 +34,6 @@ export class NotificationService {
         new Notification(text, title, duration)
       )
     );
-    console.log(this.notifications);
   }
 
   public close(notificationIndex) {

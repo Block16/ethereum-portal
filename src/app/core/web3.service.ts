@@ -12,12 +12,10 @@ declare var Web3;
 
 @Injectable()
 export class Web3Service {
-
   private providers = [
     new Provider("Infura", "https://mainnet.infura.io"),
   ];
   public currentProvider: BehaviorSubject<Provider>;
-
   public web3js: any;
 
   constructor() {
@@ -42,26 +40,6 @@ export class Web3Service {
     return this.providers;
   }
 
-  public getTransactionCount(account: string): Observable<any> {
-    return fromPromise(this.web3js.eth.getTransactionCount(ethutils.addHexPrefix(account), 'latest'));
-  }
-
-  public sendRawTransaction(transaction: EthereumTransaction): Observable<string> {
-    if (isNullOrUndefined(transaction.signature)) {
-      throw new Error('Transaction signature was missing from transaction');
-    }
-    return Observable.create((observer) => {
-      this.web3js.eth.sendRawTransaction(transaction.signature, (err, txHash) => {
-        if (!isNullOrUndefined(err)) {
-          observer.error(err);
-        } else {
-          observer.next(txHash);
-        }
-        observer.complete();
-      });
-    });
-  }
-
   public getTokenBalance(contractAddress: string, userAddress: string): Observable<BigNumber> {
     const balanceFn = this.web3js.eth.abi.encodeFunctionCall({
       "constant": true,
@@ -77,6 +55,26 @@ export class Web3Service {
       to: ethutils.addHexPrefix(contractAddress),
       data: balanceFn
     })).map((n: string) => new BigNumber(n.substring(2), 16));
+  }
+
+  public getTransactionCount(account: string): Observable<any> {
+    return fromPromise(this.web3js.eth.getTransactionCount(ethutils.addHexPrefix(account), 'latest'));
+  }
+
+  public sendRawTransaction(transaction: EthereumTransaction): Observable<string> {
+    if (isNullOrUndefined(transaction.signature)) {
+      throw new Error('Transaction signature was missing');
+    }
+    return Observable.create((observer) => {
+      this.web3js.eth.sendRawTransaction(transaction.signature, (err, txHash) => {
+        if (!isNullOrUndefined(err)) {
+          observer.error(err);
+        } else {
+          observer.next(txHash);
+        }
+        observer.complete();
+      });
+    });
   }
 
   public setCurrentProvider(p: Provider) {

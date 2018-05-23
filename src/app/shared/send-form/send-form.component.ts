@@ -19,7 +19,7 @@ import * as ethutils from 'ethereumjs-util';
 })
 export class SendFormComponent implements OnDestroy {
   @Input() theme;
-  @Output() ethereumTransaction: EventEmitter<EthereumTransaction> = new EventEmitter<EthereumTransaction>();
+  @Output() ethereumTransaction: EventEmitter<EthereumTransaction> = new EventEmitter<EthereumTransaction>(true);
 
   private userPrefSub: Subscription;
   public userPreferences: UserPreferences;
@@ -64,7 +64,7 @@ export class SendFormComponent implements OnDestroy {
     this.sendForm.controls['gasLimit'].updateValueAndValidity();
 
     this.assetSubscription = this.assetService.ethereumAssets.subscribe((assets: EthereumAsset[]) => {
-      this.assets = assets;
+      this.assets = assets.filter(a => a.hasBalance());
     });
 
     this.sendAssetSubscription = this.sendForm.controls['sendAsset'].valueChanges.subscribe((sendAsset: EthereumAsset) => {
@@ -152,7 +152,6 @@ export class SendFormComponent implements OnDestroy {
     let tokenToAddress = ''; // only if we are doing a token TX
     let tokenValue = new BigNumber('0');
 
-    // TODO: Manual gas
     const gasPrice = this.toGwei(this.sendForm.controls['gasPrice'].value.toString());
     const gasLimit = this.toHex(this.sendForm.controls['gasLimit'].value);
 
@@ -161,7 +160,7 @@ export class SendFormComponent implements OnDestroy {
       if (isNullOrUndefined(sendAsset.contractAddress)) {
         throw new Error('Couldn\'t find address for contract, cannot send tokens');
       }
-      // TODO: Assumption you have to send 0 value to transfer erc20 tokens always
+      // TODO: Assumption you have to send 0 value to transfer erc20 tokens always?
       rawAmount = this.toHex(0);
       tokenToAddress = toAddress;
       data = this.erc20Transfer(toAddress, sendAsset.amountToRaw(this.sendForm.controls['sendAmount'].value));
@@ -171,11 +170,19 @@ export class SendFormComponent implements OnDestroy {
 
     this.web3Service.getTransactionCount(this.coreKeyManagerService.currentAddress.value).subscribe((count: number) => {
       const nonce = this.toHex(count);
+
+      // TODO: This class's conditional encapsulation is p bad
       const transaction = new EthereumTransaction(gasLimit, gasPrice, this.currentAddress, toAddress, rawAmount, nonce, data);
       transaction.tokenToAddress = tokenToAddress;
       transaction.asset = sendAsset;
       transaction.tokenValue = tokenValue;
+
       this.ethereumTransaction.emit(transaction);
+
+      // Reset the form using previous values
+      const oldGasPrice = this.sendForm.controls['gasPrice'].value;
+      const oldGasLimit = this.sendForm.controls['gasLimit'].value;
+      this.sendForm.reset({ 'sendAsset': sendAsset, 'gasPrice': oldGasPrice, 'gasLimit': oldGasLimit });
     });
   }
 }

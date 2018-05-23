@@ -15,7 +15,8 @@ import {BigNumber} from 'bignumber.js';
 @Injectable()
 export class Block16Service {
   public ethereumAssets: BehaviorSubject<EthereumAsset[]>;
-  public recentTransactions: BehaviorSubject<EthereumTransaction[]>;
+  public transactions: BehaviorSubject<TransactionInformation[]>;
+  public recentTransactions: BehaviorSubject<TransactionInformation[]>;
 
   constructor(
     private httpClient: HttpClient,
@@ -98,37 +99,12 @@ export class Block16Service {
 
             this.ethereumAssets.next(assetList);
 
-            // Transactions //
+            // Parse transaction data
             const txList = [];
-
             for (let i = 0; i < transactions.data.length; i++) {
-              let asset: EthereumAsset;
-              let symbol = "ETH";
-              let value: BigNumber = ethAsset.calculateAmount(new BigNumber(transactions.data[i].value));
-
-              if (transactions.data[i].transactionType === "token_transaction") {
-                asset = this.findInAssetListByContract(transactions.data[i].ethereumContract);
-                value = asset.calculateAmount(new BigNumber(transactions.data[i].value));
-                symbol = asset.symbol;
-
-              }
-
-              const transaction = new TransactionInformation(
-                transactions.data[i].toAddress,
-                transactions.data[i].fromAddress,
-                "confirmed",
-                transactions.data[i].blockNumber,
-                transactions.data[i].fromAddress.toLowerCase() === transactions.data[i].key.address.toLowerCase() ? "to" : "from",
-                symbol,
-                value.toFixed(),
-                transactions.data[i].key.transactionDate,
-                transactions.data[i].transactionHash
-              );
-
-              txList.push(transaction);
+              txList.push(this.parseRemoteTxData(transactions.data[i]));
             }
-
-            this.recentTransactions.next(txList);
+            this.transactions.next(txList);
 
           }, (err) => {
             console.log(err);
@@ -138,13 +114,53 @@ export class Block16Service {
     });
   }
 
+  private parseRemoteTxData(data: any): TransactionInformation {
+    let asset = this.findEthereumAsset();
+    let symbol = "ETH";
+    let value: BigNumber = asset.calculateAmount(new BigNumber(data.value));
+
+    if (data.transactionType === "token_transaction") {
+      asset = this.findInAssetListByContract(data.ethereumContract);
+      value = asset.calculateAmount(new BigNumber(data.value));
+      symbol = asset.symbol;
+    }
+
+    const transaction = new TransactionInformation(
+      data.toAddress,
+      data.fromAddress,
+      "confirmed",
+      data.blockNumber,
+      data.fromAddress.toLowerCase() === data.key.address.toLowerCase() ? "to" : "from",
+      symbol,
+      value.toFixed(),
+      data.key.transactionDate,
+      data.transactionHash
+    );
+
+    return transaction;
+  }
+
+  private ethTransactionToTransactionInfo(ethTx: EthereumTransaction): TransactionInformation {
+    return null;
+  }
+
   private initBehaviorSubjects() {
     this.ethereumAssets = new BehaviorSubject<EthereumAsset[]>(
-      [
-        new EthereumAsset('Ethereum', 'ETH', new BigNumber(0), 18, "", 21000)
-      ]
+      [ new EthereumAsset('Ethereum', 'ETH', new BigNumber(0), 18, "", 21000) ]
     );
+    this.transactions = new BehaviorSubject([]);
+
+    // TODO: Load recent transactions
     this.recentTransactions = new BehaviorSubject([]);
+
+    // Initialize the recentTransaction checker
+    setTimeout(() => {
+      for (let i = 0; i < this.recentTransactions.value.length; i++) {
+        // TODO: check to see if the tx has gone through, make sure we update with correct value
+        // TODO: check that any transactions that are within the hour are removed after the hour
+        // if (this.recentTransactions[i])
+      }
+    }, 5000);
   }
 
   private findInAssetListByContract(a: string, assetList?: EthereumAsset[]): EthereumAsset {
@@ -157,18 +173,36 @@ export class Block16Service {
     });
   }
 
+  private findEthereumAsset() {
+    return this.ethereumAssets.value.find(a => a.symbol === 'ETH');
+  }
+
   /**
    * Gets the assets associated with a particular address from the block16 api
    * @param {string} address
    * @returns {Observable<any>}
    */
-  public getAssetsForAddress(address: string): Observable<any> {
-    const assetUrl = 'http://api.block16.io:8080/v1/address/' + address + '/assets';
+  private getAssetsForAddress(address: string): Observable<any> {
+    const assetUrl = 'http://api.block16.io/v1/address/' + address + '/assets';
     return this.httpClient.get(assetUrl);
   }
 
-  public getTransactionsForAddress(address: string): Observable<any> {
-    const assetUrl = 'http://api.block16.io:8080/v1/address/' + address + '/transactions';
+  private getTransactionsForAddress(address: string): Observable<any> {
+    const assetUrl = 'http://api.block16.io/v1/address/' + address + '/transactions';
     return this.httpClient.get(assetUrl);
+  }
+
+  public newRecentTransaction(ethereumTransaction: EthereumTransaction) {
+    const txs = this.recentTransactions.value;
+    // txs.push(ethereumTransaction);
+    // this.recentTransactions.next(txs);
+  }
+
+  private loadRecentTransactions() {
+    // TODO: Update correct amount of tokens for this asset based on how many were sent in recent
+  }
+
+  private saveRecentTransactions() {
+    // TODO: Update correct amount of tokens for this asset based on how many were sent in recent
   }
 }

@@ -42,12 +42,12 @@ export class IndexComponent implements OnInit, OnDestroy {
   private windowMax: number;
 
   // UI states
-  public navLocation: string = 'history';
+  public navLocation = 'history';
   public showQR = false;
   public showNonRecommended = false;
   public showApproveTransaction = false;
   public newTransactionToDock = false;
-  public showTokenTray: boolean = true;
+  public showTokenTray = true;
 
   // User preferences
   private userPreferencesSubscription: Subscription;
@@ -86,7 +86,7 @@ export class IndexComponent implements OnInit, OnDestroy {
     private ledgerService: LedgerService,
     private trezorService: TrezorConnectService,
     private metaMaskService: MetamaskService,
-    private assetService: Block16Service,
+    private block16Service: Block16Service,
     private coreKeyManagerService: CoreKeyManagerService,
     private denominationService: DenominationService,
     private tokenTickerService: TokenTickerService,
@@ -97,7 +97,7 @@ export class IndexComponent implements OnInit, OnDestroy {
 
     this.ethereumAddress = '';
     this.ethereumBalance = 0;
-    
+
     // Theme
     this.themeSubscription = this.themeService.theme.subscribe(theme => {
       this.theme = theme;
@@ -105,15 +105,15 @@ export class IndexComponent implements OnInit, OnDestroy {
     });
 
     // Assets
-    this.assetSubscription = this.assetService.ethereumAssets.subscribe(assets => {
+    this.assetSubscription = this.block16Service.ethereumAssets.subscribe(assets => {
       this.assets = assets;
     });
 
-    // TODO: pull this out, process recent transactions in the localstorage
-    this.dataShareService.recentTransactions.subscribe((value: any) => {
+    this.block16Service.transactions.subscribe((value: any) => {
       this.recentTransactions = value;
     });
-    
+
+    // TODO: shouldn't this be managed by URLs instead of a service?
     this.dataShareService.navLocation.subscribe((value: any) => {
       if (value == 'send' && this.navLocation !== 'send') {
         this.setNewTransactionViewCenter();
@@ -125,15 +125,12 @@ export class IndexComponent implements OnInit, OnDestroy {
       this.userPreferences = preferences;
     });
 
-// <<<<<<< HEAD
     this.ethereumAddressSubscription = this.coreKeyManagerService.currentAddress.subscribe((address: string) => {
-// =======
-//     this.coreKeyManagerService.currentAddress.subscribe((address: string) => {
-// >>>>>>> feature/new-layout
       this.ethereumAddress = address;
     });
   }
 
+  // TODO: i18n library for this? (AJD)
   private denominate(asset, amount, denomination) {
     return this.denominationService.denominate(asset, amount, denomination);
   }
@@ -174,7 +171,7 @@ export class IndexComponent implements OnInit, OnDestroy {
       });
     }
   }
-  
+
   clickTokenTray() {
     if (this.windowWidth < this.dataShareService.tabletMaxBreakPoint) {
       this.showTokenTray = !this.showTokenTray;
@@ -194,7 +191,7 @@ export class IndexComponent implements OnInit, OnDestroy {
   setShowSidebar(b: boolean) {
     this.showSidebarChange.emit(b);
   }
-  
+
   utcAuthState(event) {
     this.currentAuth = AuthState.utcFile;
     this.coreKeyManagerService.setCurrentAuth(this.currentAuth, privateKeyToAddress(event), event);
@@ -254,8 +251,8 @@ export class IndexComponent implements OnInit, OnDestroy {
   transactionSigned() {
     this.setNewTransactionViewToDock();
     // setTimeout(() => {
-    //   this.recentTransactions.push(this.newTransaction);
-    //   this.dataShareService.recentTransactions.next(this.recentTransactions);
+    //   this.transactions.push(this.newTransaction);
+    //   this.dataShareService.transactions.next(this.transactions);
     //   this.resetNewTransaction = true;
     //   this.showNewTransaction = false;
     //   this.setNewTransactionStyle();
@@ -284,7 +281,7 @@ export class IndexComponent implements OnInit, OnDestroy {
     this.newTransactionStyle['transform'] = transactionTransform;
     this.newTransactionCircleStyle['transform'] = circleTransform;
   }
-  
+
   setNewTransactionViewCenter() {
     console.log('setNewTransactionViewCenter()');
   }
@@ -318,12 +315,11 @@ export class IndexComponent implements OnInit, OnDestroy {
     this.newTransactionStyle['opacity'] = '0';
 
     setTimeout(() => {
-      this.recentTransactions.push(this.newTransaction);
-      this.dataShareService.recentTransactions.next(this.recentTransactions);
+      this.block16Service.newRecentTransaction(this.newTransaction);
       this.resetNewTransactionView();
     }, 500);
   }
-  
+
   resizeTokenTray() {
     if (this.windowWidth > this.dataShareService.tabletMaxBreakPoint) {
       this.showTokenTray = true;
@@ -343,10 +339,5 @@ export class IndexComponent implements OnInit, OnDestroy {
     this.windowHeight = event.target.innerHeight;
     this.windowWidth = event.target.innerWidth;
     this.calibratePage();
-  }
-
-  @HostListener('window:beforeunload', ['$event'])
-  onUnload($event) {
-
   }
 }

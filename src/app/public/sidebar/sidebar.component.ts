@@ -8,6 +8,7 @@ import {Theme} from "../../shared/model/theme/theme";
 import {UserPreferencesService} from "../../core/user-preferences.service";
 import {UserPreferences} from "../../shared/model/user-preferences";
 import {Provider} from "../../shared/model/providers";
+import {Block16Service} from "../../core/block16.service";
 
 @Component({
   selector: 'app-sidebar',
@@ -52,7 +53,7 @@ export class SidebarComponent implements OnDestroy {
 
   constructor(
     private formBuilder: FormBuilder,
-    private dataShareService: DataShareService,
+    private block16Service: Block16Service,
     private web3Service: Web3Service,
     private userPreferencesService: UserPreferencesService,
     private themeService: ThemeService
@@ -95,7 +96,7 @@ export class SidebarComponent implements OnDestroy {
       this.userPreferencesService.setProvider(provider.name);
     });
 
-    this.dataShareService.recentTransactions.subscribe((value: any) => {
+    this.block16Service.recentTransactions.subscribe((value: any) => {
       this.recentTransactions = value;
     });
 
