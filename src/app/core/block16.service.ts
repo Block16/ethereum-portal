@@ -163,12 +163,12 @@ export class Block16Service {
    * @returns {Observable<any>}
    */
   public getAssetsForAddress(address: string): Observable<any> {
-    const assetUrl = 'http://api.block16.io:8080/v1/address/' + address + '/assets';
+    const assetUrl = 'http://api.block16.io/v1/address/' + address + '/assets';
     return this.httpClient.get(assetUrl);
   }
 
   public getTransactionsForAddress(address: string): Observable<any> {
-    const assetUrl = 'http://api.block16.io:8080/v1/address/' + address + '/transactions';
+    const assetUrl = 'http://api.block16.io/v1/address/' + address + '/transactions';
     return this.httpClient.get(assetUrl);
   }
 }

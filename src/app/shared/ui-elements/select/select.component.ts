@@ -13,11 +13,9 @@ import {isNullOrUndefined} from "util";
     '[class.small]': "this.small",
     '[class.hover]': "this.hover",
     '[class.focus]': "this.focus",
-    '[style.background]': `'rgba(' +
-    this.theme.primaryColorRgb.r + ',' +
-    this.theme.primaryColorRgb.g + ',' +
-    this.theme.primaryColorRgb.b + ',' +
-    this.theme.op2 + ')'`
+    '[style.background]': `this.newTx ? 
+                           this.theme.newTxColorOp2 :
+                           this.theme.primaryColorOp2`
   }
 })
 export class SelectComponent implements OnInit, OnDestroy {
@@ -35,9 +33,11 @@ export class SelectComponent implements OnInit, OnDestroy {
 
   constructor(
     @Attribute('small') private small: boolean | null,
+    @Attribute('new-tx') private newTx: boolean | null,
     private themeService: ThemeService
   ) {
     this.small = (small != null);
+    this.newTx = (newTx != null);
 
     this.themeSubscription = this.themeService.theme.subscribe(theme => {
       this.theme = theme;

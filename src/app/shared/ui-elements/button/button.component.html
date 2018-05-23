@@ -1,5 +1,7 @@
 <div class="ui-outline"
-		 [ngStyle]="theme.accentBorderStyle"></div>
+		 [ngStyle]="newTx ?
+								theme.newTxBorderStyle :
+								theme.accentBorderStyle"></div>
 <ng-content></ng-content>
 <button *ngIf="submit"
 				type="submit"

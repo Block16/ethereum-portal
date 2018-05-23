@@ -21,9 +21,8 @@ $selectWidth: 6em;
 		color: black;
 		@include posa-tblr;
 		@include pass-through;
-		span {
+		.select-value-section {
 			z-index: 2;
-			font: 1em $FB2;
 			@include flex-center;
 		}
 		.select-cover {
@@ -57,4 +56,12 @@ $selectWidth: 6em;
 		font: 1em $FB2;
 		-webkit-appearance: none;
 	}
+}
+
+.select-value {
+	font: 1em $FB2;
+	max-width: 4.5em;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
 }

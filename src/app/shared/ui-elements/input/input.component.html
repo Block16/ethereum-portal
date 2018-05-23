@@ -1,4 +1,7 @@
 <label [hidden]="!showLabel"
+			 [ngStyle]="newTx ? 
+									theme.newTxTextStyle :
+									theme.primaryTextStyle"
 			 class="caption form-label component-label"
 			 [for]="inputID"
 			 #label>
@@ -15,9 +18,16 @@
 	       (blur)="focus = false"
 	       (focus)="focus = true"
 		     [ngStyle]="focus ? 
-		                theme.textInputFocusStyle : 
-		                theme.textInputBlurStyle">
+		     							newTx ? 
+		     							theme.newTxTextInputFocusStyle :
+		     							theme.textInputFocusStyle
+		     							:
+		     							newTx ? 
+		     							theme.newTxTextInputBlurStyle :
+		     							theme.textInputBlurStyle">
 	<span *ngIf="inputPlaceholder && !value"
 				class="placeholder lining-proportional"
-				[ngStyle]="theme.textStyle">{{ inputPlaceholder }}</span>
+				[ngStyle]="newTx ? 
+									 theme.newTxTextStyle :
+									 theme.primaryTextStyle">{{ inputPlaceholder }}</span>
 </div>

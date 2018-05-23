@@ -1,4 +1,4 @@
-import { Component, ChangeDetectorRef, Input, OnInit, ViewChild } from '@angular/core';
+import { Attribute, Component, ChangeDetectorRef, Input, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import {Subscription} from "rxjs/Subscription";
 import {ThemeService} from "../../../core/theme.service";
@@ -24,8 +24,10 @@ export class InputComponent implements OnInit {
 
   private themeSubscription: Subscription;
 
-  constructor(private themeService: ThemeService,
+  constructor(@Attribute('new-tx') private newTx: boolean | null,
+              private themeService: ThemeService,
               private cdRef: ChangeDetectorRef) {
+    this.newTx = (newTx != null);
     this.themeSubscription = this.themeService.theme.subscribe(theme => {
       this.theme = theme;
     });

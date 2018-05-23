@@ -1,12 +1,27 @@
 <div class="ui-outline"
-		 [ngStyle]="theme.accentBorderStyle"></div>
-		 
+		 [ngStyle]="newTx ?
+								theme.newTxBorderStyle :
+								theme.accentBorderStyle"></div>
 <div class="select-overlay"
-		 [ngStyle]="theme.primaryTextStyle">
-	<span *ngIf="control.value">{{ optionProperty ? control.value[optionProperty] : control.value }}</span>
-	<span *ngIf="placeholder && !control.value">{{ optionProperty ? control.value[optionProperty] : control.value }}</span>
+		 [ngStyle]="newTx ?
+								theme.newTxTextStyle : 
+								theme.primaryTextStyle">
+	<div *ngIf="control.value"
+			 class="select-value-section">
+			 
+			 <span class="select-value">{{ optionProperty ? control.value[optionProperty] : control.value }}</span>
+			 
+	</div>
+	<div *ngIf="placeholder && !control.value"
+			 class="select-value-section">
+			 
+			 <span class="select-value">{{ optionProperty ? control.value[optionProperty] : control.value }}</span>
+			 
+	</div>
 	<div class="select-arrow"
-			 [ngStyle]="theme.selectArrowStyle"></div>
+			 [ngStyle]="newTx ?
+									theme.newTxSelectArrowStyle : 
+									theme.selectArrowStyle"></div>
 </div>
 <select [formControl]="control"
 				(blur)="focus = false"

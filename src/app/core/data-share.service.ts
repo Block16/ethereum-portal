@@ -5,7 +5,7 @@ import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 export class DataShareService {
   public showSidebar = new BehaviorSubject(false);
   public recentTransactions = new BehaviorSubject([]);
-  public navLocation = new BehaviorSubject('send');
+  public navLocation = new BehaviorSubject('receive');
   public tabletMaxBreakPoint = 1000;
   public mobileMaxBreakPoint = 500;
   constructor() { }

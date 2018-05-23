@@ -27,6 +27,7 @@ import {NumberOnlyDirective} from "./directive/number-only.directive";
 import { NavbarComponent } from './navbar/navbar.component';
 import { ArrowComponent } from './ui-elements/arrow/arrow.component';
 import { NewTransactionComponent } from './new-transaction/new-transaction.component';
+import { ReceiveComponent } from './receive/receive.component';
 
 @NgModule({
   imports: [
@@ -61,7 +62,8 @@ import { NewTransactionComponent } from './new-transaction/new-transaction.compo
     NumberOnlyDirective,
     NavbarComponent,
     ArrowComponent,
-    NewTransactionComponent
+    NewTransactionComponent,
+    ReceiveComponent
   ],
   declarations: [
     ModalComponent,
@@ -87,7 +89,8 @@ import { NewTransactionComponent } from './new-transaction/new-transaction.compo
     NumberOnlyDirective,
     NavbarComponent,
     ArrowComponent,
-    NewTransactionComponent
+    NewTransactionComponent,
+    ReceiveComponent
   ]
 })
 export class SharedModule { }

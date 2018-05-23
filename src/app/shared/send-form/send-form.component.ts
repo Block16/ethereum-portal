@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
+import {AfterContentInit, AfterViewInit, Component, ElementRef, EventEmitter, HostListener, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup, ValidationErrors, Validators} from "@angular/forms";
 import {Web3Service} from "../../core/web3.service";
 import {EthereumAsset} from "../model/ethereum-asset";
@@ -17,10 +17,14 @@ import * as ethutils from 'ethereumjs-util';
   templateUrl: './send-form.component.html',
   styleUrls: ['./send-form.component.scss']
 })
-export class SendFormComponent implements OnDestroy {
+export class SendFormComponent implements AfterContentInit, AfterViewInit, OnChanges, OnDestroy {
   @Input() theme;
+  @Input('transactionState') mode = 'initial';
   @Output() ethereumTransaction: EventEmitter<EthereumTransaction> = new EventEmitter<EthereumTransaction>();
-
+  @Output() circleElement: EventEmitter<any> = new EventEmitter<any>(true);
+  @ViewChild('absolute') _absolute;
+  @ViewChild('content') _content: ElementRef;
+  
   private userPrefSub: Subscription;
   public userPreferences: UserPreferences;
 
@@ -37,14 +41,24 @@ export class SendFormComponent implements OnDestroy {
   public previousAmount: BigNumber;
 
   public sendMax: boolean;
-
+  
+  public initialCircleDiameter: number;
+  public absoluteCircleStyle = {};
+  public absoluteCircleDiameter: number;
+  public circleCallibrationInfo = {}
+  
+  @HostListener('window:resize', ['$event'])
+  onResize(event) {
+    this.callibrateAbsoluteCircle();
+  }
   constructor(
     private formBuilder: FormBuilder,
     private web3Service: Web3Service,
     private assetService: Block16Service,
     private userPrefService: UserPreferencesService,
-    private coreKeyManagerService: CoreKeyManagerService
+    private coreKeyManagerService: CoreKeyManagerService,
   ) {
+    
     this.currentAddress = "";
 
     // Create the send form so we can add pragmatic validators
@@ -65,6 +79,12 @@ export class SendFormComponent implements OnDestroy {
 
     this.assetSubscription = this.assetService.ethereumAssets.subscribe((assets: EthereumAsset[]) => {
       this.assets = assets;
+      if (this._content) {
+        
+        setTimeout(()=>{
+          this.callibrateAbsoluteCircle();
+        },0);
+      }
     });
 
     this.sendAssetSubscription = this.sendForm.controls['sendAsset'].valueChanges.subscribe((sendAsset: EthereumAsset) => {
@@ -100,15 +120,9 @@ export class SendFormComponent implements OnDestroy {
       this.sendAmount = this.previousAmount;
       this.previousAmount = this.previousAmount = this.sendForm.controls['sendAmount'].value;
     }
-    console.log(this.sendAmount.toString());
     this.sendForm.controls['sendAmount'].setValue(this.currentAsset.calculatedAmount.toString());
   }
-
-  ngOnDestroy(): void {
-    this.userPrefSub.unsubscribe();
-    this.sendAssetSubscription.unsubscribe();
-    this.currentAddressSubscription.unsubscribe();
-  }
+  
 
   toHex(n: number|string|BigNumber): string {
     return this.web3Service.getWebInstance().utils.toHex(n);
@@ -177,5 +191,59 @@ export class SendFormComponent implements OnDestroy {
       transaction.tokenValue = tokenValue;
       this.ethereumTransaction.emit(transaction);
     });
+  }
+  
+  absoluteCircleRadius() {
+    const c = this._content.nativeElement;
+    const r = Math.sqrt(
+      Math.pow(
+        Math.max(c.offsetWidth, c.offsetHeight) / 2, 2
+      ) + 
+      Math.pow(
+        Math.min(c.offsetWidth, c.offsetHeight) / 2, 2
+      )
+    );
+    return r;
+  }
+  
+  callibrateAbsoluteCircle() {
+    const r = this.absoluteCircleRadius();
+    const circle = this._absolute.nativeElement;
+    const content = this._absolute.nativeElement.parentElement.parentElement;
+    const contentOffsetLeft = content.offsetLeft;
+    const contentOffsetTop = content.offsetTop - 20;
+    // debugger;
+    this.initialCircleDiameter = (r * 2) + 100;
+     
+    this.absoluteCircleStyle['width'] = this.initialCircleDiameter + 'px';
+    this.absoluteCircleStyle['height'] = this.initialCircleDiameter + 'px';
+    this.circleCallibrationInfo = {
+      'width': this.initialCircleDiameter,
+      'height': this.initialCircleDiameter,
+      'totalOffsetLeft': contentOffsetLeft + circle.offsetLeft,
+      'totalOffsetTop': contentOffsetTop + circle.offsetTop
+    }
+    this.circleElement.emit(this.circleCallibrationInfo);
+  }
+  
+  ngAfterViewInit() {
+    this.callibrateAbsoluteCircle();
+  }
+  
+  ngAfterContentInit() {
+    // this.callibrateAbsoluteCircle();
+  }; 
+  
+  ngOnChanges(changes: SimpleChanges){
+    if (changes.mode) {
+      this.callibrateAbsoluteCircle();
+      // this.setCircles(changes.mode);
+    }
+  }
+
+  ngOnDestroy(): void {
+    this.userPrefSub.unsubscribe();
+    this.sendAssetSubscription.unsubscribe();
+    this.currentAddressSubscription.unsubscribe();
   }
 }

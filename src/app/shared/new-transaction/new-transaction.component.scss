@@ -1,5 +1,83 @@
-
+@import '../../../assets/sass-imports/_variables.scss';
+@import '../../../assets/sass-imports/_mixins.scss';
 
 :host {
-	position: absolute;
+	position: fixed;
+	z-index: 2;
+	box-sizing: border-box;
+	padding: 5em 0 10em;
+	@include flex-center;
+	@media(max-width: $tabletMaxBreakPoint) {
+		padding: 5em 0 10em;
+	}
+	@media(max-width: $mobileMaxBreakPoint) {
+		
+	}
+}
+
+.new-tx-circle-fixed {
+	$fixedCircleTransitionTime: 1s;
+	// display: none;
+	position: fixed;
+	z-index: $newTransactionCircleZ;
+	border-radius: 99em;
+	transition: 0s;
+	pointer-events: none;
+	.fill {
+		// background: gray;
+		// opacity: .5;
+	}
+}
+
+.fill {
+	background: gray;
+	// opacity: .8;
+	border-radius: 99em;
+	@include posa-tblr;
+}
+
+$infoInitialScale: .7;
+@keyframes content-in {
+	to {
+		opacity: 1;
+		transform: scale(1);
+	}
+}
+@keyframes content-out {
+	to {
+		opacity: 0;
+		transform: scale($infoInitialScale);
+	}
+}
+$infoTransitionTime: .25s;
+
+.new-tx-info {
+	position: fixed;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	z-index: $newTransactionZ;
+	display: none;
+	justify-content: center;
+	align-items: center;
+	opacity: 0;
+	transform: scale($infoInitialScale);
+	overflow: auto;
+	animation: $infoTransitionTime content-in $infoTransitionTime / 2 forwards;
+	&.show {
+		display: flex;
+	}
+	.new-tx-info-content {
+		line-height: 2em;
+		max-width: 40em;
+		margin: auto 0;
+		padding: $defaultMargin;
+		// opacity: 1;
+		// transform: scale(1);
+		color: black;
+		&.hide {
+			animation: $infoTransitionTime content-out forwards;
+		}
+	}
 }

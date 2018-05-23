@@ -1,16 +1,15 @@
 @import '../../../assets/sass-imports/_mixins.scss';
 
 :host {
+	position: relative;
+	margin: 0 -$defaultMargin;
 	box-sizing: border-box;
 	padding: 5em 0 10em;
 	@include flex-center;
-	animation: send-form-in .5s cubic-bezier(0,1.32,.26,1);
-	@keyframes send-form-in {
-		from {
-			opacity: 0;
-			transform: translateY(50vh);
-		}
-	}
+	animation: new-tx-in .5s cubic-bezier(0,1.32,.26,1);
+	z-index: 1;
+	overflow-x: hidden;
+	
 	@media(max-width: $tabletMaxBreakPoint) {
 		padding: 5em 0 10em;
 	}
@@ -22,4 +21,44 @@
 .input-and-max {
 	position: relative;
 	flex: 1;
+}
+
+@keyframes new-tx-in {
+	from {
+		opacity: 0;
+		transform: translateY(50vh);
+	}
+}
+
+.new-tx-content {
+	display: block;
+	position: relative;
+	z-index: 2;
+	min-width: 25em;
+	padding-top: 3em;
+	text-align: center;
+	@media(max-width: $tabletMaxBreakPoint) {
+		
+	}
+	@media(max-width: $mobileMaxBreakPoint) {
+		min-width: unset;
+	}
+}
+
+.new-tx-circle-absolute {
+	$diameter: 400px;
+	position: absolute;
+	z-index: 1;
+	// height: $diameter;
+	// width: $diameter;
+	border-radius: 99em;
+	opacity: 1;
+	animation: .25s fade-in forwards;
+	animation: new-tx-in .5s cubic-bezier(0,1.32,.26,1);
+	// transition: opacity 1s;
+}
+
+.fill {
+	border-radius: 99em;
+	@include posa-tblr;
 }

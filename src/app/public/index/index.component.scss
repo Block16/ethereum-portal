@@ -1,6 +1,7 @@
 
 @import '../../../assets/sass-imports/_variables.scss';
 @import '../../../assets/sass-imports/_mixins.scss';
+@import '../../../assets/sass-imports/_utility.scss';
 
 :host {
 	display: block;
@@ -274,10 +275,6 @@ main {
 	}
 }
 
-.qr {
-	margin: -7px 0 0 -7px;
-}
-
 $newTransactionTransformTime: .25s;
 .new-transaction-circle {
 	z-index: $newTransactionCircleZ;
@@ -383,9 +380,11 @@ h3 {
 	flex-flow: column-reverse;
 	justify-content: flex-end;
 	align-items: center;
+	@include pass-through;
 	.dev-button {
 		@include button-unstyle;
 		@include no-select-pointer;
+		@include no-pass-through;
 		@include flex-center;
 		margin: $defaultMargin / 4 0;
 		width: $menuButtonWidth * 1.5;

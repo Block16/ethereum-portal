@@ -49,6 +49,20 @@ export class ThemeService {
     'op5': this.op5
   },
   {
+    'name': 'Darker',
+    'primaryColor': '#7F7F7F',
+    'secondaryColor': '#000000',
+    'accentColor': '#7F7F7F',
+    'processingColor': '#7F7F7F',
+    'sendColor': '#FFFFFF',
+    'receiveColor': '#7F7F7F',
+    'op1': this.op1 * 2.5,
+    'op2': this.op1 * 2.5,
+    'op3': this.op2 * 2.5,
+    'op4': this.op3 * 2.5,
+    'op5': this.op5
+  },
+  {
     'name': 'Blueprint',
     'primaryColor': '#FFFFFF',
     'secondaryColor': '#0048FF',
@@ -157,8 +171,22 @@ export class ThemeService {
     'op1': this.op1,
     'op2': this.op2,
     'op3': this.op3,
-    'op4': this.op4 * 2,
-    'op5': this.op5 * 1.3
+    'op4': this.op4,
+    'op5': this.op5
+  },
+  {
+    'name': 'Leet #2',
+    'primaryColor': '#FFFFFF',
+    'secondaryColor': '#F5007E',
+    'accentColor': '#FFFFFF',
+    'processingColor': '#FFFFFF',
+    'sendColor': '#FFFFFF',
+    'receiveColor': '#FFFFFF',
+    'op1': this.op1,
+    'op2': this.op2,
+    'op3': this.op3,
+    'op4': this.op4,
+    'op5': this.op5
   },
   {
     'name': 'Neon',
@@ -396,6 +424,11 @@ export class ThemeService {
     const rgb = this.hexToRgb(hex);
     return (0.2126 * rgb.r) + (0.7152 * rgb.g) + (0.0722 * rgb.b); // SMPTE C, Rec. 709 weightings
   }
+  
+  static greaterContrast(hexBase, hex1, hex2) {
+    return Math.abs(this.luma(hexBase) - this.luma(hex1)) > Math.abs(this.luma(hexBase) - this.luma(hex2)) ?
+    hex1 : hex2;
+  }
 
   static hexToHSL(hex) {
     const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
@@ -489,6 +522,15 @@ export class ThemeService {
     theme.accentColorOp2 = this.hexToRgba(themeSource.accentColor, themeSource.op2);
     theme.accentColorOp3 = this.hexToRgba(themeSource.accentColor, themeSource.op3);
     theme.accentColorOp4 = this.hexToRgba(themeSource.accentColor, themeSource.op4);
+    
+    
+    theme.newTxColor = this.greaterContrast(themeSource.processingColor, themeSource.primaryColor, themeSource.secondaryColor);
+    theme.newTxColorRgb = this.hexToRgb(theme.newTxColor);
+    theme.newTxColorRgb = this.hexToRgb(theme.newTxColor);
+    theme.newTxColorOp1 = this.hexToRgba(theme.newTxColor, themeSource.op1);
+    theme.newTxColorOp2 = this.hexToRgba(theme.newTxColor, themeSource.op2);
+    theme.newTxColorOp3 = this.hexToRgba(theme.newTxColor, themeSource.op3);
+    theme.newTxColorOp4 = this.hexToRgba(theme.newTxColor, themeSource.op4);
 
     theme.op1 = themeSource.op1;
     theme.op2 = themeSource.op2;
@@ -553,6 +595,10 @@ export class ThemeService {
       'color': themeSource.accentColor,
       'border-color': themeSource.accentColor
     };
+    theme.newTxTextStyle = {
+      'color': theme.newTxColor,
+      'border-color': theme.newTxColor
+    };
     
     theme.sectionHeaderStyle = {
       'background': theme.secondaryColor,
@@ -569,27 +615,27 @@ export class ThemeService {
     }
 
     theme.textInputFocusStyle = {
-      'background': 'rgba(' +
-      theme.primaryColorRgb.r + ',' +
-      theme.primaryColorRgb.g + ',' +
-      theme.primaryColorRgb.b + ',' +
-      theme.op1 + ')',
+      'background': theme.primaryColorOp1,
       'border-left': '4px solid ' + themeSource.accentColor,
       'color': theme.primaryColor
     };
 
     theme.textInputBlurStyle = {
-      'background': 'rgba(' +
-      theme.primaryColorRgb.r + ',' +
-      theme.primaryColorRgb.g + ',' +
-      theme.primaryColorRgb.b + ',' +
-      theme.op1 + ')',
-      'border-left': '4px solid ' + 'rgba(' +
-      theme.accentColorRgb.r + ',' +
-      theme.accentColorRgb.g + ',' +
-      theme.accentColorRgb.b + ',' +
-      theme.op4 + ')',
+      'background': theme.primaryColorOp1,
+      'border-left': '4px solid ' + theme.accentColorOp4,
       'color': theme.primaryColor
+    };
+    
+    theme.newTxTextInputFocusStyle = {
+      'background': theme.newTxColorOp1,
+      'border-left': '4px solid ' + theme.newTxColor,
+      'color': theme.newTxColor
+    };
+
+    theme.newTxTextInputBlurStyle = {
+      'background': theme.newTxColorOp1,
+      'border-left': '4px solid ' + theme.newTxColorOp4,
+      'color': theme.newTxColor
     };
 
     theme.selectOverlayStyle = {
@@ -609,8 +655,12 @@ export class ThemeService {
 
     theme.selectArrowStyle = {
       'border-color': theme.primaryColor + ' transparent transparent transparent'
+      
     };
-
+    theme.newTxSelectArrowStyle = {
+      'border-color': theme.newTxColor + ' transparent transparent transparent'
+    };
+    
     theme.newTransactionTextStyle = this.luma(themeSource.primaryColor) > this.luma(themeSource.secondaryColor) ?
       {
         'color': themeSource.secondaryColor,
@@ -654,6 +704,9 @@ export class ThemeService {
 
     theme.accentBorderStyle = {
       'border-color': themeSource.accentColor
+    };
+    theme.newTxBorderStyle = {
+      'border-color': theme.newTxColor
     };
 
     theme.toggleButtonOffStyle = {
@@ -714,9 +767,8 @@ export class ThemeService {
       'background-color': themeSource.processingColor
     };
 
-    theme.processingBackgroundStyle = {
-      'background-color': themeSource.processingColor
-    };
+    theme.processingColor = themeSource.processingColor;
+    
     theme.receiveColor = themeSource.receiveColor;
 
     theme.sendColor = themeSource.sendColor;

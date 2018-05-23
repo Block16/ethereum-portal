@@ -30,6 +30,8 @@ import {MetamaskService} from "../../core/key-manager-services/metamask.service"
 })
 export class IndexComponent implements OnInit, OnDestroy {
   @ViewChild('_recentTransactions') _recentTransactions: ElementRef;
+  @ViewChild('sendForm') _sendForm: ElementRef;
+  
   @Output() showSidebarChange: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   public AuthState = AuthState;
@@ -48,6 +50,7 @@ export class IndexComponent implements OnInit, OnDestroy {
   public showApproveTransaction = false;
   public newTransactionToDock = false;
   public showTokenTray: boolean = true;
+  public newTransactionState: string = 'initial';
 
   // User preferences
   private userPreferencesSubscription: Subscription;
@@ -116,7 +119,7 @@ export class IndexComponent implements OnInit, OnDestroy {
     
     this.dataShareService.navLocation.subscribe((value: any) => {
       if (value == 'send' && this.navLocation !== 'send') {
-        this.setNewTransactionViewCenter();
+        
       }
       this.navLocation = value;
     });
@@ -125,11 +128,7 @@ export class IndexComponent implements OnInit, OnDestroy {
       this.userPreferences = preferences;
     });
 
-// <<<<<<< HEAD
     this.ethereumAddressSubscription = this.coreKeyManagerService.currentAddress.subscribe((address: string) => {
-// =======
-//     this.coreKeyManagerService.currentAddress.subscribe((address: string) => {
-// >>>>>>> feature/new-layout
       this.ethereumAddress = address;
     });
   }
@@ -156,6 +155,7 @@ export class IndexComponent implements OnInit, OnDestroy {
    * @param {EthereumTransaction} transaction that was generated
    */
   onTransactionGenerated(transaction: EthereumTransaction) {
+    this.newTransactionState = 'approve';
     this.newTransaction = transaction;
     this.showApproveTransaction = true;
     this.setNewTransactionViewFullscreen();
@@ -174,14 +174,9 @@ export class IndexComponent implements OnInit, OnDestroy {
       });
     }
   }
-  
-  clickTokenTray() {
-    if (this.windowWidth < this.dataShareService.tabletMaxBreakPoint) {
-      this.showTokenTray = !this.showTokenTray;
-    }
-  }
 
   sendTransaction() {
+    this.newTransactionState = 'send';
     // TODO: I don't like this control flow (AJD)
     this.web3Service.sendRawTransaction(this.newTransaction).subscribe(txHash => {
       this.newTransaction.hash = txHash;
@@ -189,6 +184,71 @@ export class IndexComponent implements OnInit, OnDestroy {
       // TODO: make sure we clear the current tx here
       // TODO: make sure we subscribe to the finish of this TX
     });
+  }
+  
+  setNewTransactionViewFullscreen() {
+    // move transaction to fullscreen mode, prompting the user to approve or cancel the transaction
+    console.log('ok');
+    const r = this.fullTransactionViewCircleRadius();
+    const leftOffset = (r - this.windowWidth / 2) * -1;
+    const topOffset = (r - this.windowHeight / 2) * -1;
+    const transactionTransform = 'translate(0,0)';
+    const circleTransform = 'translate(' + leftOffset + 'px,' + topOffset + 'px) scale(1)';
+
+    this.newTransactionCircleStyle['width'] = (r * 2) + 'px';
+    this.newTransactionCircleStyle['height'] = (r * 2) + 'px';
+    this.newTransactionCircleStyle['transition'] = '.5s';
+    this.newTransactionCircleStyle['transform'] = circleTransform;
+
+    this.newTransactionStyle['opacity'] = '1';
+    this.newTransactionStyle['transform'] = transactionTransform;
+  }
+
+  setNewTransactionViewToDock() {
+    // moves new transaction into the dock, where it will be replaced by an inline, blinking dot
+    const transactionDotSize = '12.8px';
+    const transactionDotXOffset = '24px';
+    const marketingHeight = this._recentTransactions.nativeElement.offsetHeight;
+    const transactionYOffset = this._recentTransactions.nativeElement.offsetHeight + this._recentTransactions.nativeElement.offsetTop;
+    this.newTransactionCircleStyle['transform'] = 'translate(' + transactionDotXOffset + ',' + transactionYOffset + 'px)';
+    this.newTransactionCircleStyle['height'] = transactionDotSize;
+    this.newTransactionCircleStyle['width'] = transactionDotSize;
+
+    this.newTransactionStyle['opacity'] = '0';
+
+    setTimeout(() => {
+      this.recentTransactions.push(this.newTransaction);
+      this.dataShareService.recentTransactions.next(this.recentTransactions);
+      this.resetNewTransactionView();
+    }, 500);
+  }
+  
+  resetNewTransactionView() {
+    // sets new transaction to original state, ready to be triggered again
+    this.newTransactionState = 'initial';
+    const r = this.fullTransactionViewCircleRadius();
+    const leftOffset = (r - this.windowWidth / 2) * -1;
+    const topOffset = (r + this.windowHeight / 2 + this.windowHeight);
+    const transactionTransform = 'translate(0px,' + this.windowHeight + 'px) scale(.15)';
+    const circleTransform = 'translate(' + leftOffset + 'px,' + topOffset + 'px) scale(.15)';
+
+    this.newTransactionCircleStyle['transition'] = '0s';
+    this.newTransactionCircleStyle['width'] = (r * 2) + 'px';
+    this.newTransactionCircleStyle['height'] = (r * 2) + 'px';
+
+    this.newTransactionStyle['transform'] = transactionTransform;
+    this.newTransactionCircleStyle['transform'] = circleTransform;
+  }
+  
+  sendTx() {
+    this.newTransactionState = 'send';
+    this.dataShareService.navLocation.next('history');
+  }
+  
+  clickTokenTray() {
+    if (this.windowWidth < this.dataShareService.tabletMaxBreakPoint) {
+      this.showTokenTray = !this.showTokenTray;
+    }
   }
 
   setShowSidebar(b: boolean) {
@@ -244,24 +304,6 @@ export class IndexComponent implements OnInit, OnDestroy {
     }); */
   }
 
-  showApproveNewTransaction() {
-    // this.newTransaction = this.randomTransaction();
-    // size and positionnew transaction element
-    this.setNewTransactionViewFullscreen();
-    // this.setNewTransactionStyle();
-  }
-
-  transactionSigned() {
-    this.setNewTransactionViewToDock();
-    // setTimeout(() => {
-    //   this.recentTransactions.push(this.newTransaction);
-    //   this.dataShareService.recentTransactions.next(this.recentTransactions);
-    //   this.resetNewTransaction = true;
-    //   this.showNewTransaction = false;
-    //   this.setNewTransactionStyle();
-    // }, 500)
-  }
-
   toggleAuthState(authState: AuthState) {
     this.currentAuth = authState;
   }
@@ -270,59 +312,7 @@ export class IndexComponent implements OnInit, OnDestroy {
     return Math.sqrt(Math.pow(this.windowMax / 2, 2) + Math.pow(this.windowMin / 2, 2));
   }
 
-  resetNewTransactionView() {
-    const r = this.fullTransactionViewCircleRadius();
-    const leftOffset = (r - this.windowWidth / 2) * -1;
-    const topOffset = (r + this.windowHeight / 2 + this.windowHeight);
-    const transactionTransform = 'translate(0px,' + this.windowHeight + 'px) scale(.15)';
-    const circleTransform = 'translate(' + leftOffset + 'px,' + topOffset + 'px) scale(.15)';
 
-    this.newTransactionCircleStyle['transition'] = '0s';
-    this.newTransactionCircleStyle['width'] = (r * 2) + 'px';
-    this.newTransactionCircleStyle['height'] = (r * 2) + 'px';
-
-    this.newTransactionStyle['transform'] = transactionTransform;
-    this.newTransactionCircleStyle['transform'] = circleTransform;
-  }
-  
-  setNewTransactionViewCenter() {
-    console.log('setNewTransactionViewCenter()');
-  }
-
-  setNewTransactionViewFullscreen() {
-    console.log('ok');
-    const r = this.fullTransactionViewCircleRadius();
-    const leftOffset = (r - this.windowWidth / 2) * -1;
-    const topOffset = (r - this.windowHeight / 2) * -1;
-    const transactionTransform = 'translate(0,0)';
-    const circleTransform = 'translate(' + leftOffset + 'px,' + topOffset + 'px) scale(1)';
-
-    this.newTransactionCircleStyle['width'] = (r * 2) + 'px';
-    this.newTransactionCircleStyle['height'] = (r * 2) + 'px';
-    this.newTransactionCircleStyle['transition'] = '.5s';
-    this.newTransactionCircleStyle['transform'] = circleTransform;
-
-    this.newTransactionStyle['opacity'] = '1';
-    this.newTransactionStyle['transform'] = transactionTransform;
-  }
-
-  setNewTransactionViewToDock() {
-    const transactionDotSize = '12.8px';
-    const transactionDotXOffset = '24px';
-    const marketingHeight = this._recentTransactions.nativeElement.offsetHeight;
-    const transactionYOffset = this._recentTransactions.nativeElement.offsetHeight + this._recentTransactions.nativeElement.offsetTop;
-    this.newTransactionCircleStyle['transform'] = 'translate(' + transactionDotXOffset + ',' + transactionYOffset + 'px)';
-    this.newTransactionCircleStyle['height'] = transactionDotSize;
-    this.newTransactionCircleStyle['width'] = transactionDotSize;
-
-    this.newTransactionStyle['opacity'] = '0';
-
-    setTimeout(() => {
-      this.recentTransactions.push(this.newTransaction);
-      this.dataShareService.recentTransactions.next(this.recentTransactions);
-      this.resetNewTransactionView();
-    }, 500);
-  }
   
   resizeTokenTray() {
     if (this.windowWidth > this.dataShareService.tabletMaxBreakPoint) {

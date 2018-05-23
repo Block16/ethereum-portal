@@ -1,5 +1,5 @@
 import {
-  AfterViewInit, Component, ElementRef, HostListener, OnDestroy, OnInit, QueryList, Self, ViewChild,
+  AfterViewInit, Component, ElementRef, EventEmitter, HostListener, Input, OnDestroy, OnInit, Output, QueryList, Self, ViewChild,
   ViewChildren
 } from '@angular/core';
 import {Subscription} from "rxjs/Subscription";
@@ -43,6 +43,11 @@ export class TransactionListComponent implements OnInit, AfterViewInit, OnDestro
     'block': null,
     'time': null
   };
+  
+  public dotInfo = {};
+  
+  @Input('incomingTx') incomingTx: boolean = false;
+  @Output() dotLocation: EventEmitter<any> = new EventEmitter<any>();
 
   @ViewChild('asset') _asset: ElementRef;
   @ViewChild('block') _block: ElementRef;
@@ -150,8 +155,10 @@ export class TransactionListComponent implements OnInit, AfterViewInit, OnDestro
   }
 
   ngAfterViewInit() {
-    console.log(this.widestWidths);
     this.setWidestWidths();
+    if (this.incomingTx) {
+      this.dotLocation.emit(this.dotInfo);
+    }
   }
 
   ngOnInit() {

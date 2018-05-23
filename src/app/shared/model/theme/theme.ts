@@ -23,6 +23,13 @@ export interface Theme {
   accentColorOp3: any;
   accentColorOp4: any;
   
+  newTxColor: string;
+  newTxColorRgb: any;
+  newTxColorOp1: any;
+  newTxColorOp2: any;
+  newTxColorOp3: any;
+  newTxColorOp4: any;
+  
   op1: number;
   op2: number;
   op3: number;
@@ -44,6 +51,7 @@ export interface Theme {
   primaryTextStyle: any;
   secondaryTextStyle: any;
   accentTextStyle: any;
+  newTxTextStyle: any;
   
   sectionHeaderStyle: any;
   
@@ -59,6 +67,7 @@ export interface Theme {
   primaryBorderStyle: any;
   secondaryBorderStyle: any;
   accentBorderStyle: any;
+  newTxBorderStyle: any;
   
   toggleButtonOffStyle: any;
   toggleButtonOnStyle: any;
@@ -68,13 +77,18 @@ export interface Theme {
   
   textInputFocusStyle: any;
   textInputBlurStyle: any;
+  newTxTextInputFocusStyle: any;
+  newTxTextInputBlurStyle: any;
   
   selectOverlayStyle: any;
+  
   selectArrowStyle: any;
+  newTxSelectArrowStyle: any;
   
   selectStyle: any;
   
   processingBackgroundStyle: any;
+  processingColor: any;
   sendColor: any;
   receiveColor: any;
 }

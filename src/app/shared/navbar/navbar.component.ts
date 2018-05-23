@@ -19,18 +19,14 @@ export class NavbarComponent implements OnInit {
 	@ViewChild('send') _send: ElementRef;
 	@ViewChild('receive') _receive: ElementRef;
 	
-	public navLocation: string = 'history';
+	public navLocation: string = 'receive';
 	public theme: Theme;
 	private themeSubscription: Subscription;
 	private navIndicatorLeft: number = 79;
 	private navIndicatorWidth: number = 75;
-	public window = {'width': window.innerWidth,
-								 'height': window.innerHeight};
 	
 	@HostListener('window:resize', ['$event'])
 	  onResize(event) {
-	    this.window.width = event.target.innerWidth;
-	    this.window.height = event.target.innerHeight;
 	    this.moveNavIndicator(this.navLocation);
   }
 	

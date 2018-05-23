@@ -12,9 +12,9 @@ import {Theme} from "../../shared/model/theme/theme";
 export class NotificationListComponent implements OnInit {
   private notificationSubscription: Subscription;
   private themeSubscription: Subscription;
+  public theme: Theme;
 
   public notifications = [];
-  public theme: Theme;
 
   constructor(
     private notificationService: NotificationService,

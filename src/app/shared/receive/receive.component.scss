@@ -1,0 +1,61 @@
+@import '../../../assets/sass-imports/_variables.scss';
+@import '../../../assets/sass-imports/_mixins.scss';
+
+:host {
+	padding: 0em 0 5em;
+	// overflow: auto;
+	flex-flow: column;
+	@include flex-center;
+}
+
+p {
+	font-weight: bold;
+	padding-top: 1em;
+	text-align: center;
+}
+
+.qr-container {
+	display: flex;
+	align-items: center;
+	flex-flow: column;
+	margin: auto 0;
+}
+
+
+.qr-box {
+	$maxSize: 30em;
+	position: relative;
+	width: 100%;
+	max-height: $maxSize;
+	max-width: $maxSize;
+}
+
+.qr {
+	position: absolute;
+	// margin: -7px 0 0 -7px;
+}
+
+.qr-cover {
+	display: flex;
+	flex-flow: column;
+	align-items: stretch;
+	justify-content: space-between;
+	@include posa-tblr;
+	display: none;
+	.qr-cover-row {
+		display: flex;
+		flex: 1;
+		align-items: stretch;
+		justify-content: space-between;
+		&:nth-child(odd) {
+			opacity: .7;
+		}
+		.qr-cover-pixel {
+			flex: 1;
+			background: lime;
+			&:nth-child(odd) {
+				opacity: .5;
+			}
+		}
+	}
+}

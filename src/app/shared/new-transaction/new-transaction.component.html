@@ -1,0 +1,44 @@
+<div #content class="new-tx-content">
+	<ng-content></ng-content>
+</div>
+<div #absolute class="new-tx-circle-absolute"
+		 [ngStyle]="absoluteCircleStyle">
+		 	<div class="fill"
+					 [ngStyle]="theme.processingBackgroundStyle"></div>
+		 </div>
+<div #fixed class="new-tx-circle-fixed"
+		 [ngStyle]="fixedCircleStyle"
+		 [hidden]="!showFixedCircle">
+		<div class="fill"
+			 [ngStyle]="theme.processingBackgroundStyle"></div>
+</div>
+<div class="new-tx-info"
+		 [ngClass]="{ 'show': showFixedCircle }">
+		 <div class="new-tx-info-content"
+		 			[ngStyle]="theme.newTxTextStyle"
+				  [ngClass]="{ 'hide': hidingFixedCircle }">
+		  {{showFixedCircle}}
+		  		<h1 class="top-border" [ngStyle]="theme.newTxTextStyle">Approve transaction</h1>
+	  			<h3 class="type2">Transaction will send immediately after approval on your {{ currentAuth }}</h3>
+	        <span class="caption">From</span><br>
+	        <p class="lining-proportional">0x{{ ethereumAddress }}</p>
+	  			<span class="caption">To</span><br>
+	  			<p class="lining-proportional" *ngIf="transaction?.asset.symbol === 'ETH'">{{ transaction?.toAddress }}</p>
+	  			<p class="lining-proportional" *ngIf="transaction?.asset.symbol !== 'ETH'">{{ transaction?.tokenToAddress }}</p>
+	  			<span class="caption">Value</span><br>
+	  			<p class="lining-proportional">{{ transaction?.valueToBN().toString(10) }} {{ transaction?.asset.symbol }}</p>
+	  			<span class="caption">Estimated transaction fees</span><br>
+	  			<p class="lining-proportional">{{ transaction?.transactionFeesGwei().toString(10) }} Gwei, ({{ transaction?.transactionFees().toString(10) }} ETH)</p>
+	        <span class="caption">Estimated total transaction (value + tx fees)</span><br>
+	        <p class="lining-proportional" *ngIf="transaction?.asset.symbol === 'ETH'">{{ transaction?.valueToBN().plus(transaction?.transactionFees()).toString(10) }} ETH</p>
+	        <p class="lining-proportional" *ngIf="transaction?.asset.symbol !== 'ETH'">{{ transaction?.transactionFees().toString(10) }} ETH</p>
+	        <p class="lining-proportional" *ngIf="userPreferences.showGenerated">
+	          {{ transaction?.txToString() }}
+	        </p>
+	        <p class="lining-proportional" *ngIf="userPreferences.showGenerated && transaction?.signature != undefined">
+	          {{ transaction?.signature }}
+	        </p>
+		 	<app-button secondary (click)="cancelTx()">Cancel</app-button>
+		 	<app-button secondary (click)="submitTx()">Send</app-button>
+		 </div>
+</div>

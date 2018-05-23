@@ -1,0 +1,24 @@
+
+	<div #qrBox class="qr-box"
+			 [ngStyle]="{ 'height': qrSize + 'px' }">
+			<ngx-kjua
+					*ngIf="qrSize"
+					class="qr"
+			    [text]="'0x' + address"
+			    [renderAsync]="false"
+			    [crisp]="true"
+			    [ecLevel]="'L'"
+			    [size]="qrSize"
+			    [fill]="theme.primaryColor"
+			    [back]="'transparent'"
+			  ></ngx-kjua>
+			  <div class="qr-cover">
+			  	<div class="qr-cover-row"
+			  			 *ngFor="let row of qrArray; let i = index">
+			  		<div class="qr-cover-pixel"
+				  			 *ngFor="let pixel of row; let j = index"
+				  			 [hidden]="!qrArray[i][j]"></div>
+			  	</div>
+			  </div>
+	</div>
+	<p class="lining-proportional break-all my-address">0x{{ address }}</p>

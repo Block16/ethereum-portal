@@ -230,15 +230,18 @@
 	<div class="content">
 		<app-transaction-list *ngIf="navLocation == 'history'"></app-transaction-list>
 		
-		<app-send-form [theme]="theme"
-									 (ethereumTransaction)="onTransactionGenerated($event)"
-									 *ngIf="navLocation == 'send'"></app-send-form>
-		<app-new-transaction [mode]=""
+		<app-new-transaction [mode]="newTransactionState"
 												 [transaction]="newTransaction"
-												 [newTxStyle]="newTxStyle"
-												 [newTxCircleStyle]="newTxCircleStyle"
-												 [small]="newTransactionToDock"
-												 [currentAuth]="currentAuth"></app-new-transaction>
+												 [userPreferences]="userPreferences"
+												 [currentAuth]="currentAuth"
+												 [absoluteCircleInfo]="absoluteCircleInfo"
+												 (setMode)="newTransactionState = $event"></app-new-transaction>
+										 
+		<app-send-form #sendForm [theme]="theme"
+	 								 [transactionState]="newTransactionState"
+									 (ethereumTransaction)="onTransactionGenerated($event)"
+									 (circleElement)="absoluteCircleInfo = $event"
+	 								 *ngIf="navLocation == 'send'"></app-send-form>
 		
 		<div class="new-transaction-circle"
 				 [ngClass]="{ 'small': newTransactionToDock }"
@@ -279,20 +282,8 @@
 			</div>
 		</div>
 		
-		<div *ngIf="navLocation == 'receive'">
-			<div class="caption ">Address</div>
-			<p class="lining-proportional break-all my-address">0x{{ ethereumAddress }}</p>
-			<ngx-kjua
-					class="qr"
-			    [text]="'0x' + ethereumAddress"
-			    [renderAsync]="false"
-			    [crisp]="true"
-			    [ecLevel]="'L'"
-			    [size]="'250'"
-			    [fill]="theme.primaryColor"
-			    [back]="'transparent'"
-			  ></ngx-kjua>
-		</div>
+		<app-receive *ngIf="navLocation == 'receive'"
+								 [address]="ethereumAddress"></app-receive>
 	</div>
 </main>
 
@@ -306,10 +297,13 @@
 			 (click)="showTestModal = !showTestModal">Show test modal</app-button> -->
 	<app-button class="dev-button"
 			 [ngStyle]="theme.buttonStyle"
-		 	 (click)="showApproveNewTransaction()">Generate transaction</app-button>
+		 	 (click)="newTransactionState = 'initial'">initial</app-button>
 	<app-button class="dev-button"
 			 [ngStyle]="theme.buttonStyle"
-		 	 (click)="transactionSigned()">Sign transaction</app-button>
+		 	 (click)="newTransactionState = 'approve'">approve</app-button>
+	<app-button class="dev-button"
+			 [ngStyle]="theme.buttonStyle"
+		 	 (click)="sendTx()">sent</app-button>
 <!-- 	<app-button class="dev-button"
 			 [ngStyle]="theme.buttonStyle"
 		 	 (click)="notificationService.message('hello ')">Add notification</app-button>
