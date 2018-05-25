@@ -96,7 +96,7 @@ export class SidebarComponent implements OnDestroy {
       this.userPreferencesService.setProvider(provider.name);
     });
 
-    this.block16Service.recentTransactions.subscribe((value: any) => {
+    this.block16Service.pendingTransactions.subscribe((value: any) => {
       this.recentTransactions = value;
     });
 

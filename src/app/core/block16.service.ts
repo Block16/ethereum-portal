@@ -4,7 +4,7 @@ import {EthereumAsset} from "../shared/model/ethereum-asset";
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs/Observable";
 import {CoreKeyManagerService} from "./key-manager-services/core-key-manager.service";
-import {isNullOrUndefined} from "util";
+import {isNull, isNullOrUndefined} from "util";
 import {EthereumTransaction} from "../shared/model/ethereum-transaction";
 import {Web3Service} from "./web3.service";
 import {TokenTickerService} from "./token-ticker.service";
@@ -16,7 +16,7 @@ import {BigNumber} from 'bignumber.js';
 export class Block16Service {
   public ethereumAssets: BehaviorSubject<EthereumAsset[]>;
   public transactions: BehaviorSubject<TransactionInformation[]>;
-  public recentTransactions: BehaviorSubject<TransactionInformation[]>;
+  public pendingTransactions: BehaviorSubject<TransactionInformation[]>;
 
   constructor(
     private httpClient: HttpClient,
@@ -125,7 +125,7 @@ export class Block16Service {
       symbol = asset.symbol;
     }
 
-    const transaction = new TransactionInformation(
+    return new TransactionInformation(
       data.toAddress,
       data.fromAddress,
       "confirmed",
@@ -136,8 +136,6 @@ export class Block16Service {
       data.key.transactionDate,
       data.transactionHash
     );
-
-    return transaction;
   }
 
   private ethTransactionToTransactionInfo(ethTx: EthereumTransaction): TransactionInformation {
@@ -151,14 +149,19 @@ export class Block16Service {
     this.transactions = new BehaviorSubject([]);
 
     // TODO: Load recent transactions
-    this.recentTransactions = new BehaviorSubject([]);
+    this.pendingTransactions = new BehaviorSubject([]);
 
     // Initialize the recentTransaction checker
     setTimeout(() => {
-      for (let i = 0; i < this.recentTransactions.value.length; i++) {
-        // TODO: check to see if the tx has gone through, make sure we update with correct value
+      for (let i = 0; i < this.pendingTransactions.value.length; i++) {
         // TODO: check that any transactions that are within the hour are removed after the hour
-        // if (this.recentTransactions[i])
+        this.web3Service.getTransactionReciept(this.pendingTransactions[i].hash).subscribe((val) => {
+          if (!isNullOrUndefined(val)) {
+            // TODO: then this has been included in the block
+          } else {
+
+          }
+        });
       }
     }, 5000);
   }
@@ -193,7 +196,7 @@ export class Block16Service {
   }
 
   public newRecentTransaction(ethereumTransaction: EthereumTransaction) {
-    const txs = this.recentTransactions.value;
+    const txs = this.pendingTransactions.value;
     // txs.push(ethereumTransaction);
     // this.recentTransactions.next(txs);
   }

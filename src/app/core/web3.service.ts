@@ -57,6 +57,10 @@ export class Web3Service {
     })).map((n: string) => new BigNumber(n.substring(2), 16));
   }
 
+  public getTransactionReciept(txHash: string): Observable<any> {
+    return fromPromise(this.web3js.eth.getTransactionReceipt(txHash));
+  }
+
   public getTransactionCount(account: string): Observable<any> {
     return fromPromise(this.web3js.eth.getTransactionCount(ethutils.addHexPrefix(account), 'latest'));
   }

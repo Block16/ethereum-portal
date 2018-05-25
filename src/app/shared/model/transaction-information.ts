@@ -15,8 +15,7 @@ export class TransactionInformation {
     amount: string,
     created: number,
     readonly hash: string
-    )
-  {
+    ) {
     this.created = new Date(created);
     // TODO: Will need to be from BigNumber
     this.amount = new BigNumber(amount);
