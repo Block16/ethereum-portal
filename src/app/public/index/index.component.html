@@ -172,11 +172,11 @@
 											userPreferences['additionalDenomination']) }}
 			</p>
 		</div> -->
-		
+
 		<div class="token-tray"
 				 [ngStyle]="{ 'background': showTokenTray && windowWidth <= dataShareService.tabletMaxBreakPoint ? theme.primaryColorOp1 : 'transparent' }"
 				 (click)="clickTokenTray()">
-				 
+
 			<div class="token-header">
 				<div class="token-count caption small-caps">5 tokens</div>
 				<div class="token-denomination-total caption lining-proportional op4">~$34,742.23 USD</div>
@@ -186,7 +186,7 @@
 					<span [hidden]="!showTokenTray">HIDE</span>
 				</div>
 			</div>
-			
+
 			<div [hidden]="!showTokenTray">
 				<div class="tokens">
 					<div class="token"
@@ -207,15 +207,15 @@
 						<div class="token-symbol caption no-wrap">
 							{{ token.symbol }}
 						</div>
-				
+
 						<p class="token-amount">
 							<app-asset-display [ethereumAsset]="token"></app-asset-display>
 						</p>
-				
+
 						<p class="token-denomination lining-proportional op4 no-wrap"
 							 [ngStyle]="theme.primaryTextStyle"
 							 *ngIf="userPreferences['additionalDenomination'] != 'None'">
-				
+
 							{{ denominate('0x684654351',
 														50,
 														userPreferences['additionalDenomination']) }}
@@ -223,23 +223,25 @@
 					</div>
 				</div>
 			</div>
-			
+
 		</div>
 	</div>
-	
+
 	<div class="content">
 		<app-transaction-list *ngIf="navLocation == 'history'"></app-transaction-list>
-		
+
 		<app-send-form [theme]="theme"
 									 (ethereumTransaction)="onTransactionGenerated($event)"
-									 *ngIf="navLocation == 'send'"></app-send-form>
+									 *ngIf="navLocation == 'send'">
+    </app-send-form>
+
 		<app-new-transaction [mode]=""
 												 [transaction]="newTransaction"
 												 [newTxStyle]="newTxStyle"
 												 [newTxCircleStyle]="newTxCircleStyle"
 												 [small]="newTransactionToDock"
 												 [currentAuth]="currentAuth"></app-new-transaction>
-		
+
 		<div class="new-transaction-circle"
 				 [ngClass]="{ 'small': newTransactionToDock }"
 				 [ngStyle]="newTransactionCircleStyle">
@@ -278,7 +280,7 @@
 				</section>
 			</div>
 		</div>
-		
+
 		<div *ngIf="navLocation == 'receive'">
 			<div class="caption ">Address</div>
 			<p class="lining-proportional break-all my-address">0x{{ ethereumAddress }}</p>

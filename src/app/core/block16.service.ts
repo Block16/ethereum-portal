@@ -139,7 +139,22 @@ export class Block16Service {
   }
 
   private ethTransactionToTransactionInfo(ethTx: EthereumTransaction): TransactionInformation {
-    return null;
+    let val = ethTx.value;
+    if (!isNullOrUndefined(ethTx.tokenValue)) {
+      val = ethTx.tokenValue;
+    }
+
+    return new TransactionInformation(
+      ethTx.toAddress,
+      ethTx.fromAddress,
+      "processing",
+      0,
+      ethTx.fromAddress.toLowerCase() === this.coreKeyManager.currentAddress.getValue().toLowerCase() ? "to" : "from",
+      ethTx.asset.name,
+      ethTx.asset.amountToRaw(val),
+      new Date().getMilliseconds(),
+      ethTx.hash
+    );
   }
 
   private initBehaviorSubjects() {
