@@ -111,7 +111,6 @@ export class TransactionListComponent implements OnInit, AfterViewInit, OnDestro
       this.widestWidthStyles.blockStyle = null;
       this.widestWidthStyles.timeStyle = null;
     }
-    // console.log(this.widestWidths)
     this.txs.widestWidthStyles.next(this.widestWidthStyles);
   }
 
@@ -150,7 +149,6 @@ export class TransactionListComponent implements OnInit, AfterViewInit, OnDestro
   }
 
   ngAfterViewInit() {
-    console.log(this.widestWidths);
     this.setWidestWidths();
   }
 

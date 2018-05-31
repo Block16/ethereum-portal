@@ -81,7 +81,6 @@ export class Block16Service {
             assetList.push(ethAsset);
 
             for (let i = 0; i < decimals.length; i++) {
-
               const tokenData = this.tokenTickerService.checkTokenSymbol(<string>assets.data[i]);
 
               assetList.push(
@@ -105,7 +104,6 @@ export class Block16Service {
               txList.push(this.parseRemoteTxData(transactions.data[i]));
             }
             this.transactions.next(txList);
-
           }, (err) => {
             console.log(err);
           });
@@ -139,7 +137,7 @@ export class Block16Service {
   }
 
   private ethTransactionToTransactionInfo(ethTx: EthereumTransaction): TransactionInformation {
-    let val = ethTx.value;
+    let val = new BigNumber(ethTx.value);
     if (!isNullOrUndefined(ethTx.tokenValue)) {
       val = ethTx.tokenValue;
     }
@@ -161,20 +159,33 @@ export class Block16Service {
     this.ethereumAssets = new BehaviorSubject<EthereumAsset[]>(
       [ new EthereumAsset('Ethereum', 'ETH', new BigNumber(0), 18, "", 21000) ]
     );
+
     this.transactions = new BehaviorSubject([]);
 
-    // TODO: Load recent transactions
+    // TODO: Load recent transactions from temp storage
     this.pendingTransactions = new BehaviorSubject([]);
 
     // Initialize the recentTransaction checker
-    setTimeout(() => {
-      for (let i = 0; i < this.pendingTransactions.value.length; i++) {
-        // TODO: check that any transactions that are within the hour are removed after the hour
-        this.web3Service.getTransactionReciept(this.pendingTransactions[i].hash).subscribe((val) => {
+    setInterval(() => {
+      const p = this.pendingTransactions.value;
+      for (let i = p.length - 1; i >= 0; i--) {
+        this.web3Service.getTransactionReciept(p[i].hash).subscribe((val) => {
           if (!isNullOrUndefined(val)) {
-            // TODO: then this has been included in the block
-          } else {
+            debugger;
+            console.log("Hit: " + p[i].hash);
+            // Remove from pending TX list
+            const tempTxInfo = p[i];
+            p.splice(i, 1);
+            this.pendingTransactions.next(p);
 
+            // Add to TX list
+            const completeTxs = this.transactions.value;
+            completeTxs.push(tempTxInfo);
+            this.transactions.next(completeTxs);
+          } else {
+            console.log("Transaction hasn't been included in block yet: " + p[i].hash);
+            // TODO: check that any transactions that are within the hour are removed after the hour
+            console.log("Miss: " + p[i].hash);
           }
         });
       }
@@ -212,8 +223,8 @@ export class Block16Service {
 
   public newRecentTransaction(ethereumTransaction: EthereumTransaction) {
     const txs = this.pendingTransactions.value;
-    // txs.push(ethereumTransaction);
-    // this.recentTransactions.next(txs);
+    txs.push(this.ethTransactionToTransactionInfo(ethereumTransaction));
+    this.pendingTransactions.next(txs);
   }
 
   private loadRecentTransactions() {

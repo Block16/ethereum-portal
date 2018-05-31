@@ -12,13 +12,17 @@ export class TransactionInformation {
     readonly blockNumber: number,
     readonly kind: string,
     readonly assetName: string,
-    amount: string,
+    amount: string | BigNumber,
     created: number,
     readonly hash: string
     ) {
     this.created = new Date(created);
-    // TODO: Will need to be from BigNumber
-    this.amount = new BigNumber(amount);
+
+    if (typeof amount === "string") {
+      this.amount = new BigNumber(amount);
+    } else {
+      this.amount = amount;
+    }
   }
 
   confirmations(currentBlock: number): number {

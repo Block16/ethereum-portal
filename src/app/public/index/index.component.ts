@@ -162,6 +162,8 @@ export class IndexComponent implements OnInit, OnDestroy {
       this.coreKeyManagerService.approveAndSend(this.newTransaction).subscribe((txHash) => {
         this.newTransaction.hash = txHash;
         this.setNewTransactionViewToDock();
+        this.block16Service.newRecentTransaction(this.newTransaction);
+
         // TODO: make sure we clear the current tx here
         // TODO: make sure we subscribe to the finish of this TX
       }, (err) => {
@@ -183,6 +185,7 @@ export class IndexComponent implements OnInit, OnDestroy {
     this.web3Service.sendRawTransaction(this.newTransaction).subscribe(txHash => {
       this.newTransaction.hash = txHash;
       this.setNewTransactionViewToDock();
+      this.block16Service.newRecentTransaction(this.newTransaction);
       // TODO: make sure we clear the current tx here
       // TODO: make sure we subscribe to the finish of this TX
     });
@@ -306,8 +309,9 @@ export class IndexComponent implements OnInit, OnDestroy {
   setNewTransactionViewToDock() {
     const transactionDotSize = '12.8px';
     const transactionDotXOffset = '24px';
-    const marketingHeight = this._recentTransactions.nativeElement.offsetHeight;
-    const transactionYOffset = this._recentTransactions.nativeElement.offsetHeight + this._recentTransactions.nativeElement.offsetTop;
+    // const marketingHeight = this._recentTransactions.nativeElement.offsetHeight;
+    // const transactionYOffset = this._recentTransactions.nativeElement.offsetHeight + this._recentTransactions.nativeElement.offsetTop;
+    const transactionYOffset = '0';
     this.newTransactionCircleStyle['transform'] = 'translate(' + transactionDotXOffset + ',' + transactionYOffset + 'px)';
     this.newTransactionCircleStyle['height'] = transactionDotSize;
     this.newTransactionCircleStyle['width'] = transactionDotSize;
@@ -315,7 +319,6 @@ export class IndexComponent implements OnInit, OnDestroy {
     this.newTransactionStyle['opacity'] = '0';
 
     setTimeout(() => {
-      this.block16Service.newRecentTransaction(this.newTransaction);
       this.resetNewTransactionView();
     }, 500);
   }

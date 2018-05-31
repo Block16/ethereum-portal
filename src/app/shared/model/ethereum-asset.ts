@@ -27,8 +27,12 @@ export class EthereumAsset {
    * @param {number} amount
    * @returns {BigNumber}
    */
-  public amountToRaw(amount: string): BigNumber {
-    return new BigNumber(amount, 10).times(this.places());
+  public amountToRaw(amount: string | BigNumber): BigNumber {
+    if (typeof amount === "string") {
+      return new BigNumber(amount, 10).times(this.places());
+    } else {
+      return amount.times(this.places());
+    }
   }
 
   /**
