@@ -7,6 +7,7 @@ import * as ethutils from 'ethereumjs-util';
 import {Provider} from "../shared/model/providers";
 import {BehaviorSubject} from "rxjs/BehaviorSubject";
 import {BigNumber} from "bignumber.js";
+import {UserPreferencesService} from "./user-preferences.service";
 
 declare var Web3;
 
@@ -14,13 +15,22 @@ declare var Web3;
 export class Web3Service {
   private providers = [
     new Provider("Infura", "https://mainnet.infura.io"),
+    new Provider("Ropsten", "https://ropsten.infura.io"),
   ];
   public currentProvider: BehaviorSubject<Provider>;
   public web3js: any;
 
-  constructor() {
+  constructor(
+    private preferenceService: UserPreferencesService
+  ) {
     this.currentProvider = new BehaviorSubject(this.providers[0]);
-    this.web3js = new Web3(new Web3.providers.HttpProvider(this.providers[0].location));
+    this.web3js = new Web3(new Web3.providers.HttpProvider(this.currentProvider.value.location));
+
+    this.preferenceService.userPreferences.subscribe(prefs => {
+      const p = this.providers.find(provider => provider.name === prefs.provider);
+      this.currentProvider.next(p);
+      this.web3js = new Web3(new Web3.providers.HttpProvider(p.location));
+    });
   }
 
   public getWebInstance(): any {
@@ -82,8 +92,7 @@ export class Web3Service {
   }
 
   public setCurrentProvider(p: Provider) {
-    this.currentProvider.next(p);
-    this.web3js = new Web3(new Web3.providers.HttpProvider(p.location));
+    this.preferenceService.setProvider(p.name);
   }
 
   public getDecimals(a: string): Observable<number> {

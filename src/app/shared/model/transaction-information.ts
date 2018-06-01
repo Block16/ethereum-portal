@@ -3,13 +3,13 @@ import {BigNumber} from "bignumber.js";
 export class TransactionInformation {
 
   public created: Date;
-  private amount: BigNumber;
+  public amount: BigNumber;
 
   constructor(
-    readonly toAddress: string,
-    readonly fromAddress: string,
-    readonly status: string,
-    readonly blockNumber: number,
+    public toAddress: string,
+    public fromAddress: string,
+    public status: string,
+    public blockNumber: number,
     readonly kind: string,
     readonly assetName: string,
     amount: string | BigNumber,

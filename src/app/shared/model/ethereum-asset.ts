@@ -23,7 +23,8 @@ export class EthereumAsset {
   }
 
   /**
-   * Raw number of tokens, i.e. - without decimal places
+   * Raw number of tokens
+   * Used to convert from "normal", i.e. - 1.2 ETH,  form to amount without decimals
    * @param {number} amount
    * @returns {BigNumber}
    */
@@ -51,6 +52,11 @@ export class EthereumAsset {
     return this.amount.div(this.places());
   }
 
+  /**
+   * Convert from raw to normal form, 1 * 10^18 ETH -> 1.0 ETH
+   * @param {BigNumber} value
+   * @returns {BigNumber}
+   */
   public calculateAmount(value: BigNumber): BigNumber {
     return value.div(this.places());
   }

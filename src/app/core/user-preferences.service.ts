@@ -14,8 +14,6 @@ export class UserPreferencesService {
   public userPreferences: BehaviorSubject<UserPreferences>;
 
   constructor(
-    private web3Service: Web3Service,
-    private coreKeyManager: CoreKeyManagerService
   ) {
     let preferencesFromLocal = this.getPreferencesFromLocal();
     if (isNullOrUndefined(preferencesFromLocal)) {

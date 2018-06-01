@@ -11,6 +11,7 @@ import {TokenTickerService} from "./token-ticker.service";
 import {forkJoin} from 'rxjs/observable/forkJoin';
 import {TransactionInformation} from "../shared/model/transaction-information";
 import {BigNumber} from 'bignumber.js';
+import {NotificationService} from "./notification.service";
 
 @Injectable()
 export class Block16Service {
@@ -22,7 +23,8 @@ export class Block16Service {
     private httpClient: HttpClient,
     private coreKeyManager: CoreKeyManagerService,
     private web3Service: Web3Service,
-    private tokenTickerService: TokenTickerService
+    private tokenTickerService: TokenTickerService,
+    private notificationService: NotificationService
   ) {
     this.initBehaviorSubjects();
 
@@ -112,6 +114,11 @@ export class Block16Service {
     });
   }
 
+  /**
+   *
+   * @param data
+   * @returns {TransactionInformation}
+   */
   private parseRemoteTxData(data: any): TransactionInformation {
     let asset = this.findEthereumAsset();
     let symbol = "ETH";
@@ -130,31 +137,39 @@ export class Block16Service {
       data.blockNumber,
       data.fromAddress.toLowerCase() === data.key.address.toLowerCase() ? "to" : "from",
       symbol,
-      value.toFixed(),
+      value,
       data.key.transactionDate,
       data.transactionHash
     );
   }
 
+  /**
+   *
+   * @param {EthereumTransaction} ethTx
+   * @returns {TransactionInformation}
+   */
   private ethTransactionToTransactionInfo(ethTx: EthereumTransaction): TransactionInformation {
     let val = new BigNumber(ethTx.value);
     if (!isNullOrUndefined(ethTx.tokenValue)) {
       val = ethTx.tokenValue;
     }
-
+    const raw = ethTx.asset.amountToRaw(val);
     return new TransactionInformation(
       ethTx.toAddress,
       ethTx.fromAddress,
       "processing",
       0,
       ethTx.fromAddress.toLowerCase() === this.coreKeyManager.currentAddress.getValue().toLowerCase() ? "to" : "from",
-      ethTx.asset.name,
-      ethTx.asset.amountToRaw(val),
+      ethTx.asset.symbol,
+      raw,
       new Date().getMilliseconds(),
       ethTx.hash
     );
   }
 
+  /**
+   *
+   */
   private initBehaviorSubjects() {
     this.ethereumAssets = new BehaviorSubject<EthereumAsset[]>(
       [ new EthereumAsset('Ethereum', 'ETH', new BigNumber(0), 18, "", 21000) ]
@@ -171,27 +186,37 @@ export class Block16Service {
       for (let i = p.length - 1; i >= 0; i--) {
         this.web3Service.getTransactionReciept(p[i].hash).subscribe((val) => {
           if (!isNullOrUndefined(val)) {
-            debugger;
-            console.log("Hit: " + p[i].hash);
             // Remove from pending TX list
             const tempTxInfo = p[i];
             p.splice(i, 1);
             this.pendingTransactions.next(p);
+            tempTxInfo.status = "confirmed";
+            tempTxInfo.blockNumber = val.blockNumber;
+            tempTxInfo.created = new Date();
 
             // Add to TX list
             const completeTxs = this.transactions.value;
-            completeTxs.push(tempTxInfo);
+            completeTxs.unshift(tempTxInfo);
             this.transactions.next(completeTxs);
+            debugger;
+
+            const message = "Transaction to " + tempTxInfo.toAddress + " for " + tempTxInfo.amount.toString() + " is successful.";
+            this.notificationService.message(message, "Transaction Success");
           } else {
-            console.log("Transaction hasn't been included in block yet: " + p[i].hash);
             // TODO: check that any transactions that are within the hour are removed after the hour
-            console.log("Miss: " + p[i].hash);
+            console.log("Transaction hasn't been included in block yet: " + p[i].hash);
           }
         });
       }
     }, 5000);
   }
 
+  /**
+   *
+   * @param {string} a
+   * @param {EthereumAsset[]} assetList
+   * @returns {EthereumAsset}
+   */
   private findInAssetListByContract(a: string, assetList?: EthereumAsset[]): EthereumAsset {
     const list = isNullOrUndefined(assetList) ? this.ethereumAssets.value : assetList;
     return list.find(asset => {
@@ -202,6 +227,10 @@ export class Block16Service {
     });
   }
 
+  /**
+   *
+   * @returns {EthereumAsset}
+   */
   private findEthereumAsset() {
     return this.ethereumAssets.value.find(a => a.symbol === 'ETH');
   }
