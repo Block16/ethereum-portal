@@ -149,11 +149,11 @@ export class Block16Service {
    * @returns {TransactionInformation}
    */
   private ethTransactionToTransactionInfo(ethTx: EthereumTransaction): TransactionInformation {
-    let val = new BigNumber(ethTx.value);
-    if (!isNullOrUndefined(ethTx.tokenValue)) {
-      val = ethTx.tokenValue;
+    let val = ethTx.asset.calculateAmount(new BigNumber(ethTx.value));
+    console.log("value: " + val);
+    if (ethTx.asset.symbol !== 'ETH') {
+      val = ethTx.asset.calculateAmount(ethTx.tokenValue);
     }
-    const raw = ethTx.asset.amountToRaw(val);
     return new TransactionInformation(
       ethTx.toAddress,
       ethTx.fromAddress,
@@ -161,7 +161,7 @@ export class Block16Service {
       0,
       ethTx.fromAddress.toLowerCase() === this.coreKeyManager.currentAddress.getValue().toLowerCase() ? "to" : "from",
       ethTx.asset.symbol,
-      raw,
+      val,
       new Date().getMilliseconds(),
       ethTx.hash
     );
@@ -187,7 +187,7 @@ export class Block16Service {
       for (let i = p.length - 1; i >= 0; i--) {
 
         // Helper to remove from pending TX list
-        const remove = (status: string, blockNumber?: number) => {
+        const remove = (status: string, blockNumber?: number): TransactionInformation => {
           const tempTxInfo = p[i];
           p.splice(i, 1);
           this.pendingTransactions.next(p);
@@ -203,6 +203,7 @@ export class Block16Service {
           const completeTxs = this.transactions.value;
           completeTxs.unshift(tempTxInfo);
           this.transactions.next(completeTxs);
+          return tempTxInfo;
         };
 
         // TODO: Update correct amount of tokens for this asset based on how many were sent in recent
@@ -213,12 +214,16 @@ export class Block16Service {
             const message = "Transaction to " + p[i].toAddress + " for " + p[i].amount + " is successful.";
             this.notificationService.message(message, "Transaction Success");
             remove("confirmed", val.blockNumber);
+            this.savePendingTransactions();
           } else {
             console.log("Transaction hasn't been included in block yet: " + p[i].hash);
+            // Remove transactions that are polling for more than an hour
             if (p[i].greaterThanHour()) {
-              // TODO: check that any transactions that are within the hour are removed after the hour
-              remove("failed", 0);
-
+              const removedTx = remove("failed", 0);
+              this.savePendingTransactions();
+              this.updateFailedTransactions(removedTx);
+              const message = "Transaction to " + removedTx.toAddress + " for " + removedTx.amount + " failed";
+              this.notificationService.message(message, "Transaction failure");
             }
           }
         });
@@ -272,11 +277,27 @@ export class Block16Service {
   }
 
   private loadFailedTransactions(): TransactionInformation[] {
-    return [];
+    let failed: any = localStorage.getItem("failed");
+    if(isNullOrUndefined(failed)) {
+      failed = [];
+    } else {
+      failed = JSON.parse(failed);
+    }
+    const txs = [];
+    failed.forEach((tx: any) => {
+      txs.push(TransactionInformation.fromJsonRep(tx));
+    });
+    return txs;
   }
 
-  private saveFailedTransactions(): void {
-
+  private updateFailedTransactions(txInfo: TransactionInformation): void {
+    const failed = this.loadFailedTransactions();
+    failed.push(txInfo);
+    const jsonRep = [];
+    failed.forEach((info: TransactionInformation) => {
+      jsonRep.push(info.toJsonRep());
+    });
+    localStorage.setItem("failed", JSON.stringify(jsonRep));
   }
 
   private loadPendingTransactions(): TransactionInformation[] {
