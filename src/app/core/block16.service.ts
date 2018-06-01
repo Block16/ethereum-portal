@@ -26,7 +26,7 @@ export class Block16Service {
     private tokenTickerService: TokenTickerService,
     private notificationService: NotificationService
   ) {
-    this.initBehaviorSubjects();
+    this.intervalLoopInit();
 
     // Subscribe to the address and get the assets for the address on address update
     this.coreKeyManager.currentAddress.subscribe((address: string) => {
@@ -170,7 +170,7 @@ export class Block16Service {
   /**
    *
    */
-  private initBehaviorSubjects() {
+  private intervalLoopInit() {
     this.ethereumAssets = new BehaviorSubject<EthereumAsset[]>(
       [ new EthereumAsset('Ethereum', 'ETH', new BigNumber(0), 18, "", 21000) ]
     );
@@ -183,28 +183,43 @@ export class Block16Service {
     // Initialize the recentTransaction checker
     setInterval(() => {
       const p = this.pendingTransactions.value;
+
       for (let i = p.length - 1; i >= 0; i--) {
-        this.web3Service.getTransactionReciept(p[i].hash).subscribe((val) => {
-          if (!isNullOrUndefined(val)) {
-            // Remove from pending TX list
-            const tempTxInfo = p[i];
-            p.splice(i, 1);
-            this.pendingTransactions.next(p);
-            tempTxInfo.status = "confirmed";
-            tempTxInfo.blockNumber = val.blockNumber;
-            tempTxInfo.created = new Date();
 
-            // Add to TX list
-            const completeTxs = this.transactions.value;
-            completeTxs.unshift(tempTxInfo);
-            this.transactions.next(completeTxs);
-            debugger;
-
-            const message = "Transaction to " + tempTxInfo.toAddress + " for " + tempTxInfo.amount.toString() + " is successful.";
-            this.notificationService.message(message, "Transaction Success");
+        // Helper to remove from pending TX list
+        const remove = (status: string, blockNumber?: number) => {
+          const tempTxInfo = p[i];
+          p.splice(i, 1);
+          this.pendingTransactions.next(p);
+          tempTxInfo.status = "confirmed";
+          if(isNullOrUndefined(blockNumber)) {
+            tempTxInfo.blockNumber = 0;
           } else {
-            // TODO: check that any transactions that are within the hour are removed after the hour
+            tempTxInfo.blockNumber = blockNumber;
+          }
+          tempTxInfo.created = new Date();
+
+          // Add to TX list
+          const completeTxs = this.transactions.value;
+          completeTxs.unshift(tempTxInfo);
+          this.transactions.next(completeTxs);
+        };
+
+        // TODO: Update correct amount of tokens for this asset based on how many were sent in recent
+
+        this.web3Service.getTransactionReciept(p[i].hash).subscribe((val) => {
+          // It's been included if it's defined
+          if (!isNullOrUndefined(val)) {
+            const message = "Transaction to " + p[i].toAddress + " for " + p[i].amount + " is successful.";
+            this.notificationService.message(message, "Transaction Success");
+            remove("confirmed", val.blockNumber);
+          } else {
             console.log("Transaction hasn't been included in block yet: " + p[i].hash);
+            if (p[i].greaterThanHour()) {
+              // TODO: check that any transactions that are within the hour are removed after the hour
+              remove("failed", 0);
+
+            }
           }
         });
       }
@@ -256,11 +271,34 @@ export class Block16Service {
     this.pendingTransactions.next(txs);
   }
 
-  private loadRecentTransactions() {
-    // TODO: Update correct amount of tokens for this asset based on how many were sent in recent
+  private loadFailedTransactions(): TransactionInformation[] {
+    return [];
   }
 
-  private saveRecentTransactions() {
-    // TODO: Update correct amount of tokens for this asset based on how many were sent in recent
+  private saveFailedTransactions(): void {
+
+  }
+
+  private loadPendingTransactions(): TransactionInformation[] {
+    let pending: any = localStorage.getItem("pending");
+    if (isNullOrUndefined(pending)) {
+      pending = [];
+    } else {
+      pending = JSON.parse(pending);
+    }
+    const txs = [];
+    pending.forEach((tx: any) => {
+      txs.push(TransactionInformation.fromJsonRep(tx));
+    });
+    return txs;
+  }
+
+  private savePendingTransactions(): void {
+    const recent = [];
+    const p = this.pendingTransactions.value;
+    p.forEach((txInfo: TransactionInformation) => {
+      recent.push(txInfo.toJsonRep());
+    });
+    localStorage.setItem("pending", JSON.stringify(recent));
   }
 }
