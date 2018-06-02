@@ -1,61 +1,62 @@
-
-
 <div #content class="new-tx-content"
      [ngStyle]="theme.newTxTextStyle">
   <form [formGroup]="sendForm" (submit)="generateTransaction()">
-      <app-input [control]="sendForm.controls['sendAddress']"
-                 [inputID]="'text-to-address'"
-                 [inputName]="'text-to-address'"
-                 [inputPlaceholder]="'0x…'"
-                 [type]="'text'"
-                 new-tx>To <span class="fade">Ethereum address</span></app-input>
-      <br><br>
+    <app-input [control]="sendForm.controls['sendAddress']"
+               [inputID]="'text-to-address'"
+               [inputName]="'text-to-address'"
+               [inputPlaceholder]="'0x…'"
+               [type]="'text'"
+               new-tx>To <span class="fade">Ethereum address</span></app-input>
+    <br><br>
 
-      <div class="text-input-plus">
-        <div class="input-and-max">
-          <app-input [control]="sendForm.controls['sendAmount']"
-                     [inputID]="'text-amount'"
-                     [inputName]="'text-amount'"
-                     [type]="'text'"
-                     numberOnly
-                     new-tx>Amount</app-input>
-          <div class="max-button"
-               [ngClass]="{ 'on': sendMax }"
-               [ngStyle]="sendMax ? theme.maxButtonOnStyle : theme.maxButtonOffStyle"
-               (click)="clickMaxButton()">
-            Max
-          </div>
+    <div class="text-input-plus">
+      <div class="input-and-max">
+        <app-input [control]="sendForm.controls['sendAmount']"
+                   [inputID]="'text-amount'"
+                   [inputName]="'text-amount'"
+                   [type]="'text'"
+                   numberOnly
+                   new-tx>Amount
+        </app-input>
+        <div class="max-button"
+             [ngClass]="{ 'on': sendMax }"
+             [ngStyle]="sendMax ? theme.maxButtonOnStyle : theme.maxButtonOffStyle"
+             (click)="clickMaxButton()">
+          Max
         </div>
-
-        <app-select [control]="sendForm.controls['sendAsset']"
-                    [options]="assets"
-                    [initialValue]="currentAsset"
-                    [optionProperty]="'symbol'"
-                    new-tx></app-select>
-
       </div>
 
-      <div [hidden]="userPreferences['manualGas']">
-        <div class="caption">Estimated transaction fee</div>
-        <p class="lining-proportional">.0003 ETH</p>
-      </div>
+      <app-select [control]="sendForm.controls['sendAsset']"
+                  [options]="assets"
+                  [initialValue]="currentAsset"
+                  [optionProperty]="'symbol'"
+                  new-tx></app-select>
 
-      <div [hidden]="!userPreferences['manualGas']">
-        <label for="gas-price" class="caption form-label">Gas price</label>
-        <input id="gas-price" type="range" [formControl]="sendForm.controls['gasPrice']" min="1" max="80">
+    </div>
 
-        <label for="gas-limit" class="caption form-label">Gas limit</label>
-        <input id="gas-limit" type="number" class="no-arrow-buttons" step="1000" [formControl]="sendForm.controls['gasLimit']" integerOnly>
-      </div>
+    <div [hidden]="userPreferences['manualGas']">
+      <div class="caption">Estimated transaction fee</div>
+      <p class="lining-proportional">.0003 ETH</p>
+    </div>
 
-      <app-button [disabled]="!sendForm.valid"
-                  submit
-                  new-tx>Generate transaction</app-button>
-      <br>
-    </form>
+    <div [hidden]="!userPreferences['manualGas']">
+      <label for="gas-price" class="caption form-label">Gas price</label>
+      <input id="gas-price" type="range" [formControl]="sendForm.controls['gasPrice']" min="1" max="80">
+
+      <label for="gas-limit" class="caption form-label">Gas limit</label>
+      <input id="gas-limit" type="number" class="no-arrow-buttons" step="1000"
+             [formControl]="sendForm.controls['gasLimit']" integerOnly>
+    </div>
+
+    <app-button [disabled]="!sendForm.valid"
+                submit
+                new-tx>Generate transaction
+    </app-button>
+    <br>
+  </form>
 </div>
 <div #absolute class="new-tx-circle-absolute"
      [ngStyle]="absoluteCircleStyle">
-      <div class="fill"
-           [ngStyle]="theme.processingBackgroundStyle"></div>
-     </div>
+  <div class="fill"
+       [ngStyle]="theme.processingBackgroundStyle"></div>
+</div>

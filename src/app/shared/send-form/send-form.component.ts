@@ -20,11 +20,11 @@ import * as ethutils from 'ethereumjs-util';
 export class SendFormComponent implements AfterContentInit, AfterViewInit, OnChanges, OnDestroy {
   @Input() theme;
   @Input('transactionState') mode = 'initial';
-  @Output() ethereumTransaction: EventEmitter<EthereumTransaction> = new EventEmitter<EthereumTransaction>();
+  @Output() ethereumTransaction: EventEmitter<EthereumTransaction> = new EventEmitter<EthereumTransaction>(true);
   @Output() circleElement: EventEmitter<any> = new EventEmitter<any>(true);
   @ViewChild('absolute') _absolute;
   @ViewChild('content') _content: ElementRef;
-  
+
   private userPrefSub: Subscription;
   public userPreferences: UserPreferences;
 
@@ -41,12 +41,12 @@ export class SendFormComponent implements AfterContentInit, AfterViewInit, OnCha
   public previousAmount: BigNumber;
 
   public sendMax: boolean;
-  
+
   public initialCircleDiameter: number;
   public absoluteCircleStyle = {};
   public absoluteCircleDiameter: number;
   public circleCallibrationInfo = {}
-  
+
   @HostListener('window:resize', ['$event'])
   onResize(event) {
     this.callibrateAbsoluteCircle();
@@ -58,7 +58,7 @@ export class SendFormComponent implements AfterContentInit, AfterViewInit, OnCha
     private userPrefService: UserPreferencesService,
     private coreKeyManagerService: CoreKeyManagerService,
   ) {
-    
+
     this.currentAddress = "";
 
     // Create the send form so we can add pragmatic validators
@@ -78,12 +78,13 @@ export class SendFormComponent implements AfterContentInit, AfterViewInit, OnCha
     this.sendForm.controls['gasLimit'].updateValueAndValidity();
 
     this.assetSubscription = this.assetService.ethereumAssets.subscribe((assets: EthereumAsset[]) => {
-      this.assets = assets;
+
+      this.assets = assets.filter(a => a.hasBalance());
       if (this._content) {
-        
-        setTimeout(()=>{
+
+        setTimeout(() => {
           this.callibrateAbsoluteCircle();
-        },0);
+        }, 0);
       }
     });
 
@@ -122,7 +123,7 @@ export class SendFormComponent implements AfterContentInit, AfterViewInit, OnCha
     }
     this.sendForm.controls['sendAmount'].setValue(this.currentAsset.calculatedAmount.toString());
   }
-  
+
 
   toHex(n: number|string|BigNumber): string {
     return this.web3Service.getWebInstance().utils.toHex(n);
@@ -166,7 +167,6 @@ export class SendFormComponent implements AfterContentInit, AfterViewInit, OnCha
     let tokenToAddress = ''; // only if we are doing a token TX
     let tokenValue = new BigNumber('0');
 
-    // TODO: Manual gas
     const gasPrice = this.toGwei(this.sendForm.controls['gasPrice'].value.toString());
     const gasLimit = this.toHex(this.sendForm.controls['gasLimit'].value);
 
@@ -175,7 +175,7 @@ export class SendFormComponent implements AfterContentInit, AfterViewInit, OnCha
       if (isNullOrUndefined(sendAsset.contractAddress)) {
         throw new Error('Couldn\'t find address for contract, cannot send tokens');
       }
-      // TODO: Assumption you have to send 0 value to transfer erc20 tokens always
+      // TODO: Assumption you have to send 0 value to transfer erc20 tokens always?
       rawAmount = this.toHex(0);
       tokenToAddress = toAddress;
       data = this.erc20Transfer(toAddress, sendAsset.amountToRaw(this.sendForm.controls['sendAmount'].value));
@@ -185,27 +185,35 @@ export class SendFormComponent implements AfterContentInit, AfterViewInit, OnCha
 
     this.web3Service.getTransactionCount(this.coreKeyManagerService.currentAddress.value).subscribe((count: number) => {
       const nonce = this.toHex(count);
+
+      // TODO: This class's conditional encapsulation is p bad
       const transaction = new EthereumTransaction(gasLimit, gasPrice, this.currentAddress, toAddress, rawAmount, nonce, data);
       transaction.tokenToAddress = tokenToAddress;
       transaction.asset = sendAsset;
       transaction.tokenValue = tokenValue;
+
       this.ethereumTransaction.emit(transaction);
+
+      // Reset the form using previous values
+      const oldGasPrice = this.sendForm.controls['gasPrice'].value;
+      const oldGasLimit = this.sendForm.controls['gasLimit'].value;
+      this.sendForm.reset({ 'sendAsset': sendAsset, 'gasPrice': oldGasPrice, 'gasLimit': oldGasLimit });
     });
   }
-  
+
   absoluteCircleRadius() {
     const c = this._content.nativeElement;
     const r = Math.sqrt(
       Math.pow(
         Math.max(c.offsetWidth, c.offsetHeight) / 2, 2
-      ) + 
+      ) +
       Math.pow(
         Math.min(c.offsetWidth, c.offsetHeight) / 2, 2
       )
     );
     return r;
   }
-  
+
   callibrateAbsoluteCircle() {
     const r = this.absoluteCircleRadius();
     const circle = this._absolute.nativeElement;
@@ -214,7 +222,7 @@ export class SendFormComponent implements AfterContentInit, AfterViewInit, OnCha
     const contentOffsetTop = content.offsetTop - 20;
     // debugger;
     this.initialCircleDiameter = (r * 2) + 100;
-     
+
     this.absoluteCircleStyle['width'] = this.initialCircleDiameter + 'px';
     this.absoluteCircleStyle['height'] = this.initialCircleDiameter + 'px';
     this.circleCallibrationInfo = {
@@ -222,19 +230,19 @@ export class SendFormComponent implements AfterContentInit, AfterViewInit, OnCha
       'height': this.initialCircleDiameter,
       'totalOffsetLeft': contentOffsetLeft + circle.offsetLeft,
       'totalOffsetTop': contentOffsetTop + circle.offsetTop
-    }
+    };
     this.circleElement.emit(this.circleCallibrationInfo);
   }
-  
+
   ngAfterViewInit() {
     this.callibrateAbsoluteCircle();
   }
-  
+
   ngAfterContentInit() {
     // this.callibrateAbsoluteCircle();
-  }; 
-  
-  ngOnChanges(changes: SimpleChanges){
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
     if (changes.mode) {
       this.callibrateAbsoluteCircle();
       // this.setCircles(changes.mode);

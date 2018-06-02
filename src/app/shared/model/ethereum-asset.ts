@@ -23,6 +23,20 @@ export class EthereumAsset {
   }
 
   /**
+   * Raw number of tokens
+   * Used to convert from "normal", i.e. - 1.2 ETH,  form to amount without decimals
+   * @param {number} amount
+   * @returns {BigNumber}
+   */
+  public amountToRaw(amount: string | BigNumber): BigNumber {
+    if (typeof amount === "string") {
+      return new BigNumber(amount, 10).times(this.places());
+    } else {
+      return amount.times(this.places());
+    }
+  }
+
+  /**
    * Helper function to get the calculated number of decimal places
    * @returns {BigNumber}
    */
@@ -38,20 +52,20 @@ export class EthereumAsset {
     return this.amount.div(this.places());
   }
 
+  /**
+   * Convert from raw to normal form, 1 * 10^18 ETH -> 1.0 ETH
+   * @param {BigNumber} value
+   * @returns {BigNumber}
+   */
   public calculateAmount(value: BigNumber): BigNumber {
     return value.div(this.places());
   }
 
-  /**
-   * Raw number of tokens, i.e. - without decimal places
-   * @param {number} amount
-   * @returns {BigNumber}
-   */
-  public amountToRaw(amount: string): BigNumber {
-    return new BigNumber(amount, 10).times(this.places());
-  }
-
   public symbolAbbreviation(): string {
     return this.symbol.substr(0, 3).toUpperCase();
+  }
+
+  public hasBalance(): boolean {
+    return this.calculatedAmount.gt(0);
   }
 }

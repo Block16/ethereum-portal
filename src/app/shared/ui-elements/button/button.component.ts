@@ -26,7 +26,7 @@ import {Theme} from "../../model/theme/theme";
                         this.theme.secondaryColor`
   }
 })
-export class ButtonComponent implements OnInit {
+export class ButtonComponent implements OnDestroy {
   @Input() kind: string;
   @Input('disabled') disabled = false;
 
@@ -54,11 +54,20 @@ export class ButtonComponent implements OnInit {
     });
   }
 
+  ngOnDestroy(): void {
+    this.themeSubscription.unsubscribe();
+  }
+
   spacebar() {
     console.log('pressed space on focused element');
   }
 
-  ngOnInit() {
+  onFocus() {
+
+  }
+
+  onBlur() {
+
   }
 
   @HostListener('mouseover')

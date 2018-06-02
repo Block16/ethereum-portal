@@ -7,22 +7,30 @@ import * as ethutils from 'ethereumjs-util';
 import {Provider} from "../shared/model/providers";
 import {BehaviorSubject} from "rxjs/BehaviorSubject";
 import {BigNumber} from "bignumber.js";
+import {UserPreferencesService} from "./user-preferences.service";
 
 declare var Web3;
 
 @Injectable()
 export class Web3Service {
-
   private providers = [
     new Provider("Infura", "https://mainnet.infura.io"),
+    new Provider("Ropsten", "https://ropsten.infura.io"),
   ];
   public currentProvider: BehaviorSubject<Provider>;
-
   public web3js: any;
 
-  constructor() {
+  constructor(
+    private preferenceService: UserPreferencesService
+  ) {
     this.currentProvider = new BehaviorSubject(this.providers[0]);
-    this.web3js = new Web3(new Web3.providers.HttpProvider(this.providers[0].location));
+    this.web3js = new Web3(new Web3.providers.HttpProvider(this.currentProvider.value.location));
+
+    this.preferenceService.userPreferences.subscribe(prefs => {
+      const p = this.providers.find(provider => provider.name === prefs.provider);
+      this.currentProvider.next(p);
+      this.web3js = new Web3(new Web3.providers.HttpProvider(p.location));
+    });
   }
 
   public getWebInstance(): any {
@@ -42,26 +50,6 @@ export class Web3Service {
     return this.providers;
   }
 
-  public getTransactionCount(account: string): Observable<any> {
-    return fromPromise(this.web3js.eth.getTransactionCount(ethutils.addHexPrefix(account), 'latest'));
-  }
-
-  public sendRawTransaction(transaction: EthereumTransaction): Observable<string> {
-    if (isNullOrUndefined(transaction.signature)) {
-      throw new Error('Transaction signature was missing from transaction');
-    }
-    return Observable.create((observer) => {
-      this.web3js.eth.sendRawTransaction(transaction.signature, (err, txHash) => {
-        if (!isNullOrUndefined(err)) {
-          observer.error(err);
-        } else {
-          observer.next(txHash);
-        }
-        observer.complete();
-      });
-    });
-  }
-
   public getTokenBalance(contractAddress: string, userAddress: string): Observable<BigNumber> {
     const balanceFn = this.web3js.eth.abi.encodeFunctionCall({
       "constant": true,
@@ -79,9 +67,32 @@ export class Web3Service {
     })).map((n: string) => new BigNumber(n.substring(2), 16));
   }
 
+  public getTransactionReciept(txHash: string): Observable<any> {
+    return fromPromise(this.web3js.eth.getTransactionReceipt(txHash));
+  }
+
+  public getTransactionCount(account: string): Observable<any> {
+    return fromPromise(this.web3js.eth.getTransactionCount(ethutils.addHexPrefix(account), 'latest'));
+  }
+
+  public sendRawTransaction(transaction: EthereumTransaction): Observable<string> {
+    if (isNullOrUndefined(transaction.signature)) {
+      throw new Error('Transaction signature was missing');
+    }
+    return Observable.create((observer) => {
+      this.web3js.eth.sendRawTransaction(transaction.signature, (err, txHash) => {
+        if (!isNullOrUndefined(err)) {
+          observer.error(err);
+        } else {
+          observer.next(txHash);
+        }
+        observer.complete();
+      });
+    });
+  }
+
   public setCurrentProvider(p: Provider) {
-    this.currentProvider.next(p);
-    this.web3js = new Web3(new Web3.providers.HttpProvider(p.location));
+    this.preferenceService.setProvider(p.name);
   }
 
   public getDecimals(a: string): Observable<number> {

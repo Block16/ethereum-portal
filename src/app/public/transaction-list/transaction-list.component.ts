@@ -80,7 +80,7 @@ export class TransactionListComponent implements OnInit, AfterViewInit, OnDestro
       this.widestWidths = widestWidths;
     });
 
-    this.transactionSubscription = this.block16Service.recentTransactions.subscribe((txs) => {
+    this.transactionSubscription = this.block16Service.transactions.subscribe((txs) => {
       this.transactions = txs;
       this.setWidestWidths();
     });
@@ -116,7 +116,6 @@ export class TransactionListComponent implements OnInit, AfterViewInit, OnDestro
       this.widestWidthStyles.blockStyle = null;
       this.widestWidthStyles.timeStyle = null;
     }
-    // console.log(this.widestWidths)
     this.txs.widestWidthStyles.next(this.widestWidthStyles);
   }
 

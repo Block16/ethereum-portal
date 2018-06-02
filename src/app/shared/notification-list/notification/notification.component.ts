@@ -1,4 +1,4 @@
-import { Component, HostBinding, Input, OnInit } from '@angular/core';
+import {Component, HostBinding, Input, OnInit} from '@angular/core';
 import {NotificationService} from '../../../core/notification.service';
 import {Subscription} from "rxjs/Subscription";
 import {ThemeService} from "../../../core/theme.service";
@@ -14,31 +14,30 @@ import {Theme} from "../../../shared/model/theme/theme";
   }
 })
 export class NotificationComponent implements OnInit {
-	@Input() text: string;
-	@Input() title: string;
-	@Input() duration: number;
-	@Input() index: number;
+  @Input() text: string;
+  @Input() title: string;
+  @Input() duration: number;
+  @Input() index: number;
   private themeSubscription: Subscription;
   public theme: Theme;
-	
+
   constructor(private notificationService: NotificationService,
-					    private themeService: ThemeService) {
-  	this.themeSubscription = this.themeService.theme.subscribe(theme => {
-  	  this.theme = theme;
-  	});
+              private themeService: ThemeService) {
+    this.themeSubscription = this.themeService.theme.subscribe(theme => {
+      this.theme = theme;
+    });
   }
-  
+
   close() {
-  	this.notificationService.close(this.index);
+    this.notificationService.close(this.index);
   }
-  
+
   ngOnInit() {
-  	console.log(this.duration);
-  	if (this.duration != 0) {
-  		setTimeout( ()=>{
-  			this.close();
-  		}, this.duration * 1000 * .9);
-  	}
+    if (this.duration !== 0) {
+      setTimeout(() => {
+        this.close();
+      }, this.duration * 1000 * .9);
+    }
   }
 
 }

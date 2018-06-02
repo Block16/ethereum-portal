@@ -31,7 +31,7 @@ import {MetamaskService} from "../../core/key-manager-services/metamask.service"
 export class IndexComponent implements OnInit, OnDestroy {
   @ViewChild('_recentTransactions') _recentTransactions: ElementRef;
   @ViewChild('sendForm') _sendForm: ElementRef;
-  
+
   @Output() showSidebarChange: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   public AuthState = AuthState;
@@ -44,7 +44,7 @@ export class IndexComponent implements OnInit, OnDestroy {
   private windowMax: number;
 
   // UI states
-  public navLocation: string = 'history';
+  public navLocation = 'history';
   public showQR = false;
   public showNonRecommended = false;
   public showApproveTransaction = false;
@@ -89,7 +89,7 @@ export class IndexComponent implements OnInit, OnDestroy {
     private ledgerService: LedgerService,
     private trezorService: TrezorConnectService,
     private metaMaskService: MetamaskService,
-    private assetService: Block16Service,
+    private block16Service: Block16Service,
     private coreKeyManagerService: CoreKeyManagerService,
     private denominationService: DenominationService,
     private tokenTickerService: TokenTickerService,
@@ -100,7 +100,7 @@ export class IndexComponent implements OnInit, OnDestroy {
 
     this.ethereumAddress = '';
     this.ethereumBalance = 0;
-    
+
     // Theme
     this.themeSubscription = this.themeService.theme.subscribe(theme => {
       this.theme = theme;
@@ -108,18 +108,18 @@ export class IndexComponent implements OnInit, OnDestroy {
     });
 
     // Assets
-    this.assetSubscription = this.assetService.ethereumAssets.subscribe(assets => {
+    this.assetSubscription = this.block16Service.ethereumAssets.subscribe(assets => {
       this.assets = assets;
     });
 
-    // TODO: pull this out, process recent transactions in the localstorage
-    this.dataShareService.recentTransactions.subscribe((value: any) => {
+    this.block16Service.transactions.subscribe((value: any) => {
       this.recentTransactions = value;
     });
-    
+
+    // TODO: shouldn't this be managed by URLs instead of a service?
     this.dataShareService.navLocation.subscribe((value: any) => {
       if (value == 'send' && this.navLocation !== 'send') {
-        
+
       }
       this.navLocation = value;
     });
@@ -133,6 +133,7 @@ export class IndexComponent implements OnInit, OnDestroy {
     });
   }
 
+  // TODO: i18n library for this? (AJD)
   private denominate(asset, amount, denomination) {
     return this.denominationService.denominate(asset, amount, denomination);
   }
@@ -160,11 +161,12 @@ export class IndexComponent implements OnInit, OnDestroy {
     this.showApproveTransaction = true;
     this.setNewTransactionViewFullscreen();
     // Want single approve step, for non-privateKey this will open on their device
-    // TODO: I don't like this control flow (AJD)
     if (this.currentAuth !== AuthState.privateKey && this.currentAuth !== AuthState.utcFile) {
       this.coreKeyManagerService.approveAndSend(this.newTransaction).subscribe((txHash) => {
         this.newTransaction.hash = txHash;
         this.setNewTransactionViewToDock();
+        this.block16Service.newRecentTransaction(this.newTransaction);
+
         // TODO: make sure we clear the current tx here
         // TODO: make sure we subscribe to the finish of this TX
       }, (err) => {
@@ -177,18 +179,17 @@ export class IndexComponent implements OnInit, OnDestroy {
 
   sendTransaction() {
     this.newTransactionState = 'send';
-    // TODO: I don't like this control flow (AJD)
     this.web3Service.sendRawTransaction(this.newTransaction).subscribe(txHash => {
       this.newTransaction.hash = txHash;
       this.setNewTransactionViewToDock();
+      this.block16Service.newRecentTransaction(this.newTransaction);
       // TODO: make sure we clear the current tx here
       // TODO: make sure we subscribe to the finish of this TX
     });
   }
-  
+
   setNewTransactionViewFullscreen() {
     // move transaction to fullscreen mode, prompting the user to approve or cancel the transaction
-    console.log('ok');
     const r = this.fullTransactionViewCircleRadius();
     const leftOffset = (r - this.windowWidth / 2) * -1;
     const topOffset = (r - this.windowHeight / 2) * -1;
@@ -222,7 +223,7 @@ export class IndexComponent implements OnInit, OnDestroy {
       this.resetNewTransactionView();
     }, 500);
   }
-  
+
   resetNewTransactionView() {
     // sets new transaction to original state, ready to be triggered again
     this.newTransactionState = 'initial';
@@ -239,12 +240,12 @@ export class IndexComponent implements OnInit, OnDestroy {
     this.newTransactionStyle['transform'] = transactionTransform;
     this.newTransactionCircleStyle['transform'] = circleTransform;
   }
-  
+
   sendTx() {
     this.newTransactionState = 'send';
     this.dataShareService.navLocation.next('history');
   }
-  
+
   clickTokenTray() {
     if (this.windowWidth < this.dataShareService.tabletMaxBreakPoint) {
       this.showTokenTray = !this.showTokenTray;
@@ -254,7 +255,7 @@ export class IndexComponent implements OnInit, OnDestroy {
   setShowSidebar(b: boolean) {
     this.showSidebarChange.emit(b);
   }
-  
+
   utcAuthState(event) {
     this.currentAuth = AuthState.utcFile;
     this.coreKeyManagerService.setCurrentAuth(this.currentAuth, privateKeyToAddress(event), event);
@@ -268,6 +269,7 @@ export class IndexComponent implements OnInit, OnDestroy {
     // debugger;
     return !!this.tokenTickerService.checkTokenSymbol(contractAddress);
   }
+
   privateKeyAuthState(event) {
     this.currentAuth = AuthState.privateKey;
     this.coreKeyManagerService.setCurrentAuth(this.currentAuth, privateKeyToAddress(event.privateKey), event.privateKey);
@@ -312,8 +314,6 @@ export class IndexComponent implements OnInit, OnDestroy {
     return Math.sqrt(Math.pow(this.windowMax / 2, 2) + Math.pow(this.windowMin / 2, 2));
   }
 
-
-  
   resizeTokenTray() {
     if (this.windowWidth > this.dataShareService.tabletMaxBreakPoint) {
       this.showTokenTray = true;
@@ -333,10 +333,5 @@ export class IndexComponent implements OnInit, OnDestroy {
     this.windowHeight = event.target.innerHeight;
     this.windowWidth = event.target.innerWidth;
     this.calibratePage();
-  }
-
-  @HostListener('window:beforeunload', ['$event'])
-  onUnload($event) {
-
   }
 }
