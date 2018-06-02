@@ -101,10 +101,13 @@ export class Block16Service {
             this.ethereumAssets.next(assetList);
 
             // Parse transaction data
-            const txList = [];
+            let txList = [];
             for (let i = 0; i < transactions.data.length; i++) {
               txList.push(this.parseRemoteTxData(transactions.data[i]));
             }
+            const failed = this.loadFailedTransactions();
+            txList = [...failed, ...txList];
+            txList.sort((a, b) =>  b.created - a.created);
             this.transactions.next(txList);
           }, (err) => {
             console.log(err);
@@ -115,8 +118,8 @@ export class Block16Service {
   }
 
   /**
-   *
-   * @param data
+   * Parses the information from the block16 server into TransactionInformation
+   * @param data - data from the server
    * @returns {TransactionInformation}
    */
   private parseRemoteTxData(data: any): TransactionInformation {
@@ -144,13 +147,12 @@ export class Block16Service {
   }
 
   /**
-   *
+   * Takes a new transaction and converts it to a TransactionInformation object
    * @param {EthereumTransaction} ethTx
    * @returns {TransactionInformation}
    */
   private ethTransactionToTransactionInfo(ethTx: EthereumTransaction): TransactionInformation {
     let val = ethTx.asset.calculateAmount(new BigNumber(ethTx.value));
-    console.log("value: " + val);
     if (ethTx.asset.symbol !== 'ETH') {
       val = ethTx.asset.calculateAmount(ethTx.tokenValue);
     }
@@ -162,13 +164,13 @@ export class Block16Service {
       ethTx.fromAddress.toLowerCase() === this.coreKeyManager.currentAddress.getValue().toLowerCase() ? "to" : "from",
       ethTx.asset.symbol,
       val,
-      new Date().getMilliseconds(),
+      new Date().getTime(),
       ethTx.hash
     );
   }
 
   /**
-   *
+   * Initialize the listener loop and the behavior subject
    */
   private intervalLoopInit() {
     this.ethereumAssets = new BehaviorSubject<EthereumAsset[]>(
@@ -177,8 +179,7 @@ export class Block16Service {
 
     this.transactions = new BehaviorSubject([]);
 
-    // TODO: Load recent transactions from temp storage
-    this.pendingTransactions = new BehaviorSubject([]);
+    this.pendingTransactions = new BehaviorSubject(this.loadPendingTransactions());
 
     // Initialize the recentTransaction checker
     setInterval(() => {
@@ -192,13 +193,12 @@ export class Block16Service {
           p.splice(i, 1);
           this.pendingTransactions.next(p);
           tempTxInfo.status = "confirmed";
-          if(isNullOrUndefined(blockNumber)) {
+          if (isNullOrUndefined(blockNumber)) {
             tempTxInfo.blockNumber = 0;
           } else {
             tempTxInfo.blockNumber = blockNumber;
           }
           tempTxInfo.created = new Date();
-
           // Add to TX list
           const completeTxs = this.transactions.value;
           completeTxs.unshift(tempTxInfo);
@@ -211,7 +211,7 @@ export class Block16Service {
         this.web3Service.getTransactionReciept(p[i].hash).subscribe((val) => {
           // It's been included if it's defined
           if (!isNullOrUndefined(val)) {
-            const message = "Transaction to " + p[i].toAddress + " for " + p[i].amount + " is successful.";
+            const message = "Transaction to " + p[i].toAddress + " for " + p[i].amount + " " + p[i].assetName + " was successful.";
             this.notificationService.message(message, "Transaction Success");
             remove("confirmed", val.blockNumber);
             this.savePendingTransactions();
@@ -222,7 +222,8 @@ export class Block16Service {
               const removedTx = remove("failed", 0);
               this.savePendingTransactions();
               this.updateFailedTransactions(removedTx);
-              const message = "Transaction to " + removedTx.toAddress + " for " + removedTx.amount + " failed";
+              const message = "Transaction to " + removedTx.toAddress + " for " + removedTx.amount +
+                " " + removedTx.assetName + " has failed.";
               this.notificationService.message(message, "Transaction failure");
             }
           }
@@ -233,7 +234,7 @@ export class Block16Service {
 
   /**
    *
-   * @param {string} a
+   * @param {string} a -
    * @param {EthereumAsset[]} assetList
    * @returns {EthereumAsset}
    */
@@ -278,7 +279,7 @@ export class Block16Service {
 
   private loadFailedTransactions(): TransactionInformation[] {
     let failed: any = localStorage.getItem("failed");
-    if(isNullOrUndefined(failed)) {
+    if (isNullOrUndefined(failed)) {
       failed = [];
     } else {
       failed = JSON.parse(failed);

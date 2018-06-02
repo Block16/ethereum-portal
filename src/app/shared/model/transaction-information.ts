@@ -80,8 +80,10 @@ export class TransactionInformation {
   }
 
   greaterThanHour(): boolean {
-    const diff = (new Date().getTime() - this.created.getTime()) / (1000 * 60 * 60);
-    const hrs = Math.abs(Math.floor(diff));
+    const createdTime = this.created.getTime();
+    const now = new Date().getTime();
+    const diff = Math.abs(now - createdTime) / (1000 * 60 * 60);
+    const hrs = Math.floor(diff);
     return hrs > 0;
   }
 }
